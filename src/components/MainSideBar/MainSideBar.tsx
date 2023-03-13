@@ -79,7 +79,7 @@ const MainSideBar = () => {
         </div>
       </div>
 
-      <div className='col-span-1 2xl:hidden'>
+      <div className=' max-md:hidden md:col-span-2 2xl:hidden'>
         <div className='flex w-full flex-col gap-y-3'>
           <NavLink to='' className='flex flex-col items-center gap-y-2 rounded-xl py-2 hover:bg-[#272727]'>
             <IoMdHome className='h-7 w-7' />

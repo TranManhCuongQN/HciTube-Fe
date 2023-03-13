@@ -46,7 +46,7 @@ const MainLayout = () => {
         {' '}
         <div className='grid w-full grid-cols-12 gap-x-4'>
           <MainSideBar />
-          <div className='col-span-9'>
+          <div className='col-span-12 md:col-span-10'>
             <div className='flex items-center justify-between'>
               <div className='flex flex-wrap items-center gap-y-2'>
                 {title.map((item, index) => {
