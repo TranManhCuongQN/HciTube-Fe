@@ -43,7 +43,7 @@ const Header = () => {
       ) : (
         <div className='flex h-20 w-full items-center justify-between gap-x-4'>
           <div className='flex items-center gap-x-2'>
-            <div className='mx-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)]'>
+            <div className='mx-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-[470px]:hidden'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -70,7 +70,7 @@ const Header = () => {
                 className='h-full w-full rounded-l-full border border-[#1e1e1e] bg-[#2a2a2a] px-6 text-lg shadow'
                 placeholder='Tìm kiếm'
               />
-              <button className='ml-[1px] flex h-full w-[100px] items-center justify-center  rounded-r-full bg-[#222222] py-1'>
+              <button className='ml-[1px] flex h-full items-center justify-center rounded-r-full  bg-[#222222] px-4 py-1'>
                 <AiOutlineSearch className='h-7 w-7' />
               </button>
             </div>
@@ -86,14 +86,15 @@ const Header = () => {
             >
               <AiOutlineSearch className='h-7 w-7' />
             </button>
-            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] sm:hidden'>
+
+            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-[470px]:hidden sm:hidden'>
               <MdMic className='h-7 w-7' />
             </button>
 
-            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)]'>
+            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-[470px]:hidden'>
               <RiVideoAddLine className='h-7 w-7' />
             </button>
-            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)]'>
+            <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-sm:hidden'>
               <IoNotificationsOutline className='h-7 w-7' />
             </button>
             <div className='mx-2 h-12 w-12 rounded-full'>
