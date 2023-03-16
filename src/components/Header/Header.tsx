@@ -17,7 +17,7 @@ const Header = () => {
     setIsActiveSearch(false)
   }
   return (
-    <div className='container sticky shadow'>
+    <div className='container sticky shadow px-1'>
       {isActiveSearch ? (
         <div className='flex h-20 w-full items-center justify-between'>
           <button
@@ -42,8 +42,8 @@ const Header = () => {
         </div>
       ) : (
         <div className='flex h-20 w-full items-center justify-between gap-x-4'>
-          <div className='flex items-center gap-x-2'>
-            <div className='mx-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-[470px]:hidden'>
+          <div className='flex items-center gap-x-2 pl-4'>
+            <div className='mx-2 mr-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-[470px]:hidden'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -64,7 +64,7 @@ const Header = () => {
           </div>
 
           <div className='flex flex-grow items-center justify-center gap-x-4 max-sm:hidden'>
-            <div className=' flex h-12 w-[70%] items-center md:w-[60%]'>
+            <div className=' flex h-12 w-[70%] items-center max-w-[650px]'>
               <input
                 type='text'
                 className='h-full w-full rounded-l-full border border-[#1e1e1e] bg-[#2a2a2a] px-6 text-lg shadow'
@@ -79,7 +79,7 @@ const Header = () => {
             </button>
           </div>
 
-          <div className='flex items-center gap-x-2 sm:gap-x-4'>
+          <div className='flex items-center pr-6 gap-x-2 sm:gap-x-4'>
             <button
               className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] sm:hidden'
               onClick={handleClickSearch}
@@ -97,7 +97,7 @@ const Header = () => {
             <button className='flex h-12 w-12 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-sm:hidden'>
               <IoNotificationsOutline className='h-7 w-7' />
             </button>
-            <div className='mx-2 h-12 w-12 rounded-full'>
+            <div className='mx-2 h-11 w-11 rounded-full'>
               <img
                 src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
                 alt='avatar'
