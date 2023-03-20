@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { IoMdHome } from 'react-icons/io'
 import { MdOutlineVideoLibrary, MdOutlineVideoStable } from 'react-icons/md'
@@ -7,11 +6,10 @@ import { RxCounterClockwiseClock } from 'react-icons/rx'
 import { RiVideoLine } from 'react-icons/ri'
 import { AiOutlineClockCircle } from 'react-icons/ai'
 import { BiLike } from 'react-icons/bi'
-
-const MainSideBar = () => {
+const AsideBar = () => {
   return (
-    <>
-      <div className='flex w-60 ml-4 flex-shrink-0 flex-col max-xl:hidden'>
+    <div>
+      <div className='ml-4 flex w-60 flex-shrink-0 flex-col max-xl:hidden'>
         <NavLink to='' className='flex items-center gap-x-6 rounded-xl px-4 py-3 hover:bg-[#272727]'>
           <IoMdHome className='h-7 w-7' />
           <span className='ml-1 text-lg font-medium'>Trang chủ</span>
@@ -24,7 +22,7 @@ const MainSideBar = () => {
           <MdOutlineVideoStable className='h-7 w-7' />
           <span className='ml-1 text-lg font-medium'>Kênh đăng ký</span>
         </NavLink>
-        <div className='w-full h-[0.05rem] my-4 bg-[#363636]' />
+        <div className='my-4 h-[0.05rem] w-full bg-[#363636]' />
 
         {/* //* */}
         <NavLink to='' className='flex items-center gap-x-6 rounded-xl px-4 py-3 hover:bg-[#272727]'>
@@ -47,7 +45,7 @@ const MainSideBar = () => {
           <BiLike className='h-7 w-7' />
           <span className='ml-1 text-lg font-medium'>Video đã thích</span>
         </NavLink>
-        <div className='w-full h-[0.05rem] my-4 bg-[#363636]' />
+        <div className='my-4 h-[0.05rem] w-full bg-[#363636]' />
 
         {/* //* Kênh đăng ký */}
         <span className='text-lg font-semibold'>Kênh đăng ký</span>
@@ -78,27 +76,25 @@ const MainSideBar = () => {
       </div>
 
       <div className='flex w-24 flex-shrink-0 flex-col gap-y-3 max-lg:hidden xl:hidden'>
-        <NavLink to='' className='flex flex-col w-17 items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
+        <NavLink to='' className='w-17 flex flex-col items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
           <IoMdHome className='h-7 w-7' />
           <span className='ml-1 text-[0.75rem] font-medium'>Trang chủ</span>
         </NavLink>
-        <NavLink to='' className='flex flex-col w-17 items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
+        <NavLink to='' className='w-17 flex flex-col items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
           <SiSublimetext className='h-7 w-7' />
           <span className='ml-1 text-[0.75rem] font-medium'>Shorts</span>
         </NavLink>
-        <NavLink to='' className='flex flex-col w-17 items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
+        <NavLink to='' className='w-17 flex flex-col items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
           <RiVideoLine className='h-7 w-7' />
           <span className='ml-1 text-[0.75rem] font-medium'>Kênh đăng ký</span>
         </NavLink>
-        <NavLink to='' className='flex flex-col w-17 items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
+        <NavLink to='' className='w-17 flex flex-col items-center gap-y-2 rounded-xl py-4 hover:bg-[#272727]'>
           <MdOutlineVideoLibrary className='h-7 w-7' />
           <span className='ml-1 text-[0.75rem] font-medium'>Thư viện</span>
         </NavLink>
       </div>
-
-      {/* //*Mobie Tablet */}
-    </>
+    </div>
   )
 }
 
-export default MainSideBar
+export default AsideBar

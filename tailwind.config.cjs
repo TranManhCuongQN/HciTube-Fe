@@ -16,9 +16,7 @@ module.exports = {
         '.container': {
           maxWidth: (maxWidth) => maxWidth('xl'),
           marginLeft: 'auto',
-          marginRight: 'auto',
-          paddingLeft: theme('spacing.5'),
-          paddingRight: theme('spacing.5')
+          marginRight: 'auto'
         }
       })
     }),
