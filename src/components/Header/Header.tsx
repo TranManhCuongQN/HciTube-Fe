@@ -5,72 +5,136 @@ import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 import { MdMic } from 'react-icons/md'
 import { IoNotificationsOutline } from 'react-icons/io5'
+import Popover from '../Popover'
+import { HiOutlineBars3 } from 'react-icons/hi2'
+import { MdLightMode, MdDarkMode } from 'react-icons/md'
 
 const Header = () => {
-  const { setShowSideBar, setShowSideBar2xl } = useContext(AppContext)
+  const { setShowSideBar, setShowSideBar2xl, theme, setTheme, showSideBar } = useContext(AppContext)
   const handleClick = () => {
-    setShowSideBar(true)
+    setShowSideBar(!showSideBar)
     setShowSideBar2xl(true)
   }
+
+  const handleLight = () => {
+    setTheme('light')
+    console.log(1)
+  }
+
+  const handleDark = () => {
+    setTheme('dark')
+    console.log(2)
+  }
+
   return (
-    <div className='container sticky top-0 left-0 z-10 flex h-14 items-center justify-between border-b border-b-gray-500 bg-[#0f0f0f] pl-2 pr-2 shadow-xl md:h-20'>
+    <div className='color-[#0f0f0f] container sticky -top-1 left-0 z-40 flex h-14 items-center justify-between border-b border-b-gray-500 bg-[#ffffff] pl-2 pr-2 shadow-xl dark:bg-[#0f0f0f] md:h-20'>
       <div className='flex items-center gap-x-1'>
         <button
-          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)]'
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 xl:hidden'
           onClick={handleClick}
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            fill='none'
-            viewBox='0 0 24 24'
-            strokeWidth='1.5'
-            stroke='white'
-            className='h-5 w-5 '
-          >
-            <path strokeLinecap='round' strokeLinejoin='round' d='M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5' />
-          </svg>
+          <HiOutlineBars3 className='h-5 w-5 text-black dark:text-white' />
         </button>
-        <div className='flex items-center'>
-          <Link to='/' className='flex cursor-pointer items-end gap-x-1'>
+
+        {/* //* Trang chu Youtube */}
+        <Popover
+          className='flex items-center '
+          renderPopover={
+            <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold md:mt-5 md:px-2 md:py-2 md:text-xs'>
+              Trang chủ YouTube
+            </span>
+          }
+        >
+          <Link to='/' className='flex cursor-pointer items-end gap-x-1 xl:ml-2'>
             <BsYoutube className='h-8 w-8 text-red-600 ' />
-            <span className='text-lg font-semibold text-white'>YouTube</span>
+            <span className='text-lg font-semibold text-black dark:text-white'>YouTube</span>
           </Link>
-        </div>
+        </Popover>
       </div>
 
       {/* //* search */}
       <div className='flex flex-grow items-center justify-center gap-x-4 max-sm:hidden'>
-        <div className=' flex h-11 w-[70%] items-center md:w-[60%]'>
+        <div className=' flex h-11 w-[70%] items-center md:h-12 md:w-[60%]'>
           <input
             type='text'
-            className='h-full w-full rounded-l-full border border-[#1e1e1e] bg-[#2a2a2a] px-6 text-lg shadow placeholder:text-base'
+            className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg shadow placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a]'
             placeholder='Tìm kiếm'
           />
-          <button className='ml-[1px] flex h-full items-center justify-center rounded-r-full  bg-[#222222] px-4 py-1 '>
-            <AiOutlineSearch className='h-5 w-5' />
-          </button>
+          <Popover
+            className='ml-[1px] flex h-12 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'
+            renderPopover={
+              <span className='z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
+                Tìm kiếm
+              </span>
+            }
+          >
+            <AiOutlineSearch className='h-5 w-5 text-black dark:text-white' />
+          </Popover>
         </div>
-        <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-          <MdMic className='h-5 w-5 lg:h-6 lg:w-6' />
-        </button>
+        <Popover
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
+          renderPopover={
+            <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
+              Tìm kiếm bằng giọng nói
+            </span>
+          }
+        >
+          <MdMic className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+        </Popover>
       </div>
 
       {/* //* group */}
-      <div className='flex items-center gap-x-2 md:gap-x-4'>
+      <div className='flex items-center gap-x-1 md:gap-x-4'>
         {/* //* search */}
-        <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] md:hidden'>
-          <AiOutlineSearch className='h-5 w-5' />
-        </button>
+        <Popover
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden '
+          renderPopover={
+            <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold'>
+              Tìm kiếm
+            </span>
+          }
+        >
+          <AiOutlineSearch className='h-5 w-5 text-black dark:text-white' />
+        </Popover>
 
         {/* //* upload */}
-        <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-          <AiOutlineUpload className='h-5 w-5 lg:h-6 lg:w-6' />
-        </button>
+        <Popover
+          className=' flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10  '
+          renderPopover={
+            <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold md:mt-5 md:px-2 md:py-2 md:text-xs'>
+              Tạo
+            </span>
+          }
+        >
+          <AiOutlineUpload className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+        </Popover>
 
         {/* //* inform */}
-        <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'>
-          <IoNotificationsOutline className='h-5 w-5 lg:h-6 lg:w-6' />
-        </button>
+        <Popover
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
+          renderPopover={
+            <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
+              Thông báo
+            </span>
+          }
+        >
+          <IoNotificationsOutline className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+        </Popover>
+
+        <Popover
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
+          renderPopover={
+            <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
+              Chế độ xem
+            </span>
+          }
+        >
+          {theme === 'dark' ? (
+            <MdLightMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' onClick={handleLight} />
+          ) : (
+            <MdDarkMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' onClick={handleDark} />
+          )}
+        </Popover>
 
         {/* //* avatar */}
         <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>

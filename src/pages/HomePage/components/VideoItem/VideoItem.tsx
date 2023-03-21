@@ -18,10 +18,10 @@ const VideoItem = (props: VideoItemProps) => {
           <img src={data.avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
         </div>
         <div className='flex flex-col gap-y-1'>
-          <span className='text-xs font-semibold line-clamp-2'>{data.title}</span>
-          <span className='text-xs text-gray-400'>{data.user}</span>
+          <span className='text-xs font-semibold text-black line-clamp-2 dark:text-white'>{data.title}</span>
+          <span className='text-xs text-[#666d74] dark:text-gray-400'>{data.user}</span>
           <div className='flex items-center gap-x-1'>
-            <span className='text-xs text-gray-400'>{data.view} N lượt xem</span>
+            <span className='text-xs text-[#666d74] dark:text-gray-400'>{data.view} N lượt xem</span>
             <span>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -34,7 +34,7 @@ const VideoItem = (props: VideoItemProps) => {
                 <path strokeLinecap='round' strokeLinejoin='round' d='M18 12H6' />
               </svg>
             </span>
-            <span className='text-xs text-gray-400'>{data.dataSubmitted} tháng trước</span>
+            <span className='text-xs text-[#666d74] dark:text-gray-400'>{data.dataSubmitted} tháng trước</span>
           </div>
         </div>
       </div>

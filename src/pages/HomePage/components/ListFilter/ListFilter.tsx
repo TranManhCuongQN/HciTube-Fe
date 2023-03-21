@@ -37,7 +37,7 @@ const ListFilter = () => {
   const [filter, setFilter] = useState<string>('Tất cả')
   return (
     <>
-      <div className='flex h-12 w-full items-center gap-x-2 bg-[#0f0f0f] md:h-16 md:gap-x-5'>
+      <div className='mt-6 flex h-12 w-full items-center gap-x-2 bg-[#ffffff] dark:bg-[#0f0f0f] md:h-16 md:gap-x-5'>
         <Swiper
           slidesPerView={4}
           pagination={{
@@ -52,8 +52,8 @@ const ListFilter = () => {
             <SwiperSlide key={index}>
               <button
                 className={classNames('rounded-lg px-2 py-1  ', {
-                  'bg-[#272727]  text-white ': filter !== item.name,
-                  'bg-[#f1f1f1] text-black': filter === item.name
+                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.name,
+                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
                 })}
                 onClick={() => setFilter(item.name)}
               >
@@ -62,11 +62,13 @@ const ListFilter = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* //* md, lg screen*/}
         {title.map((item, index) => (
           <button
             className={classNames('flex-shrink-0  rounded-lg py-2 px-4 max-md:hidden ', {
-              'bg-[#272727]  text-white': filter !== item.name,
-              'bg-[#f1f1f1] text-black': filter === item.name
+              'bg-[#f2f2f2]  text-black dark:bg-[#272727] dark:text-white': filter !== item.name,
+              'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
             })}
             key={index}
             onClick={() => setFilter(item.name)}

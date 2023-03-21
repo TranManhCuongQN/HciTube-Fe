@@ -1,7 +1,7 @@
 import AsideBar from './components/AsideBar'
 import ListFilter from './components/ListFilter'
 import VideoList from './components/VideoList'
-import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useContext, useEffect } from 'react'
 import { AppContext } from 'src/context/app.context'
 import AsideBarSub from './components/AsideBarSub'
@@ -10,7 +10,7 @@ const HomePage = () => {
   const { showSideBar, showSideBar2xl } = useContext(AppContext)
 
   useEffect(() => {
-    if (showSideBar && screen.width < 1536) {
+    if (showSideBar) {
       disableBodyScroll(body as HTMLElement)
     } else {
       enableBodyScroll(body as HTMLElement)
@@ -18,7 +18,7 @@ const HomePage = () => {
   }, [showSideBar, body])
   return (
     <>
-      <div className='container flex pl-2 pr-2'>
+      <div className='container flex bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f]'>
         <AsideBar />
         <AsideBarSub />
         <div
