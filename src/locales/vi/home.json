@@ -1,0 +1,20 @@
+{
+  "side bar": {
+    "home": "Trang chủ",
+    "short": "Shorts",
+    "subscriptions": "Kênh đăng ký",
+    "library": "Thư viện",
+    "history": "Video đã xem",
+    "your videos": "Video của bạn",
+    "watch later": "Xem sau",
+    "liked videos": "Video đã thích"
+  },
+  "list filter": [
+    { "name": "Tất cả" },
+    { "name": "Âm nhạc " },
+    { "name": "Trò chơi" },
+    { "name": "Trực tiếp" },
+    { "name": "Thể thao" },
+    { "name": "Đã xem" }
+  ]
+}

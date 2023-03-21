@@ -6,35 +6,12 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import classNames from 'classnames'
-const title = [
-  {
-    id: 1,
-    name: 'Tất cả'
-  },
-  {
-    id: 2,
-    name: 'Âm nhạc'
-  },
-  {
-    id: 3,
-    name: 'Trò chơi'
-  },
-  {
-    id: 4,
-    name: 'Trực tiếp'
-  },
-  {
-    id: 5,
-    name: 'Bóng đá'
-  },
-  {
-    id: 7,
-    name: 'Đã xem '
-  }
-]
+import { useTranslation } from 'react-i18next'
 
 const ListFilter = () => {
   const [filter, setFilter] = useState<string>('Tất cả')
+  const { t } = useTranslation()
+  const listFilter = t('list filter', { returnObjects: true })
   return (
     <>
       <div className='mt-6 flex h-12 w-full items-center gap-x-2 bg-[#ffffff] dark:bg-[#0f0f0f] md:h-16 md:gap-x-5'>
@@ -48,7 +25,7 @@ const ListFilter = () => {
           modules={[Pagination]}
           className='w-full md:hidden'
         >
-          {title.map((item, index) => (
+          {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button
                 className={classNames('rounded-lg px-2 py-1  ', {
@@ -64,7 +41,7 @@ const ListFilter = () => {
         </Swiper>
 
         {/* //* md, lg screen*/}
-        {title.map((item, index) => (
+        {listFilter.map((item, index) => (
           <button
             className={classNames('flex-shrink-0  rounded-lg py-2 px-4 max-md:hidden ', {
               'bg-[#f2f2f2]  text-black dark:bg-[#272727] dark:text-white': filter !== item.name,

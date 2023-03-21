@@ -8,8 +8,10 @@ import { AiOutlineClockCircle } from 'react-icons/ai'
 import { BiLike } from 'react-icons/bi'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { useTranslation } from 'react-i18next'
 const AsideBar = () => {
   const { showSideBar, showSideBar2xl } = useContext(AppContext)
+  const { t } = useTranslation(['home'])
 
   return (
     <>
@@ -28,21 +30,21 @@ const AsideBar = () => {
             className='mt-16 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727] md:mt-24'
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Trang chủ</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <SiSublimetext className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Short</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.short')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Kênh đăng ký</span>
+            <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.subscriptions')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -52,40 +54,40 @@ const AsideBar = () => {
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Thư viện</span>
+            <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.library')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video đã xem</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video của bạn</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Xem sau</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video đã thích</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
           {/* //* Kênh đăng ký */}
-          <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
@@ -167,21 +169,21 @@ const AsideBar = () => {
             className='mt-24 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Trang chủ</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <SiSublimetext className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Short</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.short')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Kênh đăng ký</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.subscriptions')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -191,40 +193,40 @@ const AsideBar = () => {
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Thư viện</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.library')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video đã xem</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video của bạn</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Xem sau</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
           </NavLink>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>Video đã thích</span>
+            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
           {/* //* Kênh đăng ký */}
-          <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
           <NavLink
             to=''
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'

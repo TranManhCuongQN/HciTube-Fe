@@ -1,0 +1,20 @@
+{
+  "side bar": {
+    "home": "Home",
+    "short": "Shorts",
+    "subscriptions": "Subscriptions",
+    "library": "Library",
+    "history": "History",
+    "your videos": "Your videos",
+    "watch later": "Watch later",
+    "liked videos": "Liked videos"
+  },
+  "list filter": [
+    { "name": "All" },
+    { "name": "Music" },
+    { "name": "Gaming" },
+    { "name": "Live" },
+    { "name": "Sports" },
+    { "name": "Watched" }
+  ]
+}
