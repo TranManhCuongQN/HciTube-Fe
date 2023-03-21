@@ -11,13 +11,13 @@ interface VideoItemProps {
 const VideoItem = (props: VideoItemProps) => {
   const { data } = props
   return (
-    <div className='flex flex-col gap-y-2'>
-      <img src={data.thumbnail} alt='thumbnail' className='h-[10rem] w-full rounded-xl object-cover' />
+    <div className='mb-5 flex cursor-pointer flex-col gap-y-2'>
+      <img src={data.thumbnail} alt='thumbnail' className='h-[12rem] w-full rounded-xl object-cover' />
       <div className='flex items-start gap-x-2'>
         <div className='h-8 w-8 flex-shrink-0'>
           <img src={data.avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
         </div>
-        <div className='flex flex-col'>
+        <div className='flex flex-col gap-y-1'>
           <span className='text-xs font-semibold line-clamp-2'>{data.title}</span>
           <span className='text-xs text-gray-400'>{data.user}</span>
           <div className='flex items-center gap-x-1'>
