@@ -14,8 +14,8 @@ const AsideBarSub = () => {
     <>
       {/* //* scren md lg */}
       <div
-        className={`mt-3 flex flex-shrink-0 flex-col gap-y-4 transition-all delay-1000 
-      duration-1000 ease-linear max-md:hidden 2xl:hidden`}
+        className={`mt-3 flex flex-shrink-0 flex-col gap-y-4 transition-all
+       delay-100 duration-100 ease-linear max-md:hidden 2xl:hidden`}
       >
         <div className='flex flex-col'>
           <Link

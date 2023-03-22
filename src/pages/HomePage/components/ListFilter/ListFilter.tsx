@@ -14,7 +14,7 @@ const ListFilter = () => {
   const listFilter = t('list filter', { returnObjects: true })
   return (
     <>
-      <div className='mt-6 flex h-12 w-full items-center gap-x-2 bg-[#ffffff] dark:bg-[#0f0f0f] md:h-16 md:gap-x-5'>
+      <div className='mt-6 flex h-12 w-full items-center gap-x-2 md:h-16 md:gap-x-5'>
         <Swiper
           slidesPerView={4}
           pagination={{
@@ -28,7 +28,7 @@ const ListFilter = () => {
           {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button
-                className={classNames('rounded-lg px-2 py-1  ', {
+                className={classNames('rounded-lg px-3 py-2  ', {
                   'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
                   'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}

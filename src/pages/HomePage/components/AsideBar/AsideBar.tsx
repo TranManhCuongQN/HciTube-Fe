@@ -17,16 +17,20 @@ const AsideBar = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-30 h-full w-full overflow-y-auto bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)] ${
-          showSideBar ? 'w-full' : 'w-0'
+        className={`fixed top-0 left-0 z-30 h-full   ${
+          showSideBar
+            ? 'w-full overflow-y-auto overflow-x-hidden bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]'
+            : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
         } overflow-x-hidden transition-all duration-500 ease-linear 2xl:hidden`}
         role='presentation'
         onClick={() => setShowSideBar(false)}
       >
         <div
-          className={`flex h-full flex-shrink-0 flex-col overflow-hidden overflow-y-auto bg-[#ffffff] pl-2 pr-2 transition-all  dark:bg-[#0f0f0f] min-[375px]:w-52 md:w-64 ${
-            showSideBar ? 'w-44' : 'w-0'
-          } relative z-50 ease-in-out`}
+          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff]  transition-all dark:bg-[#0f0f0f] ${
+            showSideBar
+              ? 'w-44 overflow-y-auto overflow-x-hidden pl-2 pr-2 min-[375px]:w-52 md:w-64'
+              : ' w-0 overflow-hidden pl-0 pr-0'
+          } relative z-50 duration-200 ease-in-out`}
         >
           <NavLink
             to=''
@@ -161,9 +165,9 @@ const AsideBar = () => {
       </div>
       {/* //* 2xl sreen */}
       <div
-        className={`fixed top-0 left-0 z-30 h-full overflow-y-auto max-2xl:hidden ${
-          showSideBar2xl ? 'opacity-1 visible' : 'invisible opacity-0'
-        } transition-all ease-in-out`}
+        className={`fixed top-0 left-0 z-30 h-full max-2xl:hidden ${
+          showSideBar2xl ? 'opacity-1 visible overflow-y-auto' : 'invisible overflow-hidden opacity-0'
+        } transition-all ease-linear `}
       >
         <div className={'z-40 flex h-full w-72 flex-shrink-0 flex-col pl-2 pr-2 transition-all '}>
           <NavLink
