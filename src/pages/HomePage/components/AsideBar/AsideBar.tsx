@@ -23,7 +23,6 @@ const AsideBar = () => {
             : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
         } overflow-x-hidden transition-all duration-500 ease-linear 2xl:hidden`}
         role='presentation'
-        onClick={() => setShowSideBar(false)}
       >
         <div
           className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff]  transition-all dark:bg-[#0f0f0f] ${
@@ -290,6 +289,14 @@ const AsideBar = () => {
           </NavLink>
         </div>
       </div>
+
+      {showSideBar && (
+        <div
+          className='fixed top-14 right-0 z-40 h-full w-1/2 bg-transparent md:w-3/4 '
+          onClick={() => setShowSideBar(false)}
+          role='presentation'
+        ></div>
+      )}
     </>
   )
 }

@@ -15,16 +15,7 @@ const ListFilter = () => {
   return (
     <>
       <div className='mt-6 flex h-12 w-full items-center gap-x-2 md:h-16 md:gap-x-5'>
-        <Swiper
-          slidesPerView={4}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true
-          }}
-          navigation={true}
-          modules={[Pagination]}
-          className='w-full md:hidden'
-        >
+        <Swiper slidesPerView={3} navigation={true} modules={[Pagination]} className='w-full md:hidden'>
           {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button

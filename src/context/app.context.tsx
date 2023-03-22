@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useEffect } from 'react'
+import React, { createContext, ReactNode, useEffect, useState } from 'react'
 
 interface AppContextInterface {
   showSideBar: boolean
@@ -7,6 +7,8 @@ interface AppContextInterface {
   setShowSideBar2xl: React.Dispatch<React.SetStateAction<boolean>>
   theme: string
   setTheme: React.Dispatch<React.SetStateAction<string>>
+  showSearchMobie: boolean
+  setShowSearchMobie: React.Dispatch<React.SetStateAction<boolean>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -14,11 +16,14 @@ const initialAppContext: AppContextInterface = {
   showSideBar2xl: true,
   setShowSideBar2xl: () => null,
   theme: localStorage.getItem('theme') || 'light',
-  setTheme: () => null
+  setTheme: () => null,
+  showSearchMobie: false,
+  setShowSearchMobie: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 const AppProvider = ({ children }: { children: ReactNode }) => {
+  const [showSearchMobie, setShowSearchMobie] = useState<boolean>(initialAppContext.showSearchMobie)
   const [showSideBar, setShowSideBar] = React.useState<boolean>(initialAppContext.showSideBar)
   const [showSideBar2xl, setShowSideBar2xl] = React.useState<boolean>(initialAppContext.showSideBar2xl)
   const [theme, setTheme] = React.useState<string>(initialAppContext.theme)
@@ -41,7 +46,18 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   }, [theme, element.classList])
 
   return (
-    <AppContext.Provider value={{ setShowSideBar, showSideBar, setShowSideBar2xl, showSideBar2xl, theme, setTheme }}>
+    <AppContext.Provider
+      value={{
+        setShowSideBar,
+        showSideBar,
+        setShowSideBar2xl,
+        showSideBar2xl,
+        theme,
+        setTheme,
+        showSearchMobie,
+        setShowSearchMobie
+      }}
+    >
       {children}
     </AppContext.Provider>
   )

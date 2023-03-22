@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.22.0",
+    "@headlessui/react": "^1.7.13",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/body-scroll-lock": "^3.1.0",
     "@types/react-speech-recognition": "^3.9.0",
