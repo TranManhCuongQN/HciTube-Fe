@@ -38,7 +38,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         element.classList.remove('dark')
         break
     }
-  }, [theme])
+  }, [theme, element.classList])
 
   return (
     <AppContext.Provider value={{ setShowSideBar, showSideBar, setShowSideBar2xl, showSideBar2xl, theme, setTheme }}>

@@ -9,21 +9,24 @@ import { BiLike } from 'react-icons/bi'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 import { useTranslation } from 'react-i18next'
+
 const AsideBar = () => {
-  const { showSideBar, showSideBar2xl } = useContext(AppContext)
+  const { showSideBar, showSideBar2xl, setShowSideBar } = useContext(AppContext)
   const { t } = useTranslation(['home'])
 
   return (
     <>
       <div
         className={`fixed top-0 left-0 z-30 h-full w-full overflow-y-auto bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)] ${
-          showSideBar ? 'opacity-1 visible' : 'invisible opacity-0'
-        } 2xl:hidden`}
+          showSideBar ? 'w-full' : 'w-0'
+        } overflow-x-hidden transition-all duration-500 ease-linear 2xl:hidden`}
+        role='presentation'
+        onClick={() => setShowSideBar(false)}
       >
         <div
-          className={
-            'z-40 flex h-full w-44 flex-shrink-0 flex-col overflow-hidden overflow-y-auto bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] min-[375px]:w-52 md:w-64'
-          }
+          className={`flex h-full flex-shrink-0 flex-col overflow-hidden overflow-y-auto bg-[#ffffff] pl-2 pr-2 transition-all  dark:bg-[#0f0f0f] min-[375px]:w-52 md:w-64 ${
+            showSideBar ? 'w-44' : 'w-0'
+          } relative z-50 ease-in-out`}
         >
           <NavLink
             to=''
@@ -104,11 +107,11 @@ const AsideBar = () => {
             className='mt-2 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
-              src='https://yt3.googleusercontent.com/7o10-AKkYj75pwWRr4BEW2U0pVkJmHgBBUajnzU3F_Hjq7gyDX4K5T8ugiA5JBscYtGbOrhmgg0=s176-c-k-c0x00ffffff-no-rj'
+              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Được Dev</span>
+            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Hello everyone</span>
           </NavLink>
           <NavLink
             to=''
@@ -156,14 +159,13 @@ const AsideBar = () => {
           </NavLink>
         </div>
       </div>
-
       {/* //* 2xl sreen */}
       <div
-        className={`fixed top-0 left-0 z-30 h-full overflow-y-auto dark:bg-[rgba(7,7,7,0.5)] max-2xl:hidden ${
+        className={`fixed top-0 left-0 z-30 h-full overflow-y-auto max-2xl:hidden ${
           showSideBar2xl ? 'opacity-1 visible' : 'invisible opacity-0'
-        }`}
+        } transition-all ease-in-out`}
       >
-        <div className={'z-40 flex h-full w-72 flex-shrink-0 flex-col pl-2 pr-2  '}>
+        <div className={'z-40 flex h-full w-72 flex-shrink-0 flex-col pl-2 pr-2 transition-all '}>
           <NavLink
             to=''
             className='mt-24 flex h-full items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'

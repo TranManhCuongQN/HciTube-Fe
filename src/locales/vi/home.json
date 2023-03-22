@@ -10,11 +10,11 @@
     "liked videos": "Video đã thích"
   },
   "list filter": [
-    { "name": "Tất cả" },
-    { "name": "Âm nhạc " },
-    { "name": "Trò chơi" },
-    { "name": "Trực tiếp" },
-    { "name": "Thể thao" },
-    { "name": "Đã xem" }
+    { "id": 1, "name": "Tất cả" },
+    { "id": 2, "name": "Âm nhạc " },
+    { "id": 3, "name": "Trò chơi" },
+    { "id": 4, "name": "Trực tiếp" },
+    { "id": 5, "name": "Thể thao" },
+    { "id": 6, "name": "Đã xem" }
   ]
 }

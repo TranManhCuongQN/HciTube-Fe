@@ -10,9 +10,18 @@ interface Props {
   as?: ElementType
   initialOpen?: boolean
   placement?: Placement
+  handleClick?: () => void
 }
 
-const Popover = ({ children, renderPopover, className, as: Element = 'div', initialOpen, placement }: Props) => {
+const Popover = ({
+  children,
+  renderPopover,
+  className,
+  as: Element = 'button',
+  initialOpen,
+  placement,
+  handleClick
+}: Props) => {
   const [open, setOpen] = useState<boolean>(initialOpen || false)
   const arrowRef = useRef<HTMLElement>(null)
 
@@ -32,7 +41,13 @@ const Popover = ({ children, renderPopover, className, as: Element = 'div', init
   const id = useId()
   return (
     <div>
-      <Element className={`${className}`} ref={reference} onMouseEnter={showPopover} onMouseLeave={hidePopover}>
+      <Element
+        className={`${className}`}
+        ref={reference}
+        onMouseEnter={showPopover}
+        onMouseLeave={hidePopover}
+        onClick={handleClick}
+      >
         {children}
         <FloatingPortal id={id}>
           <AnimatePresence>

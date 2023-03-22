@@ -17,6 +17,12 @@ body {
   color: white;
 }
 
+@media screen and (min-width: 1536px) {
+  body {
+    overflow-y: auto !important;
+  }
+}
+
 .swiper-pagination-bullets {
   display: none;
 }

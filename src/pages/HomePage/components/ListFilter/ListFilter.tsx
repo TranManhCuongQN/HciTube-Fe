@@ -9,7 +9,7 @@ import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 
 const ListFilter = () => {
-  const [filter, setFilter] = useState<string>('Tất cả')
+  const [filter, setFilter] = useState<number>(1)
   const { t } = useTranslation()
   const listFilter = t('list filter', { returnObjects: true })
   return (
@@ -29,10 +29,10 @@ const ListFilter = () => {
             <SwiperSlide key={index}>
               <button
                 className={classNames('rounded-lg px-2 py-1  ', {
-                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.name,
-                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
+                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
+                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}
-                onClick={() => setFilter(item.name)}
+                onClick={() => setFilter(item.id)}
               >
                 <span className='text-sm'>{item.name}</span>
               </button>
@@ -44,11 +44,11 @@ const ListFilter = () => {
         {listFilter.map((item, index) => (
           <button
             className={classNames('flex-shrink-0  rounded-lg py-2 px-4 max-md:hidden ', {
-              'bg-[#f2f2f2]  text-black dark:bg-[#272727] dark:text-white': filter !== item.name,
-              'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
+              'bg-[#f2f2f2]  text-black dark:bg-[#272727] dark:text-white': filter !== item.id,
+              'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
             })}
             key={index}
-            onClick={() => setFilter(item.name)}
+            onClick={() => setFilter(item.id)}
           >
             <span className='text-sm'>{item.name}</span>
           </button>

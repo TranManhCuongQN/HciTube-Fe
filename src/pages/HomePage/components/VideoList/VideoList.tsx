@@ -1,3 +1,5 @@
+import { useContext } from 'react'
+import { AppContext } from 'src/context/app.context'
 import VideoItem from '../VideoItem/VideoItem'
 
 const InforVideo = [
@@ -100,8 +102,13 @@ const InforVideo = [
 ]
 
 const VideoList = () => {
+  const { showSideBar2xl } = useContext(AppContext)
   return (
-    <div className='mt-3 mb-3 grid grid-cols-1 overflow-y-auto pr-2 pl-2 md:grid-cols-2 md:gap-5 lg:grid-cols-4 2xl:grid-cols-3'>
+    <div
+      className={`mt-3 mb-3 grid grid-cols-1 overflow-y-auto pr-2 pl-2 md:grid-cols-2 md:gap-5 lg:grid-cols-3 ${
+        showSideBar2xl ? '' : '2xl:grid-cols-4'
+      }`}
+    >
       {InforVideo.map((item, index) => (
         <VideoItem key={index} data={item} />
       ))}

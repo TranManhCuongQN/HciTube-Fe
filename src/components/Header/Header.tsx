@@ -12,20 +12,12 @@ import { useTranslation } from 'react-i18next'
 import { locales } from 'src/i18n/i18n'
 
 const Header = () => {
-  const { setShowSideBar, setShowSideBar2xl, theme, setTheme, showSideBar } = useContext(AppContext)
+  const { setShowSideBar, setShowSideBar2xl, theme, setTheme, showSideBar, showSideBar2xl } = useContext(AppContext)
   const { i18n } = useTranslation()
   const currentLanguage = locales[i18n.language as keyof typeof locales]
   const handleClick = () => {
     setShowSideBar(!showSideBar)
-    setShowSideBar2xl(true)
-  }
-
-  const handleLight = () => {
-    setTheme('light')
-  }
-
-  const handleDark = () => {
-    setTheme('dark')
+    setShowSideBar2xl(!showSideBar2xl)
   }
 
   const changeLanguage = (lng: 'en' | 'vi') => {
@@ -49,11 +41,19 @@ const Header = () => {
     }
   }, [])
 
+  const handleChangeTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark')
+    } else {
+      setTheme('light')
+    }
+  }
+
   return (
-    <div className='color-[#0f0f0f] container sticky -top-1 left-0 z-40 flex h-14 items-center justify-between border-b border-b-gray-500 bg-[#ffffff] pl-2 pr-2 shadow-lg dark:bg-[#0f0f0f] md:h-20'>
+    <div className='color-[#0f0f0f] container sticky top-0 left-0 z-40 flex h-14 items-center justify-between bg-[#ffffff] pl-2 pr-2 shadow drop-shadow dark:bg-[#0f0f0f] md:h-20'>
       <div className='flex items-center gap-x-1'>
         <button
-          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 xl:hidden'
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
           onClick={handleClick}
         >
           <HiOutlineBars3 className='h-5 w-5 text-black dark:text-white' />
@@ -146,16 +146,14 @@ const Header = () => {
 
         <Popover
           className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
+          handleClick={handleChangeLanguage}
           renderPopover={
             <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
               {currentLanguage}
             </span>
           }
         >
-          <HiOutlineLanguage
-            className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6'
-            onClick={handleChangeLanguage}
-          />
+          <HiOutlineLanguage className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
         </Popover>
 
         <Popover
@@ -165,11 +163,12 @@ const Header = () => {
               Chế độ xem
             </span>
           }
+          handleClick={handleChangeTheme}
         >
           {theme === 'dark' ? (
-            <MdLightMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' onClick={handleLight} />
+            <MdLightMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
           ) : (
-            <MdDarkMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' onClick={handleDark} />
+            <MdDarkMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
           )}
         </Popover>
 
