@@ -1,15 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import Popover from '../Popover'
 import Voice from '../Voice'
+
 const Search = () => {
+  const [keyword, setKeyword] = useState<string>('')
+
+  const handleKeyWord = (keyWordVoice: string) => {
+    setKeyword(keyWordVoice)
+  }
+
   return (
-    <div className='flex flex-grow items-center justify-center max-sm:hidden'>
+    <div className='flex flex-grow items-center justify-center gap-x-3 max-sm:hidden'>
       <div className=' flex h-11 items-center md:h-12 md:w-[70%] 2xl:w-[60%] '>
         <input
           type='text'
           className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
           placeholder='Tìm kiếm'
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
         />
         <Popover
           className='ml-[1px] flex h-12 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'
@@ -22,7 +31,7 @@ const Search = () => {
           <AiOutlineSearch className='h-9 w-9 text-black dark:text-white' />
         </Popover>
       </div>
-      <Voice />
+      <Voice handleKeyWord={handleKeyWord} />
     </div>
   )
 }

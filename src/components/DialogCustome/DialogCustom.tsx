@@ -14,7 +14,7 @@ const DialogCustom = (props: DialogCustomProps) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={handleClose}>
+        <Dialog as='div' className='relative' onClose={handleClose}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -39,7 +39,7 @@ const DialogCustom = (props: DialogCustomProps) => {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel
-                  className={`w-full max-w-md transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all ${className}`}
+                  className={`w-full max-w-md transform  rounded-2xl p-6 text-left align-middle shadow-xl transition-all ${className}`}
                 >
                   {children}
                 </Dialog.Panel>
