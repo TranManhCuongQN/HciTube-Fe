@@ -49,3 +49,19 @@ body {
   background: #272727;
   height: 5px;
 }
+
+.sidebar-overlay {
+  width: calc(100% - 176px);
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .sidebar-overlay {
+    width: calc(100% - 208px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar-overlay {
+    width: calc(100% - 256px);
+  }
+}

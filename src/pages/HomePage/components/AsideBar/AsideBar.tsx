@@ -292,7 +292,7 @@ const AsideBar = () => {
 
       {showSideBar && (
         <div
-          className='fixed top-14 right-0 z-40 h-full w-1/2 bg-transparent md:w-3/4 '
+          className='sidebar-overlay fixed top-14 right-0 z-40 h-full bg-transparent '
           onClick={() => setShowSideBar(false)}
           role='presentation'
         ></div>

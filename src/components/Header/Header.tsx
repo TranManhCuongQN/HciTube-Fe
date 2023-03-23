@@ -4,12 +4,13 @@ import { BsYoutube } from 'react-icons/bs'
 import { AiOutlineSearch, AiOutlineUpload } from 'react-icons/ai'
 import { useContext, useEffect } from 'react'
 import { AppContext } from 'src/context/app.context'
-import { MdMic, MdLightMode, MdDarkMode } from 'react-icons/md'
+import { MdLightMode, MdDarkMode } from 'react-icons/md'
 import { IoNotificationsOutline } from 'react-icons/io5'
 import Popover from '../Popover'
 import { HiOutlineBars3, HiOutlineLanguage } from 'react-icons/hi2'
 import { useTranslation } from 'react-i18next'
 import { locales } from 'src/i18n/i18n'
+import Search from '../Search'
 
 const Header = () => {
   const {
@@ -91,35 +92,7 @@ const Header = () => {
           </div>
 
           {/* //* search */}
-          <div className='flex flex-grow items-center justify-center max-sm:hidden'>
-            <div className=' flex h-11 items-center md:h-12 md:w-[70%] 2xl:w-[60%] '>
-              <input
-                type='text'
-                className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
-                placeholder='Tìm kiếm'
-              />
-              <Popover
-                className='ml-[1px] flex h-12 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'
-                renderPopover={
-                  <span className='z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-                    Tìm kiếm
-                  </span>
-                }
-              >
-                <AiOutlineSearch className='h-9 w-9 text-black dark:text-white' />
-              </Popover>
-            </div>
-            <Popover
-              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
-              renderPopover={
-                <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-                  Tìm kiếm bằng giọng nói
-                </span>
-              }
-            >
-              <MdMic className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-            </Popover>
-          </div>
+          <Search />
 
           {/* //* group */}
           <div className='flex items-center gap-x-1 md:gap-x-4'>
