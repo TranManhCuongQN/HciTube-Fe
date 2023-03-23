@@ -8,6 +8,7 @@
 html {
   line-height: 1.2;
   height: 100%;
+  overflow: visible !important;
 }
 
 body {

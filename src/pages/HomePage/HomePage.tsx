@@ -5,7 +5,6 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useContext, useEffect, useRef } from 'react'
 import { AppContext } from 'src/context/app.context'
 import AsideBarSub from './components/AsideBarSub'
-import { useOuterClick } from 'src/hook/useClickOutSide'
 
 const HomePage = () => {
   const body = document.querySelector('body')
