@@ -15,7 +15,7 @@ module.exports = {
     plugin(function ({ addComponents, theme }) {
       addComponents({
         '.container': {
-          maxWidth: (maxWidth) => maxWidth('xl'),
+          maxWidth: theme('screens.2xl'),
           marginLeft: 'auto',
           marginRight: 'auto'
         }

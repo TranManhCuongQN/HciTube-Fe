@@ -9,10 +9,10 @@ const WatchingVideo = () => {
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   return (
-    <div className='container flex w-full  flex-col bg-white pl-3 pr-3 dark:bg-[#0f0f0f]'>
+    <div className='flex flex-col bg-white dark:bg-[#0f0f0f]'>
       <video
         src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'
-        className='mb-2 h-52 w-full md:h-80 lg:h-96'
+        className='mb-2 h-52 w-full md:h-80 lg:h-[400px]'
         ref={videoRef}
         muted
         controls
@@ -20,7 +20,7 @@ const WatchingVideo = () => {
       <span className='text-xs font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-base'>
         Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023
       </span>
-      <div className='mt-2 flex w-full items-center justify-between'>
+      <div className='mt-2 flex w-full flex-wrap items-center justify-between gap-2'>
         <div className='flex items-center gap-x-3'>
           <div className='flex items-center'>
             <img
@@ -37,9 +37,9 @@ const WatchingVideo = () => {
           </div>
 
           {/* //* Sign in channel */}
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] max-md:hidden'>
+          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] max-md:hidden md:px-3'>
             <BsBell className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Đã đăng ký</span>
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Đã đăng ký</span>
           </button>
         </div>
 
@@ -50,24 +50,24 @@ const WatchingVideo = () => {
 
         {/* //* Group */}
         <div className='flex items-center justify-between gap-x-5 max-md:hidden'>
-          <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
+          <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
             <button className='flex items-center gap-x-2 '>
-              <AiOutlineLike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
+              <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+              <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
             </button>
-            <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400' />
+            <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400 md:h-5 md:w-5' />
             <button className='flex items-center gap-x-2 '>
-              <AiOutlineDislike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
+              <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+              <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
             </button>
           </div>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <TbShare3 className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
+          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
+            <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
           </button>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <RiMenuAddFill className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Lưu</span>
+          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+            <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Lưu</span>
           </button>
         </div>
       </div>
@@ -98,11 +98,11 @@ const WatchingVideo = () => {
       {/* //* Description */}
       <div className='my-3 flex flex-col rounded-xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
         <div className='flex items-center gap-x-2'>
-          <span className='text-xs font-semibold text-black dark:text-white'>823 lượt xem</span>
-          <span className='text-xs font-semibold text-black dark:text-white'>4 giờ trước</span>
+          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>823 lượt xem</span>
+          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>4 giờ trước</span>
         </div>
         <div className='mt-2 flex flex-wrap items-end'>
-          <span className={`text-xs text-black  dark:text-white ${isOpen ? '' : 'line-clamp-3'}`}>
+          <span className={`text-xs text-black  dark:text-white ${isOpen ? '' : 'line-clamp-3'} md:text-sm`}>
             {' '}
             Xiaomi Robot Vacuum S10 là con tầm trung gần gần giá rẻ của Xiaomi, con này là bản nâng cấp của con Xiaomi
             Mop Pro trước đây. Lực hút mạnh hơn, pin lâu hơn. Nhu cầu cơ bản thì con này đáp ứng được. Xem thêm ở đây
@@ -114,14 +114,14 @@ const WatchingVideo = () => {
           </span>
           {isOpen ? (
             <button
-              className='mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white'
+              className='mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white md:text-sm'
               onClick={() => setIsOpen(false)}
             >
               Ẩn bớt
             </button>
           ) : (
             <button
-              className='dark:text- mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white'
+              className='dark:text- mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white md:text-sm'
               onClick={() => setIsOpen(true)}
             >
               Hiện thêm

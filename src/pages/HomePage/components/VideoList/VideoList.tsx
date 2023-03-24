@@ -105,8 +105,8 @@ const VideoList = () => {
   const { showSideBar2xl } = useContext(AppContext)
   return (
     <div
-      className={`mt-3 mb-3 grid grid-cols-1 overflow-y-auto pr-2 pl-2 md:grid-cols-2 md:gap-5 lg:grid-cols-3 ${
-        showSideBar2xl ? '' : '2xl:grid-cols-4'
+      className={`mt-3 mb-3 grid grid-cols-1 flex-wrap overflow-y-auto pr-2 pl-2 md:grid-cols-2 md:gap-5 lg:grid-cols-3 ${
+        showSideBar2xl ? '' : '2xl:grid-cols-3'
       }`}
     >
       {InforVideo.map((item, index) => (

@@ -19,7 +19,7 @@ const ListFilter = () => {
           {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button
-                className={classNames('rounded-lg px-2 py-1  ', {
+                className={classNames('rounded-lg px-3 py-1  ', {
                   'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
                   'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}
