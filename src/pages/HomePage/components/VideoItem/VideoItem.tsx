@@ -13,27 +13,44 @@ interface VideoItemProps {
 }
 const VideoItem = (props: VideoItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [lastPlayedTime, setLastPlayedTime] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const handleOpenVideo = () => {
-    setIsOpen(true)
-    videoRef.current?.play()
-  }
-
-  const handleCloseVideo = () => {
-    setIsOpen(false)
-    videoRef.current?.pause()
-  }
 
   const { data } = props
+  let timeout: NodeJS.Timeout
+
+  const handleMouseEnter = () => {
+    setIsOpen(true)
+    if (videoRef.current) {
+      videoRef.current.currentTime = lastPlayedTime
+      if (videoRef.current.currentTime === videoRef.current.duration) {
+        videoRef.current.currentTime = 0
+        setLastPlayedTime(0)
+      }
+    }
+
+    timeout = setTimeout(() => {
+      videoRef.current?.play()
+    }, 500)
+  }
+
+  const handleMouseLeave = () => {
+    setIsOpen(false)
+    setLastPlayedTime(videoRef?.current?.currentTime as number)
+    videoRef.current?.pause()
+    clearTimeout(timeout)
+  }
+
   return (
     <div className='mb-5 flex cursor-pointer flex-col gap-y-2'>
-      <div onMouseEnter={handleOpenVideo} onMouseLeave={handleCloseVideo} className='h-[12rem] w-full rounded-xl '>
+      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className='h-[12rem] w-full rounded-xl '>
         {isOpen ? (
           <video
             src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'
             className='h-full w-full'
-            controls
             ref={videoRef}
+            muted
+            controls
           />
         ) : (
           <img src={data.thumbnail} alt='thumbnail' className='h-full w-full rounded-xl object-cover' />
