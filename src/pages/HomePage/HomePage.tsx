@@ -20,10 +20,10 @@ const HomePage = () => {
 
   return (
     <>
-      <div className='container flex items-baseline gap-x-20 bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] lg:px-8'>
+      <div className='container flex gap-x-20 bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] lg:px-8'>
         <AsideBar />
         <AsideBarSub />
-        <div className={`mb-16 flex w-full flex-col`}>
+        <div className={`mb-16 flex w-full flex-col ${showSideBar2xl ? '2xl:pl-72' : ''}`}>
           <ListFilter />
           <VideoList />
         </div>

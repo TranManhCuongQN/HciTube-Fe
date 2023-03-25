@@ -34,7 +34,7 @@ const ListFilter = () => {
         {/* //* md, lg screen*/}
         {listFilter.map((item, index) => (
           <button
-            className={classNames('flex-shrink-0  rounded-lg py-2 px-4 max-md:hidden ', {
+            className={classNames('ml-3  flex-shrink-0 rounded-lg py-2 px-4 max-md:hidden ', {
               'bg-[#f2f2f2]  text-black dark:bg-[#272727] dark:text-white': filter !== item.id,
               'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
             })}

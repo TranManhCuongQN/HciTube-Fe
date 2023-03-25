@@ -8,8 +8,8 @@ const MainLayout = () => {
     <>
       <Header />
       <SearchMobie />
-      <HomePage />
-      {/* <DetailPage /> */}
+      {/* <HomePage /> */}
+      <DetailPage />
     </>
   )
 }

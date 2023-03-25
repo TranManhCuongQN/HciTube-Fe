@@ -66,3 +66,13 @@ body {
     width: calc(100% - 256px);
   }
 }
+.epr-header-overlay.Flex.FlexRow {
+  display: none;
+}
+.__EmojiPicker__.epr-emoji-img {
+  width: 35px;
+  height: 35px;
+}
+.Flex.epr-preview.FlexRow {
+  display: none;
+}

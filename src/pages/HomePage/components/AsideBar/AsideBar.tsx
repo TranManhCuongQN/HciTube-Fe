@@ -17,7 +17,7 @@ const AsideBar = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-30 h-full   ${
+        className={`fixed top-0 left-0 z-30 h-full lg:left-6   ${
           showSideBar
             ? 'w-full overflow-y-auto overflow-x-hidden bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]'
             : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
@@ -173,7 +173,7 @@ const AsideBar = () => {
 
       {/* //* 2xl sreen */}
       {showSideBar2xl && (
-        <div className='h-[620px] w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
+        <div className='fixed top-14 left-6 bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
           <NavLink
             to=''
             className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
