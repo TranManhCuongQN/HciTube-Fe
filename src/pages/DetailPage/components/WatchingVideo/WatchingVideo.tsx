@@ -4,7 +4,6 @@ import { BiLike, BiDislike } from 'react-icons/bi'
 import { RxDividerVertical } from 'react-icons/rx'
 import { TbShare3 } from 'react-icons/tb'
 import { RiMenuAddFill } from 'react-icons/ri'
-import CommentItem from '../CommentItem'
 import Comment from '../Comment'
 
 const WatchingVideo = () => {

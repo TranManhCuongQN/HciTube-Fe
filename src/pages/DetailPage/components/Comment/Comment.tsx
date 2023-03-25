@@ -4,15 +4,23 @@ import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { BsEmojiLaughing } from 'react-icons/bs'
 import { useClickOutSide } from 'src/hook/useClickOutSide'
 import CommentItem from '../CommentItem'
+import classNames from 'classnames'
 
 const Comment = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
+  const [isShowArrange, setIsShowArrange] = useState<boolean>(false)
   const emojiRef = useRef<HTMLDivElement>(null)
   const [comment, setComment] = useState<string>('')
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
+  const [valueArrange, setValueArrange] = useState<string>('comment')
+  const arrangeRef = useRef<HTMLDivElement>(null)
 
   useClickOutSide(emojiRef.current, () => {
     setIsShowEmoji(false)
+  })
+
+  useClickOutSide(arrangeRef.current, () => {
+    setIsShowArrange(false)
   })
 
   const handlwShowEmoji = () => {
@@ -34,10 +42,42 @@ const Comment = () => {
       <div className='my-3 flex flex-col '>
         <div className='flex items-center gap-x-5'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>14 bình luận</span>
-          <button className='flex items-center gap-x-1'>
+          <div
+            className='relative flex cursor-pointer items-center gap-x-1'
+            onClick={() => setIsShowArrange(!isShowArrange)}
+            role='presentation'
+            ref={arrangeRef}
+            title='Sắp xếp theo'
+          >
             <BiMenuAltLeft className='h-5 w-5 text-black dark:text-white' />
             <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Sắp xếp theo</span>
-          </button>
+            {isShowArrange && (
+              <div className='absolute top-6 left-0 z-40 flex w-[130px]  flex-col gap-y-2 rounded-xl bg-white py-2 shadow transition-all ease-linear dark:bg-[#212121] md:w-[160px]'>
+                <button
+                  className={classNames(
+                    'w-full p-2 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:text-sm',
+                    {
+                      'bg-[#e5e5e5] dark:bg-[#4d4d4d]': valueArrange === 'comment'
+                    }
+                  )}
+                  onClick={() => setValueArrange('comment')}
+                >
+                  Bình luận hàng đầu
+                </button>
+                <button
+                  className={classNames(
+                    'w-full p-2 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:text-sm',
+                    {
+                      'bg-[#e5e5e5] dark:bg-[#4d4d4d]': valueArrange === 'new'
+                    }
+                  )}
+                  onClick={() => setValueArrange('new')}
+                >
+                  Mới nhất xếp trước
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div className='mt-3 flex items-center gap-x-2'>
           <img
