@@ -1,10 +1,11 @@
 import React from 'react'
 import { BsBell } from 'react-icons/bs'
-import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai'
+import { BiLike, BiDislike } from 'react-icons/bi'
 import { RxDividerVertical } from 'react-icons/rx'
 import { TbShare3 } from 'react-icons/tb'
 import { RiMenuAddFill } from 'react-icons/ri'
 import CommentItem from '../CommentItem'
+import Comment from '../Comment'
 
 const WatchingVideo = () => {
   const videoRef = React.useRef<HTMLVideoElement>(null)
@@ -54,12 +55,12 @@ const WatchingVideo = () => {
           <div className='flex items-center justify-between gap-x-5 max-md:hidden'>
             <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <button className='flex items-center gap-x-2 '>
-                <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
                 <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
               </button>
               <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400 md:h-5 md:w-5' />
               <button className='flex items-center gap-x-2 '>
-                <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
                 <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
               </button>
             </div>
@@ -78,12 +79,12 @@ const WatchingVideo = () => {
         <div className='mt-3 flex items-center justify-between gap-x-5 md:hidden'>
           <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <button className='flex items-center gap-x-2 '>
-              <AiOutlineLike className='text-black dark:text-white' />
+              <BiLike className='text-black dark:text-white' />
               <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
             </button>
             <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400' />
             <button className='flex items-center gap-x-2 '>
-              <AiOutlineDislike className='text-black dark:text-white' />
+              <BiDislike className='text-black dark:text-white' />
               <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
             </button>
           </div>
@@ -131,7 +132,7 @@ const WatchingVideo = () => {
             )}
           </div>
         </div>
-        <CommentItem />
+        <Comment />
       </div>
     </>
   )
