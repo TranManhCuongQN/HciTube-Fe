@@ -5,10 +5,13 @@ import { RxDividerVertical } from 'react-icons/rx'
 import { TbShare3 } from 'react-icons/tb'
 import { RiMenuAddFill } from 'react-icons/ri'
 import Comment from '../Comment'
+import { useTranslation } from 'react-i18next'
 
 const WatchingVideo = () => {
+  const { t } = useTranslation(['detail'])
   const videoRef = React.useRef<HTMLVideoElement>(null)
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
+
   return (
     <>
       <div className='flex flex-col bg-white dark:bg-[#0f0f0f]'>
@@ -35,19 +38,23 @@ const WatchingVideo = () => {
               <span className='text-xs font-bold text-black line-clamp-1 dark:text-white md:text-sm'>
                 Duy Luân Dễ Thương
               </span>
-              <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>252N người đăng ký</span>
+              <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>
+                252N {t('detail:detail.subscribed')}
+              </span>
             </div>
 
             {/* //* Sign in channel */}
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] max-md:hidden md:px-3'>
               <BsBell className='text-black dark:text-white' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Đã đăng ký</span>
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {t('detail:detail.subscribed')}
+              </span>
             </button>
           </div>
 
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:hidden'>
             <BsBell className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Đã đăng ký</span>
+            <span className='text-xs font-semibold text-black dark:text-white'>{t('detail:detail.subscribed')}</span>
           </button>
 
           {/* //* Group */}
@@ -65,11 +72,15 @@ const WatchingVideo = () => {
             </div>
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
               <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {t('detail:detail.share')}
+              </span>
             </button>
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Lưu</span>
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {t('detail:detail.save')}
+              </span>
             </button>
           </div>
         </div>
@@ -89,19 +100,23 @@ const WatchingVideo = () => {
           </div>
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <TbShare3 className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
+            <span className='text-xs font-semibold text-black dark:text-white'>{t('detail:detail.share')}</span>
           </button>
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <RiMenuAddFill className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Lưu</span>
+            <span className='text-xs font-semibold text-black dark:text-white'>{t('detail:detail.save')}</span>
           </button>
         </div>
 
         {/* //* Description */}
         <div className='my-3 flex flex-col rounded-xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
           <div className='flex items-center gap-x-2'>
-            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>823 lượt xem</span>
-            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>4 giờ trước</span>
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+              823 {t('detail:detail.views')}
+            </span>
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+              4 {t('detail:detail.hours_ago')}
+            </span>
           </div>
           <div className='mt-2 flex flex-wrap items-end'>
             <span className={`text-xs text-black  dark:text-white ${isOpen ? '' : 'line-clamp-3'} md:text-sm`}>
@@ -119,14 +134,14 @@ const WatchingVideo = () => {
                 className='mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white md:text-sm'
                 onClick={() => setIsOpen(false)}
               >
-                Ẩn bớt
+                {t('detail:detail.show_less')}
               </button>
             ) : (
               <button
                 className='dark:text- mt-2 flex-shrink-0 text-xs font-semibold text-black dark:text-white md:text-sm'
                 onClick={() => setIsOpen(true)}
               >
-                Hiện thêm
+                {t('detail:detail.show_more')}
               </button>
             )}
           </div>

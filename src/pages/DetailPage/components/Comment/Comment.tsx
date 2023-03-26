@@ -5,6 +5,8 @@ import { BsEmojiLaughing } from 'react-icons/bs'
 import { useClickOutSide } from 'src/hook/useClickOutSide'
 import CommentItem from '../CommentItem'
 import classNames from 'classnames'
+import { useTranslation } from 'react-i18next'
+import ToolTip from 'src/components/ToolTip'
 
 const Comment = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
@@ -14,6 +16,7 @@ const Comment = () => {
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
   const [valueArrange, setValueArrange] = useState<string>('comment')
   const arrangeRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation(['detail'])
 
   useClickOutSide(emojiRef.current, () => {
     setIsShowEmoji(false)
@@ -41,16 +44,24 @@ const Comment = () => {
     <>
       <div className='my-3 flex flex-col '>
         <div className='flex items-center gap-x-5'>
-          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>14 bình luận</span>
+          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+            14 {t('detail:detail.comments')}
+          </span>
           <div
             className='relative flex cursor-pointer items-center gap-x-1'
             onClick={() => setIsShowArrange(!isShowArrange)}
             role='presentation'
             ref={arrangeRef}
-            title='Sắp xếp theo'
           >
             <BiMenuAltLeft className='h-5 w-5 text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Sắp xếp theo</span>
+            <ToolTip content={t('detail:detail.sort_comment')} position='bottom'>
+              {' '}
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {' '}
+                {t('detail:detail.sort_by')}
+              </span>
+            </ToolTip>
+
             {isShowArrange && (
               <div className='absolute top-6 left-0 z-40 flex w-[130px]  flex-col gap-y-2 rounded-xl bg-white py-2 shadow transition-all ease-linear dark:bg-[#212121] md:w-[160px]'>
                 <button
@@ -62,7 +73,7 @@ const Comment = () => {
                   )}
                   onClick={() => setValueArrange('comment')}
                 >
-                  Bình luận hàng đầu
+                  {t('detail:detail.top_comment')}
                 </button>
                 <button
                   className={classNames(
@@ -73,7 +84,7 @@ const Comment = () => {
                   )}
                   onClick={() => setValueArrange('new')}
                 >
-                  Mới nhất xếp trước
+                  {t('detail:detail.newest_first')}
                 </button>
               </div>
             )}
@@ -88,7 +99,7 @@ const Comment = () => {
           <div className='flex flex-grow flex-col gap-y-3'>
             <textarea
               className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
-              placeholder='Viết bình luận ...'
+              placeholder={t('detail:detail.add_a_comment')}
               value={comment}
               onClick={() => setIsShow(true)}
               onChange={(e) => setComment(e.target.value)}
@@ -116,7 +127,7 @@ const Comment = () => {
                       setIsShow(false)
                     }}
                   >
-                    Hủy
+                    {t('detail:detail.cancel')}
                   </button>
                   <button
                     className={`rounded-2xl px-4 py-2 text-xs font-semibold md:text-sm ${
@@ -127,7 +138,7 @@ const Comment = () => {
                     disabled={comment ? false : true}
                     onClick={handleComment}
                   >
-                    Bình luận
+                    {t('detail:detail.comment')}
                   </button>
                 </div>
               </div>

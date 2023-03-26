@@ -5,10 +5,13 @@ import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import DialogCustom from 'src/components/DialogCustome'
 import { useClickOutSide } from 'src/hook/useClickOutSide'
+import { useTranslation } from 'react-i18next'
+
 const CommentItem = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isShowModal, setIsShowModal] = useState<boolean>(false)
   const editRef = useRef<HTMLDivElement>(null)
+  const { t } = useTranslation(['detail'])
 
   useClickOutSide(editRef.current, () => {
     setIsShow(false)
@@ -45,15 +48,15 @@ const CommentItem = () => {
               <div className='absolute top-6 right-0 z-40 flex w-[120px] flex-col gap-y-2 rounded-xl bg-white py-2 shadow transition-all ease-linear  dark:bg-[#212121] md:w-[160px]'>
                 <button
                   className={
-                    'flex w-full items-center justify-center gap-x-3 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
+                    'flex w-full items-center justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
                   }
                 >
                   <FiEdit2 className='h-5 w-5 text-black dark:text-white' />
-                  Chỉnh sửa
+                  {t('detail:detail.edit')}
                 </button>
                 <button
                   className={
-                    'flex w-full justify-center gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
+                    'flex w-full justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
                   }
                   onClick={() => {
                     setIsShowModal(true)
@@ -61,7 +64,7 @@ const CommentItem = () => {
                   }}
                 >
                   <RiDeleteBin6Line className='h-5 w-5 text-black dark:text-white' />
-                  Xóa
+                  {t('detail:detail.delete')}
                 </button>
               </div>
             )}
@@ -75,7 +78,7 @@ const CommentItem = () => {
             <BiDislike className='h-5 w-5 text-black dark:text-white' />
           </button>
           <button className='rounded-2xl px-4 py-2 text-xs font-semibold text-black hover:bg-[#f2f2f2] dark:text-white dark:hover:bg-[#272727] md:text-sm'>
-            Phản hồi
+            {t('detail:detail.reply')}
           </button>
         </div>
       </div>
@@ -85,17 +88,23 @@ const CommentItem = () => {
         className={'h-40 bg-white shadow-md  dark:bg-[#212121] md:h-48'}
       >
         <div className='flex h-full flex-col justify-around'>
-          <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Xóa bình luận </span>
-          <span className='text-xs text-black dark:text-white md:text-sm'>Xóa bình luận này của bạn vĩnh viễn?</span>
+          <span className='text-sm font-semibold text-black dark:text-white md:text-base'>
+            {' '}
+            {t('detail:detail.delete_comment')}{' '}
+          </span>
+          <span className='text-xs text-black dark:text-white md:text-sm'>
+            {' '}
+            {t('detail:detail.delete_your_comment_permanently')}
+          </span>
           <div className='flex items-center justify-end gap-x-5'>
             <button
               className='rounded-2xl px-4 py-2 text-xs font-semibold text-[#5f98d3] hover:bg-blue-50   md:text-sm'
               onClick={() => setIsShowModal(false)}
             >
-              Hủy
+              {t('detail:detail.cancel')}
             </button>
             <button className='rounded-2xl px-4 py-2 text-xs font-semibold text-[#5f98d3] hover:bg-blue-50 md:text-sm'>
-              Xóa
+              {t('detail:detail.delete')}
             </button>
           </div>
         </div>

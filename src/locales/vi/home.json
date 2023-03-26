@@ -7,7 +7,8 @@
     "history": "Video đã xem",
     "your videos": "Video của bạn",
     "watch later": "Xem sau",
-    "liked videos": "Video đã thích"
+    "liked videos": "Video đã thích",
+    "search": "Tìm kiếm"
   },
   "list filter": [
     { "id": 1, "name": "Tất cả" },

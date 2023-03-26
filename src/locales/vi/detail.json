@@ -1,0 +1,26 @@
+{
+  "detail": {
+    "subscribed": "Đã đăng ký",
+    "share": "Chia sẻ",
+    "save": "Lưu",
+    "views": "lượt xem",
+    "hours_ago": "giờ trước",
+    "show_more": "Hiện thêm",
+    "show_less": "Ẩn bớt",
+    "comments": "Bình luận",
+    "sort_by": "Sắp xếp theo",
+    "sort_comment": "Sắp xếp bình luận",
+    "top_comment": "Bình luận hàng đầu",
+    "newest_first": "Mới nhất xếp trước",
+    "add_a_comment": "Viết bình luận ...",
+    "cancel": "Hủy",
+    "comment": "Bình luận",
+    "like": "Thích",
+    "dislike": "Bỏ thích",
+    "reply": "Phản hồi",
+    "edit": "Chỉnh sửa",
+    "delete": "xóa",
+    "delete_comment": "Xóa bình luận",
+    "delete_your_comment_permanently": "Xóa bình luận vĩnh viễn ?"
+  }
+}

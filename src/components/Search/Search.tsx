@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import Popover from '../Popover'
 import Voice from '../Voice'
+import { useTranslation } from 'react-i18next'
 
 const Search = () => {
   const [keyword, setKeyword] = useState<string>('')
+  const { t } = useTranslation(['home'])
 
   const handleKeyWord = (keyWordVoice: string) => {
     setKeyword(keyWordVoice)
@@ -16,7 +18,7 @@ const Search = () => {
         <input
           type='text'
           className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
-          placeholder='Tìm kiếm'
+          placeholder={t('side bar.search')}
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />

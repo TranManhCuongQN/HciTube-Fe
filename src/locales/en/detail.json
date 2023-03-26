@@ -1,0 +1,26 @@
+{
+  "detail": {
+    "subscribed": "Subscribed",
+    "share": "Share",
+    "save": "Save",
+    "views": "Views",
+    "hours_ago": "Hours ago",
+    "show_more": "Show more",
+    "show_less": "Show less",
+    "comments": "Comments",
+    "sort_by": "Sort by",
+    "sort_comment": "Sort comments",
+    "top_comment": "Top comments",
+    "newest_first": "Newest first",
+    "add_a_comment": "Add a comment ...",
+    "cancel": "Cancel",
+    "comment": "Comment",
+    "like": "Like",
+    "dislike": "Dislike",
+    "reply": "Reply",
+    "edit": "Edit",
+    "delete": "Delete",
+    "delete_comment": "Delete comment",
+    "delete_your_comment_permanently": "Delete your comment permanently?"
+  }
+}

@@ -2,6 +2,8 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import HOME_EN from 'src/locales/en/home.json'
 import HOME_VI from 'src/locales/vi/home.json'
+import DETAIL_EN from 'src/locales/en/detail.json'
+import DETAIL_VI from 'src/locales/vi/detail.json'
 
 export const locales = {
   en: 'English',
@@ -10,10 +12,12 @@ export const locales = {
 
 export const resources = {
   en: {
-    home: HOME_EN
+    home: HOME_EN,
+    detail: DETAIL_EN
   },
   vi: {
-    home: HOME_VI
+    home: HOME_VI,
+    detail: DETAIL_VI
   }
 } as const
 
@@ -23,7 +27,7 @@ export const defaultNS = 'home'
 i18n.use(initReactI18next).init({
   resources,
   lng: 'vi',
-  ns: ['home'],
+  ns: ['home', 'detail'],
   fallbackLng: 'vi',
   defaultNS,
   interpolation: {

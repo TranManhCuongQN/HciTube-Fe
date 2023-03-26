@@ -7,7 +7,8 @@
     "history": "History",
     "your videos": "Your videos",
     "watch later": "Watch later",
-    "liked videos": "Liked videos"
+    "liked videos": "Liked videos",
+    "search": "Search"
   },
   "list filter": [
     { "id": 1, "name": "All" },
