@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import Popover from '../Popover'
 import Voice from '../Voice'
 import { useTranslation } from 'react-i18next'
+import ToolTip from 'src/components/ToolTip'
 
 const Search = () => {
   const [keyword, setKeyword] = useState<string>('')
@@ -22,16 +22,11 @@ const Search = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <Popover
-          className='ml-[1px] flex h-11 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'
-          renderPopover={
-            <span className='z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-              Tìm kiếm
-            </span>
-          }
-        >
-          <AiOutlineSearch className='h-8 w-8 text-black dark:text-white' />
-        </Popover>
+        <ToolTip position='bottom' content={t('side bar.search')}>
+          <button className='flex h-11 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'>
+            <AiOutlineSearch className='h-8 w-8 text-black dark:text-white' />
+          </button>
+        </ToolTip>
       </div>
       <Voice handleKeyWord={handleKeyWord} />
     </div>

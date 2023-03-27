@@ -38,13 +38,7 @@ const AsideBar = () => {
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
           </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <SiSublimetext className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.short')}</span>
-          </NavLink>
+
           <NavLink
             to=''
             className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
@@ -176,17 +170,10 @@ const AsideBar = () => {
         <div className='fixed top-14 left-6 bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
           <NavLink
             to=''
-            className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className='mt-5 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <SiSublimetext className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.short')}</span>
           </NavLink>
           <NavLink
             to=''

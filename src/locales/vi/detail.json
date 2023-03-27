@@ -1,9 +1,12 @@
 {
   "detail": {
     "subscribed": "Đã đăng ký",
+    "subscribers": "người đăng ký",
     "share": "Chia sẻ",
     "save": "Lưu",
     "views": "lượt xem",
+    "like this": "Tôi thích video này",
+    "dislike this": "Tôi không thích video này",
     "hours_ago": "giờ trước",
     "show_more": "Hiện thêm",
     "show_less": "Ẩn bớt",

@@ -13,7 +13,6 @@
     "prettier:fix": "prettier --write \"src/**/(*.tsx|*.ts|*.css|*.scss)\""
   },
   "dependencies": {
-    "@floating-ui/react": "^0.22.0",
     "@headlessui/react": "^1.7.13",
     "@tailwindcss/line-clamp": "^0.4.2",
     "@types/body-scroll-lock": "^3.1.0",
@@ -22,7 +21,6 @@
     "body-scroll-lock": "^4.0.0-beta.0",
     "classnames": "^2.3.2",
     "emoji-picker-react": "^4.4.8",
-    "framer-motion": "^10.6.1",
     "i18next": "^22.4.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

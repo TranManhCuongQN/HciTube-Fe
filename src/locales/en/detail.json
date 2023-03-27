@@ -1,6 +1,7 @@
 {
   "detail": {
     "subscribed": "Subscribed",
+    "subscribers": "subscribers",
     "share": "Share",
     "save": "Save",
     "views": "Views",
@@ -15,6 +16,8 @@
     "add_a_comment": "Add a comment ...",
     "cancel": "Cancel",
     "comment": "Comment",
+    "like this": "I like this",
+    "dislike this": "I dislike this",
     "like": "Like",
     "dislike": "Dislike",
     "reply": "Reply",

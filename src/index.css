@@ -16,7 +16,7 @@ body {
   font-weight: 400;
   background-color: #0f0f0f;
   color: white;
-  min-height: 100vh;
+  min-height: 200vh;
 }
 
 @media screen and (min-width: 1536px) {

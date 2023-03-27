@@ -8,7 +8,18 @@
     "your videos": "Your videos",
     "watch later": "Watch later",
     "liked videos": "Liked videos",
-    "search": "Search"
+    "search": "Search",
+    "youtube home": "YouTube Home",
+    "search_with_voice": "Search with your voice",
+    "create": "Create",
+    "notifications": "Notifications",
+    "language": "Language: ",
+    "appearance": "Appearance: ",
+    "listening": "Listening...",
+    "didnt her that": "Didn't hear that. Try again.",
+    "tap the mic": "Tap the microphone to try agian",
+    "sign in": "Sign in",
+    "back": "Back"
   },
   "list filter": [
     { "id": 1, "name": "All" },

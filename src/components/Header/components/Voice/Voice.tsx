@@ -2,11 +2,12 @@
 import 'babel-polyfill'
 import { useEffect, useRef, useState } from 'react'
 import { MdMic } from 'react-icons/md'
-import DialogCustom from '../DialogCustome'
-import Popover from '../Popover'
+import DialogCustom from '../../../DialogCustome'
 import { IoCloseOutline } from 'react-icons/io5'
 import { BsMicFill } from 'react-icons/bs'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import ToolTip from 'src/components/ToolTip'
+import { useTranslation } from 'react-i18next'
 
 interface VoiceProps {
   handleKeyWord: (keyWordVoice: string) => void
@@ -20,6 +21,7 @@ const Voice = (props: VoiceProps) => {
   const audioStartRef = useRef<HTMLAudioElement | null>(null)
   const audioEndRef = useRef<HTMLAudioElement | null>(null)
   const audioCloseRef = useRef<HTMLAudioElement | null>(null)
+  const { t } = useTranslation(['home'])
 
   useEffect(() => {
     setRecord(transcript)
@@ -55,17 +57,14 @@ const Voice = (props: VoiceProps) => {
   }
   return (
     <>
-      <Popover
-        className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
-        renderPopover={
-          <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-            Tìm kiếm bằng giọng nói
-          </span>
-        }
-        handleClick={handleVoice}
-      >
-        <MdMic className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-      </Popover>
+      <ToolTip position='bottom' content={t('side bar.search_with_voice')}>
+        <button
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
+          onClick={handleVoice}
+        >
+          <MdMic className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+        </button>
+      </ToolTip>
 
       {/* //* Dialog */}
       <DialogCustom handleClose={handleClose} isOpen={isOpen} className={'h-80 bg-white shadow-md  dark:bg-[#212121]'}>
@@ -73,17 +72,15 @@ const Voice = (props: VoiceProps) => {
           {transcript === '' ? (
             listening === true ? (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>Đang nghe ...</span>
+                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.listening')}</span>
               </>
             ) : isProcess ? (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>Đang nghe ...</span>
+                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.listening')}</span>
               </>
             ) : (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>
-                  Tôi chưa nghe rõ. Mời bạn nói lại
-                </span>
+                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.didnt her that')}</span>
               </>
             )
           ) : (
@@ -143,7 +140,7 @@ const Voice = (props: VoiceProps) => {
                     <BsMicFill className='h-7 w-7 text-black' />
                   </button>
                   <span className='text-center text-base font-medium text-black dark:text-white'>
-                    Nhấn vào micro để thử lại
+                    {t('side bar.tap the mic')}
                   </span>
                 </div>
               </div>

@@ -2,62 +2,34 @@
 import { Link } from 'react-router-dom'
 import { BsYoutube } from 'react-icons/bs'
 import { AiOutlineSearch, AiOutlineUpload } from 'react-icons/ai'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
-import { MdLightMode, MdDarkMode } from 'react-icons/md'
-
-import Popover from '../Popover'
-import { HiOutlineBars3, HiOutlineLanguage } from 'react-icons/hi2'
+import { HiOutlineUserCircle } from 'react-icons/hi'
+import { HiOutlineBars3 } from 'react-icons/hi2'
 import { useTranslation } from 'react-i18next'
-import { locales } from 'src/i18n/i18n'
-import Search from '../Search'
-import Inform from '../Inform'
+import Search from './components/Search'
+
+import ToolTip from '../ToolTip'
+import Inform from './components/Inform'
+import ChangeLanguage from './components/ChangeLanguage'
+import ChangeTheme from './components/ChangeTheme'
 
 const Header = () => {
   const {
     setShowSideBar,
     setShowSideBar2xl,
-    theme,
-    setTheme,
     showSideBar,
     showSideBar2xl,
     setShowSearchMobie,
-    showSearchMobie
+    showSearchMobie,
+    isAuthentication
   } = useContext(AppContext)
-  const { i18n } = useTranslation()
-  const currentLanguage = locales[i18n.language as keyof typeof locales]
+
+  const { t } = useTranslation(['home'])
+
   const handleClick = () => {
     setShowSideBar(!showSideBar)
     setShowSideBar2xl(!showSideBar2xl)
-  }
-
-  const changeLanguage = (lng: 'en' | 'vi') => {
-    i18n.changeLanguage(lng)
-  }
-
-  const handleChangeLanguage = () => {
-    if (i18n.language === 'en') {
-      changeLanguage('vi')
-      localStorage.setItem('language', 'vi')
-    } else {
-      changeLanguage('en')
-      localStorage.setItem('language', 'en')
-    }
-  }
-
-  useEffect(() => {
-    const language = localStorage.getItem('language')
-    if (language) {
-      changeLanguage(language as 'en' | 'vi')
-    }
-  }, [])
-
-  const handleChangeTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark')
-    } else {
-      setTheme('light')
-    }
   }
 
   const handleShowSearchMobie = () => {
@@ -67,7 +39,7 @@ const Header = () => {
   return (
     <>
       {!showSearchMobie && (
-        <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-[#ffffff] pl-2 pr-2 shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
+        <div className='color-[#0f0f0f] sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between  bg-[#ffffff] pl-2 pr-2 shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
           <div className='flex items-center gap-x-1'>
             <button
               className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
@@ -77,19 +49,12 @@ const Header = () => {
             </button>
 
             {/* //* Trang chu Youtube */}
-            <Popover
-              className='flex items-center '
-              renderPopover={
-                <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold md:mt-5 md:px-2 md:py-2 md:text-xs'>
-                  Trang chủ YouTube
-                </span>
-              }
-            >
+            <ToolTip position='bottom' content={t('side bar.youtube home')}>
               <Link to='/' className='flex cursor-pointer items-end gap-x-1 xl:ml-2'>
-                <BsYoutube className='h-8 w-8 text-red-600 ' />
-                <span className='text-lg font-semibold text-black dark:text-white'>YouTube</span>
+                <BsYoutube className='h-6 w-6 text-red-600 md:h-8 md:w-8' />
+                <span className='text-base font-semibold text-black dark:text-white md:text-lg'>YouTube</span>
               </Link>
-            </Popover>
+            </ToolTip>
           </div>
 
           {/* //* search */}
@@ -98,69 +63,53 @@ const Header = () => {
           {/* //* group */}
           <div className='flex items-center gap-x-1 md:gap-x-4'>
             {/* //* searchMobie */}
-            <Popover
-              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden '
-              renderPopover={
-                <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold'>
-                  Tìm kiếm
-                </span>
-              }
-              handleClick={handleShowSearchMobie}
-            >
-              <AiOutlineSearch className='h-6 w-6 text-black dark:text-white' />
-            </Popover>
+
+            <ToolTip position='bottom' content={t('side bar.search')}>
+              <button
+                className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden '
+                onClick={handleShowSearchMobie}
+              >
+                <AiOutlineSearch className='h-6 w-6 text-black dark:text-white' />
+              </button>
+            </ToolTip>
 
             {/* //* upload */}
-            <Popover
-              className=' flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-lg:hidden lg:h-10 lg:w-10  '
-              renderPopover={
-                <span className='relative z-50 mt-3 block h-full rounded-lg bg-gray-500 px-2 py-1 text-[11px] font-semibold md:mt-5 md:px-2 md:py-2 md:text-xs'>
-                  Tạo
-                </span>
-              }
-            >
-              <AiOutlineUpload className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-            </Popover>
+            {isAuthentication && (
+              <>
+                <ToolTip position='bottom' content={t('side bar.create')}>
+                  <button className=' flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-lg:hidden lg:h-10 lg:w-10  '>
+                    <AiOutlineUpload className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+                  </button>
+                </ToolTip>
 
-            {/* //* inform */}
-            <Inform />
+                {/* //* inform */}
+                <Inform />
+              </>
+            )}
 
-            <Popover
-              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
-              handleClick={handleChangeLanguage}
-              renderPopover={
-                <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-                  {currentLanguage}
-                </span>
-              }
-            >
-              <HiOutlineLanguage className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-            </Popover>
+            {/* //* Change language */}
+            <ChangeLanguage />
 
-            <Popover
-              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
-              renderPopover={
-                <span className='z-50 mt-5 block h-full rounded-lg bg-gray-500 px-2 py-2 text-xs font-semibold'>
-                  Chế độ xem
-                </span>
-              }
-              handleClick={handleChangeTheme}
-            >
-              {theme === 'dark' ? (
-                <MdLightMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-              ) : (
-                <MdDarkMode className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-              )}
-            </Popover>
+            {/* //* Change theme */}
+            <ChangeTheme />
 
             {/* //* avatar */}
-            <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>
-              <img
-                src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
-                alt='avatar'
-                className='h-full w-full rounded-full object-cover'
-              />
-            </div>
+            {isAuthentication && (
+              <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>
+                <img
+                  src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
+                  alt='avatar'
+                  className='h-full w-full rounded-full object-cover'
+                />
+              </div>
+            )}
+
+            {!isAuthentication && (
+              <button className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '>
+                <HiOutlineUserCircle className='h-5 w-5 text-[#4b91df]  lg:h-6 lg:w-6' />
+                <span className='text-xs font-medium text-[#4b91df] md:text-sm'>{t('side bar.sign in')}</span>
+              </button>
+            )}
           </div>
         </div>
       )}

@@ -6,6 +6,7 @@ import { TbShare3 } from 'react-icons/tb'
 import { RiMenuAddFill } from 'react-icons/ri'
 import Comment from '../Comment'
 import { useTranslation } from 'react-i18next'
+import ToolTip from 'src/components/ToolTip'
 
 const WatchingVideo = () => {
   const { t } = useTranslation(['detail'])
@@ -35,11 +36,14 @@ const WatchingVideo = () => {
               />
             </div>
             <div className='flex flex-col'>
-              <span className='text-xs font-bold text-black line-clamp-1 dark:text-white md:text-sm'>
-                Duy Luân Dễ Thương
-              </span>
+              <ToolTip position='top' content=' Duy Luân Dễ Thương'>
+                <div className='text-xs font-bold text-black line-clamp-1 dark:text-white md:text-sm'>
+                  Duy luân dễ thương
+                </div>
+              </ToolTip>
+
               <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>
-                252N {t('detail:detail.subscribed')}
+                252N {t('detail:detail.subscribers')}
               </span>
             </div>
 
@@ -59,53 +63,76 @@ const WatchingVideo = () => {
 
           {/* //* Group */}
           <div className='flex items-center justify-between gap-x-5 max-md:hidden'>
-            <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
-              <button className='flex items-center gap-x-2 '>
-                <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
-              </button>
-              <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400 md:h-5 md:w-5' />
-              <button className='flex items-center gap-x-2 '>
-                <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
-              </button>
+            <div className='flex items-center rounded-2xl bg-[#f2f2f2] dark:bg-[#272727] md:px-3'>
+              <ToolTip position='bottom' content={t('detail:detail.like this')}>
+                <button className='flex items-center gap-x-2 p-2 hover:bg-[#f2f2f2]'>
+                  <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+                </button>
+              </ToolTip>
+
+              <RxDividerVertical className='h-full  text-[#666d74] dark:text-gray-400 md:h-5 md:w-5 ' />
+              <ToolTip position='bottom' content={t('detail:detail.dislike this')}>
+                <button className='flex items-center gap-x-2 p-2  '>
+                  <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+                </button>
+              </ToolTip>
             </div>
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
-              <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                {t('detail:detail.share')}
-              </span>
-            </button>
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
-              <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                {t('detail:detail.save')}
-              </span>
-            </button>
+
+            <ToolTip position='bottom' content={t('detail:detail.share')}>
+              <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+                <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                  {t('detail:detail.share')}
+                </span>
+              </button>
+            </ToolTip>
+
+            <ToolTip position='bottom' content={t('detail:detail.save')}>
+              <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+                <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                  {t('detail:detail.save')}
+                </span>
+              </button>
+            </ToolTip>
           </div>
         </div>
 
         {/* //* Group */}
         <div className='mt-3 flex items-center justify-between gap-x-5 md:hidden'>
           <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <button className='flex items-center gap-x-2 '>
-              <BiLike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
-            </button>
+            <ToolTip position='bottom' content={t('detail:detail.like this')}>
+              <button className='flex items-center gap-x-2 p-2 hover:bg-[#f2f2f2]'>
+                <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+              </button>
+            </ToolTip>
             <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400' />
-            <button className='flex items-center gap-x-2 '>
-              <BiDislike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
-            </button>
+            <ToolTip position='bottom' content={t('detail:detail.dislike this')}>
+              <button className='flex items-center gap-x-2 p-2  '>
+                <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+              </button>
+            </ToolTip>
           </div>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <TbShare3 className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>{t('detail:detail.share')}</span>
-          </button>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <RiMenuAddFill className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>{t('detail:detail.save')}</span>
-          </button>
+          <ToolTip position='bottom' content={t('detail:detail.share')}>
+            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+              <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {t('detail:detail.share')}
+              </span>
+            </button>
+          </ToolTip>
+          <ToolTip position='bottom' content={t('detail:detail.save')}>
+            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+              <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {t('detail:detail.save')}
+              </span>
+            </button>
+          </ToolTip>
         </div>
 
         {/* //* Description */}

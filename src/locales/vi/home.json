@@ -8,7 +8,18 @@
     "your videos": "Video của bạn",
     "watch later": "Xem sau",
     "liked videos": "Video đã thích",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "youtube home": "Trang chủ Youtube",
+    "search_with_voice": "Tìm kiếm bằng giọng nói",
+    "create": "Tạo",
+    "notifications": "Thông báo",
+    "language": "Ngôn ngữ: ",
+    "appearance": "Giao diện: ",
+    "listening": "Đang nghe...",
+    "didnt her that": "Tôi chưa nghe rõ. Mời bạn nói lại.",
+    "tap the mic": "Nhấn vào micro để thử lại",
+    "sign in": "Đăng nhập",
+    "back": "Quay lại"
   },
   "list filter": [
     { "id": 1, "name": "Tất cả" },
