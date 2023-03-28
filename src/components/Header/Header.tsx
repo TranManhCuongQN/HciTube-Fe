@@ -13,6 +13,7 @@ import ToolTip from '../ToolTip'
 import Inform from './components/Inform'
 import ChangeLanguage from './components/ChangeLanguage'
 import ChangeTheme from './components/ChangeTheme'
+import path from 'src/constants/path'
 
 const Header = () => {
   const {
@@ -39,7 +40,7 @@ const Header = () => {
   return (
     <>
       {!showSearchMobie && (
-        <div className='color-[#0f0f0f] sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between pl-2 pr-2 shadow-sm  md:h-16 lg:px-8'>
+        <div className='color-[#0f0f0f] sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white pl-2 pr-2  shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
           <div className='flex items-center gap-x-1'>
             <button
               className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
@@ -105,10 +106,13 @@ const Header = () => {
             )}
 
             {!isAuthentication && (
-              <button className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '>
+              <Link
+                to={path.login}
+                className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
+              >
                 <HiOutlineUserCircle className='h-5 w-5 text-[#4b91df]  lg:h-6 lg:w-6' />
                 <span className='text-xs font-medium text-[#4b91df] md:text-sm'>{t('side bar.sign in')}</span>
-              </button>
+              </Link>
             )}
           </div>
         </div>

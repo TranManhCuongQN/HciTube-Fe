@@ -1,18 +1,36 @@
+import { Schema } from 'inspector'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { BsYoutube } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
+import path from 'src/constants/path'
+import { loginSchemaType, schema } from 'src/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
+import i18next from 'i18next'
+
+type FormData = loginSchemaType
+const loginSchema = schema.pick(['email', 'password'])
 const SignIn = () => {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isLoading }
-  } = useForm()
+  } = useForm<FormData>({
+    resolver: yupResolver(loginSchema)
+  })
 
   const { t } = useTranslation(['auth'])
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
+  console.log(i18next.t('auth:error.email required'))
+
   return (
     <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>
       <div className='flex flex-col items-center'>
@@ -26,7 +44,12 @@ const SignIn = () => {
           </span>
         </div>
       </div>
-      <form className='flex w-full flex-col' noValidate>
+      <form
+        className={`flex w-full flex-col ${errors.email || errors.password ? 'gap-y-3' : ''}`}
+        noValidate
+        onSubmit={onSubmit}
+        autoComplete='false'
+      >
         <div className='flex w-full flex-col items-start gap-y-1'>
           <label htmlFor='email' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
             Email:
@@ -37,6 +60,7 @@ const SignIn = () => {
             register={register}
             placeholder={t('auth:auth.enter your email')}
             id='email'
+            errorMessage={errors.email?.message}
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
           />
         </div>
@@ -49,6 +73,7 @@ const SignIn = () => {
             type='password'
             register={register}
             placeholder={t('auth:auth.enter your password')}
+            errorMessage={errors.password?.message}
             id='password'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
           />
@@ -66,9 +91,12 @@ const SignIn = () => {
           <span className='text-xs text-black dark:text-white md:text-sm'>
             {t('auth:auth.dont have an account yet')}
           </span>
-          <span className='cursor-pointer text-xs font-semibold text-black underline dark:text-white md:text-sm'>
+          <Link
+            to={path.register}
+            className='cursor-pointer text-xs font-semibold text-black underline dark:text-white md:text-sm'
+          >
             {t('auth:auth.sign up')}
-          </span>
+          </Link>
         </div>
       </form>
     </div>

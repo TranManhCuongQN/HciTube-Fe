@@ -94,6 +94,6 @@ body {
 @keyframes typing {
   100% {
     left: 100%;
-    margin: 0 -35px 0 15px;
+    margin: 0 -35px 0 20px;
   }
 }

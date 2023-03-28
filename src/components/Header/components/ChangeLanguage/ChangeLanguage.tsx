@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { HiOutlineLanguage } from 'react-icons/hi2'
 import ToolTip from 'src/components/ToolTip'
@@ -8,16 +8,19 @@ const ChangeLanguage = () => {
   const { i18n } = useTranslation()
   const currentLanguage = locales[i18n.language as keyof typeof locales]
 
-  const changeLanguage = (lng: 'en' | 'vi') => {
-    i18n.changeLanguage(lng)
-  }
+  const changeLanguage = useCallback(
+    (lng: 'en' | 'vi') => {
+      i18n.changeLanguage(lng)
+    },
+    [i18n]
+  )
 
   useEffect(() => {
     const language = localStorage.getItem('language')
     if (language) {
       changeLanguage(language as 'en' | 'vi')
     }
-  }, [])
+  }, [changeLanguage])
 
   const handleChangeLanguage = () => {
     if (i18n.language === 'en') {
