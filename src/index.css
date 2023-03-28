@@ -14,9 +14,6 @@ html {
 body {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-weight: 400;
-  background-color: #0f0f0f;
-  color: white;
-  min-height: 200vh;
 }
 
 @media screen and (min-width: 1536px) {
@@ -67,6 +64,8 @@ body {
     width: calc(100% - 256px);
   }
 }
+
+/* Custome emoji */
 .epr-header-overlay.Flex.FlexRow {
   display: none;
 }
@@ -76,4 +75,25 @@ body {
 }
 .Flex.epr-preview.FlexRow {
   display: none;
+}
+
+/* Custom animation text */
+.dynamic {
+  position: relative;
+}
+.dynamic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-left: 2px solid #fc6d6d;
+  animation: typing 1.5s steps(10) infinite;
+}
+
+@keyframes typing {
+  100% {
+    left: 100%;
+    margin: 0 -35px 0 15px;
+  }
 }
