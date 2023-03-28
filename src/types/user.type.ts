@@ -3,9 +3,9 @@ export interface User {
   email: string
   firstName: string
   lastName: string
-  avatar: string
+  avatar?: string
   createdAt: string
   updatedAt: string
-  phone: string
-  dateOfBirth: string
+  phone?: string
+  dateOfBirth?: string
 }

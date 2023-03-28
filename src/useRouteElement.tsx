@@ -4,6 +4,7 @@ import Header from './components/Header'
 import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'
+import RegisterLayout from './layout/RegisterLayout'
 import DetailPage from './pages/DetailPage'
 import HomePage from './pages/HomePage'
 import SignIn from './pages/SignIn'
@@ -25,17 +26,18 @@ const useRouteElement = () => {
       element: <RejectRoute />,
       children: [
         {
-          path: path.login,
-          element: (
-            <>
-              <Header />
-              <SignIn />
-            </>
-          )
-        },
-        {
-          path: path.register,
-          element: <SignUp />
+          path: '',
+          element: <RegisterLayout />,
+          children: [
+            {
+              path: path.login,
+              element: <SignIn />
+            },
+            {
+              path: path.register,
+              element: <SignUp />
+            }
+          ]
         }
       ]
     },

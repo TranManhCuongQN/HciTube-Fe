@@ -1,4 +1,3 @@
-import { Schema } from 'inspector'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +8,6 @@ import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { loginSchemaType, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
-import i18next from 'i18next'
 
 type FormData = loginSchemaType
 const loginSchema = schema.pick(['email', 'password'])
@@ -29,11 +27,9 @@ const SignIn = () => {
     console.log(data)
   })
 
-  console.log(i18next.t('auth:error.email required'))
-
   return (
     <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>
-      <div className='flex flex-col items-center'>
+      <Link to={path.home} className='flex flex-col items-center'>
         <BsYoutube className='h-16 w-16 text-red-600 md:h-24 md:w-24' />
         <div className='flex items-end gap-x-1'>
           <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>
@@ -43,7 +39,7 @@ const SignIn = () => {
             YouTube
           </span>
         </div>
-      </div>
+      </Link>
       <form
         className={`flex w-full flex-col ${errors.email || errors.password ? 'gap-y-3' : ''}`}
         noValidate
@@ -51,7 +47,7 @@ const SignIn = () => {
         autoComplete='false'
       >
         <div className='flex w-full flex-col items-start gap-y-1'>
-          <label htmlFor='email' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+          <label htmlFor='email' className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
             Email:
           </label>
           <Input
@@ -60,12 +56,15 @@ const SignIn = () => {
             register={register}
             placeholder={t('auth:auth.enter your email')}
             id='email'
-            errorMessage={errors.email?.message}
+            errorMessage={t(errors.email?.message as any)}
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
-          <label htmlFor='password' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+          <label
+            htmlFor='password'
+            className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+          >
             {t('auth:auth.password')}
           </label>
           <Input
@@ -73,7 +72,7 @@ const SignIn = () => {
             type='password'
             register={register}
             placeholder={t('auth:auth.enter your password')}
-            errorMessage={errors.password?.message}
+            errorMessage={t(errors.password?.message as any)}
             id='password'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
           />

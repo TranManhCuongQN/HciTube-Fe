@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { BsYoutube } from 'react-icons/bs'
 import Input from 'src/components/Input'
@@ -6,20 +5,29 @@ import { useForm } from 'react-hook-form'
 import Button from 'src/components/Button'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
-import i18next from 'i18next'
+import { registerSchemaType, schema } from 'src/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
 
+type FormData = registerSchemaType
+const registerSchema = schema
 const SignUp = () => {
   const {
     register,
     handleSubmit,
     setError,
     formState: { errors, isLoading }
-  } = useForm()
+  } = useForm<FormData>({
+    resolver: yupResolver(registerSchema)
+  })
   const { t } = useTranslation(['auth'])
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
 
   return (
     <div className='mx-auto flex min-h-screen w-72 flex-col justify-center gap-y-5 py-5 md:w-[400px]'>
-      <div className='flex flex-col items-center'>
+      <Link to={path.home} className='flex flex-col items-center'>
         <BsYoutube className='h-16 w-16 text-red-600 md:h-24 md:w-24' />
         <div className='flex items-end gap-x-1'>
           <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>
@@ -29,11 +37,22 @@ const SignUp = () => {
             YouTube
           </span>
         </div>
-      </div>
-      <form className='flex w-full flex-col' noValidate>
+      </Link>
+      <form
+        className={`flex w-full flex-col ${
+          errors.email || errors.password || errors.firstName || errors.lastName || errors.retypePassword
+            ? 'gap-y-3'
+            : ''
+        }`}
+        noValidate
+        onSubmit={onSubmit}
+      >
         <div className='flex items-center gap-x-1'>
           <div className='flex w-full flex-col items-start gap-y-1'>
-            <label htmlFor='firstName' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+            <label
+              htmlFor='firstName'
+              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+            >
               {t('auth:auth.first name') + ': '}
             </label>
             <Input
@@ -41,18 +60,23 @@ const SignUp = () => {
               type='text'
               register={register}
               placeholder={t('auth:auth.first name')}
+              errorMessage={t(errors.firstName?.message as any)}
               id='firstName'
               classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none'
             />
           </div>
           <div className='flex w-full flex-col items-start gap-y-1'>
-            <label htmlFor='lastName' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+            <label
+              htmlFor='lastName'
+              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+            >
               {t('auth:auth.last name') + ': '}
             </label>
             <Input
               name='lastName'
               type='text'
               register={register}
+              errorMessage={t(errors.lastName?.message as any)}
               placeholder={t('auth:auth.last name')}
               id='lastName'
               classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none'
@@ -60,41 +84,50 @@ const SignUp = () => {
           </div>
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
-          <label htmlFor='email' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+          <label htmlFor='email' className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
             Email:
           </label>
           <Input
             name='email'
             type='text'
             register={register}
+            errorMessage={t(errors.email?.message as any)}
             placeholder={t('auth:auth.enter your email')}
             id='email'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
-          <label htmlFor='password' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+          <label
+            htmlFor='password'
+            className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+          >
             {t('auth:auth.password')}
           </label>
           <Input
             name='password'
             type='password'
             register={register}
+            errorMessage={t(errors.password?.message as any)}
             placeholder={t('auth:auth.enter your password')}
             id='password'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
-          <label htmlFor='password' className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+          <label
+            htmlFor='retypePassword'
+            className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+          >
             {t('auth:auth.Retype password')}
           </label>
           <Input
-            name='password'
+            name='retypePassword'
             type='password'
+            errorMessage={t(errors.retypePassword?.message as any)}
             register={register}
             placeholder={t('auth:auth.enter your retype password')}
-            id='password'
+            id='retypePassword'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
           />
         </div>
