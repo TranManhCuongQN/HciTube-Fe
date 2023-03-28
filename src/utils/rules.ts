@@ -29,7 +29,7 @@ export const schema = yup.object({
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
       message: 'auth:error.password'
     }),
-  retypePassword: yup
+  passwordConfirm: yup
     .string()
     .required('auth:error.retype password is required')
     .oneOf([yup.ref('password')], 'auth:error.passwords do not match')

@@ -1,13 +1,10 @@
 import React, { ButtonHTMLAttributes } from 'react'
-
-// mong muốn ButtonProps nhận về các props giống như button html (vd: type, onClick) đơn giản nhất cho nó kế thừa
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean
 }
 const Button = (props: ButtonProps) => {
   const { className, isLoading, disabled, children, ...rest } = props
 
-  // cursor-not-allowed trong tailwindCss được sử dụng để định dạng trạng thái con trỏ chuột khi không thể thực hiện một hành động nào đó.
   const newClassName = disabled ? className + 'cursor-not-allowed' : className
   return (
     <button className={newClassName} disabled={disabled} {...rest}>

@@ -3,10 +3,16 @@ import { BsYoutube } from 'react-icons/bs'
 import Input from 'src/components/Input'
 import { useForm } from 'react-hook-form'
 import Button from 'src/components/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { registerSchemaType, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from 'react-query'
+import authApi from 'src/api/auth.api'
+import { useContext } from 'react'
+import { AppContext } from 'src/context/app.context'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { ErrorResponse } from 'src/types/utils.type'
 
 type FormData = registerSchemaType
 const registerSchema = schema
@@ -19,10 +25,33 @@ const SignUp = () => {
   } = useForm<FormData>({
     resolver: yupResolver(registerSchema)
   })
+
   const { t } = useTranslation(['auth'])
+  const { setIsAuthentication } = useContext(AppContext)
+  const navigate = useNavigate()
+
+  const registerAccountMutation = useMutation({
+    mutationFn: (body: FormData) => authApi.registerAccount(body)
+  })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    registerAccountMutation.mutate(data, {
+      onSuccess: () => {
+        setIsAuthentication(true)
+        navigate(path.home)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              console.log('key', key)
+              console.log('formError[key]', formError[key as keyof FormData])
+            })
+          }
+        }
+      }
+    })
   })
 
   return (
@@ -40,7 +69,7 @@ const SignUp = () => {
       </Link>
       <form
         className={`flex w-full flex-col ${
-          errors.email || errors.password || errors.firstName || errors.lastName || errors.retypePassword
+          errors.email || errors.password || errors.firstName || errors.lastName || errors.passwordConfirm
             ? 'gap-y-3'
             : ''
         }`}
@@ -116,24 +145,26 @@ const SignUp = () => {
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
           <label
-            htmlFor='retypePassword'
+            htmlFor='passwordConfirm'
             className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
           >
             {t('auth:auth.Retype password')}
           </label>
           <Input
-            name='retypePassword'
+            name='passwordConfirm'
             type='password'
-            errorMessage={t(errors.retypePassword?.message as any)}
+            errorMessage={t(errors.passwordConfirm?.message as any)}
             register={register}
             placeholder={t('auth:auth.enter your retype password')}
-            id='retypePassword'
+            id='passwordConfirm'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
           />
         </div>
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
           type='submit'
+          isLoading={registerAccountMutation.isLoading}
+          disabled={registerAccountMutation.isLoading}
         >
           {t('auth:auth.sign up')}
         </Button>
