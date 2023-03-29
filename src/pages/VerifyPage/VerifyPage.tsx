@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { verifySchema as schema, verifySchemaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import Button from 'src/components/Button'
+import { AppContext } from 'src/context/app.context'
 
 type FormData = verifySchemaType
 const verifySchema = schema
@@ -21,9 +22,11 @@ const VerifyPage = () => {
     resolver: yupResolver(verifySchema)
   })
   const { t } = useTranslation(['auth'])
-
+  const { setIsVerify, setIsAuthentication } = useContext(AppContext)
   const onSubmit = handleSubmit((data) => {
     console.log('data', data)
+    setIsVerify('1')
+    setIsAuthentication(true)
   })
 
   return (

@@ -1,5 +1,6 @@
 import * as yup from 'yup'
 
+// * register && login
 export const schema = yup.object({
   firstName: yup
     .string()
@@ -35,6 +36,7 @@ export const schema = yup.object({
     .oneOf([yup.ref('password')], 'auth:error.passwords do not match')
 })
 
+// * verify
 export const verifySchema = yup.object({
   encode: yup
     .string()
@@ -50,3 +52,11 @@ export type registerSchemaType = yup.InferType<typeof schema>
 
 // * verify email
 export type verifySchemaType = yup.InferType<typeof verifySchema>
+
+// * forgot password
+const forgotPasswordSchema = schema.pick(['email'])
+export type forgotPasswordSchemaType = yup.InferType<typeof forgotPasswordSchema>
+
+//* reset password
+const resetPasswordSchema = schema.pick(['password', 'passwordConfirm'])
+export type resetPasswordSchemaType = yup.InferType<typeof resetPasswordSchema>

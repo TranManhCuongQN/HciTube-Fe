@@ -1,3 +1,4 @@
+import { userInfo } from 'os'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { getAccessTokenFromLocalStorage } from 'src/utils/auth'
 
@@ -12,6 +13,8 @@ interface AppContextInterface {
   setShowSearchMobie: React.Dispatch<React.SetStateAction<boolean>>
   isAuthentication: boolean
   setIsAuthentication: React.Dispatch<React.SetStateAction<boolean>>
+  isVerify: '0' | '1' | '2'
+  setIsVerify: React.Dispatch<React.SetStateAction<'0' | '1' | '2'>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -22,8 +25,10 @@ const initialAppContext: AppContextInterface = {
   setTheme: () => null,
   showSearchMobie: false,
   setShowSearchMobie: () => null,
-  isAuthentication: Boolean(getAccessTokenFromLocalStorage()),
-  setIsAuthentication: () => null
+  isAuthentication: true,
+  setIsAuthentication: () => null,
+  isVerify: '2',
+  setIsVerify: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -36,6 +41,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const element = document.documentElement
 
   const [isAuthentication, setIsAuthentication] = useState<boolean>(initialAppContext.isAuthentication)
+
+  const [isVerify, setIsVerify] = useState<'0' | '1' | '2'>(initialAppContext.isVerify)
 
   useEffect(() => {
     switch (theme) {
@@ -65,7 +72,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         showSearchMobie,
         setShowSearchMobie,
         isAuthentication,
-        setIsAuthentication
+        setIsAuthentication,
+        isVerify,
+        setIsVerify
       }}
     >
       {children}

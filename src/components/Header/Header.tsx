@@ -14,6 +14,7 @@ import Inform from './components/Inform'
 import ChangeLanguage from './components/ChangeLanguage'
 import ChangeTheme from './components/ChangeTheme'
 import path from 'src/constants/path'
+import AvatarLetter from '../AvatarLetter'
 
 const Header = () => {
   const {
@@ -97,11 +98,12 @@ const Header = () => {
             {/* //* avatar */}
             {isAuthentication && (
               <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>
-                <img
+                {/* <img
                   src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
                   alt='avatar'
                   className='h-full w-full rounded-full object-cover'
-                />
+                /> */}
+                <AvatarLetter name={'C'} />
               </div>
             )}
 

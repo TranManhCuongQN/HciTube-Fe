@@ -100,8 +100,9 @@ class Http {
         refresh_token: this.refreshToken
       })
       .then((res) => {
-        const { access_token } = res.data.data
+        const { access_token, refresh_token } = res.data.data
         saveAccessTokenToLocalStorage(access_token)
+        setRefreshTokenToLocalStorage(refresh_token)
         this.accessToken = access_token
         return access_token
       })

@@ -6,7 +6,9 @@ import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'
 import RegisterLayout from './layout/RegisterLayout'
 import DetailPage from './pages/DetailPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import VerifyPage from './pages/VerifyPage'
@@ -16,9 +18,18 @@ function ProtectedRoute() {
   return isAuthentication ? <Outlet /> : <Navigate to='/login' />
 }
 
+function CheckVerify() {
+  const { isVerify } = useContext(AppContext)
+  return isVerify === '1' ? <Outlet /> : <Navigate to='/' />
+}
+function AllAccess() {
+  const { isVerify } = useContext(AppContext)
+  return isVerify !== '1' ? <Outlet /> : <Navigate to='/verify' />
+}
+
 function RejectRoute() {
-  const { isAuthentication } = useContext(AppContext)
-  return isAuthentication ? <Navigate to='/' /> : <Outlet />
+  const { isVerify } = useContext(AppContext)
+  return isVerify === '2' ? <Navigate to='/' /> : isVerify === '1' ? <Navigate to='/verify' /> : <Outlet />
 }
 const useRouteElement = () => {
   const routeElements = useRoutes([
@@ -38,9 +49,14 @@ const useRouteElement = () => {
               path: path.register,
               element: <SignUpPage />
             },
+
             {
-              path: path.verify,
-              element: <VerifyPage />
+              path: path.forgotPassword,
+              element: <ForgotPasswordPage />
+            },
+            {
+              path: path.resetPassword,
+              element: <ResetPasswordPage />
             }
           ]
         }
@@ -48,16 +64,32 @@ const useRouteElement = () => {
     },
     {
       path: '',
-      element: <MainLayout />,
+      element: <AllAccess />,
       children: [
         {
-          path: path.home,
-          index: true,
-          element: <HomePage />
-        },
+          path: '',
+          element: <MainLayout />,
+          children: [
+            {
+              path: path.home,
+              index: true,
+              element: <HomePage />
+            },
+            {
+              path: path.detail,
+              element: <DetailPage />
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <CheckVerify />,
+      children: [
         {
-          path: path.detail,
-          element: <DetailPage />
+          path: path.verify,
+          element: <VerifyPage />
         }
       ]
     }

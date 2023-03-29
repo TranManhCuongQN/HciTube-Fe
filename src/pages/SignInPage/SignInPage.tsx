@@ -98,9 +98,12 @@ const SignInPage = () => {
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
-        <span className='cursor-pointer text-center text-xs font-semibold text-black underline dark:text-white md:text-sm'>
+        <Link
+          to={path.forgotPassword}
+          className='cursor-pointer text-center text-xs font-semibold text-black underline dark:text-white md:text-sm'
+        >
           {t('auth:auth.forgot your password')}
-        </span>
+        </Link>
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
           type='submit'
