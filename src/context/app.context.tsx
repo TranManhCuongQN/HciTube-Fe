@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import { getAccessTokenFromLocalStorage } from 'src/utils/auth'
 
 interface AppContextInterface {
   showSideBar: boolean
@@ -21,7 +22,7 @@ const initialAppContext: AppContextInterface = {
   setTheme: () => null,
   showSearchMobie: false,
   setShowSearchMobie: () => null,
-  isAuthentication: false,
+  isAuthentication: Boolean(getAccessTokenFromLocalStorage()),
   setIsAuthentication: () => null
 }
 

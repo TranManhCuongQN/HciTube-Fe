@@ -8,7 +8,13 @@ export const URL_REFRESH_TOKEN = 'refresh-access-token'
 
 //* C2
 const authApi = {
-  registerAccount(body: { email: string; password: string }) {
+  registerAccount(body: {
+    email: string
+    password: string
+    firstName: string
+    lastName: string
+    passwordConfirm: string
+  }) {
     return http.post<AuthResponse>(URL_REGISTER, body)
   },
   login(body: { email: string; password: string }) {

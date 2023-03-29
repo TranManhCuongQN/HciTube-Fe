@@ -7,8 +7,9 @@ import MainLayout from './layout/MainLayout'
 import RegisterLayout from './layout/RegisterLayout'
 import DetailPage from './pages/DetailPage'
 import HomePage from './pages/HomePage'
-import SignIn from './pages/SignIn'
-import SignUp from './pages/SignUp'
+import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
+import VerifyPage from './pages/VerifyPage'
 
 function ProtectedRoute() {
   const { isAuthentication } = useContext(AppContext)
@@ -31,11 +32,15 @@ const useRouteElement = () => {
           children: [
             {
               path: path.login,
-              element: <SignIn />
+              element: <SignInPage />
             },
             {
               path: path.register,
-              element: <SignUp />
+              element: <SignUpPage />
+            },
+            {
+              path: path.verify,
+              element: <VerifyPage />
             }
           ]
         }

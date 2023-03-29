@@ -16,7 +16,7 @@ import { ErrorResponse } from 'src/types/utils.type'
 
 type FormData = registerSchemaType
 const registerSchema = schema
-const SignUp = () => {
+const SignUpPage = () => {
   const {
     register,
     handleSubmit,
@@ -37,8 +37,8 @@ const SignUp = () => {
   const onSubmit = handleSubmit((data) => {
     registerAccountMutation.mutate(data, {
       onSuccess: () => {
-        setIsAuthentication(true)
-        navigate(path.home)
+        // setIsAuthentication(true)
+        navigate(path.verify)
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
@@ -67,15 +67,7 @@ const SignUp = () => {
           </span>
         </div>
       </Link>
-      <form
-        className={`flex w-full flex-col ${
-          errors.email || errors.password || errors.firstName || errors.lastName || errors.passwordConfirm
-            ? 'gap-y-3'
-            : ''
-        }`}
-        noValidate
-        onSubmit={onSubmit}
-      >
+      <form className={`flex w-full flex-col`} noValidate onSubmit={onSubmit}>
         <div className='flex items-center gap-x-1'>
           <div className='flex w-full flex-col items-start gap-y-1'>
             <label
@@ -91,7 +83,7 @@ const SignUp = () => {
               placeholder={t('auth:auth.first name')}
               errorMessage={t(errors.firstName?.message as any)}
               id='firstName'
-              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none'
+              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none text-xs md:text-sm'
             />
           </div>
           <div className='flex w-full flex-col items-start gap-y-1'>
@@ -108,7 +100,7 @@ const SignUp = () => {
               errorMessage={t(errors.lastName?.message as any)}
               placeholder={t('auth:auth.last name')}
               id='lastName'
-              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none'
+              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none text-xs md:text-sm'
             />
           </div>
         </div>
@@ -123,7 +115,7 @@ const SignUp = () => {
             errorMessage={t(errors.email?.message as any)}
             placeholder={t('auth:auth.enter your email')}
             id='email'
-            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
@@ -140,13 +132,13 @@ const SignUp = () => {
             errorMessage={t(errors.password?.message as any)}
             placeholder={t('auth:auth.enter your password')}
             id='password'
-            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
           <label
             htmlFor='passwordConfirm'
-            className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+            className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm  '
           >
             {t('auth:auth.Retype password')}
           </label>
@@ -157,7 +149,7 @@ const SignUp = () => {
             register={register}
             placeholder={t('auth:auth.enter your retype password')}
             id='passwordConfirm'
-            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
         <Button
@@ -184,4 +176,4 @@ const SignUp = () => {
   )
 }
 
-export default SignUp
+export default SignUpPage

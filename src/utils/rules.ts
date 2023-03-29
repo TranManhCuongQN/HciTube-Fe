@@ -35,6 +35,18 @@ export const schema = yup.object({
     .oneOf([yup.ref('password')], 'auth:error.passwords do not match')
 })
 
+export const verifySchema = yup.object({
+  encode: yup
+    .string()
+    .required('auth:error.verify is required')
+    .min(6, 'auth:error.verify length')
+    .max(6, 'auth:error.verify length')
+})
+
+// * login && register
 const loginSchema = schema.pick(['email', 'password'])
 export type loginSchemaType = yup.InferType<typeof loginSchema>
 export type registerSchemaType = yup.InferType<typeof schema>
+
+// * verify email
+export type verifySchemaType = yup.InferType<typeof verifySchema>

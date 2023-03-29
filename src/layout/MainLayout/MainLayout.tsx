@@ -4,8 +4,8 @@ import SearchMobie from 'src/components/Header/components/SearchMobie'
 import DetailPage from 'src/pages/DetailPage'
 import HomePage from 'src/pages/HomePage'
 import AsideBar from 'src/pages/HomePage/components/AsideBar'
-import SignIn from 'src/pages/SignIn'
-import SignUp from 'src/pages/SignUp'
+import SignIn from 'src/pages/SignInPage'
+import SignUp from 'src/pages/SignUpPage'
 
 const MainLayout = () => {
   return (

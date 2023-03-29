@@ -16,7 +16,7 @@ import { ErrorResponse } from 'src/types/utils.type'
 
 type FormData = loginSchemaType
 const loginSchema = schema.pick(['email', 'password'])
-const SignIn = () => {
+const SignInPage = () => {
   const {
     register,
     handleSubmit,
@@ -66,12 +66,7 @@ const SignIn = () => {
           </span>
         </div>
       </Link>
-      <form
-        className={`flex w-full flex-col ${errors.email || errors.password ? 'gap-y-3' : ''}`}
-        noValidate
-        onSubmit={onSubmit}
-        autoComplete='false'
-      >
+      <form className={`flex w-full flex-col`} noValidate onSubmit={onSubmit} autoComplete='false'>
         <div className='flex w-full flex-col items-start gap-y-1'>
           <label htmlFor='email' className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
             Email:
@@ -83,7 +78,7 @@ const SignIn = () => {
             placeholder={t('auth:auth.enter your email')}
             id='email'
             errorMessage={t(errors.email?.message as any)}
-            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
@@ -100,7 +95,7 @@ const SignIn = () => {
             placeholder={t('auth:auth.enter your password')}
             errorMessage={t(errors.password?.message as any)}
             id='password'
-            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
         <span className='cursor-pointer text-center text-xs font-semibold text-black underline dark:text-white md:text-sm'>
@@ -130,4 +125,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default SignInPage
