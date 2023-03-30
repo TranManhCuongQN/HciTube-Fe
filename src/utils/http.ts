@@ -50,7 +50,7 @@ class Http {
           this.refreshToken = data.data.refresh_token
           saveAccessTokenToLocalStorage(this.accessToken)
           setRefreshTokenToLocalStorage(this.refreshToken)
-          // setProfileToLocalStorage(data.data.user)
+          setProfileToLocalStorage(data.data.user)
         } else if (url === URL_LOGOUT) {
           this.accessToken = ''
           this.refreshToken = ''

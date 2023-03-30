@@ -3,6 +3,7 @@ import http from 'src/utils/http'
 
 export const URL_LOGIN = 'login'
 export const URL_REGISTER = 'register'
+export const URL_VERIFY_EMAIL = 'verify'
 export const URL_LOGOUT = 'logout'
 export const URL_REFRESH_TOKEN = 'refresh-access-token'
 
@@ -22,6 +23,9 @@ const authApi = {
   },
   logout() {
     return http.post(URL_LOGOUT)
+  },
+  verify(body: { encode: string }) {
+    return http.post(URL_VERIFY_EMAIL, body)
   }
 }
 

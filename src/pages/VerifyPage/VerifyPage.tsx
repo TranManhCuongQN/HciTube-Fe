@@ -9,6 +9,10 @@ import { verifySchema as schema, verifySchemaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import Button from 'src/components/Button'
 import { AppContext } from 'src/context/app.context'
+import { useMutation } from 'react-query'
+import authApi from 'src/api/auth.api'
+import { ErrorResponse } from 'src/types/utils.type'
+import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 
 type FormData = verifySchemaType
 const verifySchema = schema
@@ -23,10 +27,28 @@ const VerifyPage = () => {
   })
   const { t } = useTranslation(['auth'])
   const { setIsVerify, setIsAuthentication } = useContext(AppContext)
+  const verifyMutation = useMutation({
+    mutationFn: (body: FormData) => authApi.verify(body)
+  })
+
   const onSubmit = handleSubmit((data) => {
-    console.log('data', data)
-    setIsVerify('1')
-    setIsAuthentication(true)
+    verifyMutation.mutate(data, {
+      onSuccess: () => {
+        setIsVerify('1')
+        setIsAuthentication(true)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              console.log('key', key)
+              console.log('formError[key]', formError[key as keyof FormData])
+            })
+          }
+        }
+      }
+    })
   })
 
   return (

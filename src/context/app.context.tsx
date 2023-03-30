@@ -1,6 +1,6 @@
 import { userInfo } from 'os'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
-import { getAccessTokenFromLocalStorage } from 'src/utils/auth'
+import { getAccessTokenFromLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 interface AppContextInterface {
   showSideBar: boolean
@@ -25,9 +25,9 @@ const initialAppContext: AppContextInterface = {
   setTheme: () => null,
   showSearchMobie: false,
   setShowSearchMobie: () => null,
-  isAuthentication: true,
+  isAuthentication: Boolean(getAccessTokenFromLocalStorage()),
   setIsAuthentication: () => null,
-  isVerify: '2',
+  isVerify: getAccessTokenFromLocalStorage() !== '' ? '2' : getProfileFromLocalStorage() ? '1' : '0',
   setIsVerify: () => null
 }
 
