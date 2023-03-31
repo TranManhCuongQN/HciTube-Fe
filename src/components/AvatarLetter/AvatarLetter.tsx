@@ -3,19 +3,15 @@ import Avatar from 'react-avatar'
 
 interface AvatarProps {
   name: string
+  size: string
 }
-function randomColor() {
-  const r = Math.floor(Math.random() * 256)
-  const g = Math.floor(Math.random() * 256)
-  const b = Math.floor(Math.random() * 256)
-  return `rgb(${r}, ${g}, ${b})`
-}
+
 const AvatarLetter = (props: AvatarProps) => {
-  const { name } = props
-  const color = randomColor()
+  const { name, size } = props
+
   return (
     <>
-      <Avatar name={name} round size='38' color={color} />
+      <Avatar name={name} round size={size} color={'#7a1fa2'} />
     </>
   )
 }

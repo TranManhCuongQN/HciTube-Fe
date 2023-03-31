@@ -35,28 +35,29 @@ const SignInPage = () => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    loginMutation.mutate(data, {
-      onSuccess: () => {
-        if (getAccessTokenFromLocalStorage() === '') {
-          setIsVerify('1')
-          navigate(path.verify)
-        } else {
-          setIsVerify('2')
-          navigate(path.home)
-        }
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              console.log('key', key)
-              console.log('formError[key]', formError[key as keyof FormData])
-            })
-          }
-        }
-      }
-    })
+    // loginMutation.mutate(data, {
+    //   onSuccess: () => {
+    //     if (getAccessTokenFromLocalStorage() === '') {
+    //       setIsVerify('1')
+    //       navigate(path.verify)
+    //     } else {
+    //       setIsVerify('2')
+    //       navigate(path.home)
+    //     }
+    //   },
+    //   onError: (error) => {
+    //     if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+    //       const formError = error.response?.data.data
+    //       if (formError) {
+    //         Object.keys(formError).forEach((key) => {
+    //           console.log('key', key)
+    //           console.log('formError[key]', formError[key as keyof FormData])
+    //         })
+    //       }
+    //     }
+    //   }
+    // })
+    setIsVerify('2')
   })
 
   return (

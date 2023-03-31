@@ -11,12 +11,13 @@ import HomePage from './pages/HomePage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
+import UploadVideoPage from './pages/UploadVideoPage'
 import VerifyPage from './pages/VerifyPage'
 
-// function ProtectedRoute() {
-//   const { isAuthentication } = useContext(AppContext)
-//   return isAuthentication ? <Outlet /> : <Navigate to='/login' />
-// }
+function ProtectedRoute() {
+  const { isVerify } = useContext(AppContext)
+  return isVerify === '2' ? <Outlet /> : <Navigate to='/login' />
+}
 
 function CheckVerify() {
   const { isVerify } = useContext(AppContext)
@@ -57,6 +58,23 @@ const useRouteElement = () => {
             {
               path: path.resetPassword,
               element: <ResetPasswordPage />
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      path: '',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: '',
+          element: <MainLayout />,
+          children: [
+            {
+              path: path.upload,
+              element: <UploadVideoPage />
             }
           ]
         }
