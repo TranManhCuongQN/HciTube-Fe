@@ -11,8 +11,6 @@ interface AppContextInterface {
   setTheme: React.Dispatch<React.SetStateAction<string>>
   showSearchMobie: boolean
   setShowSearchMobie: React.Dispatch<React.SetStateAction<boolean>>
-  isAuthentication: boolean
-  setIsAuthentication: React.Dispatch<React.SetStateAction<boolean>>
   isVerify: '0' | '1' | '2'
   setIsVerify: React.Dispatch<React.SetStateAction<'0' | '1' | '2'>>
 }
@@ -25,8 +23,6 @@ const initialAppContext: AppContextInterface = {
   setTheme: () => null,
   showSearchMobie: false,
   setShowSearchMobie: () => null,
-  isAuthentication: Boolean(getAccessTokenFromLocalStorage()),
-  setIsAuthentication: () => null,
   isVerify: getAccessTokenFromLocalStorage() !== '' ? '2' : getProfileFromLocalStorage() ? '1' : '0',
   setIsVerify: () => null
 }
@@ -39,8 +35,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const [theme, setTheme] = React.useState<string>(initialAppContext.theme)
   const element = document.documentElement
-
-  const [isAuthentication, setIsAuthentication] = useState<boolean>(initialAppContext.isAuthentication)
 
   const [isVerify, setIsVerify] = useState<'0' | '1' | '2'>(initialAppContext.isVerify)
 
@@ -71,8 +65,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         setTheme,
         showSearchMobie,
         setShowSearchMobie,
-        isAuthentication,
-        setIsAuthentication,
         isVerify,
         setIsVerify
       }}

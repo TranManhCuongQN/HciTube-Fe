@@ -13,10 +13,10 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import VerifyPage from './pages/VerifyPage'
 
-function ProtectedRoute() {
-  const { isAuthentication } = useContext(AppContext)
-  return isAuthentication ? <Outlet /> : <Navigate to='/login' />
-}
+// function ProtectedRoute() {
+//   const { isAuthentication } = useContext(AppContext)
+//   return isAuthentication ? <Outlet /> : <Navigate to='/login' />
+// }
 
 function CheckVerify() {
   const { isVerify } = useContext(AppContext)
@@ -88,8 +88,14 @@ const useRouteElement = () => {
       element: <CheckVerify />,
       children: [
         {
-          path: path.verify,
-          element: <VerifyPage />
+          path: '',
+          element: <RegisterLayout />,
+          children: [
+            {
+              path: path.verify,
+              element: <VerifyPage />
+            }
+          ]
         }
       ]
     }

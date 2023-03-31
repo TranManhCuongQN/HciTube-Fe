@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
@@ -26,12 +26,39 @@ const VerifyPage = () => {
   } = useForm<FormData>({
     resolver: yupResolver(verifySchema)
   })
+
   const { t } = useTranslation(['auth'])
-  const { setIsVerify, setIsAuthentication } = useContext(AppContext)
+  const { setIsVerify } = useContext(AppContext)
+  const [remainingTime, setRemainingTime] = useState<{ minutes: number; seconds: number }>({ minutes: 1, seconds: 0 })
+  const intervalRef = useRef<NodeJS.Timer>()
+
   const navigate = useNavigate()
   const verifyMutation = useMutation({
     mutationFn: (body: { email: string; encode: string }) => authApi.verify(body)
   })
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      setRemainingTime((prevTime) => {
+        const newSeconds = prevTime.seconds - 1
+        const newMinutes = prevTime.minutes - (newSeconds < 0 ? 1 : 0)
+        return { minutes: newMinutes, seconds: (60 + newSeconds) % 60 }
+      })
+    }, 1000)
+
+    return () => clearInterval(intervalRef.current)
+  }, [remainingTime])
+
+  useEffect(() => {
+    if (remainingTime.minutes === 0 && remainingTime.seconds === 0) {
+      clearInterval(intervalRef.current)
+      console.log('time up')
+    }
+  }, [remainingTime])
+
+  const handleSendCode = () => {
+    setRemainingTime({ minutes: 1, seconds: 0 })
+  }
 
   const onSubmit = handleSubmit((data) => {
     const email = getProfileFromLocalStorage()?.email
@@ -94,6 +121,20 @@ const VerifyPage = () => {
             errorMessage={t(errors.encode?.message as any)}
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
+        </div>
+        <div className='flex items-center gap-x-1'>
+          <span className='text-xs text-black dark:text-white md:text-sm '>
+            {t('auth:auth.this code will expire in')}{' '}
+            {`${remainingTime.minutes.toString().padStart(2, '0')}:${remainingTime.seconds
+              .toString()
+              .padStart(2, '0')}`}{' '}
+          </span>
+          <button
+            className='text-xs font-semibold text-black underline dark:text-white md:text-sm'
+            onClick={handleSendCode}
+          >
+            {t('auth:auth.get new code')}
+          </button>
         </div>
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'

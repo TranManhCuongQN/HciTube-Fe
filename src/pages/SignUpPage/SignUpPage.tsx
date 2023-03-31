@@ -27,7 +27,7 @@ const SignUpPage = () => {
   })
 
   const { t } = useTranslation(['auth'])
-  const { setIsAuthentication, setIsVerify } = useContext(AppContext)
+  const { setIsVerify } = useContext(AppContext)
   const navigate = useNavigate()
 
   const registerAccountMutation = useMutation({
