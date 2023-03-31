@@ -42,13 +42,8 @@ const SignUpPage = () => {
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              console.log('key', key)
-              console.log('formError[key]', formError[key as keyof FormData])
-            })
-          }
+          const formError = error.response?.data.message
+          setError('email', { type: 'custom', message: formError })
         }
       }
     })

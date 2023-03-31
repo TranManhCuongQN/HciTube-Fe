@@ -5,6 +5,7 @@ export const URL_LOGIN = '/api/v1/channels/login'
 export const URL_REGISTER = '/api/v1/channels/signup'
 export const URL_VERIFY_EMAIL = '/api/v1/channels/verify'
 export const URL_LOGOUT = '/api/v1/channels/logout'
+export const GET_OTP = '/api/v1/channels/get-otp'
 export const URL_REFRESH_TOKEN = '/api/v1/channels/refresh-access-token'
 
 //* C2
@@ -20,6 +21,9 @@ const authApi = {
   },
   verify(body: { email: string; encode: string }) {
     return http.post(URL_VERIFY_EMAIL, body)
+  },
+  getOtp(body: { email: string }) {
+    return http.post(GET_OTP, body)
   }
 }
 

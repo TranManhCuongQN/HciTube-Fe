@@ -36,6 +36,9 @@ const VerifyPage = () => {
   const verifyMutation = useMutation({
     mutationFn: (body: { email: string; encode: string }) => authApi.verify(body)
   })
+  const getOTPMutation = useMutation({
+    mutationFn: (body: { email: string }) => authApi.getOtp(body)
+  })
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
@@ -57,7 +60,30 @@ const VerifyPage = () => {
   }, [remainingTime])
 
   const handleSendCode = () => {
-    setRemainingTime({ minutes: 1, seconds: 0 })
+    const email = getProfileFromLocalStorage()?.email
+    if (!email) {
+      setIsVerify('0')
+      clearLocalStorage()
+    } else {
+      const dataRequest = { email }
+      getOTPMutation.mutate(dataRequest, {
+        onSuccess: () => {
+          setRemainingTime({ minutes: 1, seconds: 0 })
+        },
+        onError: (error) => {
+          if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
+            const formError = error.response?.data.data
+            console.log(formError)
+            if (formError) {
+              Object.keys(formError).forEach((key) => {
+                console.log('key', key)
+                console.log('formError[key]', formError[key as keyof FormData])
+              })
+            }
+          }
+        }
+      })
+    }
   }
 
   const onSubmit = handleSubmit((data) => {
@@ -76,15 +102,9 @@ const VerifyPage = () => {
           navigate('/')
         },
         onError: (error) => {
-          if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
-            const formError = error.response?.data.data
-            console.log(formError)
-            if (formError) {
-              Object.keys(formError).forEach((key) => {
-                console.log('key', key)
-                console.log('formError[key]', formError[key as keyof FormData])
-              })
-            }
+          if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+            const formError = error.response?.data.message
+            setError('encode', { type: 'custom', message: formError })
           }
         }
       })
@@ -130,6 +150,7 @@ const VerifyPage = () => {
               .padStart(2, '0')}`}{' '}
           </span>
           <button
+            type='button'
             className='text-xs font-semibold text-black underline dark:text-white md:text-sm'
             onClick={handleSendCode}
           >
