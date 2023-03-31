@@ -24,7 +24,7 @@ const Header = () => {
     showSideBar2xl,
     setShowSearchMobie,
     showSearchMobie,
-    isAuthentication
+    isVerify
   } = useContext(AppContext)
 
   const { t } = useTranslation(['home'])
@@ -76,7 +76,7 @@ const Header = () => {
             </ToolTip>
 
             {/* //* upload */}
-            {isAuthentication && (
+            {isVerify === '2' && (
               <>
                 <ToolTip position='bottom' content={t('side bar.create')}>
                   <button className=' flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-lg:hidden lg:h-10 lg:w-10  '>
@@ -96,7 +96,7 @@ const Header = () => {
             <ChangeTheme />
 
             {/* //* avatar */}
-            {isAuthentication && (
+            {isVerify === '2' && (
               <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>
                 {/* <img
                   src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
@@ -107,7 +107,7 @@ const Header = () => {
               </div>
             )}
 
-            {!isAuthentication && (
+            {isVerify !== '2' && (
               <Link
                 to={path.login}
                 className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
