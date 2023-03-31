@@ -167,7 +167,7 @@ const AsideBar = () => {
 
       {/* //* 2xl sreen */}
       {showSideBar2xl && (
-        <div className='fixed top-14 left-6 bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
+        <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
           <NavLink
             to=''
             className='mt-5 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
