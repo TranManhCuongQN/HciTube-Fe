@@ -68,41 +68,19 @@ const SignUpPage = () => {
         </div>
       </Link>
       <form className={`flex w-full flex-col`} noValidate onSubmit={onSubmit}>
-        <div className='flex items-center gap-x-1'>
-          <div className='flex w-full flex-col items-start gap-y-1'>
-            <label
-              htmlFor='firstName'
-              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-            >
-              {t('auth:auth.first name') + ': '}
-            </label>
-            <Input
-              name='firstName'
-              type='text'
-              register={register}
-              placeholder={t('auth:auth.first name')}
-              errorMessage={t(errors.firstName?.message as any)}
-              id='firstName'
-              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none text-xs md:text-sm'
-            />
-          </div>
-          <div className='flex w-full flex-col items-start gap-y-1'>
-            <label
-              htmlFor='lastName'
-              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-            >
-              {t('auth:auth.last name') + ': '}
-            </label>
-            <Input
-              name='lastName'
-              type='text'
-              register={register}
-              errorMessage={t(errors.lastName?.message as any)}
-              placeholder={t('auth:auth.last name')}
-              id='lastName'
-              classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-[140px] dark:bg-transparent text-black dark:text-white md:w-[195px] md:placeholder:text-sm outline-none text-xs md:text-sm'
-            />
-          </div>
+        <div className='flex w-full flex-col items-start gap-y-1'>
+          <label htmlFor='email' className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
+            {t('auth:auth.full name')}
+          </label>
+          <Input
+            name='fullName'
+            type='text'
+            register={register}
+            errorMessage={t(errors.fullName?.message as any)}
+            placeholder={t('auth:auth.enter your full name')}
+            id='email'
+            classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-72 dark:bg-transparent text-black dark:text-white md:w-[400px] md:placeholder:text-sm outline-none text-xs md:text-sm'
+          />
         </div>
         <div className='flex w-full flex-col items-start gap-y-1'>
           <label htmlFor='email' className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>

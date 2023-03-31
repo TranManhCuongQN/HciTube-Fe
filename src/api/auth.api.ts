@@ -9,13 +9,7 @@ export const URL_REFRESH_TOKEN = '/api/v1/channels/refresh-access-token'
 
 //* C2
 const authApi = {
-  registerAccount(body: {
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-    passwordConfirm: string
-  }) {
+  registerAccount(body: { email: string; password: string; fullName: string; passwordConfirm: string }) {
     return http.post<AuthResponse>(URL_REGISTER, body)
   },
   login(body: { email: string; password: string }) {

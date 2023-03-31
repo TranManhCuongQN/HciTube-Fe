@@ -2,18 +2,15 @@ import * as yup from 'yup'
 
 // * register && login
 export const schema = yup.object({
-  firstName: yup
+  fullName: yup
     .string()
-    .matches(/^[A-Za-z ]*$/, 'auth:error.first name is invalid')
-    .required('auth:error.first name is required')
-    .min(2, 'auth:error.first name length')
-    .max(60, 'auth:error.first name length'),
-  lastName: yup
-    .string()
-    .required('auth:error.last name is required')
-    .matches(/^[A-Za-z ]*$/, 'auth:error.last name is invalid')
-    .min(2, 'auth:error.last name length')
-    .max(60, 'auth:error.last name length'),
+    .matches(
+      /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/,
+      'auth:error.full name is invalid'
+    )
+    .required('auth:error.full name is required')
+    .min(2, 'auth:error.full name length')
+    .max(60, 'auth:error.full name length'),
   email: yup
     .string()
     .email('auth:error.email is invalid')
