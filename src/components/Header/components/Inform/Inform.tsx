@@ -11,9 +11,6 @@ const Inform = () => {
   const { t } = useTranslation(['home'])
   useClickOutSide(informRef.current, () => setIsShow(false))
 
-  console.log('informRef', informRef.current)
-  console.log('isShow', isShow)
-
   return (
     <>
       <ToolTip position='bottom' content={t('side bar.notifications')}>

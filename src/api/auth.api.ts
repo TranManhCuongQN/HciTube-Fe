@@ -1,11 +1,11 @@
 import { AuthResponse } from 'src/types/auth.type'
 import http from 'src/utils/http'
 
-export const URL_LOGIN = 'login'
-export const URL_REGISTER = 'register'
-export const URL_VERIFY_EMAIL = 'verify'
-export const URL_LOGOUT = 'logout'
-export const URL_REFRESH_TOKEN = 'refresh-access-token'
+export const URL_LOGIN = '/api/v1/channels/login'
+export const URL_REGISTER = '/api/v1/channels/signup'
+export const URL_VERIFY_EMAIL = '/api/v1/channels/verify'
+export const URL_LOGOUT = '/api/v1/channels/logout'
+export const URL_REFRESH_TOKEN = '/api/v1/channels/refresh-access-token'
 
 //* C2
 const authApi = {
@@ -24,7 +24,7 @@ const authApi = {
   logout() {
     return http.post(URL_LOGOUT)
   },
-  verify(body: { encode: string }) {
+  verify(body: { email: string; encode: string }) {
     return http.post(URL_VERIFY_EMAIL, body)
   }
 }

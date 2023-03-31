@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'https://api-ecom.duthanhduoc.com/'
+  baseUrl: 'http://localhost:3000/'
 }
 
 export default config

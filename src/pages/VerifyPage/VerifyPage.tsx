@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +12,8 @@ import { AppContext } from 'src/context/app.context'
 import { useMutation } from 'react-query'
 import authApi from 'src/api/auth.api'
 import { ErrorResponse } from 'src/types/utils.type'
-import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { isAxiosUnauthorizedError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { clearLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 type FormData = verifySchemaType
 const verifySchema = schema
@@ -27,28 +28,40 @@ const VerifyPage = () => {
   })
   const { t } = useTranslation(['auth'])
   const { setIsVerify, setIsAuthentication } = useContext(AppContext)
+  const navigate = useNavigate()
   const verifyMutation = useMutation({
-    mutationFn: (body: FormData) => authApi.verify(body)
+    mutationFn: (body: { email: string; encode: string }) => authApi.verify(body)
   })
 
   const onSubmit = handleSubmit((data) => {
-    verifyMutation.mutate(data, {
-      onSuccess: () => {
-        setIsVerify('1')
-        setIsAuthentication(true)
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              console.log('key', key)
-              console.log('formError[key]', formError[key as keyof FormData])
-            })
+    const email = getProfileFromLocalStorage()?.email
+    if (!email) {
+      setIsVerify('0')
+      clearLocalStorage()
+    } else {
+      const dataRequest = {
+        email,
+        encode: data.encode
+      }
+      verifyMutation.mutate(dataRequest, {
+        onSuccess: () => {
+          setIsVerify('2')
+          navigate('/')
+        },
+        onError: (error) => {
+          if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
+            const formError = error.response?.data.data
+            console.log(formError)
+            if (formError) {
+              Object.keys(formError).forEach((key) => {
+                console.log('key', key)
+                console.log('formError[key]', formError[key as keyof FormData])
+              })
+            }
           }
         }
-      }
-    })
+      })
+    }
   })
 
   return (

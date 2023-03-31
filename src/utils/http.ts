@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosInstance } from 'axios'
-import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER } from 'src/api/auth.api'
+import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER, URL_VERIFY_EMAIL } from 'src/api/auth.api'
 import config from 'src/constants/config'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { AuthResponse, RefreshTokenReponse } from 'src/types/auth.type'
@@ -44,7 +44,22 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        if (url === URL_LOGIN || url === URL_REGISTER) {
+        if (url === URL_LOGIN) {
+          if (response.data.access_token && response.data.refresh_token) {
+            const data = response.data as AuthResponse
+            this.accessToken = data.data?.access_token
+            this.refreshToken = data.data.refresh_token
+            saveAccessTokenToLocalStorage(this.accessToken)
+            setRefreshTokenToLocalStorage(this.refreshToken)
+            setProfileToLocalStorage(data.data.user)
+          } else {
+            const data = response.data
+            setProfileToLocalStorage(data.data.user)
+          }
+        } else if (url === URL_REGISTER) {
+          const data = response.data
+          setProfileToLocalStorage(data.data.user)
+        } else if (url === URL_VERIFY_EMAIL) {
           const data = response.data as AuthResponse
           this.accessToken = data.data?.access_token
           this.refreshToken = data.data.refresh_token
@@ -84,10 +99,11 @@ class Http {
               return this.instance({ ...config, headers: { ...config.headers, authorization: access_token } })
             })
           }
-
-          clearLocalStorage()
-          this.accessToken = ''
-          this.refreshToken = ''
+          if (this.accessToken || this.refreshToken) {
+            clearLocalStorage()
+            this.accessToken = ''
+            this.refreshToken = ''
+          }
           console.log(error.response?.data.data?.message || error.response?.data.message)
         }
         return Promise.reject(error)

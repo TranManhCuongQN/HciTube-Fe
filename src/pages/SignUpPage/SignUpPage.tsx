@@ -35,26 +35,23 @@ const SignUpPage = () => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    // registerAccountMutation.mutate(data, {
-    //   onSuccess: () => {
-    //     // setIsAuthentication(true)
-    //     navigate(path.verify)
-    //   },
-    //   onError: (error) => {
-    //     if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-    //       const formError = error.response?.data.data
-    //       if (formError) {
-    //         Object.keys(formError).forEach((key) => {
-    //           console.log('key', key)
-    //           console.log('formError[key]', formError[key as keyof FormData])
-    //         })
-    //       }
-    //     }
-    //   }
-    // })
-    console.log('data', data)
-    setIsVerify('1')
-    navigate(path.verify)
+    registerAccountMutation.mutate(data, {
+      onSuccess: () => {
+        setIsVerify('1')
+        navigate(path.verify)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              console.log('key', key)
+              console.log('formError[key]', formError[key as keyof FormData])
+            })
+          }
+        }
+      }
+    })
   })
 
   return (

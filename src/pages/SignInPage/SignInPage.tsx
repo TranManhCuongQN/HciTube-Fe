@@ -13,6 +13,7 @@ import authApi from 'src/api/auth.api'
 import { AppContext } from 'src/context/app.context'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
+import { getAccessTokenFromLocalStorage } from 'src/utils/auth'
 
 type FormData = loginSchemaType
 const loginSchema = schema.pick(['email', 'password'])
@@ -27,7 +28,7 @@ const SignInPage = () => {
   })
 
   const { t } = useTranslation(['auth'])
-  const { setIsAuthentication } = useContext(AppContext)
+  const { setIsVerify } = useContext(AppContext)
   const navigate = useNavigate()
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => authApi.login(body)
@@ -36,8 +37,13 @@ const SignInPage = () => {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        setIsAuthentication(true)
-        navigate(path.home)
+        if (getAccessTokenFromLocalStorage() === '') {
+          setIsVerify('1')
+          navigate(path.verify)
+        } else {
+          setIsVerify('2')
+          navigate(path.home)
+        }
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
