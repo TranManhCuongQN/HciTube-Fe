@@ -21,7 +21,7 @@ const SignUpPage = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isLoading }
+    formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(registerSchema)
   })
