@@ -1,7 +1,6 @@
 import React from 'react'
 import { IoNotificationsOutline, IoNotifications } from 'react-icons/io5'
 import { BsBell } from 'react-icons/bs'
-import { useClickOutSide } from 'src/hook/useClickOutSide'
 
 import { useTranslation } from 'react-i18next'
 import ToolTip from 'src/components/ToolTip'
@@ -9,7 +8,7 @@ const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
   const informRef = React.useRef<HTMLButtonElement>(null)
   const { t } = useTranslation(['home'])
-  useClickOutSide(informRef.current, () => setIsShow(false))
+  // useClickOutSide(informRef.current, () => setIsShow(false))
 
   return (
     <>

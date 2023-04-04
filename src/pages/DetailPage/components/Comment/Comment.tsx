@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { BsEmojiLaughing } from 'react-icons/bs'
-import { useClickOutSide } from 'src/hook/useClickOutSide'
 import CommentItem from '../CommentItem'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
@@ -18,13 +17,13 @@ const Comment = () => {
   const arrangeRef = useRef<HTMLDivElement>(null)
   const { t } = useTranslation(['detail'])
 
-  useClickOutSide(emojiRef.current, () => {
-    setIsShowEmoji(false)
-  })
+  // useClickOutSide(emojiRef.current, () => {
+  //   setIsShowEmoji(false)
+  // })
 
-  useClickOutSide(arrangeRef.current, () => {
-    setIsShowArrange(false)
-  })
+  // useClickOutSide(arrangeRef.current, () => {
+  //   setIsShowArrange(false)
+  // })
 
   const handlwShowEmoji = () => {
     setIsShowEmoji(!isShowEmoji)

@@ -4,7 +4,6 @@ import { useRef, useState } from 'react'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import DialogCustom from 'src/components/DialogCustome'
-import { useClickOutSide } from 'src/hook/useClickOutSide'
 import { useTranslation } from 'react-i18next'
 import ToolTip from 'src/components/ToolTip'
 
@@ -14,9 +13,9 @@ const CommentItem = () => {
   const editRef = useRef<HTMLDivElement>(null)
   const { t } = useTranslation(['detail'])
 
-  useClickOutSide(editRef.current, () => {
-    setIsShow(false)
-  })
+  // useClickOutSide(editRef.current, () => {
+  //   setIsShow(false)
+  // })
 
   const handleCloseModal = () => {
     setIsShowModal(false)

@@ -39,7 +39,7 @@ const DialogCustom = (props: DialogCustomProps) => {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel
-                  className={`w-full max-w-md transform  rounded-2xl p-6 text-left align-middle shadow-xl transition-all ${className}`}
+                  className={`w-full transform  rounded-2xl p-6 text-left align-middle shadow-xl transition-all ${className}`}
                 >
                   {children}
                 </Dialog.Panel>
