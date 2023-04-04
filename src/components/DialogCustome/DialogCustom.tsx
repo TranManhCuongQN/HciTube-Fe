@@ -7,9 +7,10 @@ interface DialogCustomProps {
   handleClose: () => void
   children?: React.ReactNode
   className?: string
+  classNameOverlay?: string
 }
 const DialogCustom = (props: DialogCustomProps) => {
-  const { isOpen, handleClose, children, className } = props
+  const { isOpen, handleClose, children, className, classNameOverlay = 'bg-black' } = props
 
   return (
     <>
@@ -24,7 +25,7 @@ const DialogCustom = (props: DialogCustomProps) => {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <div className='fixed inset-0 bg-black bg-opacity-10' />
+            <div className={`fixed inset-0 ${classNameOverlay} bg-opacity-10`} />
           </Transition.Child>
 
           <div className='fixed inset-0 overflow-y-auto'>
@@ -39,7 +40,7 @@ const DialogCustom = (props: DialogCustomProps) => {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel
-                  className={`w-full transform  rounded-2xl p-6 text-left align-middle shadow-xl transition-all ${className}`}
+                  className={`transform rounded p-6 text-left align-middle shadow transition-all ${className}`}
                 >
                   {children}
                 </Dialog.Panel>

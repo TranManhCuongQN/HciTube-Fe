@@ -7,7 +7,7 @@ import { MdOutlineVideoLibrary } from 'react-icons/md'
 import { BsBarChartLineFill } from 'react-icons/bs'
 const Sidebar = () => {
   return (
-    <div className='flex flex-col gap-y-4 bg-white pb-4 dark:bg-[#0f0f0f] dark:shadow-2xl  lg:w-60 lg:flex-shrink-0'>
+    <div className='flex flex-col gap-y-4 bg-white pb-4 dark:bg-[#282828]  lg:w-60 lg:flex-shrink-0'>
       <div className='mt-5 flex flex-col items-center gap-y-3'>
         <AvatarLetter name='C' size='80' />
         <div className='flex flex-col'>
