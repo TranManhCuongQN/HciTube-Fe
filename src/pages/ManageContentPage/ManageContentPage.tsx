@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useMemo } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { BiEditAlt } from 'react-icons/bi'
 import ToolTip from 'src/components/ToolTip'
-import { AiFillDelete } from 'react-icons/ai'
+import { AiOutlineDelete } from 'react-icons/ai'
 import { AppContext } from 'src/context/app.context'
 import { keyBy } from 'lodash'
+import FormEditContent from './components'
+import { Video } from 'src/types/video.type'
 
 const data = [
   {
@@ -34,13 +36,14 @@ const data = [
     thumbnail: 'https://i.pinimg.com/564x/d9/e4/eb/d9e4ebbda3af60f396b189750c8213c9.jpg'
   }
 ]
+
 const ManageContentPage = () => {
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const { extendedVideos, setExtendedVideos } = useContext(AppContext)
   const isAllChecked = useMemo(() => extendedVideos.every((item) => item.checked), [extendedVideos])
-
-  const checkedVideos = useMemo(() => {
-    extendedVideos.filter((item) => item.checked)
-  }, [extendedVideos])
+  const checkedVideos = useMemo(() => extendedVideos.filter((item) => item.checked), [extendedVideos])
+  const checkedVideosCount = checkedVideos?.length
+  const [dataEdit, setDataEdit] = useState<Video | undefined>()
 
   useEffect(() => {
     setExtendedVideos((prev) => {
@@ -69,6 +72,38 @@ const ManageContentPage = () => {
     )
   }
 
+  const handleCheck = (id: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExtendedVideos((prev) =>
+      prev.map((item) => (item._id === id ? { ...item, checked: event.target.checked } : item))
+    )
+  }
+
+  const handleDelete = (id: string) => () => {
+    const videoId = checkedVideos.filter((item) => item._id === id)
+    console.log(
+      'video:',
+      videoId.map((item) => item._id)
+    )
+  }
+
+  const handleDeleteAll = () => {
+    const videoIds = checkedVideos.map((item) => item._id)
+    console.log('videos:', videoIds)
+  }
+
+  const handleCloseModal = () => {
+    setIsOpenModal(false)
+  }
+
+  const handleEdit = (id: string) => () => {
+    if (checkedVideosCount > 0) {
+      setIsOpenModal(true)
+      const videoEdit = checkedVideos.filter((item) => item._id === id)
+      setDataEdit(videoEdit[0])
+      console.log('video:', videoEdit[0])
+    }
+  }
+
   return (
     <>
       <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
@@ -84,6 +119,7 @@ const ManageContentPage = () => {
                       className='h-5 w-5 accent-black dark:accent-white max-md:h-4 max-md:w-4'
                       checked={isAllChecked}
                       onChange={handleCheckAll}
+                      readOnly
                     />
                   </th>
                   <th className='w-1/3 text-xs font-semibold text-black dark:text-white md:text-sm'>Video</th>
@@ -104,6 +140,8 @@ const ManageContentPage = () => {
                           type='checkbox'
                           className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
                           checked={item.checked}
+                          onChange={handleCheck(item._id)}
+                          readOnly
                         />
                       </th>
                       <th className='w-1/3'>
@@ -136,14 +174,20 @@ const ManageContentPage = () => {
                       <th>
                         <div className='flex items-center justify-around'>
                           <ToolTip position='bottom' content='Chỉnh sửa'>
-                            <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
+                            <button
+                              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                              onClick={handleEdit(item._id)}
+                            >
                               <BiEditAlt className='h-6 w-6 text-black dark:text-white ' />
                             </button>
                           </ToolTip>
 
                           <ToolTip position='bottom' content='Xóa'>
-                            <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-                              <AiFillDelete className='h-6 w-6 text-black dark:text-white ' />
+                            <button
+                              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                              onClick={handleDelete(item._id)}
+                            >
+                              <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
                             </button>
                           </ToolTip>
                         </div>
@@ -157,12 +201,14 @@ const ManageContentPage = () => {
                     <input
                       type='checkbox'
                       className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
-                      onClick={handleCheckAll}
+                      onChange={handleCheckAll}
+                      checked={isAllChecked}
+                      readOnly
                     />
                   </th>
                   <th>
                     <span className='  text-sm font-semibold text-black dark:text-white md:text-base'>
-                      Chọn tất cả ({data.length})
+                      Chọn tất cả ({checkedVideosCount})
                     </span>
                   </th>
                   <th></th>
@@ -171,8 +217,11 @@ const ManageContentPage = () => {
                   <th></th>
                   <th className='flex items-center justify-center'>
                     <ToolTip position='bottom' content='Xóa tất cả'>
-                      <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-                        <AiFillDelete className='h-6 w-6 text-black dark:text-white ' />
+                      <button
+                        className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                        onClick={handleDeleteAll}
+                      >
+                        <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
                       </button>
                     </ToolTip>
                   </th>
@@ -182,6 +231,8 @@ const ManageContentPage = () => {
           </div>
         </div>
       </div>
+
+      {data && <FormEditContent isOpenModal={isOpenModal} handleCloseModal={handleCloseModal} data={dataEdit} />}
     </>
   )
 }
