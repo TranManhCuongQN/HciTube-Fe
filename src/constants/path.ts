@@ -6,6 +6,7 @@ const path = {
   verify: '/verify',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
-  upload: '/upload'
+  upload: '/upload',
+  content: '/content'
 } as const
 export default path

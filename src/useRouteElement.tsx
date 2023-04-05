@@ -4,10 +4,12 @@ import Header from './components/Header'
 import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'
+import ManageVideoLayout from './layout/ManageVideoLayout/ManageVideoLayout'
 import RegisterLayout from './layout/RegisterLayout'
 import DetailPage from './pages/DetailPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
+import ManageContentPage from './pages/ManageContentPage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
@@ -70,11 +72,15 @@ const useRouteElement = () => {
       children: [
         {
           path: '',
-          element: <MainLayout />,
+          element: <ManageVideoLayout />,
           children: [
             {
               path: path.upload,
               element: <UploadVideoPage />
+            },
+            {
+              path: path.content,
+              element: <ManageContentPage />
             }
           ]
         }

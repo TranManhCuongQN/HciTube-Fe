@@ -1,5 +1,6 @@
 import { userInfo } from 'os'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import { ExtendedVideo } from 'src/types/video.type'
 import { getAccessTokenFromLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 interface AppContextInterface {
@@ -13,6 +14,8 @@ interface AppContextInterface {
   setShowSearchMobie: React.Dispatch<React.SetStateAction<boolean>>
   isVerify: '0' | '1' | '2'
   setIsVerify: React.Dispatch<React.SetStateAction<'0' | '1' | '2'>>
+  extendedVideos: ExtendedVideo[]
+  setExtendedVideos: React.Dispatch<React.SetStateAction<ExtendedVideo[]>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -24,7 +27,9 @@ const initialAppContext: AppContextInterface = {
   showSearchMobie: false,
   setShowSearchMobie: () => null,
   isVerify: getAccessTokenFromLocalStorage() !== '' ? '2' : getProfileFromLocalStorage() ? '1' : '0',
-  setIsVerify: () => null
+  setIsVerify: () => null,
+  extendedVideos: [],
+  setExtendedVideos: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -37,6 +42,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const element = document.documentElement
 
   const [isVerify, setIsVerify] = useState<'0' | '1' | '2'>(initialAppContext.isVerify)
+
+  const [extendedVideos, setExtendedVideos] = useState<ExtendedVideo[]>(initialAppContext.extendedVideos)
 
   useEffect(() => {
     switch (theme) {
@@ -66,7 +73,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         showSearchMobie,
         setShowSearchMobie,
         isVerify,
-        setIsVerify
+        setIsVerify,
+        extendedVideos,
+        setExtendedVideos
       }}
     >
       {children}

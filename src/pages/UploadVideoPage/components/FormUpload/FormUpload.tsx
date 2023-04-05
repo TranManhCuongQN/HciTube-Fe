@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import uploadApi from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
-import Dropzone, { useDropzone } from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import { GrUploadOption } from 'react-icons/gr'
 import { AiOutlineLoading, AiOutlineFileImage } from 'react-icons/ai'
 import TextArea from 'src/components/TextArea'
@@ -145,6 +145,8 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressImage(0)
     reset()
   }
+
+  console.log('progressVideo:', progressVideo)
   return (
     <DialogCustom
       isOpen={isModalOpen}
@@ -249,7 +251,9 @@ const FormUpload = (props: FormUploadProps) => {
                     </span>
                   </div>
                 )}
-                {progressVideo === 0 && urlVideo && <video src={urlVideo} className='h-full w-full' controls />}
+                {progressVideo === 0 && urlVideo && (
+                  <video src={urlVideo} className='aspect-video h-full w-full' controls />
+                )}
               </div>
             </div>
             <div className='text-right'>

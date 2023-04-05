@@ -97,3 +97,10 @@ body {
     margin: 0 -35px 0 20px;
   }
 }
+
+/* table */
+td,
+th {
+  text-align: center;
+  padding: 8px;
+}

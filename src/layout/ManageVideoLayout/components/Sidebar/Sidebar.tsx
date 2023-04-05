@@ -28,7 +28,7 @@ const Sidebar = () => {
         <span className='text-sx font-semibold md:text-sm'>Trang tổng quản</span>
       </NavLink>
       <NavLink
-        to='/content'
+        to={path.content}
         className={({ isActive }) =>
           `relative flex items-center justify-start gap-x-4 py-2 pl-9 text-xs hover:bg-[#f9f9f9] dark:hover:bg-[#1f1f1f] md:py-3 md:text-sm ${
             isActive
