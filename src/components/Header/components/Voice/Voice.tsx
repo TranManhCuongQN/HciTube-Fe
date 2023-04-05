@@ -67,7 +67,13 @@ const Voice = (props: VoiceProps) => {
       </ToolTip>
 
       {/* //* Dialog */}
-      <DialogCustom handleClose={handleClose} isOpen={isOpen} className={'h-80 bg-white shadow-md  dark:bg-[#212121]'}>
+      <DialogCustom
+        handleClose={handleClose}
+        isOpen={isOpen}
+        className={
+          'rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[300px] md:w-[500px] lg:h-[400px] lg:w-[600px]'
+        }
+      >
         <div className='flex items-center justify-between'>
           {transcript === '' ? (
             listening === true ? (

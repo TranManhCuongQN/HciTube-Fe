@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import uploadApi from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
-import Dropzone from 'react-dropzone'
+import Dropzone, { useDropzone } from 'react-dropzone'
 import { GrUploadOption } from 'react-icons/gr'
 import { AiOutlineLoading, AiOutlineFileImage } from 'react-icons/ai'
 import TextArea from 'src/components/TextArea'
@@ -22,9 +22,21 @@ const FormUpload = (props: FormUploadProps) => {
   const {
     handleSubmit,
     formState: { errors },
-    register
+    register,
+    reset
   } = useForm<FormData>({
     resolver: yupResolver(uploadVideo)
+  })
+
+  const { getRootProps, getInputProps, isDragReject } = useDropzone({
+    accept: {
+      'video/mp4': ['.mp4', '.MP4']
+    },
+    onDrop(acceptedFiles) {
+      if (acceptedFiles.length > 0) {
+        handleFileChange(acceptedFiles)
+      }
+    }
   })
 
   const { isModalOpen, handleCloseModal } = props
@@ -121,10 +133,22 @@ const FormUpload = (props: FormUploadProps) => {
     }
     console.log(dataUpload)
   })
+
+  const handleCLose = () => {
+    setFileVideo(null)
+    setFileImage(null)
+    setUrlVideo('')
+    setUrlImage('')
+    setShowForm(false)
+    handleCloseModal()
+    setProgressVideo(0)
+    setProgressImage(0)
+    reset()
+  }
   return (
     <DialogCustom
       isOpen={isModalOpen}
-      handleClose={handleCloseModal}
+      handleClose={handleCLose}
       className='flex flex-col overflow-y-auto bg-white shadow dark:bg-[#282828] max-md:h-80 max-md:w-96 md:h-[450px] md:w-[800px] lg:h-[560px] lg:w-[1000px]'
     >
       {showForm && (
@@ -165,38 +189,56 @@ const FormUpload = (props: FormUploadProps) => {
                     Chọn hoặc tải một hình ảnh lên để thể hiện nội dung trong video của bạn. Hình thu nhỏ hấp dẫn sẽ làm
                     nổi bật video của bạn và thu hút người xem
                   </span>
-                  <input type='file' accept='image/*' className='hidden' ref={imageRef} onChange={handleChangeImage} />
+                  <input
+                    type='file'
+                    accept='image/*'
+                    {...register('image')}
+                    className='hidden'
+                    ref={imageRef}
+                    onChange={handleChangeImage}
+                  />
+
                   {progressImage === 0 && !urlImage && (
-                    <button
-                      type='button'
-                      className='mx-auto flex flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-16 max-md:w-28 md:h-36 md:w-60'
-                      onClick={handleUploadImage}
-                    >
-                      <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
-                      <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>Tải hình thu nhỏ lên</span>
-                    </button>
+                    <>
+                      <button
+                        type='button'
+                        className='mx-auto flex cursor-pointer flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'
+                        onClick={handleUploadImage}
+                      >
+                        <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
+                        <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>Tải hình thu nhỏ lên</span>
+                      </button>
+                      <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                        {errors.image?.message}
+                      </span>
+                    </>
                   )}
                   {progressImage > 0 && progressImage < 100 && (
-                    <div className='mx-auto flex flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-16 max-md:w-28 md:h-36 md:w-60'>
-                      <div className='animate-spin'>
-                        <AiOutlineLoading className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
+                    <>
+                      <div className='mx-auto flex flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
+                        <div className='animate-spin'>
+                          <AiOutlineLoading className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
+                        </div>
+                        <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                          Đã tải được {progressImage + '%'}
+                        </span>
                       </div>
-                      <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                        Đã tải được {progressImage + '%'}
-                      </span>
-                    </div>
+                      <div className='my-1 min-h-[1.25rem]'></div>
+                    </>
                   )}
                   {progressImage === 0 && urlImage && (
-                    <div className='mx-auto flex h-24 w-24 flex-col items-center justify-center gap-y-2 border border-dashed max-md:h-16 max-md:w-28 md:h-36 md:w-60'>
-                      <img src={urlImage} alt='' className='h-full w-full object-cover' />
-                    </div>
+                    <>
+                      <div className='mx-auto flex h-24 w-24 flex-col items-center justify-center gap-y-2 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
+                        <img src={urlImage} alt='' className='h-full w-full object-cover' />
+                      </div>
+                      <div className='my-1 min-h-[1.25rem]'></div>
+                    </>
                   )}
                 </div>
               </div>
-              <span className='text-xs font-semibold text-black dark:text-white max-lg:mt-10 md:text-sm lg:hidden'>
-                Video:
-              </span>
-              <div className='flex flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f] max-lg:h-48 max-lg:w-full lg:h-56 lg:w-80 '>
+
+              <div className='flex flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f] max-lg:h-48 max-lg:w-full lg:h-56 lg:w-80'>
+                <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
                 {progressVideo > 0 && progressVideo < 100 && (
                   <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed '>
                     <div className='animate-spin'>
@@ -212,7 +254,7 @@ const FormUpload = (props: FormUploadProps) => {
             </div>
             <div className='text-right'>
               <Button
-                className='mt-5 rounded bg-blue-700 p-2 text-xs font-semibold text-white max-sm:w-20 md:text-sm lg:w-24'
+                className='mt-5 rounded bg-blue-700 p-2 text-xs font-semibold text-white max-lg:mt-7 max-sm:w-20 md:text-sm lg:w-24'
                 type='submit'
               >
                 UPLOAD
@@ -231,24 +273,29 @@ const FormUpload = (props: FormUploadProps) => {
             <>
               {' '}
               <div className='flex items-center justify-center lg:my-16'>
-                <Dropzone onDrop={handleFileChange}>
-                  {({ getRootProps, getInputProps }) => (
-                    <div
-                      className='flex h-32 w-full cursor-pointer items-center justify-center border border-dashed border-gray-300 text-center max-md:h-[200px] md:h-[300px] lg:h-72'
-                      {...getRootProps()}
-                    >
-                      <input {...getInputProps()} />
-                      <div className='flex flex-col items-center gap-y-4'>
-                        <div className='animate-bounce text-center text-black dark:text-white'>
-                          <GrUploadOption className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
-                        </div>
-                        <span className='text-xs font-semibold text-black dark:text-white md:text-base'>
-                          Kéo và thả tệp video để tải lên
-                        </span>
-                      </div>
+                <div
+                  className={`flex h-32 w-full cursor-pointer items-center justify-center border border-dashed  text-center max-md:h-[200px] md:h-[300px] lg:h-72 ${
+                    isDragReject ? 'border-red-500' : 'border-gray-300'
+                  } `}
+                  {...getRootProps()}
+                >
+                  <input {...getInputProps()} type='file' accept='video/mp4,video/x-m4v,video/*' />
+                  <div className='flex flex-col items-center gap-y-4'>
+                    <div className='animate-bounce text-center text-black dark:text-white'>
+                      <GrUploadOption className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
                     </div>
-                  )}
-                </Dropzone>
+
+                    {isDragReject ? (
+                      <span className='text-xs font-semibold text-red-600 md:text-base'>
+                        Tệp không hợp lệ. Vui lòng chọn một tệp video
+                      </span>
+                    ) : (
+                      <span className='text-xs font-semibold text-black dark:text-white md:text-base'>
+                        Kéo và thả tệp video để tải lên
+                      </span>
+                    )}
+                  </div>
+                </div>
               </div>
               <input
                 type='file'
