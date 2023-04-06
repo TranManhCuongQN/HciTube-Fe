@@ -6,34 +6,41 @@ import { AppContext } from 'src/context/app.context'
 import { keyBy } from 'lodash'
 import FormEditContent from './components'
 import { Video } from 'src/types/video.type'
+import { convertNumberToDisplayString } from 'src/utils/utils'
 
 const data = [
   {
     _id: '1',
-    title: 'Video 1',
+    title: 'Rót mật ngọt vào tai em tắt ánh đèn... Bật Tình Yêu Lên | Nhạc Lofi Chill Gây Nghiện Hot Tiktok 2023',
     createdAt: '2021-10-10',
-    views: 100,
-    comments: 10,
-    like: 20,
-    thumbnail: 'https://i.pinimg.com/564x/d9/e4/eb/d9e4ebbda3af60f396b189750c8213c9.jpg'
+    views: 21000,
+    comments: 2,
+    like: 2600,
+    thumbnail: 'https://i.pinimg.com/736x/f2/3e/72/f23e72bdcb8e366e5efa976cb61b3388.jpg',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+    video: ''
   },
   {
     _id: '2',
-    title: 'Video 1',
+    title: 'Thương em khi mùa thu, thương em sang mùa hạ... 4 Mùa Thương Em Lofi | Nhạc Chill Tiktok',
     createdAt: '2021-10-10',
-    views: 100,
-    comments: 10,
-    like: 20,
-    thumbnail: 'https://i.pinimg.com/564x/d9/e4/eb/d9e4ebbda3af60f396b189750c8213c9.jpg'
+    views: 3600,
+    comments: 1,
+    like: 1900,
+    thumbnail: 'https://i.pinimg.com/564x/c5/b7/f9/c5b7f915a41d4c65dd385edd760db677.jpg',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+    video: ''
   },
   {
     _id: '3',
-    title: 'Video 1',
+    title: 'Hẹn Em Ở Lần Yêu Thứ 2 (Lofi Ver.) - Nguyenn x Đặng Tuấn Vũ | Anh Phải Làm Gì Để Em...| Quất Bạc Hà',
     createdAt: '2021-10-10',
-    views: 100,
-    comments: 10,
-    like: 20,
-    thumbnail: 'https://i.pinimg.com/564x/d9/e4/eb/d9e4ebbda3af60f396b189750c8213c9.jpg'
+    views: 26600,
+    comments: 4,
+    like: 1000,
+    thumbnail: 'https://i.pinimg.com/736x/13/c9/fd/13c9fdc7ad29f43b2119a4ecae7d0a61.jpg',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+    video: ''
   }
 ]
 
@@ -110,7 +117,7 @@ const ManageContentPage = () => {
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>
           <div className='mb-10 min-w-[710px]'>
-            <table>
+            <table className='w-full'>
               <thead>
                 <tr className='border-b border-t border-gray-300 text-xs md:text-sm'>
                   <th>
@@ -119,7 +126,6 @@ const ManageContentPage = () => {
                       className='h-5 w-5 accent-black dark:accent-white max-md:h-4 max-md:w-4'
                       checked={isAllChecked}
                       onChange={handleCheckAll}
-                      readOnly
                     />
                   </th>
                   <th className='w-1/3 text-xs font-semibold text-black dark:text-white md:text-sm'>Video</th>
@@ -141,35 +147,55 @@ const ManageContentPage = () => {
                           className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
                           checked={item.checked}
                           onChange={handleCheck(item._id)}
-                          readOnly
                         />
                       </th>
                       <th className='w-1/3'>
                         <div className='flex items-start gap-x-1'>
-                          <div className='h-14 w-28 flex-shrink-0 rounded-sm'>
-                            <img src={item.thumbnail} alt='' className='h-full w-full object-cover' />
+                          <div className='h-16 w-28 flex-shrink-0 rounded-sm'>
+                            <img src={item.thumbnail} alt='' className='h-full w-full object-cover object-top' />
                           </div>
-                          <span
-                            className='cursor-pointer text-xs text-black line-clamp-1 dark:text-white md:text-sm'
-                            title=' Nhạc Lofi Chill Hot TikTok Gây Nghiện - Nhạc Chill TikTok 2022 - Nhạc Lofi Hot TikTok Mộng
-                            Mơ 2022'
-                          >
-                            Nhạc Lofi Chill Hot TikTok Gây Nghiện - Nhạc Chill TikTok 2022 - Nhạc Lofi Hot TikTok Mộng
-                            Mơ 2022
-                          </span>
+                          <div className='flex flex-col items-start gap-y-1'>
+                            <span
+                              className='cursor-pointer text-xs font-semibold text-black line-clamp-1 dark:text-white md:text-sm'
+                              title={item.title}
+                            >
+                              {item.title}
+                            </span>
+                            <span
+                              className='cursor-pointer text-xs text-black  line-clamp-2 dark:text-white'
+                              title={item.description}
+                            >
+                              {item.description}
+                            </span>
+                          </div>
                         </div>
                       </th>
                       <th>
                         <span className=' text-xs text-black dark:text-white md:text-sm'>{item.createdAt}</span>
                       </th>
                       <th>
-                        <span className=' text-xs text-black dark:text-white md:text-sm'>{item.views}</span>
+                        <span
+                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                          title={String(item.views)}
+                        >
+                          {convertNumberToDisplayString(item.views)}
+                        </span>
                       </th>
                       <th>
-                        <span className=' text-xs text-black dark:text-white md:text-sm'>{item.comments}</span>
+                        <span
+                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                          title={String(item.comments)}
+                        >
+                          {convertNumberToDisplayString(item.comments)}
+                        </span>
                       </th>
                       <th>
-                        <span className=' text-xs text-black dark:text-white md:text-sm'>{item.like}</span>
+                        <span
+                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                          title={String(item.like)}
+                        >
+                          {convertNumberToDisplayString(item.like)}
+                        </span>
                       </th>
                       <th>
                         <div className='flex items-center justify-around'>
@@ -203,7 +229,6 @@ const ManageContentPage = () => {
                       className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
                       onChange={handleCheckAll}
                       checked={isAllChecked}
-                      readOnly
                     />
                   </th>
                   <th>

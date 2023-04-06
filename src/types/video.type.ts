@@ -6,6 +6,8 @@ export interface Video {
   views: number
   like: number
   comments: number
+  description: string
+  video: string
 }
 
 export interface ExtendedVideo extends Video {

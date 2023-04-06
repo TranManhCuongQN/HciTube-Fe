@@ -82,24 +82,40 @@ const FormEditContent = (props: FormEditContentProps) => {
         <div className='border-b border-b-gray-300 pb-2 text-sm font-semibold text-black dark:text-white lg:text-lg'>
           Chi tiết
         </div>{' '}
-        <form className='mt-5 flex flex-col lg:gap-y-2'>
+        <form className='mt-5 flex flex-col lg:gap-y-2' onSubmit={onSubmit}>
           <div className='lg:flex lg:items-start lg:justify-between '>
             <div className='flex flex-shrink-0 flex-col lg:w-[500px]'>
               <div className='flex flex-col gap-y-1'>
+                <label
+                  htmlFor='title'
+                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                >
+                  Tiêu đề:
+                </label>
                 <TextArea
                   name='title'
+                  id='title'
                   placeholder='Tiêu đề'
-                  classNameTextArea='text-xs text-black dark:text-white p-2 border w-full rounded md:h-16 placeholder:text-xs outline-none md:text-sm md:placeholder:text-sm dark:bg-[#212121] lg:h-28
-                dark:border-[#595959]'
-                  value={data?.title}
+                  register={register}
+                  errorMessage={errors.title?.message}
+                  classNameTextArea='text-xs text-black dark:text-white p-2 border w-full rounded md:h-16     placeholder:text-xs outline-none md:text-sm md:placeholder:text-sm dark:bg-[#212121] lg:h-28
+                    dark:border-[#595959]'
                 />
               </div>
               <div className='flex flex-col gap-y-1'>
+                <label
+                  htmlFor='description'
+                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                >
+                  Mô tả:
+                </label>
                 <TextArea
+                  id='description'
                   name='description'
+                  register={register}
                   placeholder='Mô tả'
+                  errorMessage={errors.description?.message}
                   classNameTextArea='text-xs text-black dark:text-white p-2 border w-full rounded md:h-24 dark:border-[#595959] placeholder:text-xs outline-none md:text-sm lg:h-28  md:placeholder:text-sm dark:bg-[#212121]'
-                  value={data?.comments}
                 />
               </div>
               <div className='flex flex-col gap-y-2'>
@@ -113,7 +129,14 @@ const FormEditContent = (props: FormEditContentProps) => {
                   Chọn hoặc tải một hình ảnh lên để thể hiện nội dung trong video của bạn. Hình thu nhỏ hấp dẫn sẽ làm
                   nổi bật video của bạn và thu hút người xem
                 </span>
-                <input type='file' accept='image/*' className='hidden' ref={imageRef} onChange={handleChangeImage} />
+                <input
+                  type='file'
+                  accept='image/*'
+                  {...register('image')}
+                  className='hidden'
+                  ref={imageRef}
+                  onChange={handleChangeImage}
+                />
 
                 {progressImage === 0 && !urlImage && (
                   <>
@@ -130,7 +153,7 @@ const FormEditContent = (props: FormEditContentProps) => {
                     </span>
                   </>
                 )}
-                {progressImage > 0 && progressImage < 100 && (
+                {progressImage > 0 && progressImage <= 100 && (
                   <>
                     <div className='mx-auto flex flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
                       <div className='animate-spin'>
@@ -143,7 +166,7 @@ const FormEditContent = (props: FormEditContentProps) => {
                     <div className='my-1 min-h-[1.25rem]'></div>
                   </>
                 )}
-                {progressImage === 0 && urlImage && (
+                {urlImage && (
                   <>
                     <div className='mx-auto flex h-24 w-24 flex-col items-center justify-center gap-y-2 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
                       <img src={urlImage} alt='' className='h-full w-full object-cover' />
@@ -154,18 +177,73 @@ const FormEditContent = (props: FormEditContentProps) => {
               </div>
             </div>
 
-            <div className='flex flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f] max-lg:h-48 max-lg:w-full lg:h-56 lg:w-80'>
-              <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
-
-              <video src='' className='aspect-video h-full w-full' controls />
+            <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
+            <div className='flex items-center justify-center'>
+              <div className='mb-2 flex h-72 w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
+                {progressVideo >= 0 && progressVideo <= 100 && (
+                  <div className='flex h-full w-full flex-col'>
+                    <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:h-44 lg:w-80 '>
+                      <div className='animate-spin'>
+                        <AiOutlineLoading className='h-6 w-6 text-black dark:text-white md:h-9 md:w-9' />
+                      </div>
+                      <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                        Đã tải được {progressVideo + '%'}
+                      </span>
+                    </div>
+                    <div className='flex flex-col gap-y-3 p-3'>
+                      <div className='flex flex-col gap-y-1'>
+                        <span className='text-xs text-black dark:text-[#858585] '>Đường liên kết của video</span>
+                        <span className='text-xs  text-blue-400 '>Đang tạo đương liên kết ...</span>
+                      </div>
+                      <div className='flex flex-col'>
+                        <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
+                        <span className='text-xs  text-black dark:text-white md:text-sm '>{fileVideo?.name}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {urlVideo && (
+                  <div className='flex h-full w-full flex-col'>
+                    <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] lg:h-44 lg:w-80 '>
+                      <video src={urlVideo} className='aspect-video h-full w-full' controls />
+                    </div>
+                    <div className='flex flex-col gap-y-3 p-3'>
+                      <div className='flex flex-col gap-y-1'>
+                        <span className='text-xs text-black dark:text-[#858585] '>Đường liên kết của video</span>
+                        <span className='cursor-pointer  text-xs text-blue-400 line-clamp-1 md:text-sm'>
+                          {urlVideo}
+                        </span>
+                      </div>
+                      <div className='flex flex-col'>
+                        <div className='flex items-center justify-between'>
+                          <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
+                          <span className='text-xs text-black dark:text-white md:text-sm '>{fileNameVideo}</span>
+                          <CopyToClipboard text={urlVideo}>
+                            <span className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
+                              <BiCopy className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+                            </span>
+                          </CopyToClipboard>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          <div className='text-right'>
+          <div className='mt-5 flex w-full items-center justify-end gap-x-6'>
             <Button
-              className='mt-5 rounded bg-blue-700 p-2 text-xs font-semibold text-white max-lg:mt-7 max-sm:w-20 md:text-sm lg:w-24'
+              className='rounded-lg py-2 px-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 md:text-sm'
+              onClick={handleCLose}
+              type='button'
+            >
+              Hủy
+            </Button>
+            <Button
+              className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
               type='submit'
             >
-              UPLOAD
+              Upload
             </Button>
           </div>
         </form>
