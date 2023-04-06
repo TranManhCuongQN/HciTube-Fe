@@ -21,7 +21,7 @@ const AsideBar = () => {
           showSideBar
             ? 'w-full overflow-y-auto overflow-x-hidden bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]'
             : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
-        } overflow-x-hidden transition-all duration-500 ease-linear 2xl:hidden`}
+        } overflow-x-hidden transition-all duration-300 ease-linear 2xl:hidden`}
         role='presentation'
       >
         <div

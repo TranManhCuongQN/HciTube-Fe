@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import uploadApi from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
 import { useDropzone } from 'react-dropzone'
-import { GrUploadOption } from 'react-icons/gr'
 import { AiOutlineLoading, AiOutlineFileImage } from 'react-icons/ai'
 import TextArea from 'src/components/TextArea'
 import Button from 'src/components/Button'
@@ -13,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { IoCloseOutline } from 'react-icons/io5'
 import { BiCopy } from 'react-icons/bi'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import { ImCloudUpload } from 'react-icons/im'
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -152,7 +152,6 @@ const FormUpload = (props: FormUploadProps) => {
     reset()
   }
 
-  console.log('progressImage:', progressImage)
   return (
     <DialogCustom
       isOpen={isModalOpen}
@@ -214,7 +213,7 @@ const FormUpload = (props: FormUploadProps) => {
                   <input
                     type='file'
                     accept='image/*'
-                    {...register('image')}
+                    {...register('thumbnail')}
                     className='hidden'
                     ref={imageRef}
                     onChange={handleChangeImage}
@@ -231,7 +230,7 @@ const FormUpload = (props: FormUploadProps) => {
                         <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>Tải hình thu nhỏ lên</span>
                       </button>
                       <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
-                        {errors.image?.message}
+                        {errors.thumbnail?.message}
                       </span>
                     </>
                   )}
@@ -356,7 +355,7 @@ const FormUpload = (props: FormUploadProps) => {
                   <input {...getInputProps()} type='file' accept='video/mp4,video/x-m4v,video/*' />
                   <div className='flex flex-col items-center gap-y-4'>
                     <div className='animate-bounce text-center text-black dark:text-white'>
-                      <GrUploadOption className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
+                      <ImCloudUpload className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
                     </div>
 
                     {isDragReject ? (

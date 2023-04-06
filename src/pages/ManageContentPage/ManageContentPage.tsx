@@ -18,7 +18,8 @@ const data = [
     like: 2600,
     thumbnail: 'https://i.pinimg.com/736x/f2/3e/72/f23e72bdcb8e366e5efa976cb61b3388.jpg',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video: ''
+    video:
+      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
   },
   {
     _id: '2',
@@ -29,7 +30,8 @@ const data = [
     like: 1900,
     thumbnail: 'https://i.pinimg.com/564x/c5/b7/f9/c5b7f915a41d4c65dd385edd760db677.jpg',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video: ''
+    video:
+      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
   },
   {
     _id: '3',
@@ -40,7 +42,8 @@ const data = [
     like: 1000,
     thumbnail: 'https://i.pinimg.com/736x/13/c9/fd/13c9fdc7ad29f43b2119a4ecae7d0a61.jpg',
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video: ''
+    video:
+      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
   }
 ]
 
@@ -103,9 +106,9 @@ const ManageContentPage = () => {
   }
 
   const handleEdit = (id: string) => () => {
-    if (checkedVideosCount > 0) {
+    const videoEdit = checkedVideos.filter((item) => item._id === id)
+    if (checkedVideosCount > 0 && videoEdit.length > 0) {
       setIsOpenModal(true)
-      const videoEdit = checkedVideos.filter((item) => item._id === id)
       setDataEdit(videoEdit[0])
       console.log('video:', videoEdit[0])
     }
@@ -117,7 +120,7 @@ const ManageContentPage = () => {
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>
           <div className='mb-10 min-w-[710px]'>
-            <table className='w-full'>
+            <table className='w-full bg-white dark:bg-[#282828]'>
               <thead>
                 <tr className='border-b border-t border-gray-300 text-xs md:text-sm'>
                   <th>
