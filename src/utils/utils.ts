@@ -27,7 +27,7 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): err
   )
 }
 
-// Chuyển đổi
+// convert
 export function convertNumberToDisplayString(num: number): string {
   const absNum = Math.abs(num)
   if (absNum >= 1e9) {
@@ -39,4 +39,18 @@ export function convertNumberToDisplayString(num: number): string {
   } else {
     return num.toString()
   }
+}
+
+export function getFormattedDate(dates: string) {
+  const date = new Date(dates)
+  const options = { year: 'numeric', month: 'short', day: 'numeric' }
+  const formattedDate = date.toLocaleDateString(
+    'vi-VN',
+    options as {
+      year: 'numeric'
+      month: 'short'
+      day: 'numeric'
+    }
+  )
+  return formattedDate
 }

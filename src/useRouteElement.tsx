@@ -6,6 +6,7 @@ import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'
 import ManageVideoLayout from './layout/ManageVideoLayout/ManageVideoLayout'
 import RegisterLayout from './layout/RegisterLayout'
+import AnalyticsPage from './pages/AnalyticsPage'
 import DetailPage from './pages/DetailPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
@@ -81,6 +82,10 @@ const useRouteElement = () => {
             {
               path: path.content,
               element: <ManageContentPage />
+            },
+            {
+              path: path.analytics,
+              element: <AnalyticsPage />
             }
           ]
         }

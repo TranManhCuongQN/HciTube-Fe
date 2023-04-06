@@ -41,7 +41,7 @@ const Sidebar = () => {
         <span className='text-xs font-semibold md:text-sm'>Nội dung</span>
       </NavLink>
       <NavLink
-        to='/chart'
+        to={path.analytics}
         className={({ isActive }) =>
           `relative flex items-center justify-start gap-x-4 py-2 pl-9 text-xs hover:bg-[#f9f9f9] dark:hover:bg-[#1f1f1f] md:py-3 md:text-sm  ${
             isActive

@@ -7,6 +7,7 @@ const path = {
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
   upload: '/upload',
-  content: '/content'
+  content: '/content',
+  analytics: '/analytics'
 } as const
 export default path

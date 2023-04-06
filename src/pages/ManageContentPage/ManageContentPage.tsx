@@ -6,7 +6,7 @@ import { AppContext } from 'src/context/app.context'
 import { keyBy } from 'lodash'
 import FormEditContent from './components'
 import { Video } from 'src/types/video.type'
-import { convertNumberToDisplayString } from 'src/utils/utils'
+import { convertNumberToDisplayString, getFormattedDate } from 'src/utils/utils'
 
 const data = [
   {
@@ -174,7 +174,9 @@ const ManageContentPage = () => {
                         </div>
                       </th>
                       <th>
-                        <span className=' text-xs text-black dark:text-white md:text-sm'>{item.createdAt}</span>
+                        <span className=' text-xs text-black dark:text-white md:text-sm'>
+                          {getFormattedDate(item.createdAt)}
+                        </span>
                       </th>
                       <th>
                         <span
