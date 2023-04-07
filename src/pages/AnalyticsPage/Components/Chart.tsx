@@ -3,19 +3,58 @@ import ReactApexChart from 'react-apexcharts'
 
 const chartOptions = {
   chart: {
-    height: 450,
+    type: 'area' as const,
+    height: 365,
     toolbar: {
       show: false
+    }
+  },
+  stroke: {
+    curve: 'straight' as const
+  },
+  plotOptions: {
+    bar: {
+      columnWidth: '45%',
+      borderRadius: 4
     }
   },
   dataLabels: {
     enabled: false
   },
-  stroke: {
-    width: 2
+  xaxis: {
+    type: 'datetime' as const,
+    labels: {
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MMM',
+        day: 'd'
+      },
+      formatter: (timestamp: string) => {
+        const date = new Date(timestamp)
+        const formattedDate = date.toLocaleDateString('vi-VN', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        })
+        return formattedDate
+      }
+    }
+  },
+
+  yaxis: {
+    opposite: true,
+    show: true,
+    labels: {
+      formatter: (value: number) => (value >= 1000 ? (value / 1000).toFixed(1) + 'k' : value) as string
+    },
+    min: 0,
+    max: 5
   },
   grid: {
-    strokeDashArray: 2
+    show: false
+  },
+  legend: {
+    horizontalAlign: 'left' as const
   }
 }
 const Chart = () => {
@@ -23,12 +62,20 @@ const Chart = () => {
 
   const series = [
     {
-      name: 'All Tasks',
-      data: [31, 40, 28, 51, 42, 109, 100]
+      name: 'Views',
+      data: [
+        [new Date('2023-03-14').getTime(), 0],
+        [new Date('2023-03-15').getTime(), 0],
+        [new Date('2023-03-16').getTime(), 0],
+        [new Date('2023-03-17').getTime(), 0],
+        [new Date('2023-03-18').getTime(), 0],
+        [new Date('2023-03-19').getTime(), 0],
+        [new Date('2023-03-20').getTime(), 1]
+      ]
     }
   ]
 
-  return <ReactApexChart options={options} series={series} height={450} type='line' />
+  return <ReactApexChart options={options} series={series} height={450} type='area' />
 }
 
 export default Chart

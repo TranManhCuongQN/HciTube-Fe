@@ -300,7 +300,10 @@ const FormUpload = (props: FormUploadProps) => {
                             <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
                             <span className='text-xs text-black dark:text-white md:text-sm '>{fileNameVideo}</span>
                             <CopyToClipboard text={urlVideo}>
-                              <span className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
+                              <span
+                                className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                                title='copy link'
+                              >
                                 <BiCopy className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
                               </span>
                             </CopyToClipboard>
