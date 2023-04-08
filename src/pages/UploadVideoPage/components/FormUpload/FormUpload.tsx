@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useCallback, useEffect, useState } from 'react'
-import uploadApi, { controller } from 'src/api/upload.api'
+import uploadApi, { controllerImage, controllerVideo } from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
 import { useDropzone } from 'react-dropzone'
 import { AiOutlineLoading, AiOutlineFileImage } from 'react-icons/ai'
@@ -14,8 +14,6 @@ import { BiCopy } from 'react-icons/bi'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ImCloudUpload } from 'react-icons/im'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
-import axios from 'axios'
-import { abort } from 'process'
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -191,12 +189,10 @@ const FormUpload = (props: FormUploadProps) => {
       handleDeleteImage()
     }
 
-    controller.abort()
+    // Cancel upload
+    controllerVideo.abort()
+    controllerImage.abort()
   }
-
-  console.log('urlVideo:', urlVideo)
-  console.log('fileVideo:', fileVideo)
-  console.log('progressVideo:', progressVideo)
 
   return (
     <DialogCustom
