@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useCallback, useEffect, useState } from 'react'
-import uploadApi from 'src/api/upload.api'
+import uploadApi, { controller } from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
 import { useDropzone } from 'react-dropzone'
 import { AiOutlineLoading, AiOutlineFileImage } from 'react-icons/ai'
@@ -15,6 +15,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ImCloudUpload } from 'react-icons/im'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import axios from 'axios'
+import { abort } from 'process'
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -89,14 +90,13 @@ const FormUpload = (props: FormUploadProps) => {
       setFileImage(files[0])
     }
   }
-  const cancelTokenSource = axios.CancelToken.source()
+
   const handleUploadCloud = useCallback(async () => {
     const options = {
       onUploadProgress: (progressEvent: ProgressEvent) => {
         const progress = Math.round((progressEvent.loaded / progressEvent.total) * 100)
         setProgressVideo(progress)
-      },
-      cancelToken: cancelTokenSource.token
+      }
     }
     try {
       const res = await uploadApi.uploadVideo(fileVideo as File, options)
@@ -183,13 +183,15 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressImage(0)
     setFileNameVideo('')
     reset()
-    handleDeleteVideo()
+    if (urlVideo) {
+      handleDeleteVideo()
+    }
+
     if (urlImage) {
       handleDeleteImage()
     }
 
-    // Cancel upload
-    // cancelTokenSource.cancel('User canceled the upload')
+    controller.abort()
   }
 
   console.log('urlVideo:', urlVideo)

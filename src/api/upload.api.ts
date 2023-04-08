@@ -1,6 +1,5 @@
 import axios from 'axios'
 import sha1 from 'sha1'
-import CryptoJS from 'crypto-js'
 
 const ClOUD_NAME = 'dw254eqyp'
 const PRESENT_NAME = 'video_upload'
@@ -8,14 +7,17 @@ const FOLDER_NAME = 'youtube-clone/video'
 const URL_API = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/video/upload`
 const URL_API_IMAGE = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/image/upload`
 const apiSecret = 'aBCAtSqVQHtNrpNKdIJHaMyEiJU'
-
+export const controller = new AbortController()
 const uploadApi = {
   uploadVideo: (data: File, options: any) => {
     const formData = new FormData()
     formData.append('file', data)
     formData.append('upload_preset', PRESENT_NAME)
     formData.append('folder', FOLDER_NAME)
-    return axios.post(URL_API, formData, options)
+    return axios.post(URL_API, formData, {
+      ...options,
+      signal: controller.signal
+    })
   },
   uploadImage: (data: File, options: any) => {
     const formData = new FormData()
