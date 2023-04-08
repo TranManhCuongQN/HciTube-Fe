@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { IoMdHome } from 'react-icons/io'
 import { MdOutlineVideoLibrary, MdOutlineVideoStable } from 'react-icons/md'
-import { SiSublimetext } from 'react-icons/si'
 import { RxCounterClockwiseClock } from 'react-icons/rx'
 import { RiVideoLine } from 'react-icons/ri'
 import { AiOutlineClockCircle } from 'react-icons/ai'

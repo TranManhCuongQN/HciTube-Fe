@@ -120,9 +120,9 @@ const ManageContentPage = () => {
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>
           <div className='mb-10 min-w-[710px]'>
-            <table className='w-full bg-white dark:bg-[#282828]'>
+            <table className='w-full  '>
               <thead>
-                <tr className='border-b border-t border-gray-300 text-xs md:text-sm'>
+                <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
                   <th>
                     <input
                       type='checkbox'
@@ -142,7 +142,7 @@ const ManageContentPage = () => {
               <tbody>
                 {extendedVideos.length > 0 &&
                   extendedVideos.map((item) => (
-                    <tr key={item._id} className='border-b border-t border-gray-300 text-xs md:text-sm'>
+                    <tr key={item._id} className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
                       <th>
                         {' '}
                         <input
@@ -227,7 +227,7 @@ const ManageContentPage = () => {
                   ))}
               </tbody>
               <tfoot>
-                <tr className='border-b border-t border-gray-300 text-xs md:text-sm'>
+                <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
                   <th>
                     <input
                       type='checkbox'
@@ -255,6 +255,15 @@ const ManageContentPage = () => {
                       </button>
                     </ToolTip>
                   </th>
+                </tr>
+                <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                 </tr>
               </tfoot>
             </table>

@@ -62,7 +62,8 @@ export type resetPasswordSchemaType = yup.InferType<typeof resetPasswordSchema>
 export const uploadVideoSchema = yup.object({
   title: yup.string().required('Vui lòng thêm tiêu đề').min(3, 'Tối thiểu 3 ký tự').max(100, 'Tối đa 100 ký tự'),
   description: yup.string().required('Vui lòng thêm mô tả').min(3, 'Tối thiểu 3 ký tự').max(500, 'Tối đa 500 ký tự'),
-  thumbnail: yup.string().required('Vui lòng thêm ảnh')
+  thumbnail: yup.string().required('Vui lòng thêm ảnh'),
+  video: yup.string().required('Vui lòng thêm video')
 })
 
 export type uploadVideoSchemaType = yup.InferType<typeof uploadVideoSchema>

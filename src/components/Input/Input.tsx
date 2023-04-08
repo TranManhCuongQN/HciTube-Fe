@@ -19,7 +19,7 @@ export default function Input<TFieldValues extends FieldValues = FieldValues>({
   register,
   rules,
   classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm',
-  classNameError = 'my-1 text-red-600 min-h-[1.25rem] text-xs md:text-sm font-semibold',
+  classNameError = 'my-1 text-red-600 min-h-[1.25rem] text-xs font-semibold',
   classNameEye = 'absolute top-[8px] right-[8px] h-5 w-5 cursor-pointer',
   ...rest
 }: Props<TFieldValues>) {
