@@ -190,8 +190,12 @@ const FormUpload = (props: FormUploadProps) => {
     }
 
     // Cancel upload
-    controllerVideo.abort()
-    controllerImage.abort()
+    if (controllerImage) {
+      controllerImage.abort()
+    }
+    if (controllerVideo) {
+      controllerVideo.abort()
+    }
   }
 
   return (

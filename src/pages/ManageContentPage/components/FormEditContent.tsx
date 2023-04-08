@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import DialogCustom from 'src/components/DialogCustome'
 import { uploadVideoSchema, uploadVideoSchemaType } from 'src/utils/rules'
 import { AiOutlineLoading } from 'react-icons/ai'
-import uploadApi from 'src/api/upload.api'
+import uploadApi, { controllerImage } from 'src/api/upload.api'
 import TextArea from 'src/components/TextArea'
 import Button from 'src/components/Button'
 import { Video } from 'src/types/video.type'
@@ -31,7 +31,13 @@ const FormEditContent = (props: FormEditContentProps) => {
     setValue,
     reset
   } = useForm<FormData>({
-    resolver: yupResolver(uploadVideo)
+    resolver: yupResolver(uploadVideo),
+    defaultValues: {
+      title: data?.title || '',
+      description: data?.description || '',
+      thumbnail: data?.thumbnail || '',
+      video: data?.video || ''
+    }
   })
   const [fileImage, setFileImage] = useState<File | null>(null)
   const imageRef = React.useRef<HTMLInputElement>(null)
@@ -69,10 +75,10 @@ const FormEditContent = (props: FormEditContentProps) => {
   }, [fileImage, setValue])
 
   useEffect(() => {
-    if (fileImage !== null && urlImage === '') {
+    if (fileImage !== null && fileImage !== undefined) {
       handleUploadImageCloud()
     }
-  }, [fileImage, handleUploadImageCloud, urlImage])
+  }, [fileImage, handleUploadImageCloud])
 
   const onSubmit = handleSubmit((value) => {
     const dataEdit = {
@@ -84,11 +90,14 @@ const FormEditContent = (props: FormEditContentProps) => {
   })
 
   useEffect(() => {
+    console.log('1')
     if (data) {
       setValue('title', data.title)
       setValue('description', data.description)
+      setValue('thumbnail', data.thumbnail)
+      setValue('video', data.video)
     }
-  }, [data, setValue])
+  }, [data, setValue, isOpenModal])
 
   const handleClose = () => {
     handleCloseModal()
@@ -96,7 +105,13 @@ const FormEditContent = (props: FormEditContentProps) => {
     setFileImage(null)
     setProgressImage(0)
     reset()
+
+    // Cancel API
+    if (controllerImage) {
+      controllerImage.abort()
+    }
   }
+
   return (
     <DialogCustom
       isOpen={isOpenModal}
@@ -165,7 +180,7 @@ const FormEditContent = (props: FormEditContentProps) => {
 
                 {progressImage > 0 && progressImage <= 100 && (
                   <>
-                    <div className='mx-auto flex flex-col items-center justify-center gap-y-3 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
+                    <div className='mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-3 border border-dashed'>
                       <div className='animate-spin'>
                         <AiOutlineLoading className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
                       </div>
@@ -177,11 +192,9 @@ const FormEditContent = (props: FormEditContentProps) => {
                   </>
                 )}
 
-                <div>{errors.thumbnail?.message}</div>
-
                 {progressImage === 0 && (
                   <>
-                    <div className='relative mx-auto flex h-24 w-24 flex-col items-center justify-center gap-y-2 border border-dashed max-md:h-20 max-md:w-28 md:h-36 md:w-60'>
+                    <div className='relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2 border border-dashed'>
                       <img src={urlImage || data?.thumbnail} alt='' className='h-full w-full object-cover' />
                       <button
                         className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
@@ -199,7 +212,7 @@ const FormEditContent = (props: FormEditContentProps) => {
             </div>
 
             <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
-            <div className='flex items-center justify-center'>
+            <div className='flex items-center justify-center max-md:mt-2 lg:mt-5'>
               <div className='mb-2 flex h-72 w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
                 <div className='flex h-full w-full flex-col'>
                   <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] lg:h-44 lg:w-80 '>
