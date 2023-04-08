@@ -7,6 +7,8 @@ import { keyBy } from 'lodash'
 import FormEditContent from './components'
 import { Video } from 'src/types/video.type'
 import { convertNumberToDisplayString, getFormattedDate } from 'src/utils/utils'
+import { AiOutlineCaretDown, AiFillCaretUp } from 'react-icons/ai'
+import classNames from 'classnames'
 
 const data = [
   {
@@ -142,7 +144,10 @@ const ManageContentPage = () => {
               <tbody>
                 {extendedVideos.length > 0 &&
                   extendedVideos.map((item) => (
-                    <tr key={item._id} className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
+                    <tr
+                      key={item._id}
+                      className='border-b border-t text-xs hover:bg-gray-200 dark:border-[#363636] dark:hover:bg-gray-800 md:text-sm'
+                    >
                       <th>
                         {' '}
                         <input
@@ -227,7 +232,7 @@ const ManageContentPage = () => {
                   ))}
               </tbody>
               <tfoot>
-                <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
+                <tr className='border-b border-t text-xs hover:bg-gray-200 dark:border-[#363636] dark:hover:bg-gray-800 md:text-sm'>
                   <th>
                     <input
                       type='checkbox'
@@ -255,15 +260,6 @@ const ManageContentPage = () => {
                       </button>
                     </ToolTip>
                   </th>
-                </tr>
-                <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
                 </tr>
               </tfoot>
             </table>

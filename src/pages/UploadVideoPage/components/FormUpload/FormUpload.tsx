@@ -295,7 +295,7 @@ const FormUpload = (props: FormUploadProps) => {
                   )}
                   {urlImage && (
                     <>
-                      <div className='relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2 border border-dashed'>
+                      <div className='relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2'>
                         <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
                         <button
                           className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
@@ -315,7 +315,7 @@ const FormUpload = (props: FormUploadProps) => {
               <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
               <div className='flex items-center justify-center lg:mt-5'>
                 <div className='mb-2 flex h-72 w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
-                  {progressVideo > 0 && progressVideo <= 100 && (
+                  {progressVideo >= 0 && progressVideo <= 100 && !urlImage && (
                     <>
                       <div className='flex h-full w-full flex-col'>
                         <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:h-44 lg:w-80 '>
@@ -345,7 +345,7 @@ const FormUpload = (props: FormUploadProps) => {
                   {urlVideo && (
                     <>
                       <div className='flex h-full w-full flex-col'>
-                        <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] lg:h-44 lg:w-80 '>
+                        <div className='flex h-full w-full flex-col items-center justify-center gap-y-5  bg-[#e9e9e9] lg:h-44 lg:w-80 '>
                           <video src={urlVideo} className='aspect-video h-full w-full' controls />
                         </div>
                         <div className='flex flex-col gap-y-3 p-3'>
