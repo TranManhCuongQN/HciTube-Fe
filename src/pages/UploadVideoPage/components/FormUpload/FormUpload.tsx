@@ -15,6 +15,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ImCloudUpload } from 'react-icons/im'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import Editor from 'src/components/Editor'
+
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -62,6 +63,7 @@ const FormUpload = (props: FormUploadProps) => {
   const [idImage, setIdImage] = useState<string>('')
   const [idVideo, setIdVideo] = useState<string>('')
   const [duration, setDuration] = useState<string>('')
+  const [imageGetVideo, setImageGetVideo] = useState<string>('')
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
@@ -151,6 +153,18 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
+  const handleGetImageVideo = useCallback(async () => {
+    console.log('idVideo:', idVideo)
+    try {
+      const res = await uploadApi.getThumbnail(idVideo)
+      const blob = new Blob([res.data], { type: 'image/jpeg' })
+      const url = URL.createObjectURL(blob)
+      setImageGetVideo(url)
+    } catch (error) {
+      console.log(error)
+    }
+  }, [idVideo])
+
   useEffect(() => {
     if (fileVideo !== null && urlVideo === '') {
       handleUploadCloud()
@@ -163,6 +177,12 @@ const FormUpload = (props: FormUploadProps) => {
       handleUploadImageCloud()
     }
   }, [fileImage, handleUploadImageCloud])
+
+  useEffect(() => {
+    if (idVideo) {
+      handleGetImageVideo()
+    }
+  }, [idVideo, handleGetImageVideo])
 
   const onSubmit = handleSubmit((data) => {
     if (data.description === '<p><br></p>' || data.description === '<p></p>') {
@@ -209,7 +229,8 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
-  console.log(errors)
+  console.log(imageGetVideo)
+
   return (
     <DialogCustom
       isOpen={isModalOpen}
@@ -277,16 +298,23 @@ const FormUpload = (props: FormUploadProps) => {
 
                     {progressImage === 0 && !urlImage && (
                       <>
-                        <button
-                          type='button'
-                          className='mx-auto mt-2 flex h-36 w-60 cursor-pointer flex-col items-center justify-center  gap-y-3 border border-dashed'
-                          onClick={handleUploadImage}
-                        >
-                          <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
-                          <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                            Tải hình thu nhỏ lên
-                          </span>
-                        </button>
+                        <div className='flex items-center'>
+                          <button
+                            type='button'
+                            className='mt-2 flex h-36 w-1/3 cursor-pointer flex-col items-center justify-center  gap-y-3 border border-dashed'
+                            onClick={handleUploadImage}
+                          >
+                            <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
+                            <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                              Tải hình thu nhỏ lên
+                            </span>
+                          </button>
+                          {imageGetVideo && (
+                            <div className='h36 w-1/3 border border-dashed '>
+                              <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
+                            </div>
+                          )}
+                        </div>
                         <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                           {errors.thumbnail?.message}
                         </span>

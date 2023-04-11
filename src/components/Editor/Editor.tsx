@@ -62,7 +62,7 @@ const Editor = () => {
         name='description'
         render={({ field }) => (
           <ReactQuill
-            className={theme === 'Dark' ? 'ql-dark dark:placeholder:text-white' : 'ql-light placeholder:text-black'}
+            className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
             value={field.value}
             onChange={field.onChange}
             formats={formats}

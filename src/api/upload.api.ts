@@ -32,6 +32,11 @@ const uploadApi = {
       signal: controllerImage.signal
     })
   },
+  getThumbnail: (publicId: string) => {
+    return axios.get(`https://res.cloudinary.com/${ClOUD_NAME}/video/upload/v1/${publicId}.jpg`, {
+      responseType: 'blob'
+    })
+  },
   deleteImage: (publicId: string) => {
     const timestamp = Math.floor(Date.now() / 1000)
     const signature = sha1(`public_id=${publicId}&timestamp=${timestamp}${apiSecret}`)

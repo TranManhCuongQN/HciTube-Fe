@@ -111,12 +111,20 @@ th {
   background-color: #f3f3f3;
   color: #000;
 }
+.ql-light .ql-editor::placeholder {
+  background-color: #f3f3f3;
+  color: #000;
+}
 .ql-light .ql-toolbar {
   background-color: #f3f3f3;
   color: #000;
 }
 
 .ql-dark .ql-editor {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+.ql-dark .ql-editor::placeholder {
   background-color: #1e1e1e;
   color: #f1f1f1;
 }

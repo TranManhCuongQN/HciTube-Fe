@@ -16,6 +16,8 @@ interface AppContextInterface {
   setIsVerify: React.Dispatch<React.SetStateAction<'0' | '1' | '2'>>
   extendedVideos: ExtendedVideo[]
   setExtendedVideos: React.Dispatch<React.SetStateAction<ExtendedVideo[]>>
+  thumbnail: string[]
+  setThumbnail: React.Dispatch<React.SetStateAction<string[]>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -29,7 +31,9 @@ const initialAppContext: AppContextInterface = {
   isVerify: getAccessTokenFromLocalStorage() !== '' ? '2' : getProfileFromLocalStorage() ? '1' : '0',
   setIsVerify: () => null,
   extendedVideos: [],
-  setExtendedVideos: () => null
+  setExtendedVideos: () => null,
+  thumbnail: [],
+  setThumbnail: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -44,6 +48,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isVerify, setIsVerify] = useState<'0' | '1' | '2'>(initialAppContext.isVerify)
 
   const [extendedVideos, setExtendedVideos] = useState<ExtendedVideo[]>(initialAppContext.extendedVideos)
+
+  const [thumbnail, setThumbnail] = useState<string[]>(initialAppContext.thumbnail)
 
   useEffect(() => {
     switch (theme) {
@@ -75,7 +81,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         isVerify,
         setIsVerify,
         extendedVideos,
-        setExtendedVideos
+        setExtendedVideos,
+        thumbnail,
+        setThumbnail
       }}
     >
       {children}
