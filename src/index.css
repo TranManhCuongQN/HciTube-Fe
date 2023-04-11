@@ -104,3 +104,29 @@ th {
   text-align: center;
   padding: 8px;
 }
+
+/* editor */
+
+.ql-light .ql-editor {
+  background-color: #f3f3f3;
+  color: #000;
+}
+.ql-light .ql-toolbar {
+  background-color: #f3f3f3;
+  color: #000;
+}
+
+.ql-dark .ql-editor {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+.ql-dark .ql-toolbar {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+.ql-editor img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
