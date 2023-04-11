@@ -32,8 +32,8 @@ const uploadApi = {
       signal: controllerImage.signal
     })
   },
-  getThumbnail: (publicId: string) => {
-    return axios.get(`https://res.cloudinary.com/${ClOUD_NAME}/video/upload/v1/${publicId}.jpg`, {
+  getThumbnail: (publicId: string, version: number) => {
+    return axios.get(`https://res.cloudinary.com/${ClOUD_NAME}/video/upload/v${version}/${publicId}.jpg`, {
       responseType: 'blob'
     })
   },

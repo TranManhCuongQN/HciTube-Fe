@@ -15,6 +15,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ImCloudUpload } from 'react-icons/im'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import Editor from 'src/components/Editor'
+import Skeleton from 'src/components/Skeleton'
+import Dropdown from 'src/components/Dropdown'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -58,15 +60,18 @@ const FormUpload = (props: FormUploadProps) => {
   const [urlVideo, setUrlVideo] = useState<string>('')
   const [urlImage, setUrlImage] = useState<string>('')
   const [progressImage, setProgressImage] = useState<number>(0)
-  const [showForm, setShowForm] = useState<boolean>(false)
+  const [showForm, setShowForm] = useState<boolean>(true)
   const [fileNameVideo, setFileNameVideo] = useState<string>('')
   const [idImage, setIdImage] = useState<string>('')
   const [idVideo, setIdVideo] = useState<string>('')
   const [duration, setDuration] = useState<string>('')
-  const [imageGetVideo, setImageGetVideo] = useState<string>('')
+  const [imageGetVideo, setImageGetVideo] = useState<string[]>([])
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
+    if (files) {
+      setValue('title', files[0]?.name as string)
+    }
   }
 
   const handleClick = () => {
@@ -82,16 +87,15 @@ const FormUpload = (props: FormUploadProps) => {
     if (files) {
       setFileVideo(files[0])
       setFileNameVideo(files[0].name)
+      setValue('title', files[0].name)
     }
   }
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (urlImage) {
-      handleDeleteImage()
-    }
     const files = e.target.files
     if (files) {
       setFileImage(files[0])
+      handleDeleteImage()
     }
   }
 
@@ -106,6 +110,7 @@ const FormUpload = (props: FormUploadProps) => {
       const res = await uploadApi.uploadVideo(fileVideo as File, options)
       console.log('Video:', res.data)
       setUrlVideo(res.data.url)
+      setValue('video', res.data.url)
       setIdVideo(res.data.public_id)
       setDuration(res.data.duration)
       setFileVideo(null)
@@ -113,7 +118,7 @@ const FormUpload = (props: FormUploadProps) => {
     } catch (error) {
       console.log(error)
     }
-  }, [fileVideo])
+  }, [fileVideo, setValue])
 
   const handleUploadImageCloud = useCallback(async () => {
     const options = {
@@ -154,12 +159,14 @@ const FormUpload = (props: FormUploadProps) => {
   }
 
   const handleGetImageVideo = useCallback(async () => {
-    console.log('idVideo:', idVideo)
     try {
-      const res = await uploadApi.getThumbnail(idVideo)
-      const blob = new Blob([res.data], { type: 'image/jpeg' })
-      const url = URL.createObjectURL(blob)
-      setImageGetVideo(url)
+      const res = await Promise.all([uploadApi.getThumbnail(idVideo, 1), uploadApi.getThumbnail(idVideo, 2)])
+      const thumbnail = res.map((res) => res.data)
+      thumbnail.map((item) => {
+        const blob = new Blob([item], { type: 'image/jpeg' })
+        const url = URL.createObjectURL(blob)
+        setImageGetVideo((prev) => [...prev, url])
+      })
     } catch (error) {
       console.log(error)
     }
@@ -176,7 +183,10 @@ const FormUpload = (props: FormUploadProps) => {
     if (fileImage !== null && fileImage !== undefined) {
       handleUploadImageCloud()
     }
-  }, [fileImage, handleUploadImageCloud])
+    if (!urlImage) {
+      setValue('thumbnail', imageGetVideo[0])
+    }
+  }, [fileImage, handleUploadImageCloud, imageGetVideo, setValue, urlImage])
 
   useEffect(() => {
     if (idVideo) {
@@ -194,8 +204,6 @@ const FormUpload = (props: FormUploadProps) => {
     }
     const dataUpload = {
       ...data,
-      image: urlImage,
-      video: urlVideo,
       duration: duration
     }
     console.log(dataUpload)
@@ -211,6 +219,7 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressVideo(0)
     setProgressImage(0)
     setFileNameVideo('')
+    setImageGetVideo([])
     reset()
     if (urlVideo) {
       handleDeleteVideo()
@@ -229,13 +238,11 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
-  console.log(imageGetVideo)
-
   return (
     <DialogCustom
       isOpen={isModalOpen}
       handleClose={handleCLose}
-      className='flex flex-col overflow-y-auto bg-white shadow dark:bg-[#282828] max-md:h-80 max-md:w-96 md:h-[450px] md:w-[800px] lg:h-[560px] lg:w-[1000px]'
+      className='flex flex-col overflow-y-auto bg-white shadow dark:bg-[#282828] max-md:h-[400px] max-md:w-96 md:h-[450px] md:w-[800px] lg:h-[560px] lg:w-[1000px]'
     >
       {showForm && (
         <>
@@ -271,7 +278,7 @@ const FormUpload = (props: FormUploadProps) => {
                       Mô tả:
                     </label>
                     <Editor />
-                    <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                    <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600 max-[320px]:mt-24'>
                       {errors.description?.message}
                     </div>
                   </div>
@@ -283,7 +290,7 @@ const FormUpload = (props: FormUploadProps) => {
                     >
                       Hình thu nhỏ:
                     </label>
-                    <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f]'>
                       Chọn hoặc tải một hình ảnh lên để thể hiện nội dung trong video của bạn. Hình thu nhỏ hấp dẫn sẽ
                       làm nổi bật video của bạn và thu hút người xem
                     </span>
@@ -298,22 +305,29 @@ const FormUpload = (props: FormUploadProps) => {
 
                     {progressImage === 0 && !urlImage && (
                       <>
-                        <div className='flex items-center'>
+                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
                           <button
                             type='button'
-                            className='mt-2 flex h-36 w-1/3 cursor-pointer flex-col items-center justify-center  gap-y-3 border border-dashed'
+                            className='mt-2 flex h-[80px] w-[150px] flex-shrink-0 cursor-pointer flex-col items-center  justify-center gap-y-3 border border-dashed'
                             onClick={handleUploadImage}
                           >
                             <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
-                            <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                              Tải hình thu nhỏ lên
-                            </span>
+                            <span className='text-xs text-[#a7a7a7] dark:text-white'>Tải hình thu nhỏ lên</span>
                           </button>
-                          {imageGetVideo && (
-                            <div className='h36 w-1/3 border border-dashed '>
-                              <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
-                            </div>
-                          )}
+                          {imageGetVideo.length === 0 &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <Skeleton className='h-full w-full' />
+                                </div>
+                              ))}
+                          {imageGetVideo.length > 1 &&
+                            imageGetVideo.map((item, index) => (
+                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
+                              </div>
+                            ))}
                         </div>
                         <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                           {errors.thumbnail?.message}
@@ -322,39 +336,110 @@ const FormUpload = (props: FormUploadProps) => {
                     )}
                     {progressImage > 0 && progressImage <= 100 && (
                       <>
-                        <div className='mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-3 border border-dashed'>
-                          <div className='animate-spin'>
-                            <AiOutlineLoading className='h-9 w-9 text-black dark:text-white' />
+                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
+                          <div className='mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-3 border border-dashed'>
+                            <div className='animate-spin'>
+                              <AiOutlineLoading className='h-9 w-9 text-black dark:text-white' />
+                            </div>
+                            <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                              Đã tải được {progressImage + '%'}
+                            </span>
                           </div>
-                          <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                            Đã tải được {progressImage + '%'}
-                          </span>
+                          {imageGetVideo.length === 0 &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <Skeleton className='h-full w-full' />
+                                </div>
+                              ))}
+                          {imageGetVideo.length > 1 &&
+                            imageGetVideo.map((item, index) => (
+                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
+                              </div>
+                            ))}
                         </div>
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
                     )}
                     {urlImage && (
                       <>
-                        <div className='relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2'>
-                          <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
-                          <button
-                            className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                            title='Thay đổi ảnh'
-                            onClick={handleUploadImage}
-                            type='button'
-                          >
-                            <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                          </button>
+                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
+                          <div className='relative mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-2'>
+                            <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
+                            <button
+                              className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                              title='Thay đổi ảnh'
+                              onClick={handleUploadImage}
+                              type='button'
+                            >
+                              <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                            </button>
+                          </div>
+                          {imageGetVideo.length === 0 &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <Skeleton className='h-full w-full' />
+                                </div>
+                              ))}
+                          {imageGetVideo.length > 1 &&
+                            imageGetVideo.map((item, index) => (
+                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
+                              </div>
+                            ))}
                         </div>
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
                     )}
+                  </div>
+                  <div className='flex flex-col gap-y-2'>
+                    <label
+                      htmlFor='playlist'
+                      className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                    >
+                      Danh sách phát:
+                    </label>
+                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f] '>
+                      Thêm video của bạn vào một hay nhiều danh sách phát. Các danh sách phát có thể giúp người xem
+                      nhanh chóng khám phá nội dung của bạn.
+                    </span>
+                    <Dropdown />
+                    <div className='my-1 min-h-[1.25rem]'></div>
                   </div>
                 </div>
 
                 <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
                 <div className='flex items-center justify-center lg:mt-5'>
                   <div className='mb-2 flex h-72 w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
+                    {progressVideo === 0 && !urlVideo && (
+                      <>
+                        <div className='flex h-full w-full flex-col'>
+                          <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:h-44 lg:w-80 '>
+                            <div className='animate-spin'>
+                              <AiOutlineLoading className='h-6 w-6 text-black dark:text-white md:h-9 md:w-9' />
+                            </div>
+                            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                              Đã tải được {progressVideo + '%'}
+                            </span>
+                          </div>
+                          <div className='flex flex-col gap-y-3 p-3'>
+                            <div className='flex flex-col gap-y-1'>
+                              <span className='text-xs text-black dark:text-[#858585] '>Đường liên kết của video</span>
+                              <span className='text-xs  text-blue-400 '>Đang tạo đương liên kết ...</span>
+                            </div>
+                            <div className='flex flex-col'>
+                              <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
+                              <span className='text-xs  text-black dark:text-white md:text-sm '>{fileVideo?.name}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'></div>
+                      </>
+                    )}
                     {progressVideo > 0 && progressVideo <= 100 && !urlImage && (
                       <>
                         <div className='flex h-full w-full flex-col'>
@@ -459,7 +544,7 @@ const FormUpload = (props: FormUploadProps) => {
               {' '}
               <div className='flex items-center justify-center lg:my-16'>
                 <div
-                  className={`flex h-32 w-full cursor-pointer items-center justify-center border border-dashed  text-center max-md:h-[200px] md:h-[300px] lg:h-72 ${
+                  className={`flex h-32 w-full cursor-pointer items-center justify-center border border-dashed  text-center max-md:h-[250px] md:h-[300px] lg:h-72 ${
                     isDragReject ? 'border-red-500' : 'border-gray-300'
                   } `}
                   {...getRootProps()}
