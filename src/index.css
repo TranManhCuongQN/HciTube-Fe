@@ -110,6 +110,7 @@ th {
 .ql-light .ql-editor {
   background-color: #f3f3f3;
   color: #000;
+  height: 200px;
 }
 .ql-light .ql-editor::placeholder {
   background-color: #f3f3f3;
@@ -123,6 +124,7 @@ th {
 .ql-dark .ql-editor {
   background-color: #1e1e1e;
   color: #f1f1f1;
+  height: 200px;
 }
 .ql-dark .ql-editor::placeholder {
   background-color: #1e1e1e;

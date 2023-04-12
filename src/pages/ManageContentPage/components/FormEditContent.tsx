@@ -159,7 +159,7 @@ const FormEditContent = (props: FormEditContentProps) => {
                   >
                     Mô tả:
                   </label>
-                  <Editor />
+                  <Editor name='description' />
                   <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                     {errors.description?.message}
                   </div>

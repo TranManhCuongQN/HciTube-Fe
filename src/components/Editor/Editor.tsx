@@ -57,17 +57,14 @@ const Editor = ({ name }: { name: string }) => {
   )
   return (
     <>
+      <label htmlFor={name} className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
+        Mô tả:
+      </label>
       <Controller
         control={control}
         name={name}
         render={({ field }) => (
           <>
-            <label
-              htmlFor={name}
-              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-            >
-              Mô tả:
-            </label>
             <ReactQuill
               className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
               value={field.value}
@@ -77,7 +74,6 @@ const Editor = ({ name }: { name: string }) => {
               modules={modules}
               placeholder='Mô tả'
               theme='snow'
-              style={{ height: '150px', width: '100%' }}
             />
           </>
         )}

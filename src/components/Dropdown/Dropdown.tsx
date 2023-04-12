@@ -1,13 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { AiOutlineCaretUp, AiOutlineCaretDown } from 'react-icons/ai'
 import useOnClickOutside from 'src/hook/useOnClickOutSide'
-import { playList } from 'src/types/playList.type'
-import Button from '../Button'
-import DialogCustom from '../DialogCustome'
-import Editor from '../Editor'
-import TextArea from '../TextArea'
+import FormAddPlayList from 'src/pages/UploadVideoPage/components/FormAddPlayList'
 
 const data = [
   {
@@ -35,27 +29,26 @@ const data = [
     name: 'Phim'
   }
 ]
-const Dropdown = () => {
+
+interface DropDownProps {
+  handleOpenModalPlayList: () => void
+  handleCloseModalPlayList: () => void
+}
+const Dropdown = ({ handleOpenModalPlayList, handleCloseModalPlayList }: DropDownProps) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
-  const [showModal, setShowModal] = React.useState<boolean>(false)
   const childRef = React.useRef<HTMLDivElement>(null)
-  const [playList, setPlayList] = useState<string[]>([])
-  const { handleSubmit } = useForm<playList>({
-    // resolver: yupResolver()
-  })
+  const [playListSelected, setPlayListSelected] = useState<string[]>([])
 
   useOnClickOutside(childRef, () => setIsOpen(false))
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setPlayList([...playList, e.target.value])
+      setPlayListSelected([...playListSelected, e.target.value])
     } else {
-      setPlayList(playList.filter((item) => item !== e.target.value))
+      setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
     }
   }
 
-  console.log('isOpen', isOpen)
-  console.log('playList', playList)
   return (
     <>
       <div className='relative flex w-[280px] flex-col items-center rounded-lg max-sm:w-2/3'>
@@ -64,12 +57,14 @@ const Dropdown = () => {
           onClick={() => setIsOpen(true)}
           role='presentation'
         >
-          {playList.length === 0 && <span>Chọn</span>}
-          {playList.length === 1 && (
-            <span className='text-xs text-black dark:text-white md:text-sm'> {playList[0]}</span>
+          {playListSelected.length === 0 && <span>Chọn</span>}
+          {playListSelected.length === 1 && (
+            <span className='text-xs text-black dark:text-white md:text-sm'> {playListSelected[0]}</span>
           )}
-          {playList.length > 1 && (
-            <span className='text-xs text-black dark:text-white md:text-sm'>{playList.length} danh sách phát</span>
+          {playListSelected.length > 1 && (
+            <span className='text-xs text-black dark:text-white md:text-sm'>
+              {playListSelected.length} danh sách phát
+            </span>
           )}
           {isOpen ? (
             <AiOutlineCaretUp className='h-4 w-4 text-black dark:text-[#aaaaaa]' />
@@ -93,7 +88,7 @@ const Dropdown = () => {
                   className='h-4 w-4 accent-black dark:accent-white'
                   id={item.name}
                   value={item.name}
-                  checked={playList.includes(item.name)}
+                  checked={playListSelected.includes(item.name)}
                   onChange={handleChange}
                 />
                 <label className='cursor-pointer text-xs text-black dark:text-white' htmlFor={item.name}>
@@ -103,59 +98,16 @@ const Dropdown = () => {
             ))}
 
             <div className='relative bottom-0 left-0 my-1 flex w-full items-center justify-between px-2'>
-              <button className='text-xs text-[#1569d6]' type='button' onClick={() => setShowModal(true)}>
+              <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
                 TẠO MỚI
               </button>
-              <button className='text-xs text-[#1569d6]' type='button' onClick={() => setIsOpen(false)}>
+              <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseModalPlayList}>
                 XONG
               </button>
             </div>
           </div>
         )}
       </div>
-      <DialogCustom isOpen={showModal} handleClose={() => setShowModal(false)}>
-        <div className='relative z-50 mb-5 overflow-hidden overflow-y-auto shadow dark:bg-[#282828] lg:h-[520px] lg:w-[500px]'>
-          <div className='flex flex-col px-5'>
-            <span className='py-5 text-sm font-semibold dark:text-white  md:text-base'>Tạo danh sách phát mới</span>
-            <div className='w-full border border-gray-500'></div>
-            <form className='mt-5 flex flex-col'>
-              <div className='flex flex-col gap-y-1'>
-                <label
-                  htmlFor='title'
-                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-                >
-                  Tiêu đề:
-                </label>
-                <TextArea
-                  name='title'
-                  id='title'
-                  placeholder='Tiêu đề'
-                  classNameTextArea='text-xs text-black dark:text-white p-2 border w-full rounded md:h-20 placeholder:text-xs outline-none md:text-sm md:placeholder:text-sm dark:bg-[#212121]
-                    dark:border-[#595959]'
-                />
-              </div>
-              <div className='flex flex-col gap-y-1'>
-                <Editor name='description' />
-                {/* <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600 max-[320px]:mt-24'>
-                      {errors.description?.message}
-                    </div> */}
-              </div>
-              <div className='mt-[80px] flex w-full items-start justify-end gap-x-2'>
-                <Button
-                  className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
-                  type='button'
-                  onClick={() => setShowModal(false)}
-                >
-                  Hủy
-                </Button>
-                <Button className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm' type='submit'>
-                  Tạo
-                </Button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </DialogCustom>
     </>
   )
 }

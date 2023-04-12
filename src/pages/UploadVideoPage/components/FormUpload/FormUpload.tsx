@@ -21,6 +21,8 @@ import Dropdown from 'src/components/Dropdown'
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
+  handleOpenModalPlayList: () => void
+  handleCloseModalPlayList: () => void
 }
 
 type FormData = uploadVideoSchemaType
@@ -35,8 +37,7 @@ const FormUpload = (props: FormUploadProps) => {
     formState: { errors },
     register,
     reset,
-    setValue,
-    setError
+    setValue
   } = form
 
   const { getRootProps, getInputProps, isDragReject } = useDropzone({
@@ -51,7 +52,7 @@ const FormUpload = (props: FormUploadProps) => {
     }
   })
 
-  const { isModalOpen, handleCloseModal } = props
+  const { isModalOpen, handleCloseModal, handleOpenModalPlayList, handleCloseModalPlayList } = props
   const [fileVideo, setFileVideo] = useState<File | null>(null)
   const [fileImage, setFileImage] = useState<File | null>(null)
   const imageRef = React.useRef<HTMLInputElement>(null)
@@ -195,13 +196,6 @@ const FormUpload = (props: FormUploadProps) => {
   }, [idVideo, handleGetImageVideo])
 
   const onSubmit = handleSubmit((data) => {
-    if (data.description === '<p><br></p>' || data.description === '<p></p>') {
-      setError('description', {
-        type: 'manual',
-        message: 'Vui lòng thêm mô tả'
-      })
-      return
-    }
     const dataUpload = {
       ...data,
       duration: duration
@@ -272,7 +266,7 @@ const FormUpload = (props: FormUploadProps) => {
                   </div>
                   <div className='flex flex-col gap-y-1'>
                     <Editor name='description' />
-                    <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600 max-[320px]:mt-24'>
+                    <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                       {errors.description?.message}
                     </div>
                   </div>
@@ -401,7 +395,10 @@ const FormUpload = (props: FormUploadProps) => {
                       Thêm video của bạn vào một hay nhiều danh sách phát. Các danh sách phát có thể giúp người xem
                       nhanh chóng khám phá nội dung của bạn.
                     </span>
-                    <Dropdown />
+                    <Dropdown
+                      handleOpenModalPlayList={handleOpenModalPlayList}
+                      handleCloseModalPlayList={handleCloseModalPlayList}
+                    />
                     <div className='my-1 min-h-[1.25rem]'></div>
                   </div>
                 </div>
