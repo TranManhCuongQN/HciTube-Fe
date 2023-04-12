@@ -72,7 +72,6 @@ const Editor = ({ name }: { name: string }) => {
               id={name}
               formats={formats}
               modules={modules}
-              placeholder='Mô tả'
               theme='snow'
             />
           </>

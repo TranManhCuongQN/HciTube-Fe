@@ -18,6 +18,47 @@ import Editor from 'src/components/Editor'
 import Skeleton from 'src/components/Skeleton'
 import Dropdown from 'src/components/Dropdown'
 
+const data = [
+  {
+    id: 1,
+    name: 'Vlog 24h'
+  },
+  {
+    id: 2,
+    name: 'Series NextJS'
+  },
+  {
+    id: 3,
+    name: 'BlackPink'
+  }
+]
+
+const dataCategories = [
+  {
+    id: 1,
+    name: 'Giải trí'
+  },
+  {
+    id: 2,
+    name: 'Thể Thao'
+  },
+  {
+    id: 3,
+    name: 'Âm nhạc'
+  },
+  {
+    id: 4,
+    name: 'Đời sống'
+  },
+  {
+    id: 5,
+    name: 'Tin tức và sự kiện '
+  },
+  {
+    id: 6,
+    name: 'Khoa học và công nghệ'
+  }
+]
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -61,12 +102,15 @@ const FormUpload = (props: FormUploadProps) => {
   const [urlVideo, setUrlVideo] = useState<string>('')
   const [urlImage, setUrlImage] = useState<string>('')
   const [progressImage, setProgressImage] = useState<number>(0)
-  const [showForm, setShowForm] = useState<boolean>(true)
+  const [showForm, setShowForm] = useState<boolean>(false)
   const [fileNameVideo, setFileNameVideo] = useState<string>('')
   const [idImage, setIdImage] = useState<string>('')
   const [idVideo, setIdVideo] = useState<string>('')
+  const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [duration, setDuration] = useState<string>('')
   const [imageGetVideo, setImageGetVideo] = useState<string[]>([])
+  const childRef = React.useRef<HTMLDivElement>(null)
+  const [categories, setCategories] = useState<string[]>([])
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
@@ -195,13 +239,35 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }, [idVideo, handleGetImageVideo])
 
+  const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setPlayListSelected([...playListSelected, e.target.value])
+    } else {
+      setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
+    }
+  }
+
+  const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setCategories([...categories, e.target.value])
+    } else {
+      setCategories(categories.filter((item) => item !== e.target.value))
+    }
+  }
+
   const onSubmit = handleSubmit((data) => {
     const dataUpload = {
       ...data,
-      duration: duration
+      duration: duration,
+      videoId: idVideo,
+      thumbnailId: idImage,
+      playList: playListSelected,
+      categories: categories
     }
     console.log(dataUpload)
   })
+
+  console.log('selected', playListSelected)
 
   const handleCLose = () => {
     setFileVideo(null)
@@ -214,6 +280,8 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressImage(0)
     setFileNameVideo('')
     setImageGetVideo([])
+    setPlayListSelected([])
+    setCategories([])
     reset()
     if (urlVideo) {
       handleDeleteVideo()
@@ -278,7 +346,7 @@ const FormUpload = (props: FormUploadProps) => {
                     >
                       Hình thu nhỏ:
                     </label>
-                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f]'>
+                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f] md:text-sm'>
                       Chọn hoặc tải một hình ảnh lên để thể hiện nội dung trong video của bạn. Hình thu nhỏ hấp dẫn sẽ
                       làm nổi bật video của bạn và thu hút người xem
                     </span>
@@ -391,14 +459,95 @@ const FormUpload = (props: FormUploadProps) => {
                     >
                       Danh sách phát:
                     </label>
-                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f] '>
+                    <span className='text-xs font-semibold text-[#a7a7a7] dark:text-[#9f9f9f] md:text-sm '>
                       Thêm video của bạn vào một hay nhiều danh sách phát. Các danh sách phát có thể giúp người xem
                       nhanh chóng khám phá nội dung của bạn.
                     </span>
                     <Dropdown
-                      handleOpenModalPlayList={handleOpenModalPlayList}
-                      handleCloseModalPlayList={handleCloseModalPlayList}
-                    />
+                      childRef={childRef}
+                      renderData={
+                        <div
+                          className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
+                          ref={childRef}
+                        >
+                          {data.map((item) => (
+                            <div
+                              className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
+                              key={item.id}
+                            >
+                              <input
+                                type='checkbox'
+                                className='h-4 w-4 accent-black dark:accent-white'
+                                id={item.name}
+                                value={item.name}
+                                checked={playListSelected.includes(item.name)}
+                                onChange={handleChangeSelected}
+                              />
+                              <label
+                                className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
+                                htmlFor={item.name}
+                              >
+                                {item.name}
+                              </label>
+                            </div>
+                          ))}
+
+                          <div className='relative bottom-0 left-0 my-1 flex w-full items-center justify-between px-2'>
+                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
+                              TẠO MỚI
+                            </button>
+                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseModalPlayList}>
+                              XONG
+                            </button>
+                          </div>
+                        </div>
+                      }
+                    >
+                      {playListSelected.length === 0 && <span>Chọn</span>}
+                      {playListSelected.length === 1 && (
+                        <span className='text-xs text-gray-900 dark:text-gray-300 md:text-sm'>
+                          {' '}
+                          {playListSelected[0]}
+                        </span>
+                      )}
+                      {playListSelected.length > 1 && (
+                        <span className='text-xs text-gray-900 dark:text-gray-300 md:text-sm'>
+                          {playListSelected.length} danh sách phát
+                        </span>
+                      )}
+                    </Dropdown>
+                    <div className='my-1 min-h-[1.25rem]'></div>
+                  </div>
+                  <div className='flex flex-col gap-y-2'>
+                    <label
+                      htmlFor='categories'
+                      className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                    >
+                      Thể loại:
+                    </label>
+
+                    <div className='flex w-full flex-wrap gap-x-6 gap-y-3'>
+                      {dataCategories.map((item) => (
+                        <div className='flex items-center' key={item.id}>
+                          <input
+                            type='checkbox'
+                            name='categories'
+                            value={item.name}
+                            id={item.name}
+                            checked={categories.includes(item.name)}
+                            className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
+                            onChange={handleChangeCategories}
+                          />
+                          <label
+                            htmlFor={item.name}
+                            className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                          >
+                            {item.name}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+
                     <div className='my-1 min-h-[1.25rem]'></div>
                   </div>
                 </div>
