@@ -8,7 +8,7 @@ import { AppContext } from 'src/context/app.context'
 
 Quill.register('modules/imageUploader', ImageUploader)
 
-const Editor = () => {
+const Editor = ({ name }: { name: string }) => {
   const { control } = useFormContext()
   const { theme } = useContext(AppContext)
 
@@ -59,18 +59,27 @@ const Editor = () => {
     <>
       <Controller
         control={control}
-        name='description'
+        name={name}
         render={({ field }) => (
-          <ReactQuill
-            className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
-            value={field.value}
-            onChange={field.onChange}
-            formats={formats}
-            modules={modules}
-            placeholder='Mô tả'
-            theme='snow'
-            style={{ height: '150px', width: '100%' }}
-          />
+          <>
+            <label
+              htmlFor={name}
+              className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+            >
+              Mô tả:
+            </label>
+            <ReactQuill
+              className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
+              value={field.value}
+              onChange={field.onChange}
+              id={name}
+              formats={formats}
+              modules={modules}
+              placeholder='Mô tả'
+              theme='snow'
+              style={{ height: '150px', width: '100%' }}
+            />
+          </>
         )}
       />
     </>

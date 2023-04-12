@@ -66,4 +66,9 @@ export const uploadVideoSchema = yup.object({
   video: yup.string().required('Vui lòng thêm video')
 })
 
+export const playListVideoSchema = yup.object({
+  title: yup.string().required('Vui lòng thêm tiêu đề').min(3, 'Tối thiểu 3 ký tự').max(100, 'Tối đa 100 ký tự')
+})
+export type playListVideoSchemaType = yup.InferType<typeof playListVideoSchema>
+
 export type uploadVideoSchemaType = yup.InferType<typeof uploadVideoSchema>

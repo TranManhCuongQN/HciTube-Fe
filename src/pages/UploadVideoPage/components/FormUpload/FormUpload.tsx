@@ -271,13 +271,7 @@ const FormUpload = (props: FormUploadProps) => {
                     />
                   </div>
                   <div className='flex flex-col gap-y-1'>
-                    <label
-                      htmlFor='description'
-                      className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-                    >
-                      Mô tả:
-                    </label>
-                    <Editor />
+                    <Editor name='description' />
                     <div className='my-1 mt-16 min-h-[1.25rem] text-xs font-semibold text-red-600 max-[320px]:mt-24'>
                       {errors.description?.message}
                     </div>
