@@ -10,7 +10,7 @@ import { AppContext } from 'src/context/app.context'
 import { useTranslation } from 'react-i18next'
 
 const AsideBar = () => {
-  const { showSideBar, showSideBar2xl, setShowSideBar } = useContext(AppContext)
+  const { showSideBar, setShowSideBar } = useContext(AppContext)
   const { t } = useTranslation(['home'])
 
   return (
@@ -164,120 +164,117 @@ const AsideBar = () => {
         ></div>
       )}
 
-      {/* //* 2xl sreen */}
-      {showSideBar2xl && (
-        <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
-          <NavLink
-            to=''
-            className='mt-5 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.subscriptions')}</span>
-          </NavLink>
-          <div className='my-4 mx-2 border-t border-t-gray-600' />
+      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
+        <NavLink
+          to=''
+          className='mt-5 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <IoMdHome className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.subscriptions')}</span>
+        </NavLink>
+        <div className='my-4 mx-2 border-t border-t-gray-600' />
 
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.library')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <BiLike className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
-          </NavLink>
-          <div className='my-4 mx-2 border-t border-t-gray-600' />
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.library')}</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <BiLike className='h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
+        </NavLink>
+        <div className='my-4 mx-2 border-t border-t-gray-600' />
 
-          <span className='pl-2 text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.ggpht.com/ytc/AL5GRJVgvAwa9TWshWQm6YFBeCDE7L-xDkOaHPEW9MSkp1I=s88-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/7o10-AKkYj75pwWRr4BEW2U0pVkJmHgBBUajnzU3F_Hjq7gyDX4K5T8ugiA5JBscYtGbOrhmgg0=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Được Dev</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-          </NavLink>
-        </div>
-      )}
+        <span className='pl-2 text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <img
+            src='https://yt3.ggpht.com/ytc/AL5GRJVgvAwa9TWshWQm6YFBeCDE7L-xDkOaHPEW9MSkp1I=s88-c-k-c0x00ffffff-no-rj'
+            alt='avatar'
+            className='h-6 w-6 rounded-full'
+          />
+          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <img
+            src='https://yt3.googleusercontent.com/7o10-AKkYj75pwWRr4BEW2U0pVkJmHgBBUajnzU3F_Hjq7gyDX4K5T8ugiA5JBscYtGbOrhmgg0=s176-c-k-c0x00ffffff-no-rj'
+            alt='avatar'
+            className='h-6 w-6 rounded-full'
+          />
+          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Được Dev</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <img
+            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
+            alt='avatar'
+            className='h-6 w-6 rounded-full'
+          />
+          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <img
+            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
+            alt='avatar'
+            className='h-6 w-6 rounded-full'
+          />
+          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+        </NavLink>
+        <NavLink
+          to=''
+          className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        >
+          <img
+            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
+            alt='avatar'
+            className='h-6 w-6 rounded-full'
+          />
+          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+        </NavLink>
+      </div>
     </>
   )
 }

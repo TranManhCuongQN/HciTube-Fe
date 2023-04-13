@@ -17,21 +17,12 @@ import path from 'src/constants/path'
 import AvatarLetter from '../AvatarLetter'
 
 const Header = () => {
-  const {
-    setShowSideBar,
-    setShowSideBar2xl,
-    showSideBar,
-    showSideBar2xl,
-    setShowSearchMobie,
-    showSearchMobie,
-    isVerify
-  } = useContext(AppContext)
+  const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify } = useContext(AppContext)
 
   const { t } = useTranslation(['home'])
 
   const handleClick = () => {
     setShowSideBar(!showSideBar)
-    setShowSideBar2xl(!showSideBar2xl)
   }
 
   const handleShowSearchMobie = () => {
@@ -44,7 +35,7 @@ const Header = () => {
         <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white pl-2  pr-2 shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
           <div className='flex items-center gap-x-1'>
             <button
-              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
+              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 2xl:hidden '
               onClick={handleClick}
             >
               <HiOutlineBars3 className='h-5 w-5 text-black dark:text-white' />

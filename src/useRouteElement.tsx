@@ -8,6 +8,7 @@ import ManageVideoLayout from './layout/ManageVideoLayout/ManageVideoLayout'
 import RegisterLayout from './layout/RegisterLayout'
 import AnalyticsPage from './pages/AnalyticsPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
+import ChannelPage from './pages/ChannelPage'
 import DetailPage from './pages/DetailPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
@@ -117,6 +118,10 @@ const useRouteElement = () => {
             {
               path: path.detail,
               element: <DetailPage />
+            },
+            {
+              path: path.channel,
+              element: <ChannelPage />
             }
           ]
         }

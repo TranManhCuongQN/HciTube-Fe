@@ -4,11 +4,10 @@ import VideoList from './components/VideoList'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useContext, useEffect } from 'react'
 import { AppContext } from 'src/context/app.context'
-import AsideBarSub from './components/AsideBarSub'
 
 const HomePage = () => {
   const body = document.querySelector('body')
-  const { showSideBar, showSideBar2xl } = useContext(AppContext)
+  const { showSideBar } = useContext(AppContext)
 
   useEffect(() => {
     if (showSideBar) {
@@ -22,8 +21,8 @@ const HomePage = () => {
     <>
       <div className='container flex gap-x-20 bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] lg:px-8'>
         <AsideBar />
-        <AsideBarSub />
-        <div className={`mb-16 flex w-full flex-col ${showSideBar2xl ? '2xl:pl-64' : ''}`}>
+
+        <div className={`mb-16 flex w-full flex-col 2xl:pl-64`}>
           <ListFilter />
           <VideoList />
         </div>

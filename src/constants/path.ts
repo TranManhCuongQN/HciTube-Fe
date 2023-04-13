@@ -1,3 +1,4 @@
+import { playList } from './../types/playList.type'
 const path = {
   home: '/',
   login: '/login',
@@ -10,6 +11,10 @@ const path = {
   upload: '/upload',
   content: '/content',
   analytics: '/analytics',
-  changePassword: 'changePassword'
+  changePassword: 'changePassword',
+  channel: '/channel',
+  video: '/videos',
+  playLists: '/playlists',
+  about: '/about'
 } as const
 export default path
