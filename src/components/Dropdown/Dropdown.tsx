@@ -26,8 +26,8 @@ const Dropdown = ({ children, renderData, childRef }: DropDownProps) => {
           ) : (
             <AiOutlineCaretDown className='h-4 w-4 text-black dark:text-[#aaaaaa]' />
           )}
-          {isOpen && renderData}
         </div>
+        {isOpen && renderData}
       </div>
     </>
   )

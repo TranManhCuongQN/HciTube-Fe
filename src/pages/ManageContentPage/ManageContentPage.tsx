@@ -9,6 +9,7 @@ import { Video } from 'src/types/video.type'
 import { convertNumberToDisplayString, getFormattedDate } from 'src/utils/utils'
 import { AiOutlineCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import classNames from 'classnames'
+import FormAddPlayList from '../UploadVideoPage/components/FormAddPlayList'
 
 const data = [
   {
@@ -56,6 +57,7 @@ const ManageContentPage = () => {
   const checkedVideos = useMemo(() => extendedVideos.filter((item) => item.checked), [extendedVideos])
   const checkedVideosCount = checkedVideos?.length
   const [dataEdit, setDataEdit] = useState<Video | undefined>()
+  const [isOpenModalPlayList, setIsOpenModalPlayList] = useState<boolean>(false)
 
   useEffect(() => {
     setExtendedVideos((prev) => {
@@ -107,6 +109,14 @@ const ManageContentPage = () => {
     setIsOpenModal(false)
   }
 
+  const handleCLoseModalPlayList = () => {
+    setIsOpenModalPlayList(false)
+  }
+
+  const handleOpenModalPlayList = () => {
+    setIsOpenModalPlayList(true)
+  }
+
   const handleEdit = (id: string) => () => {
     const videoEdit = checkedVideos.filter((item) => item._id === id)
     if (checkedVideosCount > 0 && videoEdit.length > 0) {
@@ -121,7 +131,7 @@ const ManageContentPage = () => {
       <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>
-          <div className='mb-10 min-w-[710px]'>
+          <div className='my-10 min-w-[710px]'>
             <table className='w-full  '>
               <thead>
                 <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
@@ -267,7 +277,16 @@ const ManageContentPage = () => {
         </div>
       </div>
 
-      {data && <FormEditContent isOpenModal={isOpenModal} handleCloseModal={handleCloseModal} data={dataEdit} />}
+      {data && (
+        <FormEditContent
+          isOpenModal={isOpenModal}
+          handleCloseModal={handleCloseModal}
+          data={dataEdit}
+          handleOpenModalPlayList={handleOpenModalPlayList}
+          handleCloseModalPlayList={handleCLoseModalPlayList}
+        />
+      )}
+      <FormAddPlayList showModal={isOpenModalPlayList} closeModal={handleCLoseModalPlayList} />
     </>
   )
 }

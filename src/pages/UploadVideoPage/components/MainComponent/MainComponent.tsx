@@ -8,7 +8,7 @@ const MainComponent = (props: MainProps) => {
   return (
     <div className='flex flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
       <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Trang tổng quan của kênh</span>
-      <div className='flex flex-col gap-y-5 gap-x-5 bg-[#f9f9f9] dark:bg-[#1f1f1f] lg:flex-row lg:gap-x-5'>
+      <div className='my-10 flex flex-col gap-y-5 gap-x-5 bg-[#f9f9f9] dark:bg-[#1f1f1f] lg:flex-row lg:gap-x-5'>
         <div className='flex flex-col items-center justify-center gap-y-5 rounded-lg bg-white p-5 dark:bg-[#282828] md:p-8'>
           <div className='h-36 w-36 md:h-44 md:w-44'>
             <img

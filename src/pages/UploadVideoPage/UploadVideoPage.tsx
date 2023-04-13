@@ -34,7 +34,7 @@ const UploadVideoPage = () => {
         handleOpenModalPlayList={handleOpenModalPlayList}
         handleCloseModalPlayList={handleCloseModalPlayList}
       />
-      <FormAddPlayList showModal={showModalPlayList} setShowModal={handleCloseModalPlayList} />
+      <FormAddPlayList showModal={showModalPlayList} closeModal={handleCloseModalPlayList} />
     </>
   )
 }

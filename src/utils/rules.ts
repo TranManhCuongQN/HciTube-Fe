@@ -42,6 +42,34 @@ export const verifySchema = yup.object({
     .max(6, 'auth:error.verify length')
 })
 
+//* profile
+export const profileSchema = yup.object({
+  avatar: yup.string().required('Vui lòng thêm ảnh'),
+  thumbnail: yup.string().required('Vui lòng thêm ảnh bìa'),
+  fullName: yup
+    .string()
+    .required('Vui lòng thêm tên người dùng')
+    .min(2, 'Tên tối thiểu 2 ký tự')
+    .max(60, 'Tối đa 60 ký tự')
+    .matches(
+      /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/,
+      'Tên không đúng định dạng'
+    ),
+
+  description: yup
+    .string()
+    .required('Vui lòng thêm mô tả')
+    .test('hasText', 'Vui lòng thêm mô tả', (value) => {
+      const quillText = value?.replace(/<[^>]*>/g, '').trim()
+      return quillText !== ''
+    })
+    .min(3, 'Tối thiểu 3 ký tự')
+    .max(500, 'Tối đa 500 ký tự')
+})
+
+// profile
+export type profileSchemaType = yup.InferType<typeof profileSchema>
+
 // * login && register
 const loginSchema = schema.pick(['email', 'password'])
 export type loginSchemaType = yup.InferType<typeof loginSchema>

@@ -140,7 +140,9 @@ const FormUpload = (props: FormUploadProps) => {
     const files = e.target.files
     if (files) {
       setFileImage(files[0])
-      handleDeleteImage()
+      if (idImage) {
+        handleDeleteImage()
+      }
     }
   }
 
@@ -526,7 +528,7 @@ const FormUpload = (props: FormUploadProps) => {
                       Thể loại:
                     </label>
 
-                    <div className='flex w-full flex-wrap gap-x-6 gap-y-3'>
+                    <div className='flex w-full flex-wrap gap-x-6 gap-y-5'>
                       {dataCategories.map((item) => (
                         <div className='flex items-center' key={item.id}>
                           <input

@@ -9,7 +9,7 @@ const ManageVideoLayout = () => {
     <>
       <Header />
       <SearchMobie />
-      <div className='container flex flex-col gap-y-5 bg-[#f9f9f9] pl-3 pr-3 pb-3 dark:bg-[#1f1f1f] lg:h-screen lg:flex-row lg:gap-x-8'>
+      <div className='container flex flex-col gap-y-5 bg-[#f9f9f9] pl-3 pr-3 pb-3 dark:bg-[#1f1f1f] lg:min-h-screen lg:flex-row lg:gap-x-8'>
         {/* //* SideBar */}
         <Sidebar />
         {/* //* Main */}

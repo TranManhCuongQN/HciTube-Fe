@@ -9,12 +9,12 @@ import { uploadVideoSchema, uploadVideoSchemaType } from 'src/utils/rules'
 
 interface FormAddPlayListProps {
   showModal: boolean
-  setShowModal: (value: boolean) => void
+  closeModal: () => void
 }
 
 type FormData = Pick<uploadVideoSchemaType, 'description' | 'title'>
 const playListSchema = uploadVideoSchema.pick(['description', 'title'])
-const FormAddPlayList = ({ showModal, setShowModal }: FormAddPlayListProps) => {
+const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
   const form = useForm<FormData>({
     resolver: yupResolver(playListSchema)
   })
@@ -27,7 +27,7 @@ const FormAddPlayList = ({ showModal, setShowModal }: FormAddPlayListProps) => {
   } = form
 
   const handleClose = () => {
-    setShowModal(false)
+    closeModal()
   }
 
   useEffect(() => {
@@ -37,8 +37,8 @@ const FormAddPlayList = ({ showModal, setShowModal }: FormAddPlayListProps) => {
   }, [showModal, reset])
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
-    setShowModal(false)
+    console.log('data PlayList:', data)
+    closeModal()
     reset()
   })
 
@@ -80,7 +80,7 @@ const FormAddPlayList = ({ showModal, setShowModal }: FormAddPlayListProps) => {
                   <Button
                     className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
                     type='button'
-                    onClick={() => setShowModal(false)}
+                    onClick={closeModal}
                   >
                     Hủy
                   </Button>

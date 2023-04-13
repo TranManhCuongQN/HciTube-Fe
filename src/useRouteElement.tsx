@@ -7,10 +7,12 @@ import MainLayout from './layout/MainLayout'
 import ManageVideoLayout from './layout/ManageVideoLayout/ManageVideoLayout'
 import RegisterLayout from './layout/RegisterLayout'
 import AnalyticsPage from './pages/AnalyticsPage'
+import ChangePasswordPage from './pages/ChangePasswordPage'
 import DetailPage from './pages/DetailPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
 import ManageContentPage from './pages/ManageContentPage'
+import ProfilePage from './pages/ProfilePage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
@@ -86,6 +88,14 @@ const useRouteElement = () => {
             {
               path: path.analytics,
               element: <AnalyticsPage />
+            },
+            {
+              path: path.profile,
+              element: <ProfilePage />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePasswordPage />
             }
           ]
         }

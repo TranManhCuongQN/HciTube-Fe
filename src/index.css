@@ -107,14 +107,23 @@ th {
 
 /* editor */
 
+.quill {
+  position: relative;
+}
+
+.ql-container {
+  height: 205px;
+}
+
 .ql-light .ql-editor {
-  background-color: #f3f3f3;
+  background-color: white;
   color: #000;
   height: 200px;
+  word-break: break-all;
 }
 
 .ql-light .ql-toolbar {
-  background-color: #f3f3f3;
+  background-color: white;
   color: #000;
 }
 
@@ -122,6 +131,7 @@ th {
   background-color: #1e1e1e;
   color: #f1f1f1;
   height: 200px;
+  word-break: break-all;
 }
 
 .ql-dark .ql-toolbar {
