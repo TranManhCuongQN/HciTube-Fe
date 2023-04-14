@@ -106,11 +106,11 @@ const FormUpload = (props: FormUploadProps) => {
   const [fileNameVideo, setFileNameVideo] = useState<string>('')
   const [idImage, setIdImage] = useState<string>('')
   const [idVideo, setIdVideo] = useState<string>('')
-  const [playListSelected, setPlayListSelected] = useState<string[]>([])
+  const [playListSelected, setPlayListSelected] = useState<number[]>([])
   const [duration, setDuration] = useState<string>('')
   const [imageGetVideo, setImageGetVideo] = useState<string[]>([])
   const childRef = React.useRef<HTMLDivElement>(null)
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<number[]>([])
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
@@ -243,17 +243,17 @@ const FormUpload = (props: FormUploadProps) => {
 
   const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setPlayListSelected([...playListSelected, e.target.value])
+      setPlayListSelected([...playListSelected, Number(e.target.value)])
     } else {
-      setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
+      setPlayListSelected(playListSelected.filter((item) => item !== Number(e.target.value)))
     }
   }
 
   const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setCategories([...categories, e.target.value])
+      setCategories([...categories, Number(e.target.value)])
     } else {
-      setCategories(categories.filter((item) => item !== e.target.value))
+      setCategories(categories.filter((item) => item !== Number(e.target.value)))
     }
   }
 
@@ -261,8 +261,6 @@ const FormUpload = (props: FormUploadProps) => {
     const dataUpload = {
       ...data,
       duration: duration,
-      videoId: idVideo,
-      thumbnailId: idImage,
       playList: playListSelected,
       categories: categories
     }
@@ -481,8 +479,8 @@ const FormUpload = (props: FormUploadProps) => {
                                 type='checkbox'
                                 className='h-4 w-4 accent-black dark:accent-white'
                                 id={item.name}
-                                value={item.name}
-                                checked={playListSelected.includes(item.name)}
+                                value={item.id}
+                                checked={playListSelected.includes(item.id)}
                                 onChange={handleChangeSelected}
                               />
                               <label
@@ -534,9 +532,9 @@ const FormUpload = (props: FormUploadProps) => {
                           <input
                             type='checkbox'
                             name='categories'
-                            value={item.name}
+                            value={item.id}
                             id={item.name}
-                            checked={categories.includes(item.name)}
+                            checked={categories.includes(item.id)}
                             className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
                             onChange={handleChangeCategories}
                           />
@@ -556,7 +554,7 @@ const FormUpload = (props: FormUploadProps) => {
 
                 <span className='text-xs font-semibold text-black dark:text-white  md:text-sm lg:hidden'>Video:</span>
                 <div className='flex items-center justify-center lg:mt-5'>
-                  <div className='mb-2 flex h-72 w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
+                  <div className='min-h-72 mb-2 flex w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
                     {progressVideo === 0 && !urlVideo && (
                       <>
                         <div className='flex h-full w-full flex-col'>
@@ -575,7 +573,9 @@ const FormUpload = (props: FormUploadProps) => {
                             </div>
                             <div className='flex flex-col'>
                               <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
-                              <span className='text-xs  text-black dark:text-white md:text-sm '>{fileVideo?.name}</span>
+                              <span className='break-words  text-xs text-black dark:text-white md:text-sm '>
+                                {fileVideo?.name}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -600,7 +600,9 @@ const FormUpload = (props: FormUploadProps) => {
                             </div>
                             <div className='flex flex-col'>
                               <span className='text-xs text-black dark:text-[#858585]'>Tên tệp</span>
-                              <span className='text-xs  text-black dark:text-white md:text-sm '>{fileVideo?.name}</span>
+                              <span className='break-words text-xs text-black dark:text-white md:text-sm '>
+                                {fileVideo?.name}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -622,11 +624,13 @@ const FormUpload = (props: FormUploadProps) => {
                                 {urlVideo}
                               </span>
                             </div>
-                            <div className='flex flex-col'>
-                              <div className='flex items-center justify-between'>
-                                <div className='flex items-center gap-x-1'>
-                                  <span className='text-xs text-black dark:text-[#858585]'>Tên tệp: </span>
-                                  <span className='text-xs text-black dark:text-white md:text-sm '>
+                            <div className='flex w-full flex-col'>
+                              <div className='flex flex-wrap items-center justify-between'>
+                                <div className='flex w-full items-center gap-x-1'>
+                                  <span className='flex-shrink-0 text-xs text-black dark:text-[#858585]'>
+                                    Tên tệp:{' '}
+                                  </span>
+                                  <span className='break-all text-xs text-black dark:text-white md:text-sm'>
                                     {fileNameVideo}
                                   </span>
                                 </div>
