@@ -71,7 +71,7 @@ const Voice = (props: VoiceProps) => {
         handleClose={handleClose}
         isOpen={isOpen}
         className={
-          'rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[300px] md:w-[500px] lg:h-[400px] lg:w-[600px]'
+          'z-50 rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[300px] md:w-[500px] lg:h-[400px] lg:w-[600px]'
         }
       >
         <div className='flex items-center justify-between'>

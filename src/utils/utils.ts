@@ -54,3 +54,25 @@ export function getFormattedDate(dates: string) {
   )
   return formattedDate
 }
+
+export function convertDuration(duration: string) {
+  const hours = Math.floor(Number(duration) / 3600)
+  const minutes = Math.floor((Number(duration) % 3600) / 60)
+  const seconds = Number(duration) % 60
+  let formattedDuration = ''
+  if (hours > 0) {
+    formattedDuration += hours.toString() + ':'
+  }
+
+  if (minutes < 10) {
+    formattedDuration += '0'
+  }
+  formattedDuration += minutes.toString() + ':'
+
+  if (seconds < 10) {
+    formattedDuration += '0'
+  }
+  formattedDuration += seconds.toString()
+
+  return formattedDuration
+}

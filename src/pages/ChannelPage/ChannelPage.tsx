@@ -52,12 +52,12 @@ const ChannelPage = () => {
           <img
             src='https://i.pinimg.com/564x/17/3f/fc/173ffca741ea25ef06278e74ddf89ff0.jpg'
             alt='thumbnail'
-            className='h-full w-full object-cover'
+            className='h-full w-full rounded object-cover'
           />
         </div>
-        <div className='mt-5 flex items-center justify-between gap-y-2 max-sm:flex-col max-[320px]:px-2 lg:mx-10'>
+        <div className='mt-5 flex w-full items-center justify-between gap-y-2 max-sm:flex-col md:px-5 lg:mx-auto lg:max-w-[1150px]'>
           <div className='flex items-center gap-x-5'>
-            <div className='h-32 w-32 rounded-full max-md:h-24 max-md:w-24 max-[320px]:h-16 max-[320px]:w-16'>
+            <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
               <img
                 src='https://i.pinimg.com/736x/47/ce/d6/47ced656facf572c471fde541c60faa8.jpg'
                 alt='avatar'
@@ -83,15 +83,15 @@ const ChannelPage = () => {
               </NavLink>
             </div>
           </div>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white md:text-sm'>
+          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:ml-10 max-sm:px-3 max-sm:py-1 md:text-sm'>
             <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
             Đã đăng ký
           </button>
         </div>
 
-        <div className=' relative max-w-full'>
+        <div className=' relative mt-5 max-w-full'>
           <button
-            className={`absolute top-7 left-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs  hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute top-0 left-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isBeginning ? 'invisible' : 'visible'
             } `}
             onClick={goPrev}
@@ -101,7 +101,7 @@ const ChannelPage = () => {
           <Swiper
             pagination={false}
             modules={[Pagination]}
-            className=' mx-10 mt-5 flex items-center gap-x-16 border-b border-b-gray-400'
+            className='border-b border-b-gray-500 max-md:mx-auto max-md:w-5/6 md:px-5 lg:mx-auto lg:max-w-[1150px]'
             ref={swiperRef}
             onSlideChange={(swiper) => {
               handleSwiper(swiper)
@@ -183,7 +183,7 @@ const ChannelPage = () => {
             </SwiperSlide>
           </Swiper>
           <button
-            className={`absolute top-7 right-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs  hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute top-0 right-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isEnd ? 'invisible' : 'visible'
             } `}
             onClick={goNext}
