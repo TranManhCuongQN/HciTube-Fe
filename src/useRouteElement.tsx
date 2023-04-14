@@ -9,6 +9,10 @@ import RegisterLayout from './layout/RegisterLayout'
 import AnalyticsPage from './pages/AnalyticsPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import ChannelPage from './pages/ChannelPage'
+import About from './pages/ChannelPage/components/About'
+import Home from './pages/ChannelPage/components/Home'
+import PlayList from './pages/ChannelPage/components/PlayList'
+import Video from './pages/ChannelPage/components/Video'
 import DetailPage from './pages/DetailPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import HomePage from './pages/HomePage'
@@ -120,8 +124,26 @@ const useRouteElement = () => {
               element: <DetailPage />
             },
             {
-              path: path.channel,
-              element: <ChannelPage />
+              element: <ChannelPage />,
+              children: [
+                {
+                  path: path.channel,
+                  index: true,
+                  element: <Home />
+                },
+                {
+                  path: path.video,
+                  element: <Video />
+                },
+                {
+                  path: path.playList,
+                  element: <PlayList />
+                },
+                {
+                  path: path.about,
+                  element: <About />
+                }
+              ]
             }
           ]
         }

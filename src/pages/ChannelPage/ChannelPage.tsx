@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
-import { NavLink } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import path from 'src/constants/path'
 import { convertNumberToDisplayString } from 'src/utils/utils'
 import AsideBar from '../HomePage/components/AsideBar'
@@ -12,7 +12,6 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 
 import 'swiper/css'
 import 'swiper/css/pagination'
-import 'swiper/css/navigation'
 import { Pagination } from 'swiper'
 
 const ChannelPage = () => {
@@ -35,7 +34,12 @@ const ChannelPage = () => {
 
   const handleSwiper = (swiper: any) => {
     setIsBeginning(swiper.activeIndex === 0)
-    setIsEnd(swiper.activeIndex === swiper.slides.length - 2)
+    if (innerWidth < 325) setIsEnd(swiper.activeIndex === swiper.slides.length - 1)
+    if (innerWidth >= 325 && innerWidth < 640) setIsEnd(swiper.activeIndex === swiper.slides.length - 2)
+    if (innerWidth >= 640 && innerWidth < 765) setIsEnd(swiper.activeIndex === swiper.slides.length - 3)
+    if (innerWidth >= 765) {
+      setIsEnd(swiper.activeIndex === swiper.slides.length - 4)
+    }
   }
 
   console.log(isBeginning, isEnd)
@@ -51,7 +55,7 @@ const ChannelPage = () => {
             className='h-full w-full object-cover'
           />
         </div>
-        <div className='mt-5 flex flex-wrap items-center justify-between gap-y-2 max-[320px]:px-2 lg:mx-10'>
+        <div className='mt-5 flex items-center justify-between gap-y-2 max-sm:flex-col max-[320px]:px-2 lg:mx-10'>
           <div className='flex items-center gap-x-5'>
             <div className='h-32 w-32 rounded-full max-md:h-24 max-md:w-24 max-[320px]:h-16 max-[320px]:w-16'>
               <img
@@ -104,9 +108,11 @@ const ChannelPage = () => {
             }}
             breakpoints={{
               0: {
+                slidesPerView: 1
+              },
+              325: {
                 slidesPerView: 2
               },
-
               640: {
                 slidesPerView: 3
               },
@@ -117,7 +123,8 @@ const ChannelPage = () => {
           >
             <SwiperSlide>
               {' '}
-              <button
+              <NavLink
+                to={path.channel}
                 className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
                   'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white ':
                     choose === 'channel',
@@ -127,12 +134,13 @@ const ChannelPage = () => {
                 onClick={() => setChoose('channel')}
               >
                 TRANG CHỦ
-              </button>
+              </NavLink>
             </SwiperSlide>
 
             <SwiperSlide>
               {' '}
-              <button
+              <NavLink
+                to={path.video}
                 className={classNames(`p-3 text-xs font-semibold md:text-sm`, {
                   'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
                     choose === 'video',
@@ -142,10 +150,11 @@ const ChannelPage = () => {
                 onClick={() => setChoose('video')}
               >
                 VIDEO
-              </button>
+              </NavLink>
             </SwiperSlide>
             <SwiperSlide>
-              <button
+              <NavLink
+                to={path.playList}
                 className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
                   'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
                     choose === 'playlist',
@@ -155,11 +164,12 @@ const ChannelPage = () => {
                 onClick={() => setChoose('playlist')}
               >
                 DANH SÁCH PHÁT
-              </button>
+              </NavLink>
             </SwiperSlide>
             <SwiperSlide>
               {' '}
-              <button
+              <NavLink
+                to={path.about}
                 className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
                   'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
                     choose === 'about',
@@ -169,7 +179,7 @@ const ChannelPage = () => {
                 onClick={() => setChoose('about')}
               >
                 GIỚI THIỆU
-              </button>
+              </NavLink>
             </SwiperSlide>
           </Swiper>
           <button
@@ -181,6 +191,7 @@ const ChannelPage = () => {
             <AiOutlineRight className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
           </button>
         </div>
+        <Outlet />
       </div>
     </div>
   )

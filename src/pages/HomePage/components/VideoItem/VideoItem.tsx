@@ -43,17 +43,17 @@ const VideoItem = (props: VideoItemProps) => {
 
   return (
     <div className='mb-5 flex cursor-pointer flex-col gap-y-2'>
-      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className='h-[12rem] w-full rounded-xl '>
+      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className='h-[12rem] w-full rounded-lg '>
         {isOpen ? (
           <video
             src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'
-            className='h-full w-full'
+            className='aspect-video h-full w-full rounded-lg object-cover'
             ref={videoRef}
             muted
             controls
           />
         ) : (
-          <img src={data.thumbnail} alt='thumbnail' className='h-full w-full rounded-xl object-cover' />
+          <img src={data.thumbnail} alt='thumbnail' className='h-full w-full rounded-lg object-cover' />
         )}
       </div>
 

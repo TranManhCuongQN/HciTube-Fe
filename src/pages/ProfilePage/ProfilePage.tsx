@@ -137,7 +137,7 @@ const ProfilePage = () => {
       <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Hồ sơ cá nhân</span>
       <FormProvider {...form}>
         <form
-          className='my-5 mx-auto flex w-full flex-col gap-y-2 rounded-lg bg-white p-5 dark:bg-[#282828]'
+          className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg bg-white p-5 dark:bg-[#282828]'
           onSubmit={onSubmit}
         >
           <div className='flex flex-col gap-y-2'>

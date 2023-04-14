@@ -24,9 +24,10 @@
   "list filter": [
     { "id": 1, "name": "All" },
     { "id": 2, "name": "Music" },
-    { "id": 3, "name": "Gaming" },
-    { "id": 4, "name": "Live" },
-    { "id": 5, "name": "Sports" },
-    { "id": 6, "name": "Watched" }
+    { "id": 3, "name": "Sport" },
+    { "id": 4, "name": "Entertainment" },
+    { "id": 5, "name": "Life" },
+    { "id": 6, "name": "news and events" },
+    { "id": 7, "name": "science and technology" }
   ]
 }

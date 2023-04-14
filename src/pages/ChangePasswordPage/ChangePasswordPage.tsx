@@ -6,7 +6,7 @@ const ChangePasswordPage = () => {
   return (
     <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
       <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Đổi mật khẩu</span>
-      <form className='my-5 mx-auto flex w-full flex-col gap-y-2 rounded-lg bg-white p-5 dark:bg-[#282828]'>
+      <form className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg bg-white p-5 dark:bg-[#282828]'>
         <div className='flex flex-col gap-y-1'>
           <label
             htmlFor='oldPassword'

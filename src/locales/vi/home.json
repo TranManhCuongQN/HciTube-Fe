@@ -24,9 +24,10 @@
   "list filter": [
     { "id": 1, "name": "Tất cả" },
     { "id": 2, "name": "Âm nhạc " },
-    { "id": 3, "name": "Trò chơi" },
-    { "id": 4, "name": "Trực tiếp" },
-    { "id": 5, "name": "Thể thao" },
-    { "id": 6, "name": "Đã xem" }
+    { "id": 3, "name": "Thể thao" },
+    { "id": 4, "name": "Giải trí" },
+    { "id": 5, "name": "Đời sống" },
+    { "id": 6, "name": "Tin tức và sự kiện" },
+    { "id": 7, "name": "Khoa học và công nghệ" }
   ]
 }
