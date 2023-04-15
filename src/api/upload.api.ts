@@ -1,5 +1,6 @@
 import axios from 'axios'
 import sha1 from 'sha1'
+import { UploadVideo } from 'src/types/video.type'
 
 const ClOUD_NAME = 'dw254eqyp'
 const PRESENT_NAME = 'video_upload'
@@ -7,8 +8,10 @@ const FOLDER_NAME = 'youtube-clone/video'
 const URL_API = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/video/upload`
 const URL_API_IMAGE = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/image/upload`
 const apiSecret = 'aBCAtSqVQHtNrpNKdIJHaMyEiJU'
+const URL_CREATE_VIDEO = '/api/v1/videos'
 export let controllerVideo: AbortController
 export let controllerImage: AbortController
+
 const uploadApi = {
   uploadVideo: (data: File, options: any) => {
     controllerVideo = new AbortController()
@@ -58,6 +61,9 @@ const uploadApi = {
       timestamp,
       signature
     })
+  },
+  createVideo: (data: UploadVideo) => {
+    return axios.post(URL_CREATE_VIDEO, data)
   }
 }
 export default uploadApi

@@ -13,7 +13,7 @@ const path = {
   analytics: '/analytics',
   changePassword: 'changePassword',
   channel: '/channel',
-  video: '/videos',
+  video: '/video',
   playList: '/playlist',
   about: '/about'
 } as const

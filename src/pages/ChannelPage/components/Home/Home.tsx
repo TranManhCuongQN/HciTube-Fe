@@ -150,7 +150,7 @@ const Home = () => {
       </div>
       <div className='relative max-w-full'>
         <button
-          className={`absolute top-12 left-2 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  bg-white text-xs shadow  max-lg:-left-3 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 left-2 z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white text-xs  shadow max-lg:-left-3 lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}
@@ -203,7 +203,7 @@ const Home = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-12 right-5 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 right-5 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}
@@ -223,7 +223,7 @@ const Home = () => {
       </div>
       <div className='relative max-w-full'>
         <button
-          className={`absolute top-12 left-2 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  bg-white text-xs shadow  max-lg:-left-3 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 left-2  z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white text-xs  shadow max-lg:-left-3 lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}
@@ -276,7 +276,7 @@ const Home = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-12 right-5 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 right-5 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}

@@ -17,6 +17,9 @@ import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import Editor from 'src/components/Editor'
 import Skeleton from 'src/components/Skeleton'
 import Dropdown from 'src/components/Dropdown'
+import { useMutation, useQuery } from 'react-query'
+import playListAPI from 'src/api/playlist.api'
+import categoryAPI from 'src/api/category.api'
 
 const data = [
   {
@@ -33,32 +36,32 @@ const data = [
   }
 ]
 
-const dataCategories = [
-  {
-    id: 1,
-    name: 'Giải trí'
-  },
-  {
-    id: 2,
-    name: 'Thể Thao'
-  },
-  {
-    id: 3,
-    name: 'Âm nhạc'
-  },
-  {
-    id: 4,
-    name: 'Đời sống'
-  },
-  {
-    id: 5,
-    name: 'Tin tức và sự kiện '
-  },
-  {
-    id: 6,
-    name: 'Khoa học và công nghệ'
-  }
-]
+// const dataCategories = [
+//   {
+//     id: 1,
+//     name: 'Giải trí'
+//   },
+//   {
+//     id: 2,
+//     name: 'Thể Thao'
+//   },
+//   {
+//     id: 3,
+//     name: 'Âm nhạc'
+//   },
+//   {
+//     id: 4,
+//     name: 'Đời sống'
+//   },
+//   {
+//     id: 5,
+//     name: 'Tin tức và sự kiện '
+//   },
+//   {
+//     id: 6,
+//     name: 'Khoa học và công nghệ'
+//   }
+// ]
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -106,11 +109,21 @@ const FormUpload = (props: FormUploadProps) => {
   const [fileNameVideo, setFileNameVideo] = useState<string>('')
   const [idImage, setIdImage] = useState<string>('')
   const [idVideo, setIdVideo] = useState<string>('')
-  const [playListSelected, setPlayListSelected] = useState<number[]>([])
+  const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [duration, setDuration] = useState<string>('')
   const [imageGetVideo, setImageGetVideo] = useState<string[]>([])
   const childRef = React.useRef<HTMLDivElement>(null)
-  const [categories, setCategories] = useState<number[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+
+  const { data: dataPlayList, refetch } = useQuery({
+    queryKey: 'playList',
+    queryFn: () => playListAPI.getPlayList()
+  })
+
+  const { data: dataCategories } = useQuery({
+    queryKey: 'categories',
+    queryFn: () => categoryAPI.getCategories()
+  })
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
@@ -243,27 +256,31 @@ const FormUpload = (props: FormUploadProps) => {
 
   const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setPlayListSelected([...playListSelected, Number(e.target.value)])
+      setPlayListSelected([...playListSelected, e.target.value])
     } else {
-      setPlayListSelected(playListSelected.filter((item) => item !== Number(e.target.value)))
+      setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
     }
   }
 
   const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setCategories([...categories, Number(e.target.value)])
+      setCategories([...categories, e.target.value])
     } else {
-      setCategories(categories.filter((item) => item !== Number(e.target.value)))
+      setCategories(categories.filter((item) => item !== e.target.value))
     }
   }
 
+  const createVideoMutation = useMutation({
+    mutationFn: uploadApi.createVideo
+  })
   const onSubmit = handleSubmit((data) => {
     const dataUpload = {
       ...data,
       duration: duration,
       playList: playListSelected,
-      categories: categories
+      category: categories
     }
+    createVideoMutation.mutate(dataUpload)
     console.log(dataUpload)
   })
 
@@ -470,24 +487,24 @@ const FormUpload = (props: FormUploadProps) => {
                           className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
                           ref={childRef}
                         >
-                          {data.map((item) => (
+                          {dataPlayList?.data.data.map((item) => (
                             <div
                               className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
-                              key={item.id}
+                              key={item._id}
                             >
                               <input
                                 type='checkbox'
                                 className='h-4 w-4 accent-black dark:accent-white'
-                                id={item.name}
-                                value={item.id}
-                                checked={playListSelected.includes(item.id)}
+                                id={item.title}
+                                value={item._id}
+                                checked={playListSelected.includes(item._id)}
                                 onChange={handleChangeSelected}
                               />
                               <label
                                 className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                                htmlFor={item.name}
+                                htmlFor={item.title}
                               >
-                                {item.name}
+                                {item.title}
                               </label>
                             </div>
                           ))}
@@ -527,25 +544,26 @@ const FormUpload = (props: FormUploadProps) => {
                     </label>
 
                     <div className='flex w-full flex-wrap gap-x-6 gap-y-5'>
-                      {dataCategories.map((item) => (
-                        <div className='flex items-center' key={item.id}>
-                          <input
-                            type='checkbox'
-                            name='categories'
-                            value={item.id}
-                            id={item.name}
-                            checked={categories.includes(item.id)}
-                            className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
-                            onChange={handleChangeCategories}
-                          />
-                          <label
-                            htmlFor={item.name}
-                            className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-                          >
-                            {item.name}
-                          </label>
-                        </div>
-                      ))}
+                      {dataCategories &&
+                        dataCategories.data.data.map((item) => (
+                          <div className='flex items-center' key={item._id}>
+                            <input
+                              type='checkbox'
+                              name='categories'
+                              value={item._id}
+                              id={item.name}
+                              checked={categories.includes(item._id)}
+                              className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
+                              onChange={handleChangeCategories}
+                            />
+                            <label
+                              htmlFor={item.name}
+                              className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                            >
+                              {item.name}
+                            </label>
+                          </div>
+                        ))}
                     </div>
 
                     <div className='my-1 min-h-[1.25rem]'></div>

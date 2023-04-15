@@ -14,3 +14,13 @@ export interface ExtendedVideo extends Video {
   checked: boolean
   disabled: boolean
 }
+
+export interface UploadVideo {
+  title: string
+  description: string
+  thumbnail: string
+  video: string
+  category: string[]
+  playList: string[]
+  duration: string
+}

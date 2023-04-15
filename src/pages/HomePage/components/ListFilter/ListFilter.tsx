@@ -41,7 +41,7 @@ const ListFilter = () => {
     <>
       <div className='relative my-5 flex max-w-full items-center justify-between gap-x-5'>
         <button
-          className={`absolute top-0 left-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
+          className={`absolute top-0 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}
@@ -86,7 +86,7 @@ const ListFilter = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-0 right-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
+          className={`absolute top-0 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}

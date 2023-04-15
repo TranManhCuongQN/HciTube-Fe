@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import path from 'src/constants/path'
 import { convertNumberToDisplayString } from 'src/utils/utils'
 import AsideBar from '../HomePage/components/AsideBar'
@@ -15,7 +15,9 @@ import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 
 const ChannelPage = () => {
-  const [choose, setChoose] = useState<string>('channel')
+  const location = useLocation()
+  console.log(location.pathname.replace('/', ''))
+  const [choose, setChoose] = useState<string>(location.pathname.replace('/', ''))
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
@@ -91,7 +93,7 @@ const ChannelPage = () => {
 
         <div className=' relative mt-5 max-w-full'>
           <button
-            className={`absolute top-0 left-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute top-0 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isBeginning ? 'invisible' : 'visible'
             } `}
             onClick={goPrev}
@@ -183,7 +185,7 @@ const ChannelPage = () => {
             </SwiperSlide>
           </Swiper>
           <button
-            className={`absolute top-0 right-0 z-40 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute top-0 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isEnd ? 'invisible' : 'visible'
             } `}
             onClick={goNext}

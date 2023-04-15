@@ -5,8 +5,4 @@ export interface User {
   password?: string
   passwordConfirm?: string
   avatar?: string
-  createdAt: string
-  updatedAt: string
-  phone?: string
-  dateOfBirth?: string
 }

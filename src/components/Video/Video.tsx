@@ -132,9 +132,11 @@ const Video = ({ handleTheaterMode }: any) => {
     }
   }, [])
 
-  const slider = (ref: any, leftColor: string, rightColor: string) => {
-    const valPercent = (Number(ref.current.value) / Number(ref.current.max)) * 100
-    ref.current.style.background = `linear-gradient(to right, ${leftColor} ${valPercent}%, ${rightColor} ${valPercent}%`
+  const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
+    const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
+    if (ref.current) {
+      ref.current.style.background = `linear-gradient(to right, ${leftColor} ${valPercent}%, ${rightColor} ${valPercent}%`
+    }
   }
   // Pass data from Video to WatchingLayout
   useEffect(() => {
