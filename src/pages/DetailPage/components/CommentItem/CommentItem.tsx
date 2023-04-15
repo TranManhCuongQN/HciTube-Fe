@@ -4,8 +4,8 @@ import { useRef, useState } from 'react'
 import { FiEdit2 } from 'react-icons/fi'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import DialogCustom from 'src/components/DialogCustome'
+import useOnClickOutSide from 'src/hook/useOnClickOutSide'
 import { useTranslation } from 'react-i18next'
-import ToolTip from 'src/components/ToolTip'
 
 const CommentItem = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
@@ -13,9 +13,9 @@ const CommentItem = () => {
   const editRef = useRef<HTMLDivElement>(null)
   const { t } = useTranslation(['detail'])
 
-  // useClickOutSide(editRef.current, () => {
-  //   setIsShow(false)
-  // })
+  useOnClickOutSide(editRef.current, () => {
+    setIsShow(false)
+  })
 
   const handleCloseModal = () => {
     setIsShowModal(false)
@@ -71,20 +71,12 @@ const CommentItem = () => {
           </div>
         </div>
         <div className='flex items-center gap-x-2 pl-8 pr-3'>
-          <ToolTip position='bottom' content={t('detail:detail.like')}>
-            {' '}
-            <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-              <BiLike className='h-5 w-5 text-black dark:text-white' />
-            </button>
-          </ToolTip>
-
-          <ToolTip position='bottom' content={t('detail:detail.dislike')}>
-            {' '}
-            <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
-              <BiDislike className='h-5 w-5 text-black dark:text-white' />
-            </button>
-          </ToolTip>
-
+          <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
+            <BiLike className='h-5 w-5 text-black dark:text-white' />
+          </button>
+          <button className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'>
+            <BiDislike className='h-5 w-5 text-black dark:text-white' />
+          </button>
           <button className='rounded-2xl px-4 py-2 text-xs font-semibold text-black hover:bg-[#f2f2f2] dark:text-white dark:hover:bg-[#272727] md:text-sm'>
             {t('detail:detail.reply')}
           </button>
