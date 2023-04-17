@@ -10,6 +10,8 @@ import { ImCloudUpload } from 'react-icons/im'
 import Button from 'src/components/Button'
 import { AiOutlineLoading } from 'react-icons/ai'
 import { profileSchema, profileSchemaType } from 'src/utils/rules'
+import { useQuery } from 'react-query'
+import profileApi from 'src/api/profile.api'
 type FormData = profileSchemaType
 
 const ProfilePage = () => {
@@ -41,6 +43,14 @@ const ProfilePage = () => {
       }
     }
   })
+
+  const { data: profileData } = useQuery({
+    queryKey: 'user',
+    queryFn: profileApi.getProfile
+  })
+
+  const profile = profileData?.data.data
+  console.log(profile)
 
   const handleUploadImage = () => {
     imageRef.current?.click()
@@ -97,6 +107,17 @@ const ProfilePage = () => {
       handleUploadThumbnailCloud()
     }
   }, [fileThumbnail, handleUploadThumbnailCloud])
+
+  useEffect(() => {
+    if (profile) {
+      setValue('fullName', profile.fullName)
+      setValue('avatar', profile.avatar)
+      setValue('thumbnail', profile.thumbnail)
+      setValue('description', profile.description)
+      setUrlImage(profile.avatar)
+      setUrlThumbnail(profile.thumbnail)
+    }
+  }, [profile, setValue])
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files

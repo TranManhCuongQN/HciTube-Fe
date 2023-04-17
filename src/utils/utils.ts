@@ -2,7 +2,6 @@ import { AxiosError } from 'axios'
 /* eslint-disable import/no-named-as-default-member */
 import axios from 'axios'
 
-import config from 'src/constants/config'
 import { ErrorResponse } from 'src/types/utils.type'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 

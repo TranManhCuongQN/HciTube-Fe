@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <div className='flex flex-col gap-y-4 bg-white pb-4 dark:bg-[#282828]  lg:w-60 lg:flex-shrink-0'>
       <div className='mt-5 flex flex-col items-center gap-y-3'>
-        <AvatarLetter name='C' size='80' />
+        <AvatarLetter className='h-24 w-24' name={'Cuong'} classNameChild='text-4xl ' />
         <div className='flex flex-col'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm '>Kênh của bạn</span>
         </div>

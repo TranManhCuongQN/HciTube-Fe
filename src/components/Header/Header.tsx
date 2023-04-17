@@ -91,13 +91,13 @@ const Header = () => {
 
             {/* //* avatar */}
             {isVerify === '2' && (
-              <div className=' h-9 w-9 rounded-full lg:h-10 lg:w-10'>
+              <div className=' h-8 w-8 rounded-full lg:h-10 lg:w-10'>
                 {/* <img
                   src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
                   alt='avatar'
                   className='h-full w-full rounded-full object-cover'
                 /> */}
-                <AvatarLetter name={'C'} size={'36'} />
+                <AvatarLetter className='h-full w-full' name={'Cuong'} />
               </div>
             )}
 
