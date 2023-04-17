@@ -20,48 +20,8 @@ import Dropdown from 'src/components/Dropdown'
 import { useMutation, useQuery } from 'react-query'
 import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
+import { toast } from 'react-toastify'
 
-const data = [
-  {
-    id: 1,
-    name: 'Vlog 24h'
-  },
-  {
-    id: 2,
-    name: 'Series NextJS'
-  },
-  {
-    id: 3,
-    name: 'BlackPink'
-  }
-]
-
-// const dataCategories = [
-//   {
-//     id: 1,
-//     name: 'Giải trí'
-//   },
-//   {
-//     id: 2,
-//     name: 'Thể Thao'
-//   },
-//   {
-//     id: 3,
-//     name: 'Âm nhạc'
-//   },
-//   {
-//     id: 4,
-//     name: 'Đời sống'
-//   },
-//   {
-//     id: 5,
-//     name: 'Tin tức và sự kiện '
-//   },
-//   {
-//     id: 6,
-//     name: 'Khoa học và công nghệ'
-//   }
-// ]
 interface FormUploadProps {
   isModalOpen: boolean
   handleCloseModal: () => void
@@ -86,7 +46,8 @@ const FormUpload = (props: FormUploadProps) => {
 
   const { getRootProps, getInputProps, isDragReject } = useDropzone({
     accept: {
-      'video/mp4': ['.mp4', '.MP4']
+      'video/mp4': ['.mp4', '.MP4'],
+      'video/x-matroska': ['.mkv', '.MKV']
     },
     onDrop(acceptedFiles) {
       if (acceptedFiles.length > 0) {
@@ -111,7 +72,7 @@ const FormUpload = (props: FormUploadProps) => {
   const [idVideo, setIdVideo] = useState<string>('')
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [duration, setDuration] = useState<string>('')
-  const [imageGetVideo, setImageGetVideo] = useState<string[]>([])
+  const [imageGetVideo, setImageGetVideo] = useState<string>('')
   const childRef = React.useRef<HTMLDivElement>(null)
   const [categories, setCategories] = useState<string[]>([])
 
@@ -127,6 +88,7 @@ const FormUpload = (props: FormUploadProps) => {
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
+    console.log(files[0])
     if (files) {
       setValue('title', files[0]?.name as string)
     }
@@ -144,6 +106,7 @@ const FormUpload = (props: FormUploadProps) => {
     const files = e.target.files
     if (files) {
       setFileVideo(files[0])
+      console.log(files[0])
       setFileNameVideo(files[0].name)
       setValue('title', files[0].name)
     }
@@ -220,13 +183,9 @@ const FormUpload = (props: FormUploadProps) => {
 
   const handleGetImageVideo = useCallback(async () => {
     try {
-      const res = await Promise.all([uploadApi.getThumbnail(idVideo, 1), uploadApi.getThumbnail(idVideo, 2)])
-      const thumbnail = res.map((res) => res.data)
-      thumbnail.map((item) => {
-        const blob = new Blob([item], { type: 'image/jpeg' })
-        const url = URL.createObjectURL(blob)
-        setImageGetVideo((prev) => [...prev, url])
-      })
+      const res = await uploadApi.getThumbnail(idVideo)
+      const imageUrl = URL.createObjectURL(res.data)
+      setImageGetVideo(imageUrl)
     } catch (error) {
       console.log(error)
     }
@@ -244,7 +203,7 @@ const FormUpload = (props: FormUploadProps) => {
       handleUploadImageCloud()
     }
     if (!urlImage) {
-      setValue('thumbnail', imageGetVideo[0])
+      setValue('thumbnail', imageGetVideo)
     }
   }, [fileImage, handleUploadImageCloud, imageGetVideo, setValue, urlImage])
 
@@ -265,26 +224,15 @@ const FormUpload = (props: FormUploadProps) => {
   const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setCategories([...categories, e.target.value])
+      setValue('category', [...categories, e.target.value])
     } else {
       setCategories(categories.filter((item) => item !== e.target.value))
+      setValue(
+        'category',
+        categories.filter((item) => item !== e.target.value)
+      )
     }
   }
-
-  const createVideoMutation = useMutation({
-    mutationFn: uploadApi.createVideo
-  })
-  const onSubmit = handleSubmit((data) => {
-    const dataUpload = {
-      ...data,
-      duration: duration,
-      playList: playListSelected,
-      category: categories
-    }
-    createVideoMutation.mutate(dataUpload)
-    console.log(dataUpload)
-  })
-
-  console.log('selected', playListSelected)
 
   const handleCLose = () => {
     setFileVideo(null)
@@ -296,7 +244,7 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressVideo(0)
     setProgressImage(0)
     setFileNameVideo('')
-    setImageGetVideo([])
+    setImageGetVideo('')
     setPlayListSelected([])
     setCategories([])
     reset()
@@ -316,6 +264,28 @@ const FormUpload = (props: FormUploadProps) => {
       controllerVideo.abort()
     }
   }
+
+  const createVideoMutation = useMutation({
+    mutationFn: uploadApi.createVideo,
+    onSuccess: () => {
+      toast.dismiss()
+      toast.success('Upload video thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: true
+      })
+      handleCLose()
+    }
+  })
+  const onSubmit = handleSubmit((data) => {
+    const dataUpload = {
+      ...data,
+      duration: duration,
+      playList: playListSelected
+    }
+    createVideoMutation.mutate(dataUpload)
+    console.log(dataUpload)
+  })
 
   return (
     <DialogCustom
@@ -387,7 +357,7 @@ const FormUpload = (props: FormUploadProps) => {
                             <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
                             <span className='text-xs text-[#a7a7a7] dark:text-white'>Tải hình thu nhỏ lên</span>
                           </button>
-                          {imageGetVideo.length === 0 &&
+                          {!imageGetVideo &&
                             Array(2)
                               .fill(0)
                               .map((item, index) => (
@@ -395,12 +365,14 @@ const FormUpload = (props: FormUploadProps) => {
                                   <Skeleton className='h-full w-full' />
                                 </div>
                               ))}
-                          {imageGetVideo.length > 1 &&
-                            imageGetVideo.map((item, index) => (
-                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
-                              </div>
-                            ))}
+                          {imageGetVideo &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
+                                </div>
+                              ))}
                         </div>
                         <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                           {errors.thumbnail?.message}
@@ -418,7 +390,7 @@ const FormUpload = (props: FormUploadProps) => {
                               Đã tải được {progressImage + '%'}
                             </span>
                           </div>
-                          {imageGetVideo.length === 0 &&
+                          {!imageGetVideo &&
                             Array(2)
                               .fill(0)
                               .map((item, index) => (
@@ -426,12 +398,14 @@ const FormUpload = (props: FormUploadProps) => {
                                   <Skeleton className='h-full w-full' />
                                 </div>
                               ))}
-                          {imageGetVideo.length > 1 &&
-                            imageGetVideo.map((item, index) => (
-                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
-                              </div>
-                            ))}
+                          {imageGetVideo &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
+                                </div>
+                              ))}
                         </div>
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
@@ -450,7 +424,7 @@ const FormUpload = (props: FormUploadProps) => {
                               <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
                             </button>
                           </div>
-                          {imageGetVideo.length === 0 &&
+                          {!imageGetVideo &&
                             Array(2)
                               .fill(0)
                               .map((item, index) => (
@@ -458,12 +432,14 @@ const FormUpload = (props: FormUploadProps) => {
                                   <Skeleton className='h-full w-full' />
                                 </div>
                               ))}
-                          {imageGetVideo.length > 1 &&
-                            imageGetVideo.map((item, index) => (
-                              <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                <img src={item} alt='thumbnail' className='h-full w-full object-cover' />
-                              </div>
-                            ))}
+                          {imageGetVideo &&
+                            Array(2)
+                              .fill(0)
+                              .map((item, index) => (
+                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
+                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
+                                </div>
+                              ))}
                         </div>
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
@@ -484,36 +460,45 @@ const FormUpload = (props: FormUploadProps) => {
                       childRef={childRef}
                       renderData={
                         <div
-                          className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
+                          className='absolute top-0 left-0 z-40 flex h-72 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f] max-lg:h-60 max-md:h-48'
                           ref={childRef}
                         >
-                          {dataPlayList?.data.data.map((item) => (
-                            <div
-                              className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
-                              key={item._id}
-                            >
-                              <input
-                                type='checkbox'
-                                className='h-4 w-4 accent-black dark:accent-white'
-                                id={item.title}
-                                value={item._id}
-                                checked={playListSelected.includes(item._id)}
-                                onChange={handleChangeSelected}
-                              />
-                              <label
-                                className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                                htmlFor={item.title}
+                          {dataPlayList &&
+                            dataPlayList.data.data.map((item) => (
+                              <div
+                                className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                key={item._id}
                               >
-                                {item.title}
-                              </label>
-                            </div>
-                          ))}
+                                <input
+                                  type='checkbox'
+                                  className='h-4 w-4 accent-black dark:accent-white'
+                                  id={item.title}
+                                  value={item._id}
+                                  checked={playListSelected.includes(item._id)}
+                                  onChange={handleChangeSelected}
+                                />
+                                <label
+                                  className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
+                                  htmlFor={item.title}
+                                >
+                                  {item.title}
+                                </label>
+                              </div>
+                            ))}
 
-                          <div className='relative bottom-0 left-0 my-1 flex w-full items-center justify-between px-2'>
-                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
+                          <div className='absolute bottom-1 left-1 my-1 flex w-full items-center justify-between px-2'>
+                            <button
+                              className='text-xs font-semibold text-[#1569d6]'
+                              type='button'
+                              onClick={handleOpenModalPlayList}
+                            >
                               TẠO MỚI
                             </button>
-                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseModalPlayList}>
+                            <button
+                              className='text-xs font-semibold text-[#1569d6]'
+                              type='button'
+                              onClick={handleCloseModalPlayList}
+                            >
                               XONG
                             </button>
                           </div>
@@ -524,7 +509,8 @@ const FormUpload = (props: FormUploadProps) => {
                       {playListSelected.length === 1 && (
                         <span className='text-xs text-gray-900 dark:text-gray-300 md:text-sm'>
                           {' '}
-                          {playListSelected[0]}
+                          {dataPlayList &&
+                            dataPlayList.data.data.find((item) => item._id === playListSelected[0])?.title}
                         </span>
                       )}
                       {playListSelected.length > 1 && (
@@ -566,7 +552,9 @@ const FormUpload = (props: FormUploadProps) => {
                         ))}
                     </div>
 
-                    <div className='my-1 min-h-[1.25rem]'></div>
+                    <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                      {errors.category?.message}
+                    </div>
                   </div>
                 </div>
 
@@ -575,8 +563,8 @@ const FormUpload = (props: FormUploadProps) => {
                   <div className='min-h-72 mb-2 flex w-80 flex-col bg-[#f9f9f9] dark:bg-[#1f1f1f]'>
                     {progressVideo === 0 && !urlVideo && (
                       <>
-                        <div className='flex h-full w-full flex-col'>
-                          <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:h-44 lg:w-80 '>
+                        <div className='flex h-full w-full flex-col '>
+                          <div className='flex h-44 w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:w-80'>
                             <div className='animate-spin'>
                               <AiOutlineLoading className='h-6 w-6 text-black dark:text-white md:h-9 md:w-9' />
                             </div>
@@ -603,7 +591,7 @@ const FormUpload = (props: FormUploadProps) => {
                     {progressVideo > 0 && progressVideo <= 100 && !urlImage && (
                       <>
                         <div className='flex h-full w-full flex-col'>
-                          <div className='flex h-full w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:h-44 lg:w-80 '>
+                          <div className='flex h-44 w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:w-80 '>
                             <div className='animate-spin'>
                               <AiOutlineLoading className='h-6 w-6 text-black dark:text-white md:h-9 md:w-9' />
                             </div>

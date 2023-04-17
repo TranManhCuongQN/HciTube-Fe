@@ -1,6 +1,7 @@
 import axios from 'axios'
 import sha1 from 'sha1'
 import { UploadVideo } from 'src/types/video.type'
+import http from 'src/utils/http'
 
 const ClOUD_NAME = 'dw254eqyp'
 const PRESENT_NAME = 'video_upload'
@@ -35,8 +36,8 @@ const uploadApi = {
       signal: controllerImage.signal
     })
   },
-  getThumbnail: (publicId: string, version: number) => {
-    return axios.get(`https://res.cloudinary.com/${ClOUD_NAME}/video/upload/v${version}/${publicId}.jpg`, {
+  getThumbnail: (publicId: string) => {
+    return axios.get(`https://res.cloudinary.com/${ClOUD_NAME}/video/upload/c_scale,w_400,h_200/v1/${publicId}.jpg`, {
       responseType: 'blob'
     })
   },
@@ -63,7 +64,7 @@ const uploadApi = {
     })
   },
   createVideo: (data: UploadVideo) => {
-    return axios.post(URL_CREATE_VIDEO, data)
+    return http.post(URL_CREATE_VIDEO, data)
   }
 }
 export default uploadApi

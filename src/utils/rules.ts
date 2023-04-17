@@ -99,7 +99,8 @@ export const uploadVideoSchema = yup.object({
     .min(3, 'Tối thiểu 3 ký tự')
     .max(500, 'Tối đa 500 ký tự'),
   thumbnail: yup.string().required('Vui lòng thêm ảnh'),
-  video: yup.string().required('Vui lòng thêm video')
+  video: yup.string().required('Vui lòng thêm video'),
+  category: yup.array().required('Vui lòng thêm thể loại video bạn muốn')
 })
 
 export const playListVideoSchema = yup.object({

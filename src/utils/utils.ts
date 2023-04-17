@@ -23,7 +23,7 @@ export function isAxiosUnauthorizedError<UnauthorizedError>(error: unknown): err
 export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): error is AxiosError<UnauthorizedError> {
   return (
     isAxiosUnauthorizedError<ErrorResponse<{ name: string; message: string }>>(error) &&
-    error.response?.data?.data?.name === 'EXPIRED_TOKEN'
+    error.response?.data?.message === 'TokenExpiredError'
   )
 }
 
@@ -75,4 +75,9 @@ export function convertDuration(duration: string) {
   formattedDuration += seconds.toString()
 
   return formattedDuration
+}
+
+export function convertBytesToMB(bytes: number) {
+  const megabytes = bytes / (1024 * 1024)
+  return megabytes.toFixed(2)
 }

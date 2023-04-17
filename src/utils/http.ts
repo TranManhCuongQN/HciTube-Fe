@@ -90,6 +90,7 @@ class Http {
           const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)
           const { url } = config
           if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
+            console.log('refresh token')
             this.refreshTokenRequest = this.refreshTokenRequest
               ? this.refreshTokenRequest
               : this.handleRefreshToken().finally(() => {
@@ -101,11 +102,11 @@ class Http {
               return this.instance({ ...config, headers: { ...config.headers, authorization: access_token } })
             })
           }
-          if (this.accessToken || this.refreshToken) {
-            clearLocalStorage()
-            this.accessToken = ''
-            this.refreshToken = ''
-          }
+
+          clearLocalStorage()
+          this.accessToken = ''
+          this.refreshToken = ''
+
           console.log(error.response?.data.data?.message || error.response?.data.message)
         }
         return Promise.reject(error)

@@ -8,6 +8,9 @@ export interface Video {
   comments: number
   description: string
   video: string
+  duration: string
+  category: string[]
+  playList: string[]
 }
 
 export interface ExtendedVideo extends Video {
@@ -15,12 +18,4 @@ export interface ExtendedVideo extends Video {
   disabled: boolean
 }
 
-export interface UploadVideo {
-  title: string
-  description: string
-  thumbnail: string
-  video: string
-  category: string[]
-  playList: string[]
-  duration: string
-}
+export type UploadVideo = Omit<Video, 'createdAt' | 'views' | 'like' | 'comments' | '_id'>

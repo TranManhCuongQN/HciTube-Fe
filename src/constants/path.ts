@@ -1,4 +1,3 @@
-import { playList } from './../types/playList.type'
 const path = {
   home: '/',
   login: '/login',
