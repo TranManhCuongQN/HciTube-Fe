@@ -11,13 +11,17 @@ import { ImCloudUpload } from 'react-icons/im'
 import Button from 'src/components/Button'
 import { AiOutlineLoading } from 'react-icons/ai'
 import { profileSchema, profileSchemaType } from 'src/utils/rules'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import profileApi from 'src/api/profile.api'
 import { AppContext } from 'src/context/app.context'
 import AvatarLetter from 'src/components/AvatarLetter'
 import Skeleton from 'src/components/Skeleton'
-type FormData = profileSchemaType
+import { User } from 'src/types/user.type'
+import { toast } from 'react-toastify'
+import { setProfileToLocalStorage } from 'src/utils/auth'
+import parse from 'html-react-parser'
 
+type FormData = profileSchemaType
 const ProfilePage = () => {
   const form = useForm<FormData>({
     resolver: yupResolver(profileSchema)
@@ -29,6 +33,7 @@ const ProfilePage = () => {
     setValue
   } = form
   const imageRef = useRef<HTMLInputElement>(null)
+  const thumbnailRef = useRef<HTMLInputElement>(null)
   const [fileImage, setFileImage] = useState<File | null>(null)
   const [idImage, setIdImage] = useState<string>('')
   const [urlImage, setUrlImage] = useState<string>('')
@@ -38,7 +43,6 @@ const ProfilePage = () => {
   const [idThumbnail, setIdThumbnail] = useState<string>('')
   const [fileThumbnail, setFileThumbnail] = useState<File | null>(null)
   const { setProfile } = useContext(AppContext)
-  const [isHoverImage, setIsHoverImage] = useState<boolean>(false)
   const { getRootProps, getInputProps, isDragReject } = useDropzone({
     accept: {
       'image/jpeg': ['.jpeg', '.png']
@@ -60,10 +64,14 @@ const ProfilePage = () => {
   })
 
   const profile = profileData?.data.data
-  console.log(profile)
+  // console.log(profile)
 
   const handleUploadImage = () => {
     imageRef.current?.click()
+  }
+
+  const handleUploadThumbnail = () => {
+    thumbnailRef.current?.click()
   }
 
   const handleUploadImageCloud = useCallback(async () => {
@@ -108,6 +116,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (fileImage !== null && fileImage !== undefined) {
+      console.log('run')
       handleUploadImageCloud()
     }
   }, [fileImage, handleUploadImageCloud])
@@ -123,7 +132,7 @@ const ProfilePage = () => {
       setValue('fullName', profile.fullName)
       setValue('avatar', profile.avatar)
       setValue('thumbnail', profile.thumbnail)
-      setValue('description', profile.description)
+      setValue('description', String(parse(profile.description)))
       setUrlImage(profile.avatar)
       setUrlThumbnail(profile.thumbnail)
     }
@@ -141,8 +150,10 @@ const ProfilePage = () => {
 
   const handleChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
+    console.log(files)
     if (files) {
-      setFileImage(files[0])
+      setFileThumbnail(files[0])
+      console.log(files[0])
       if (idThumbnail) {
         handleDeleteImage(idThumbnail)
       }
@@ -159,9 +170,28 @@ const ProfilePage = () => {
     }
   }
 
+  const updateProfileMutation = useMutation({
+    mutationFn: (data: Omit<User, '_id'>) => profileApi.updateProfle(data)
+  })
   const onSubmit = handleSubmit((data) => {
     console.log(data)
+    updateProfileMutation.mutate(data, {
+      onSuccess: (res) => {
+        console.log(res)
+        setProfile(res.data.user)
+        setProfileToLocalStorage(res.data.user)
+        toast.dismiss()
+        toast.success('Cập nhật thành công', {
+          position: 'top-right',
+          autoClose: 2000,
+          pauseOnHover: false
+        })
+      }
+    })
   })
+
+  console.log('urlThumbnail', urlThumbnail)
+  console.log('fileThumbnail', fileThumbnail)
 
   return (
     <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
@@ -216,34 +246,29 @@ const ProfilePage = () => {
                 )}
                 {progressImage === 0 && (
                   <div
-                    className='relative z-40 mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full border border-gray-50'
-                    onMouseEnter={() => setIsHoverImage(true)}
-                    onMouseLeave={() => setIsHoverImage(false)}
+                    className='upload-image relative mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full'
                     role='presentation'
                   >
                     {profile?.avatar ? (
                       <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
                     ) : (
                       <AvatarLetter
-                        className='h-full w-full object-cover'
+                        className=' h-full w-full object-cover  '
                         name={profile?.fullName as string}
                         classNameChild='text-8xl'
                       />
                     )}
 
-                    <button
-                      className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] '
-                      title='Thay đổi ảnh'
-                      onClick={handleUploadImage}
-                      type='button'
-                    >
-                      <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                    </button>
-
-                    <div
-                      className={`absolute top-0 left-0 right-0 rounded-full bg-[rgba(145,158,171,0.2)] 
-                   ${isHoverImage ? 'bottom-0 transition-all duration-1000 ease-linear' : ''} `}
-                    ></div>
+                    <div className='absolute top-0 left-0 h-full w-full rounded-full hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
+                      <button
+                        className='button-edit absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                        title='Thay đổi ảnh'
+                        onClick={handleUploadImage}
+                        type='button'
+                      >
+                        <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                      </button>
+                    </div>
                   </div>
                 )}
                 <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>{errors.avatar?.message}</div>
@@ -277,6 +302,7 @@ const ProfilePage = () => {
                 >
                   Ảnh bìa:
                 </label>
+                <input type='file' className='hidden' ref={thumbnailRef} onChange={handleChangeThumbnail} />
                 {progressThumbnail === 0 && !urlThumbnail && (
                   <div
                     className={`flex h-32 w-full cursor-pointer items-center justify-center rounded-xl border  border-dashed text-center max-md:h-[250px] md:h-[300px] lg:h-72 ${
@@ -284,7 +310,7 @@ const ProfilePage = () => {
                     } `}
                     {...getRootProps()}
                   >
-                    <input {...getInputProps()} type='file' accept='video/mp4,video/x-m4v,video/*' />
+                    <input {...getInputProps()} type='file' accept='image/png, image/gif, image/jpeg' />
                     <div className='flex flex-col items-center gap-y-4'>
                       <div className='animate-bounce text-center text-black dark:text-white'>
                         <ImCloudUpload className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
@@ -318,17 +344,19 @@ const ProfilePage = () => {
                 )}
                 {urlThumbnail && (
                   <div
-                    className={`relative flex h-32 w-full cursor-pointer items-center justify-center rounded-xl text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
+                    className={`upload-thumbnail relative flex h-32 w-full cursor-pointer items-center justify-center rounded-xl text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
                   >
                     <img src={urlThumbnail} alt='thumbnail' className='h-full w-full rounded-lg object-cover' />
-                    <button
-                      className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                      title='Thay đổi ảnh bìa'
-                      // onClick={handleUploadImage}
-                      type='button'
-                    >
-                      <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                    </button>
+                    <div className='absolute top-0 left-0 h-full w-full rounded-lg hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
+                      <button
+                        className='button-edit-thumbnail absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                        title='Thay đổi ảnh bìa'
+                        onClick={handleUploadThumbnail}
+                        type='button'
+                      >
+                        <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>

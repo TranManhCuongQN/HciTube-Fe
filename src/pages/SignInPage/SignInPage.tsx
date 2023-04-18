@@ -28,7 +28,7 @@ const SignInPage = () => {
   })
 
   const { t } = useTranslation(['auth'])
-  const { setIsVerify } = useContext(AppContext)
+  const { setIsVerify, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => authApi.login(body)
@@ -36,12 +36,13 @@ const SignInPage = () => {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         if (getAccessTokenFromLocalStorage() === '') {
           setIsVerify('1')
           navigate(path.verify)
         } else {
           setIsVerify('2')
+          setProfile(data.data.data.user)
           navigate(path.home)
         }
       },

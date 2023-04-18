@@ -35,7 +35,7 @@ const AvatarLetter = (props: AvatarProps) => {
         <span
           className={`${classNameChild} flex h-full w-full flex-shrink-0 items-center justify-center font-medium text-white`}
         >
-          {name[0]}
+          {name ? name[0].toUpperCase() : ''}
         </span>
       </div>
     </>

@@ -272,7 +272,7 @@ const FormUpload = (props: FormUploadProps) => {
       toast.success('Upload video thành công', {
         position: 'top-right',
         autoClose: 2000,
-        pauseOnHover: true
+        pauseOnHover: false
       })
       handleCLose()
     }
@@ -494,11 +494,7 @@ const FormUpload = (props: FormUploadProps) => {
                             >
                               TẠO MỚI
                             </button>
-                            <button
-                              className='text-xs font-semibold text-[#1569d6]'
-                              type='button'
-                              onClick={handleCloseModalPlayList}
-                            >
+                            <button className='text-xs font-semibold text-[#1569d6]' type='button'>
                               XONG
                             </button>
                           </div>

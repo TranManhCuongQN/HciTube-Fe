@@ -28,7 +28,7 @@ const VerifyPage = () => {
   })
 
   const { t } = useTranslation(['auth'])
-  const { setIsVerify } = useContext(AppContext)
+  const { setIsVerify, setProfile } = useContext(AppContext)
   const [remainingTime, setRemainingTime] = useState<{ minutes: number; seconds: number }>({ minutes: 1, seconds: 0 })
   const intervalRef = useRef<NodeJS.Timer>()
 
@@ -97,9 +97,10 @@ const VerifyPage = () => {
         encode: data.encode
       }
       verifyMutation.mutate(dataRequest, {
-        onSuccess: () => {
+        onSuccess: (data) => {
           setIsVerify('2')
           navigate('/')
+          setProfile(data.data.user)
         },
         onError: (error) => {
           if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {

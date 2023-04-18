@@ -5,7 +5,7 @@ import 'react-quill/dist/quill.snow.css'
 import ImageUploader from 'quill-image-uploader'
 import { Controller, useFormContext } from 'react-hook-form'
 import { AppContext } from 'src/context/app.context'
-
+import parse from 'html-react-parser'
 Quill.register('modules/imageUploader', ImageUploader)
 
 const Editor = ({ name }: { name: string }) => {
@@ -55,6 +55,7 @@ const Editor = ({ name }: { name: string }) => {
     }),
     []
   )
+
   return (
     <>
       <label htmlFor={name} className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'>
@@ -63,8 +64,8 @@ const Editor = ({ name }: { name: string }) => {
       <Controller
         control={control}
         name={name}
-        render={({ field }) => (
-          <>
+        render={({ field }) => {
+          return (
             <ReactQuill
               className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
               value={field.value}
@@ -74,8 +75,8 @@ const Editor = ({ name }: { name: string }) => {
               modules={modules}
               theme='snow'
             />
-          </>
-        )}
+          )
+        }}
       />
     </>
   )

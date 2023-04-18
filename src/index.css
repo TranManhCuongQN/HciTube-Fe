@@ -284,3 +284,10 @@ th {
   position: relative;
   z-index: 0 !important;
 }
+
+.upload-image:hover .button-edit {
+  opacity: 1;
+}
+.upload-thumbnail:hover .button-edit-thumbnail {
+  opacity: 1;
+}

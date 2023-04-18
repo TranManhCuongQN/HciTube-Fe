@@ -12,6 +12,8 @@ const Dropdown = ({ children, renderData, childRef }: DropDownProps) => {
 
   useOnClickOutside(childRef, () => setIsOpen(false))
 
+  const handleClose = () => setIsOpen(false)
+
   return (
     <>
       <div className='relative flex w-[280px] flex-col items-center rounded-lg max-sm:w-2/3'>
