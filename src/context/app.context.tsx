@@ -1,5 +1,7 @@
+import { profile } from 'console'
 import { userInfo } from 'os'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
+import { User } from 'src/types/user.type'
 import { ExtendedVideo } from 'src/types/video.type'
 import { getAccessTokenFromLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
@@ -17,11 +19,12 @@ interface AppContextInterface {
   setExtendedVideos: React.Dispatch<React.SetStateAction<ExtendedVideo[]>>
   thumbnail: string[]
   setThumbnail: React.Dispatch<React.SetStateAction<string[]>>
+  profile: User | null
+  setProfile: React.Dispatch<React.SetStateAction<User | null>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
   setShowSideBar: () => null,
-
   theme: localStorage.getItem('theme') || 'Light',
   setTheme: () => null,
   showSearchMobie: false,
@@ -31,13 +34,16 @@ const initialAppContext: AppContextInterface = {
   extendedVideos: [],
   setExtendedVideos: () => null,
   thumbnail: [],
-  setThumbnail: () => null
+  setThumbnail: () => null,
+  profile: getProfileFromLocalStorage(),
+  setProfile: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 const AppProvider = ({ children }: { children: ReactNode }) => {
   const [showSearchMobie, setShowSearchMobie] = useState<boolean>(initialAppContext.showSearchMobie)
   const [showSideBar, setShowSideBar] = React.useState<boolean>(initialAppContext.showSideBar)
+  const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
 
   const [theme, setTheme] = React.useState<string>(initialAppContext.theme)
   const element = document.documentElement
@@ -78,7 +84,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         extendedVideos,
         setExtendedVideos,
         thumbnail,
-        setThumbnail
+        setThumbnail,
+        profile,
+        setProfile
       }}
     >
       {children}

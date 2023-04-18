@@ -18,6 +18,7 @@ import AvatarLetter from '../AvatarLetter'
 
 const Header = () => {
   const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify } = useContext(AppContext)
+  const { profile } = useContext(AppContext)
 
   const { t } = useTranslation(['home'])
 
@@ -92,12 +93,11 @@ const Header = () => {
             {/* //* avatar */}
             {isVerify === '2' && (
               <div className=' h-8 w-8 rounded-full lg:h-10 lg:w-10'>
-                {/* <img
-                  src='https://cdn.pixabay.com/photo/2022/09/24/16/32/bulldog-7476727_960_720.jpg'
-                  alt='avatar'
-                  className='h-full w-full rounded-full object-cover'
-                /> */}
-                <AvatarLetter className='h-full w-full' name={'Cuong'} />
+                {profile?.avatar ? (
+                  <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
+                ) : (
+                  <AvatarLetter className='h-full w-full' name={profile?.fullName as string} />
+                )}
               </div>
             )}
 

@@ -44,7 +44,6 @@ class Http {
     )
     this.instance.interceptors.response.use(
       (response) => {
-        console.log(response.data)
         const { url } = response.config
         if (url === URL_LOGIN) {
           if (response.data.data.access_token && response.data.data.refresh_token) {
@@ -90,7 +89,6 @@ class Http {
           const config = error.response?.config || ({ headers: {} } as InternalAxiosRequestConfig)
           const { url } = config
           if (isAxiosExpiredTokenError(error) && url !== URL_REFRESH_TOKEN) {
-            console.log('refresh token')
             this.refreshTokenRequest = this.refreshTokenRequest
               ? this.refreshTokenRequest
               : this.handleRefreshToken().finally(() => {
