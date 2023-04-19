@@ -67,25 +67,6 @@ export const profileSchema = yup.object({
     .max(500, 'Tối đa 500 ký tự')
 })
 
-// profile
-export type profileSchemaType = yup.InferType<typeof profileSchema>
-
-// * login && register
-const loginSchema = schema.pick(['email', 'password'])
-export type loginSchemaType = yup.InferType<typeof loginSchema>
-export type registerSchemaType = yup.InferType<typeof schema>
-
-// * verify email
-export type verifySchemaType = yup.InferType<typeof verifySchema>
-
-// * forgot password
-const forgotPasswordSchema = schema.pick(['email'])
-export type forgotPasswordSchemaType = yup.InferType<typeof forgotPasswordSchema>
-
-//* reset password
-const resetPasswordSchema = schema.pick(['password', 'passwordConfirm'])
-export type resetPasswordSchemaType = yup.InferType<typeof resetPasswordSchema>
-
 // * upload video
 export const uploadVideoSchema = yup.object({
   title: yup.string().required('Vui lòng thêm tiêu đề').min(3, 'Tối thiểu 3 ký tự').max(100, 'Tối đa 100 ký tự'),
@@ -103,8 +84,57 @@ export const uploadVideoSchema = yup.object({
   category: yup.array().required('Vui lòng thêm thể loại video bạn muốn')
 })
 
+// * playList
 export const playListVideoSchema = yup.object({
   title: yup.string().required('Vui lòng thêm tiêu đề').min(3, 'Tối thiểu 3 ký tự').max(100, 'Tối đa 100 ký tự')
 })
 
+// * changePassword
+export const changePasswordSchema = yup.object({
+  passwordCurrent: yup
+    .string()
+    .required('Vui lòng nhập mật khẩu hiện tại')
+    .min(6, 'Mật khẩu tối thiểu 6 ký tự')
+    .max(60, 'Mật khẩu tối đa 60 ký tự')
+    .trim()
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
+      message: 'Bắt buộc phải có chữ hoa, chữ thường, ký tự đặc biệt, số'
+    }),
+  password: yup
+    .string()
+    .required('Vui lòng nhập mật khẩu hiện tại')
+    .min(6, 'Mật khẩu tối thiểu 6 ký tự')
+    .max(60, 'Mật khẩu tối đa 60 ký tự')
+    .trim()
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
+      message: 'Bắt buộc phải có chữ hoa, chữ thường, ký tự đặc biệt, số'
+    }),
+  passwordConfirm: yup
+    .string()
+    .required('Vui lòng nhập lại mật khẩu ')
+    .oneOf([yup.ref('password')], 'Mật khẩu không khớp')
+})
+
+// * login && register
+const loginSchema = schema.pick(['email', 'password'])
+export type loginSchemaType = yup.InferType<typeof loginSchema>
+export type registerSchemaType = yup.InferType<typeof schema>
+
+// * verify email
+export type verifySchemaType = yup.InferType<typeof verifySchema>
+
+// * forgot password
+const forgotPasswordSchema = schema.pick(['email'])
+export type forgotPasswordSchemaType = yup.InferType<typeof forgotPasswordSchema>
+
+//* reset password
+const resetPasswordSchema = schema.pick(['password', 'passwordConfirm'])
+export type resetPasswordSchemaType = yup.InferType<typeof resetPasswordSchema>
+
+//* profile
+export type profileSchemaType = yup.InferType<typeof profileSchema>
+
 export type uploadVideoSchemaType = yup.InferType<typeof uploadVideoSchema>
+
+//* changePassword
+export type changePasswordSchemaType = yup.InferType<typeof changePasswordSchema>
