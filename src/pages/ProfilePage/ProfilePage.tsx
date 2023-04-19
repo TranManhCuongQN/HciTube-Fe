@@ -31,7 +31,6 @@ const ProfilePage = () => {
     handleSubmit,
     formState: { errors },
     register,
-    reset,
     setValue
   } = form
   const imageRef = useRef<HTMLInputElement>(null)
@@ -144,7 +143,6 @@ const ProfilePage = () => {
     const files = e.target.files
     if (files?.length === 1) {
       setFileImage(files[0])
-      console.log('idImage:', idImage)
       if (idImage) {
         handleDeleteImage(idImage)
         setUrlImage('')
@@ -193,9 +191,6 @@ const ProfilePage = () => {
       }
     })
   })
-
-  console.log('idThumbnail1:', idThumbnail)
-  console.log('idImage1:', idImage)
 
   return (
     <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>

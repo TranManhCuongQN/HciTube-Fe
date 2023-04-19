@@ -21,6 +21,7 @@ import { useMutation, useQuery } from 'react-query'
 import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
 import { toast } from 'react-toastify'
+import { convertBytesToMB } from 'src/utils/utils'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -50,14 +51,22 @@ const FormUpload = (props: FormUploadProps) => {
       'video/x-matroska': ['.mkv', '.MKV']
     },
     onDrop(acceptedFiles) {
-      if (acceptedFiles.length > 0) {
+      if (Number(convertBytesToMB(acceptedFiles[0].size)) > 100) {
+        toast.dismiss()
+        toast.error('File video của bạn vượt quá 100MB cho phép', {
+          position: 'top-right',
+          autoClose: 2000,
+          pauseOnHover: false
+        })
+      }
+      if (acceptedFiles.length > 0 && Number(convertBytesToMB(acceptedFiles[0].size)) < 100) {
         handleFileChange(acceptedFiles)
         setFileNameVideo(acceptedFiles[0].name)
       }
     }
   })
 
-  const { isModalOpen, handleCloseModal, handleOpenModalPlayList, handleCloseModalPlayList } = props
+  const { isModalOpen, handleCloseModal, handleOpenModalPlayList } = props
   const [fileVideo, setFileVideo] = useState<File | null>(null)
   const [fileImage, setFileImage] = useState<File | null>(null)
   const imageRef = React.useRef<HTMLInputElement>(null)
@@ -102,20 +111,31 @@ const FormUpload = (props: FormUploadProps) => {
   }
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files) {
-      setFileVideo(files[0])
-      setFileNameVideo(files[0].name)
-      setValue('title', files[0].name)
+    const files = e.target.files as FileList
+    if (files.length > 0) {
+      if (Number(convertBytesToMB((files[0] as File)?.size)) < 100) {
+        setFileVideo(files[0])
+        setFileNameVideo(files[0].name)
+        setValue('title', files[0].name)
+      } else {
+        toast.dismiss()
+        toast.error('File video của bạn vượt quá 100MB cho phép', {
+          position: 'top-right',
+          autoClose: 2000,
+          pauseOnHover: false
+        })
+      }
     }
   }
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    if (files) {
+    if (files?.length === 1) {
       setFileImage(files[0])
       if (idImage) {
         handleDeleteImage()
+        setUrlImage('')
+        setValue('thumbnail', '')
       }
     }
   }
@@ -164,8 +184,6 @@ const FormUpload = (props: FormUploadProps) => {
   const handleDeleteImage = async () => {
     try {
       const res = await uploadApi.deleteImage(idImage)
-      setUrlImage('')
-      setValue('thumbnail', '')
     } catch (error) {
       console.log(error)
     }
@@ -272,7 +290,19 @@ const FormUpload = (props: FormUploadProps) => {
         autoClose: 2000,
         pauseOnHover: false
       })
-      handleCLose()
+      setFileVideo(null)
+      setFileImage(null)
+      setUrlVideo('')
+      setUrlImage('')
+      setShowForm(false)
+      handleCloseModal()
+      setProgressVideo(0)
+      setProgressImage(0)
+      setFileNameVideo('')
+      setImageGetVideo('')
+      setPlayListSelected([])
+      setCategories([])
+      reset()
     }
   })
   const onSubmit = handleSubmit((data) => {
@@ -284,6 +314,8 @@ const FormUpload = (props: FormUploadProps) => {
     createVideoMutation.mutate(dataUpload)
     console.log(dataUpload)
   })
+
+  console.log('urlImage:', urlImage)
 
   return (
     <DialogCustom
@@ -411,16 +443,18 @@ const FormUpload = (props: FormUploadProps) => {
                     {urlImage && (
                       <>
                         <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
-                          <div className='relative mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-2'>
+                          <div className='upload-image relative mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-2'>
                             <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
-                            <button
-                              className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                              title='Thay đổi ảnh'
-                              onClick={handleUploadImage}
-                              type='button'
-                            >
-                              <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                            </button>
+                            <div className='absolute top-0 left-0 h-full w-full hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
+                              <button
+                                className='button-edit absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow transition-all hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] '
+                                title='Thay đổi ảnh'
+                                onClick={handleUploadImage}
+                                type='button'
+                              >
+                                <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                              </button>
+                            </div>
                           </div>
                           {!imageGetVideo &&
                             Array(2)
@@ -470,14 +504,14 @@ const FormUpload = (props: FormUploadProps) => {
                                 <input
                                   type='checkbox'
                                   className='h-4 w-4 accent-black dark:accent-white'
-                                  id={item.title}
+                                  id={item._id}
                                   value={item._id}
                                   checked={playListSelected.includes(item._id)}
                                   onChange={handleChangeSelected}
                                 />
                                 <label
                                   className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                                  htmlFor={item.title}
+                                  htmlFor={item._id}
                                 >
                                   {item.title}
                                 </label>
@@ -531,13 +565,13 @@ const FormUpload = (props: FormUploadProps) => {
                               type='checkbox'
                               name='categories'
                               value={item._id}
-                              id={item.name}
+                              id={item._id}
                               checked={categories.includes(item._id)}
                               className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
                               onChange={handleChangeCategories}
                             />
                             <label
-                              htmlFor={item.name}
+                              htmlFor={item._id}
                               className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
                             >
                               {item.name}
@@ -582,7 +616,7 @@ const FormUpload = (props: FormUploadProps) => {
                         <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'></div>
                       </>
                     )}
-                    {progressVideo > 0 && progressVideo <= 100 && !urlImage && (
+                    {progressVideo > 0 && progressVideo <= 100 && (
                       <>
                         <div className='flex h-full w-full flex-col'>
                           <div className='flex h-44 w-full flex-col items-center justify-center gap-y-5 border border-dashed bg-[#e9e9e9] dark:bg-[#0d0d0d] lg:w-80 '>
@@ -725,6 +759,9 @@ const FormUpload = (props: FormUploadProps) => {
                 {...register('video')}
                 ref={fileRef}
                 onChange={handleChangeFile}
+                onClick={(event) => {
+                  ;(event.target as any).value = null
+                }}
               />
               <Button
                 className='mx-auto w-28 rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 max-lg:mt-5 md:text-sm'
