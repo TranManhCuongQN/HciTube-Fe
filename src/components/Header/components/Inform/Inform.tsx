@@ -4,11 +4,12 @@ import { BsBell } from 'react-icons/bs'
 
 import { useTranslation } from 'react-i18next'
 import ToolTip from 'src/components/ToolTip'
+import useOnClickOutside from 'src/hook/useOnClickOutSide'
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
   const informRef = React.useRef<HTMLButtonElement>(null)
   const { t } = useTranslation(['home'])
-  // useClickOutSide(informRef.current, () => setIsShow(false))
+  useOnClickOutside(informRef, () => setIsShow(false))
 
   return (
     <>
@@ -23,17 +24,17 @@ const Inform = () => {
           ) : (
             <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
           )}
-          {isShow && (
-            <div className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white p-4 shadow transition-all ease-linear dark:bg-[#282828]'>
-              <span className='text-left text-base text-black dark:text-white'>{t('side bar.notifications')}</span>
-              <div className='w-full border-b border-b-gray-400 pt-2'></div>
-              <div className='flex h-full w-full flex-col items-center justify-center gap-y-5'>
-                <BsBell className='h-28 w-28 text-[#909090] dark:text-[#717171] ' />
-                <span className='text-base font-semibold text-[#6a6a6a]'>Thông báo hiển thị ở đây</span>
-              </div>
-            </div>
-          )}
         </button>
+        {isShow && (
+          <div className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white p-4 shadow transition-all ease-linear dark:bg-[#282828]'>
+            <span className='text-left text-base text-black dark:text-white'>{t('side bar.notifications')}</span>
+            <div className='w-full border-b border-b-gray-400 pt-2'></div>
+            <div className='flex h-full w-full flex-col items-center justify-center gap-y-5'>
+              <BsBell className='h-28 w-28 text-[#909090] dark:text-[#717171] ' />
+              <span className='text-base font-semibold text-[#6a6a6a]'>Thông báo hiển thị ở đây</span>
+            </div>
+          </div>
+        )}
       </ToolTip>
     </>
   )

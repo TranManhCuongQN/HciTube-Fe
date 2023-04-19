@@ -15,10 +15,10 @@ import ChangeLanguage from './components/ChangeLanguage'
 import ChangeTheme from './components/ChangeTheme'
 import path from 'src/constants/path'
 import AvatarLetter from '../AvatarLetter'
+import AvatarProfile from './components/AvatarProfile'
 
 const Header = () => {
   const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify } = useContext(AppContext)
-  const { profile } = useContext(AppContext)
 
   const { t } = useTranslation(['home'])
 
@@ -91,15 +91,7 @@ const Header = () => {
             <ChangeTheme />
 
             {/* //* avatar */}
-            {isVerify === '2' && (
-              <div className=' h-8 w-8 rounded-full lg:h-10 lg:w-10'>
-                {profile?.avatar ? (
-                  <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
-                ) : (
-                  <AvatarLetter className='h-full w-full' name={profile?.fullName as string} />
-                )}
-              </div>
-            )}
+            {isVerify === '2' && <AvatarProfile />}
 
             {isVerify !== '2' && (
               <Link
