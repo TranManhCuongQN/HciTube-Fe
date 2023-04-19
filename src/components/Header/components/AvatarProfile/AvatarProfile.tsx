@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AvatarLetter from 'src/components/AvatarLetter'
 import { AppContext } from 'src/context/app.context'
 import useOnClickOutside from 'src/hook/useOnClickOutSide'
@@ -9,6 +9,7 @@ import { RiLockPasswordLine } from 'react-icons/ri'
 import { CgWindows } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
+import { ImExit } from 'react-icons/im'
 
 const AvatarProfile = () => {
   const { profile } = useContext(AppContext)
@@ -30,7 +31,7 @@ const AvatarProfile = () => {
         )}
 
         {isShow && (
-          <div className='absolute top-11 right-5 flex w-[250px] flex-col justify-start gap-y-5 rounded-lg bg-[#ffffff] shadow dark:bg-[#282828] '>
+          <div className='absolute top-11 right-5 flex w-[250px] flex-col justify-start gap-y-3 rounded-lg bg-[#ffffff] shadow dark:bg-[#282828] '>
             <div className='flex items-center gap-x-5 border-b-2 border-gray-400 p-2'>
               <div className='h-9 w-9'>
                 {profile?.avatar ? (
@@ -44,20 +45,23 @@ const AvatarProfile = () => {
 
             <Link
               to={path.profile}
-              className='flex items-center gap-x-6  py-2 hover:bg-[#f2f2f2] dark:hover:bg-red-500'
+              className='flex items-center gap-x-6  py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
             >
               <AiOutlineProfile className='ml-4 h-6 w-6 text-black dark:text-white ' />
               <span className='text-sm font-medium text-black dark:text-white'>Trang hồ sơ</span>
             </Link>
 
-            <Link to={path.upload} className='flex items-center gap-x-6  py-2 hover:bg-[#f2f2f2] dark:hover:bg-red-500'>
+            <Link
+              to={path.upload}
+              className='flex items-center gap-x-6  py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
+            >
               <CgWindows className='ml-4 h-6 w-6 text-black dark:text-white ' />
               <span className='text-sm font-medium text-black dark:text-white'>Trang tổng quản</span>
             </Link>
 
             <Link
               to={path.content}
-              className='flex items-center gap-x-6  py-2 hover:bg-[#f2f2f2] dark:hover:bg-red-500'
+              className='flex items-center gap-x-6  py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
             >
               <MdOutlineVideoLibrary className='ml-4 h-6 w-6 text-black dark:text-white' />
               <span className='text-sm font-medium text-black dark:text-white'>Nội dung</span>
@@ -65,7 +69,7 @@ const AvatarProfile = () => {
 
             <Link
               to={path.analytics}
-              className='flex items-center gap-x-6  py-2 hover:bg-[#f2f2f2] dark:hover:bg-red-500'
+              className='flex items-center gap-x-6  py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
             >
               <BsBarChartLineFill className='ml-4 h-6 w-6 text-black dark:text-white' />
               <span className='text-sm font-medium text-black dark:text-white'>Số liệu phân tích</span>
@@ -73,11 +77,16 @@ const AvatarProfile = () => {
 
             <Link
               to={path.changePassword}
-              className='mb-5 flex items-center gap-x-6 py-2 hover:bg-[#f2f2f2] dark:hover:bg-red-500'
+              className='flex items-center  gap-x-6 py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
             >
               <RiLockPasswordLine className='ml-4 h-6 w-6 text-black dark:text-white ' />
               <span className='text-sm font-medium text-black dark:text-white'>Đổi mật khẩu</span>
             </Link>
+
+            <button className='mb-5 flex items-center  gap-x-6 py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'>
+              <ImExit className='ml-4 h-6 w-6 text-black dark:text-white ' />
+              <span className='text-sm font-medium text-black dark:text-white'>Đăng xuất</span>
+            </button>
           </div>
         )}
       </div>

@@ -8,7 +8,6 @@ import { getAccessTokenFromLocalStorage, getProfileFromLocalStorage } from 'src/
 interface AppContextInterface {
   showSideBar: boolean
   setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>
-
   theme: string
   setTheme: React.Dispatch<React.SetStateAction<string>>
   showSearchMobie: boolean
@@ -25,7 +24,7 @@ interface AppContextInterface {
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
   setShowSideBar: () => null,
-  theme: localStorage.getItem('theme') || 'Light',
+  theme: localStorage.getItem('theme') || 'Dark',
   setTheme: () => null,
   showSearchMobie: false,
   setShowSearchMobie: () => null,
