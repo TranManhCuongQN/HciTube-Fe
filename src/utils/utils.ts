@@ -80,3 +80,8 @@ export function convertBytesToMB(bytes: number) {
   const megabytes = bytes / (1024 * 1024)
   return megabytes.toFixed(2)
 }
+
+export const getPublicId = (imageURL: string) => {
+  const getPublicId = `youtube-clone/video/${imageURL?.split('/')?.pop()?.split('.')[0]}`
+  return getPublicId
+}

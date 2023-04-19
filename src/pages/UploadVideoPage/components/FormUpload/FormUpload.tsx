@@ -88,7 +88,6 @@ const FormUpload = (props: FormUploadProps) => {
 
   const handleFileChange = (files: React.SetStateAction<File | null>[]) => {
     setFileVideo(files[0])
-    console.log(files[0])
     if (files) {
       setValue('title', files[0]?.name as string)
     }
@@ -106,7 +105,6 @@ const FormUpload = (props: FormUploadProps) => {
     const files = e.target.files
     if (files) {
       setFileVideo(files[0])
-      console.log(files[0])
       setFileNameVideo(files[0].name)
       setValue('title', files[0].name)
     }

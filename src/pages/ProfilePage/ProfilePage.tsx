@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import uploadApi from 'src/api/upload.api'
+import uploadApi, { controllerImage } from 'src/api/upload.api'
 import Editor from 'src/components/Editor'
 import Input from 'src/components/Input'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
@@ -20,6 +20,7 @@ import { User } from 'src/types/user.type'
 import { toast } from 'react-toastify'
 import { setProfileToLocalStorage } from 'src/utils/auth'
 import parse from 'html-react-parser'
+import { getPublicId } from 'src/utils/utils'
 
 type FormData = profileSchemaType
 const ProfilePage = () => {
@@ -30,6 +31,7 @@ const ProfilePage = () => {
     handleSubmit,
     formState: { errors },
     register,
+    reset,
     setValue
   } = form
   const imageRef = useRef<HTMLInputElement>(null)
@@ -64,7 +66,6 @@ const ProfilePage = () => {
   })
 
   const profile = profileData?.data.data
-  // console.log(profile)
 
   const handleUploadImage = () => {
     imageRef.current?.click()
@@ -116,7 +117,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (fileImage !== null && fileImage !== undefined) {
-      console.log('run')
       handleUploadImageCloud()
     }
   }, [fileImage, handleUploadImageCloud])
@@ -131,7 +131,9 @@ const ProfilePage = () => {
     if (profile) {
       setValue('fullName', profile.fullName)
       setValue('avatar', profile.avatar)
+      setIdImage(getPublicId(profile.avatar) as string)
       setValue('thumbnail', profile.thumbnail)
+      setIdThumbnail(getPublicId(profile.thumbnail) as string)
       setValue('description', String(parse(profile.description)))
       setUrlImage(profile.avatar)
       setUrlThumbnail(profile.thumbnail)
@@ -140,22 +142,27 @@ const ProfilePage = () => {
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    if (files) {
+    if (files?.length === 1) {
       setFileImage(files[0])
+      console.log('idImage:', idImage)
       if (idImage) {
         handleDeleteImage(idImage)
+        setUrlImage('')
+        setValue('avatar', '')
       }
     }
   }
 
   const handleChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    console.log(files)
-    if (files) {
+    if (files?.length === 1) {
       setFileThumbnail(files[0])
-      console.log(files[0])
+      console.log('idThumbnail:', idThumbnail)
       if (idThumbnail) {
+        console.log('delate')
         handleDeleteImage(idThumbnail)
+        setUrlThumbnail('')
+        setValue('thumbnail', '')
       }
     }
   }
@@ -163,8 +170,6 @@ const ProfilePage = () => {
   const handleDeleteImage = async (id: string) => {
     try {
       const res = await uploadApi.deleteImage(id)
-      setUrlImage('')
-      setValue('avatar', '')
     } catch (error) {
       console.log(error)
     }
@@ -177,7 +182,6 @@ const ProfilePage = () => {
     console.log(data)
     updateProfileMutation.mutate(data, {
       onSuccess: (res) => {
-        console.log(res)
         setProfile(res.data.user)
         setProfileToLocalStorage(res.data.user)
         toast.dismiss()
@@ -190,8 +194,8 @@ const ProfilePage = () => {
     })
   })
 
-  console.log('urlThumbnail', urlThumbnail)
-  console.log('fileThumbnail', fileThumbnail)
+  console.log('idThumbnail1:', idThumbnail)
+  console.log('idImage1:', idImage)
 
   return (
     <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
@@ -261,7 +265,7 @@ const ProfilePage = () => {
 
                     <div className='absolute top-0 left-0 h-full w-full rounded-full hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
                       <button
-                        className='button-edit absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                        className='button-edit absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[#00000042] dark:hover:bg-[rgba(225,225,225,0.15)]'
                         title='Thay đổi ảnh'
                         onClick={handleUploadImage}
                         type='button'
@@ -342,12 +346,12 @@ const ProfilePage = () => {
                     </div>
                   </div>
                 )}
-                {urlThumbnail && (
+                {urlThumbnail && progressThumbnail === 0 && (
                   <div
                     className={`upload-thumbnail relative flex h-32 w-full cursor-pointer items-center justify-center rounded-xl text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
                   >
                     <img src={urlThumbnail} alt='thumbnail' className='h-full w-full rounded-lg object-cover' />
-                    <div className='absolute top-0 left-0 h-full w-full rounded-lg hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
+                    <div className='absolute top-0 left-0 h-full w-full rounded-lg hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
                       <button
                         className='button-edit-thumbnail absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
                         title='Thay đổi ảnh bìa'
