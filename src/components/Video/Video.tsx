@@ -7,35 +7,47 @@ import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
 import Lauv from 'src/assets/Lauv.mp4'
+import Evy from 'src/assets/EVY.mp4'
+import ToolTip from './ToolTip'
+
 import Thumbnail from './Thumbnail'
+import { isUndefined } from 'lodash'
 
 declare global {
   interface HTMLInputElement {
     oldvalue?: number
   }
+  interface ThumbnailProps extends Object {
+    mouseClientX?: number
+    thumbnailCurrentTime?: number;
+    rectProgress?: DOMRect
+  }
 }
+
+
+const playlistSrc = [Lauv, Evy];
+
 
 const Video = ({ handleTheaterMode }: any) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
 
+  const [videoIndex, setVideoIndex] = useState<number>(0);
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
   const [zoomOut, setZoomOut] = useState<boolean>(false)
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
+  const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
+
 
   const videoDuration = videoRef.current?.duration || 0
-
-  const videoSrc = Lauv
-
-  const handlePlayAndPause = () => {
-    if (playing == false) {
-      playVideo()
-    } else {
-      pauseVideo()
+  const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
+    let valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
+    if (ref.current) {
+      ref.current.style.background = `linear-gradient(to right, ${leftColor} ${valPercent}%, ${rightColor} ${valPercent}%`
     }
   }
 
@@ -46,6 +58,14 @@ const Video = ({ handleTheaterMode }: any) => {
     const minute = result.slice(3, 5)
     const second = result.slice(6, 8)
     return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
+  }
+
+  const handlePlayAndPause = () => {
+    if (playing == false) {
+      playVideo()
+    } else {
+      pauseVideo()
+    }
   }
 
   // Update time elapsed
@@ -61,12 +81,14 @@ const Video = ({ handleTheaterMode }: any) => {
     if (progressRef.current) {
       progressRef.current.value = String(durationPercent)
     }
-    slider(progressRef, 'red', 'rgba(255, 255, 255, 0.3)')
-  }, [timeElapsed, videoDuration])
+    if(videoDuration != 0) slider(progressRef, 'red', 'rgba(255, 255, 255, 0.3)')
+    else slider(progressRef, 'rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.3)')
+  }, [timeElapsed])
 
-  const handleClickProgress = () => {
-    if (videoRef.current && progressRef.current) {
-      videoRef.current.currentTime = (Number(progressRef.current.value) / 100) * videoDuration
+
+  const handleClickProgress = (e:any) => {
+    if(videoRef.current && thumbnailProps) {
+      videoRef.current.currentTime = thumbnailProps.thumbnailCurrentTime ? thumbnailProps.thumbnailCurrentTime : 0;
       updateTimeElapsed()
     }
   }
@@ -105,6 +127,7 @@ const Video = ({ handleTheaterMode }: any) => {
       videoRef.current.volume = Number(volumeRef.current.value)
       volumeRef.current.oldvalue = videoRef.current.volume
       slider(volumeRef, 'white', 'rgba(255, 255, 255, 0.3)')
+       
     }
   }
 
@@ -132,12 +155,7 @@ const Video = ({ handleTheaterMode }: any) => {
     }
   }, [])
 
-  const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
-    const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
-    if (ref.current) {
-      ref.current.style.background = `linear-gradient(to right, ${leftColor} ${valPercent}%, ${rightColor} ${valPercent}%`
-    }
-  }
+
   // Pass data from Video to WatchingLayout
   useEffect(() => {
     handleTheaterMode(theaterMode)
@@ -153,20 +171,36 @@ const Video = ({ handleTheaterMode }: any) => {
   }
 
   // Thumbnail
-  const [thumbnailProps, setThumbnailProps] = useState<object>({})
   const calculateProgressValueWhenMouseMove = (e: any) => {
-    const x = e.clientX
+    const props = getProgressValueAtMousePosition(e);
+    setThumbnailProps(props)
+  }
+
+  const getProgressValueAtMousePosition = (e: any) => {
+    const x = e.clientX;
     const rect = progressRef.current?.getBoundingClientRect()
     const val = (x - (rect?.left as number)) / (rect?.width as number)
     const thumbnailCurrentTime = val * videoDuration
-
-    const props = {
+    const props: ThumbnailProps = {
       mouseClientX: x,
       thumbnailCurrentTime,
       rectProgress: rect
-    }
-    setThumbnailProps(props)
+    };
+    return props
   }
+  // console.log(thumbnailProps)
+
+  // Handle click next button
+  const  movingForwardVideo = () => {
+    if(videoIndex == playlistSrc.length - 1) setVideoIndex(0)
+    else setVideoIndex(prev => prev + 1);
+  }
+  // Handle click prev button
+  const  movingBackwardVideo = () => {
+    if(videoIndex == 0) setVideoIndex(playlistSrc.length - 1)
+    else setVideoIndex(prev => prev - 1);
+  }
+
 
   return (
     <div className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
@@ -177,15 +211,16 @@ const Video = ({ handleTheaterMode }: any) => {
           role='presentation'
         >
           <video
-            src={videoSrc}
+            src={playlistSrc[videoIndex]}
             ref={videoRef}
-            autoPlay
+            onLoadedMetadata={playVideo}
             onTimeUpdate={updateTimeElapsed}
+            onEnded={movingForwardVideo}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full `}
           />
           {/* Play and Pause on Desktop */}
           <div
-            className='absolute top-0 right-0 left-0 hidden h-full items-center justify-center lg:flex'
+            className='hidden absolute top-0 right-0 left-0 h-full items-center justify-center z-30 lg:flex'
             role='presentation'
             onClick={handlePlayAndPause}
           >
@@ -205,7 +240,10 @@ const Video = ({ handleTheaterMode }: any) => {
             <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
 
             <div className='absolute top-0 left-[1.875rem] right-[1.875rem] mx-3 flex h-full items-center justify-center lg:hidden lg:justify-between'>
-              <BiSkipPrevious className='p-2 text-[4rem] text-white lg:hidden' />
+              <BiSkipPrevious 
+                onClick={movingBackwardVideo} 
+                className='p-2 text-[4rem] text-white lg:hidden' 
+              />
               <div className='sm:mx-16'>
                 <BiPlay
                   className={(playing ? 'hidden' : '') + ' p-2 text-[6rem] text-white lg:hidden'}
@@ -216,21 +254,49 @@ const Video = ({ handleTheaterMode }: any) => {
                   onClick={pauseVideo}
                 />
               </div>
-              <BiSkipNext className='p-2 text-[4rem] text-white lg:hidden' />
+              <BiSkipNext 
+                onClick={movingForwardVideo}  
+                className='p-2 text-[4rem] text-white lg:hidden' 
+              />
             </div>
 
             <div className=' absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between lg:left-[0.75rem] lg:right-[0.75rem] lg:flex-col-reverse '>
-              <div className=' flex w-full items-center justify-between lg:h-12'>
+              
+              <div className=' flex w-full items-center justify-between lg:h-12 z-50'>
                 <div className='flex items-center'>
-                  <BiSkipPrevious className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' />
-                  <div className='hidden lg:flex lg:hover:cursor-pointer'>
-                    <BiPlay className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'} onClick={playVideo} />
-                    <BiPause
-                      className={(playing ? '' : 'hidden') + ' h-12 w-12 px-1 text-white'}
-                      onClick={pauseVideo}
+                  <div className="tooltip-video">
+                    <BiSkipPrevious 
+                      onClick={movingBackwardVideo} 
+                      className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' 
                     />
+                    <ToolTip text="Phát video trước" keyname="q" left="0"/>
                   </div>
-                  <BiSkipNext className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' />
+                  <div className='hidden lg:flex lg:hover:cursor-pointer'>
+                    <div className="tooltip-video">
+                      <BiPlay 
+                        className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'} 
+                        onClick={playVideo} 
+                      />
+                      <ToolTip text="Phát" keyname="k"/>
+                    </div>
+
+                    <div className="tooltip-video">
+                      <BiPause
+                        className={(playing ? '' : 'hidden') + ' h-12 w-12 px-1 text-white'}
+                        onClick={pauseVideo}
+                      />
+                      <ToolTip text="Tạm dừng" keyname="k"/>
+
+                    </div>
+                  </div>
+                  <div className="tooltip-video">
+                    <BiSkipNext 
+                      onClick={movingForwardVideo}  
+                      className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' 
+                    />
+                    <ToolTip text="Phát video tiếp theo" keyname="q"/>
+
+                  </div>
 
                   <div className='group mr-2 flex max-w-[100px] items-center' id='Volume'>
                     <div
@@ -238,8 +304,15 @@ const Video = ({ handleTheaterMode }: any) => {
                       onClick={toggleMute}
                       role='presentation'
                     >
-                      <HiVolumeUp className={`${muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
-                      <HiVolumeOff className={`${!muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
+                      <div className="tooltip-video">
+                        <HiVolumeUp className={`${muted  && 'hidden'} w-12 text-[1.5rem] text-white`} />
+                        <ToolTip text="Tắt tiếng" keyname="m"/>
+                      </div>
+
+                      <div className="tooltip-video">
+                        <HiVolumeOff className={`${!muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
+                        <ToolTip text="Bật âm thanh" keyname="m"/>
+                      </div>
                     </div>
 
                     <div className='volume-slider-container flex items-center'>
@@ -250,7 +323,7 @@ const Video = ({ handleTheaterMode }: any) => {
                         step={0.1}
                         onChange={handleChangeVolume}
                         ref={volumeRef}
-                        className='volume-slider'
+                        className='volume-slider hover:cursor-pointer'
                       />
                     </div>
                   </div>
@@ -265,16 +338,23 @@ const Video = ({ handleTheaterMode }: any) => {
                 </div>
 
                 <div className='flex items-center'>
-                  <div className='hidden items-center hover:cursor-pointer md:flex lg:h-12'>
+                  <div className='tooltip-video hidden items-center hover:cursor-pointer md:flex lg:h-12'>
                     <IoMdSettings className='text-white lg:w-12 lg:text-[1.5rem]' />
+                    <ToolTip text="Cài đặt" keyname="s"/>
                   </div>
                   <div
                     className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
                     onClick={handleClickTheaterMode}
                     role='presentation'
                   >
-                    <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
-                    <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
+                    <div className="tooltip-video">
+                      <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
+                      <ToolTip text="Chế độ rạp chiếu phim" keyname="t" right="0"/>
+                    </div>
+                    <div className="tooltip-video">
+                      <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
+                      <ToolTip text="Chế độ xem mặc định" keyname="t" right="0"/>
+                    </div>
                   </div>
 
                   <div
@@ -285,28 +365,38 @@ const Video = ({ handleTheaterMode }: any) => {
                       toggleFullScreen()
                     }}
                   >
-                    <MdZoomInMap className={(zoomOut ? '' : 'hidden') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
-                    <MdZoomOutMap className={(zoomOut ? 'hidden' : '') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
+                    <div className="tooltip-video">
+                      <MdZoomInMap className={(zoomOut ? '' : 'hidden') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
+                      <ToolTip text="Thoát khỏi chế độ toàn màn hình" keyname="f" right="0"/>
+                    </div>
+
+                    <div className="tooltip-video">
+                      <MdZoomOutMap className={(zoomOut ? 'hidden' : '') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
+                      <ToolTip text="Toàn màn hình" keyname="f" right="0"/>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className='relative' id='ProgressBar'>
-                <Thumbnail props={thumbnailProps} />
+              <div className='relative z-50' id='ProgressBar'>
+                { !isUndefined(thumbnailProps) && <Thumbnail thumbnailProps={thumbnailProps} videoSrc={playlistSrc[videoIndex]} />}
                 <div className='w-full '>
                   <input
                     ref={progressRef}
-                    onInput={handleClickProgress}
+                    onInput={(e) => {handleClickProgress(e)}}
                     onMouseMove={(e) => {
                       calculateProgressValueWhenMouseMove(e)
                     }}
                     type='range'
                     min={0}
                     max={100}
-                    step={1}
+                    step={0.1}
                     className='progress-slider my-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
                   />
                 </div>
+              </div>
+
+              <div className="hidden lg:block absolute bottom-0 left-[-30px] right-[-30px] bg-gradient-to-t from-[rgba(0,0,0,0.6)] from-0% via-[rgba(0,0,0,0.2)] via-20% to-[rgba(0,0,0,0)] to-90% h-[300%]">
               </div>
             </div>
           </div>

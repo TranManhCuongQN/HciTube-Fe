@@ -12,9 +12,9 @@ html {
 }
 
 body {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
 }
+
 
 @media screen and (min-width: 1536px) {
   body {
@@ -290,4 +290,9 @@ th {
 }
 .upload-thumbnail:hover .button-edit-thumbnail {
   opacity: 1;
+}
+
+/* Tooltip video */
+.tooltip-video:hover .tooltip-text {
+  visibility: visible;
 }

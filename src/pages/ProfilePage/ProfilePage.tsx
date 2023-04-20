@@ -128,14 +128,20 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (profile) {
-      setValue('fullName', profile.fullName)
-      setValue('avatar', profile.avatar)
-      setIdImage(getPublicId(profile.avatar) as string)
-      setValue('thumbnail', profile.thumbnail)
-      setIdThumbnail(getPublicId(profile.thumbnail) as string)
-      setValue('description', String(parse(profile.description)))
-      setUrlImage(profile.avatar)
-      setUrlThumbnail(profile.thumbnail)
+      setValue('fullName', profile?.fullName)
+      if (profile?.thumbnail) {
+        setValue('thumbnail', profile?.thumbnail)
+        setIdThumbnail(getPublicId(profile?.thumbnail) as string)
+        setUrlThumbnail(profile?.thumbnail)
+      }
+      if (profile?.description) {
+        setValue('description', String(parse(profile?.description)))
+      }
+      if (profile?.avatar) {
+        setValue('avatar', profile?.avatar)
+        setIdImage(getPublicId(profile.avatar) as string)
+        setUrlImage(profile?.avatar)
+      }
     }
   }, [profile, setValue])
 
@@ -248,7 +254,7 @@ const ProfilePage = () => {
                     className='upload-image relative mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full'
                     role='presentation'
                   >
-                    {profile?.avatar ? (
+                    {urlImage ? (
                       <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
                     ) : (
                       <AvatarLetter

@@ -42,7 +42,7 @@ const SignInPage = () => {
           navigate(path.verify)
         } else {
           setIsVerify('2')
-          setProfile(data.data.data.user)
+          setProfile(() => data.data.data.user)
           navigate(path.home)
         }
       },
