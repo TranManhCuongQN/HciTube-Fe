@@ -26,7 +26,7 @@ import VerifyPage from './pages/VerifyPage'
 
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
-  return isVerify === '2' ? <Outlet /> : <Navigate to='/login' />
+  return isVerify === '2' ? <Outlet /> : <Navigate to='/' />
 }
 
 function CheckVerify() {

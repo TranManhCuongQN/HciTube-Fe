@@ -10,12 +10,26 @@ import { CgWindows } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
 import { ImExit } from 'react-icons/im'
+import { useMutation } from 'react-query'
+import authApi from 'src/api/auth.api'
 
 const AvatarProfile = () => {
   const { profile } = useContext(AppContext)
   const [isShow, setIsShow] = useState<boolean>(false)
   const avatarRef = React.useRef<HTMLDivElement>(null)
+  const { setIsVerify, setProfile } = useContext(AppContext)
   useOnClickOutside(avatarRef, () => setIsShow(false))
+  const logoutMutation = useMutation({
+    mutationFn: authApi.logout,
+    onSuccess: () => {
+      setIsVerify('0')
+      setProfile(null)
+    }
+  })
+
+  const handleExit = () => {
+    logoutMutation.mutate()
+  }
   return (
     <>
       <div
@@ -83,7 +97,10 @@ const AvatarProfile = () => {
               <span className='text-sm font-medium text-black dark:text-white'>Đổi mật khẩu</span>
             </Link>
 
-            <button className='mb-5 flex items-center  gap-x-6 py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'>
+            <button
+              className='mb-5 flex items-center  gap-x-6 py-2 hover:bg-[#E5E5E5] dark:hover:bg-[#303030]'
+              onClick={handleExit}
+            >
               <ImExit className='ml-4 h-6 w-6 text-black dark:text-white ' />
               <span className='text-sm font-medium text-black dark:text-white'>Đăng xuất</span>
             </button>
