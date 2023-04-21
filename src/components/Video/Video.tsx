@@ -156,9 +156,9 @@ const Video = ({ handleTheaterMode }: any) => {
 
 
   // Pass data from Video to WatchingLayout
-  useEffect(() => {
-    handleTheaterMode(theaterMode)
-  }, [theaterMode, handleTheaterMode])
+  // useEffect(() => {
+  //   handleTheaterMode(theaterMode)
+  // }, [theaterMode, handleTheaterMode])
 
   //Handle click zoom button
   function toggleFullScreen() {
@@ -247,6 +247,7 @@ const Video = ({ handleTheaterMode }: any) => {
             onTimeUpdate={updateTimeElapsed}
             onEnded={movingForwardVideo}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full `}
+            id="Video"
           />
           {/* Play and Pause on Desktop */}
           <div
@@ -265,7 +266,6 @@ const Video = ({ handleTheaterMode }: any) => {
               onClick={pauseVideo}
             />
           </div>
-
           <div className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'}`}>
             <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
 

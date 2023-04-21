@@ -9,7 +9,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -17,7 +18,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 127
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -25,7 +27,9 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 60
+
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -33,7 +37,9 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
+
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -41,7 +47,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 10
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -49,7 +56,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -57,7 +65,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -65,7 +74,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -73,7 +83,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -81,7 +92,9 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
+
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -89,7 +102,9 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
+
   },
   {
     thumbnail: 'https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg',
@@ -97,7 +112,8 @@ const InforVideo = [
     title: 'Ờ Thì Là Mình Thì Vẫn Cứ Lướt... Kìa Bóng Dáng Ai - Nhạc Chill TikTok - Nhạc Lofi Hot TikTok 2023',
     user: 'Mạnh Cường',
     view: 100000,
-    dataSubmitted: 1
+    dataSubmitted: 1,
+    lastPlayedTime: 0
   }
 ]
 

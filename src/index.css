@@ -296,3 +296,21 @@ th {
 .tooltip-video:hover .tooltip-text {
   visibility: visible;
 }
+
+#Video::-webkit-media-controls {
+  display: none !important;
+}
+#Video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+#Video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+#Video::-moz-media-controls {
+  display: none !important;
+}
+
+#Video::-ms-media-controls {
+  display: none !important;
+}
