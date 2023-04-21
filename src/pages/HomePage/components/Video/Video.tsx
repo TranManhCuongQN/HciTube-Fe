@@ -2,18 +2,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
 import Lauv from 'src/assets/Lauv.mp4'
-import Evy from 'src/assets/EVY.mp4'
-import { isUndefined } from 'lodash'
 
 
-const playlistSrc = [Lauv, Evy];
+const playlistSrc = Lauv;
 
 
 const Video = (props:any) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
 
-  const [videoIndex, setVideoIndex] = useState<number>(0);
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
 
   useEffect(() => {
@@ -23,7 +20,8 @@ const Video = (props:any) => {
   }, [])
 
 
-  const videoDuration = videoRef.current?.duration || 0
+  const videoDuration = videoRef.current?.duration || 0;
+
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
     let valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
     if (ref.current) {
@@ -74,7 +72,7 @@ const Video = (props:any) => {
           role='presentation'
         >
           <video
-            src={playlistSrc[videoIndex]}
+            src={playlistSrc}
             ref={videoRef}
             autoPlay
             onTimeUpdate={updateTimeElapsed}
@@ -82,8 +80,8 @@ const Video = (props:any) => {
             id="Video"
           />
 
-          <div className='absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between'>          
-            <div className='text-xs text-[#DDD] z-50'>
+          <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>          
+            <div className='text-xs ml-3 text-[#DDD] z-50'>
               <span>{timeElapsed}</span>
               <span className='opacity-70 lg:opacity-100'> / </span>
               <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
@@ -97,11 +95,11 @@ const Video = (props:any) => {
                   min={0}
                   max={100}
                   step={0.1}
-                  className='progress-slider my-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
+                  className='progress-slider mt-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
                 />
             </div>
 
-            <div className="hidden lg:block absolute bottom-0 left-[-30px] right-[-30px] bg-gradient-to-t from-[rgba(0,0,0,0.6)] from-0% via-[rgba(0,0,0,0.2)] via-20% to-[rgba(0,0,0,0)] to-90% h-[300%]">
+            <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] from-0% via-[rgba(0,0,0,0.2)] via-20% to-[rgba(0,0,0,0)] to-90% h-[300%]">
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ const HomePage = () => {
 
   return (
     <>
-      <div className='container flex gap-x-20 bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] lg:px-8'>
+      <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 
         <div className={`mb-16 flex w-full flex-col 2xl:pl-64`}>

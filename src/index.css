@@ -314,3 +314,16 @@ th {
 #Video::-ms-media-controls {
   display: none !important;
 }
+
+
+/* Swipper */
+.swiper {
+  margin: 0!important; 
+  padding: 0!important;
+
+}
+
+.swiper-slide {
+  flex-shrink: initial !important;
+  width: fit-content!important;
+}

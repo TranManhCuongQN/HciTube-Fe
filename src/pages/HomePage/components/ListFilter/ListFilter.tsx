@@ -39,15 +39,15 @@ const ListFilter = () => {
   }
   return (
     <>
-      <div className='relative my-5 flex max-w-full items-center justify-between gap-x-5'>
-        <button
-          className={`absolute top-0 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
-            isBeginning ? 'invisible' : 'visible'
-          } `}
-          onClick={goPrev}
-        >
-          <AiOutlineLeft className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-        </button>
+      <div className='relative py-2 px-3 flex max-w-full items-center justify-between gap-x-5'>
+          <button
+            className={`absolute left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs bg-black hover:bg-[rgba(0,0,0)] dark:hover:bg-[#3F3F3F] lg:hidden lg:h-10 lg:w-10 ${
+              isBeginning ? 'invisible' : 'visible'
+            } `}
+            onClick={goPrev}
+          >
+            <AiOutlineLeft className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+          </button>
         <Swiper
           pagination={false}
           modules={[Pagination]}
@@ -74,7 +74,7 @@ const ListFilter = () => {
           {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button
-                className={classNames('whitespace-nowrap rounded-lg px-3 py-2 max-[320px]:py-1 ', {
+                className={classNames('whitespace-nowrap rounded-lg px-3 h-8 max-[320px]:py-1 mr-3', {
                   'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
                   'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}
@@ -86,7 +86,7 @@ const ListFilter = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-0 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:hidden lg:h-10 lg:w-10 ${
+          className={`absolute right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[#3F3F3F] lg:hidden lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}

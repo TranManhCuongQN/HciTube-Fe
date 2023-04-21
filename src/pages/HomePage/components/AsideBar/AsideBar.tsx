@@ -40,7 +40,7 @@ const AsideBar = () => {
 
           <NavLink
             to=''
-            className='mt-2 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.subscriptions')}</span>
@@ -50,35 +50,35 @@ const AsideBar = () => {
           {/* //* */}
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.library')}</span>
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
@@ -89,7 +89,7 @@ const AsideBar = () => {
           <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.ggpht.com/ytc/AL5GRJVgvAwa9TWshWQm6YFBeCDE7L-xDkOaHPEW9MSkp1I=s88-c-k-c0x00ffffff-no-rj'
@@ -100,7 +100,7 @@ const AsideBar = () => {
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
@@ -111,7 +111,7 @@ const AsideBar = () => {
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
@@ -122,7 +122,7 @@ const AsideBar = () => {
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
@@ -133,7 +133,7 @@ const AsideBar = () => {
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
@@ -144,7 +144,7 @@ const AsideBar = () => {
           </NavLink>
           <NavLink
             to=''
-            className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className=' flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <img
               src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
@@ -164,10 +164,10 @@ const AsideBar = () => {
         ></div>
       )}
 
-      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
+      <div className='fixed p-3 top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
         <NavLink
           to=''
-          className='mt-5 flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          className=' flex items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <IoMdHome className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
@@ -176,7 +176,7 @@ const AsideBar = () => {
           to=''
           className='mt-2 flex  items-end gap-x-4 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
-          <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
+          <MdOutlineVideoStable className='h-6 w-6 mr- text-black dark:text-white' />
           <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.subscriptions')}</span>
         </NavLink>
         <div className='my-4 mx-2 border-t border-t-gray-600' />
