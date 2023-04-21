@@ -19,6 +19,7 @@ import parse from 'html-react-parser'
 import playListAPI from 'src/api/playlist.api'
 import { useQuery } from 'react-query'
 import categoryAPI from 'src/api/category.api'
+import { getPublicId } from 'src/utils/utils'
 
 interface FormEditContentProps {
   isOpenModal: boolean
@@ -55,6 +56,7 @@ const FormEditContent = (props: FormEditContentProps) => {
   const imageRef = React.useRef<HTMLInputElement>(null)
   const [urlImage, setUrlImage] = useState<string>('')
   const [progressImage, setProgressImage] = useState<number>(0)
+  const [idImage, setIdImage] = useState<string>('')
   const childRef = useRef<HTMLDivElement>(null)
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [categoriesSelected, setCategoriesSelected] = useState<string[]>([])
@@ -65,8 +67,21 @@ const FormEditContent = (props: FormEditContentProps) => {
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    if (files) {
+    if (files?.length === 1) {
       setFileImage(files[0])
+      if (idImage) {
+        handleDeleteImage(idImage)
+        setUrlImage('')
+        setValue('thumbnail', '')
+      }
+    }
+  }
+
+  const handleDeleteImage = async (idImage: string) => {
+    try {
+      const res = await uploadApi.deleteImage(idImage)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -81,6 +96,7 @@ const FormEditContent = (props: FormEditContentProps) => {
       const res = await uploadApi.uploadImage(fileImage as File, options)
       console.log('Image:', res.data.url)
       setUrlImage(res.data.url)
+      setIdImage(res.data.public_id)
       setValue('thumbnail', res.data.url)
       setFileImage(null)
       setProgressImage(0)
@@ -128,8 +144,12 @@ const FormEditContent = (props: FormEditContentProps) => {
     if (data) {
       setValue('title', data.title)
       setValue('description', String(parse(data.description)))
+
       setValue('thumbnail', data.thumbnail)
+      setIdImage(getPublicId(data.thumbnail) as string)
+
       setValue('video', data.video)
+
       setPlayListSelected(data.playList)
       data.category.map((item) => {
         setCategoriesSelected((prev) => [...prev, item._id])
@@ -149,6 +169,11 @@ const FormEditContent = (props: FormEditContentProps) => {
     // Cancel API
     if (controllerImage) {
       controllerImage.abort()
+    }
+
+    if (idImage) {
+      handleDeleteImage(idImage)
+      setIdImage('')
     }
   }
 

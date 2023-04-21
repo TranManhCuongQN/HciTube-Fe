@@ -11,10 +11,14 @@ import FormAddPlayList from '../UploadVideoPage/components/FormAddPlayList'
 import { useMutation, useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import parse from 'html-react-parser'
+import DialogCustom from 'src/components/DialogCustome'
+import { toast } from 'react-toastify'
 
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
+  const [isShowNotification, setIsShowNotification] = useState<boolean>(false)
   const { extendedVideos, setExtendedVideos } = useContext(AppContext)
+  const [idVideo, setIdVideo] = useState<string[] | undefined>([''])
 
   const { data: dataVideo, refetch } = useQuery({
     queryKey: ['ListVideo'],
@@ -30,6 +34,10 @@ const ManageContentPage = () => {
   //     refetch()
   //   }
   // })
+
+  const deleteVideoMutation = useMutation({
+    mutationFn: (id: string) => videoApi.deleteVideo(id)
+  })
   const isAllChecked = useMemo(() => extendedVideos.every((item) => item.checked), [extendedVideos])
   const checkedVideos = useMemo(() => extendedVideos.filter((item) => item.checked), [extendedVideos])
   const checkedVideosCount = checkedVideos?.length
@@ -72,10 +80,14 @@ const ManageContentPage = () => {
 
   const handleDelete = (id: string) => () => {
     const videoId = checkedVideos.filter((item) => item._id === id)
-    console.log(
-      'video:',
-      videoId.map((item) => item._id)
-    )
+    const VideoItem = data?.filter((item) => item._id === id) as Video[]
+    setIsShowNotification(true)
+    if (checkedVideosCount > 0 && videoId.length > 0) {
+      setIdVideo(videoId.map((item) => item._id))
+    }
+    if (checkedVideosCount === 0) {
+      setIdVideo(VideoItem.map((item) => item._id))
+    }
   }
 
   const handleDeleteAll = () => {
@@ -93,6 +105,29 @@ const ManageContentPage = () => {
 
   const handleOpenModalPlayList = () => {
     setIsOpenModalPlayList(true)
+  }
+
+  const handleCloseNotification = () => {
+    setIsShowNotification(false)
+    setIdVideo([''])
+  }
+
+  const handleDeleteVideo = () => {
+    console.log('idVideo:', idVideo)
+    if (idVideo) {
+      deleteVideoMutation.mutate(idVideo[0], {
+        onSuccess: () => {
+          setIsShowNotification(false)
+          setIdVideo([''])
+          toast.success('Xóa video thành công', {
+            position: 'top-right',
+            autoClose: 2000,
+            pauseOnHover: false
+          })
+          refetch()
+        }
+      })
+    }
   }
 
   const handleEdit = (id: string) => () => {
@@ -270,6 +305,30 @@ const ManageContentPage = () => {
         />
       )}
       <FormAddPlayList showModal={isOpenModalPlayList} closeModal={handleCLoseModalPlayList} />
+
+      <DialogCustom
+        isOpen={isShowNotification}
+        handleClose={() => setIsShowNotification(false)}
+        className='z-50 rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[140px] md:w-[500px]'
+      >
+        <div className='flex w-full flex-col  p-2'>
+          <span className='text-lg font-semibold text-black dark:text-white'>Bạn có muốn xóa video này không ?</span>
+          <div className='flex items-center justify-end gap-x-5 md:mt-8'>
+            <button
+              className='flex h-8 w-20 items-center justify-center rounded-md bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#363636] dark:text-white dark:hover:bg-[#2f2f2f]'
+              onClick={handleCloseNotification}
+            >
+              Hủy
+            </button>
+            <button
+              className='flex h-8 w-20 items-center justify-center rounded-md bg-red-500 text-white hover:bg-red-600'
+              onClick={handleDeleteVideo}
+            >
+              Xóa
+            </button>
+          </div>
+        </div>
+      </DialogCustom>
     </>
   )
 }
