@@ -1,6 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { useMutation, useQueryClient } from 'react-query'
+import { toast } from 'react-toastify'
+import playListAPI from 'src/api/playlist.api'
 import Button from 'src/components/Button'
 import DialogCustom from 'src/components/DialogCustome'
 import Editor from 'src/components/Editor'
@@ -15,6 +18,10 @@ interface FormAddPlayListProps {
 type FormData = Pick<uploadVideoSchemaType, 'description' | 'title'>
 const playListSchema = uploadVideoSchema.pick(['description', 'title'])
 const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
+  const queryClient = useQueryClient()
+  const createPlaylistMutation = useMutation({
+    mutationFn: (data: FormData) => playListAPI.createPlayList(data)
+  })
   const form = useForm<FormData>({
     resolver: yupResolver(playListSchema)
   })
@@ -38,8 +45,18 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
 
   const onSubmit = handleSubmit((data) => {
     console.log('data PlayList:', data)
-    closeModal()
-    reset()
+    createPlaylistMutation.mutate(data, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['playList'], exact: true })
+        closeModal()
+        reset()
+        toast.success('Tạo danh sách phát thành công', {
+          position: 'top-right',
+          autoClose: 2000,
+          pauseOnHover: false
+        })
+      }
+    })
   })
 
   console.log(errors)

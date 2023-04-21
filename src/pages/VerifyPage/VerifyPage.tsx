@@ -100,7 +100,7 @@ const VerifyPage = () => {
         onSuccess: (data) => {
           setIsVerify('2')
           navigate('/')
-          setProfile(() => data.data.data.user)
+          setProfile(data.data.data.user)
         },
         onError: (error) => {
           if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {

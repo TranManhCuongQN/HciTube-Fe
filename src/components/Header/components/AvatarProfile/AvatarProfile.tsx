@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import AvatarLetter from 'src/components/AvatarLetter'
 import { AppContext } from 'src/context/app.context'
 import useOnClickOutside from 'src/hook/useOnClickOutSide'
