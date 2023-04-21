@@ -6,10 +6,10 @@ export const URL_GET_VIDEO = '/api/v1/videos'
 
 const videoApi = {
   getVideo: () => {
-    return http.get<SuccessResponse<Video>>(URL_GET_VIDEO)
+    return http.get<SuccessResponse<Video[]>>(URL_GET_VIDEO)
   },
-  updateInforVideo: (data: UploadVideo, idUser: string) => {
-    return http.patch<SuccessResponse<Video>>(`URL_GET_VIDEO/${idUser}`, data)
+  updateInforVideo: (data: UploadVideo, idVideo: string) => {
+    return http.patch<SuccessResponse<Video>>(`URL_GET_VIDEO/${idVideo}`, data)
   },
   deleteVideo: (idVideo: string) => {
     return http.delete<SuccessResponse<Video>>(`URL_GET_VIDEO/${idVideo}`)

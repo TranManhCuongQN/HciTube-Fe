@@ -10,49 +10,69 @@ import { convertNumberToDisplayString, getFormattedDate } from 'src/utils/utils'
 import { AiOutlineCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import classNames from 'classnames'
 import FormAddPlayList from '../UploadVideoPage/components/FormAddPlayList'
+import { useMutation, useQuery } from 'react-query'
+import videoApi from 'src/api/video.api'
+import { uploadVideoSchemaType } from 'src/utils/rules'
 
-const data = [
-  {
-    _id: '1',
-    title: 'Rót mật ngọt vào tai em tắt ánh đèn... Bật Tình Yêu Lên | Nhạc Lofi Chill Gây Nghiện Hot Tiktok 2023',
-    createdAt: '2021-10-10',
-    views: 21000,
-    comments: 2,
-    like: 2600,
-    thumbnail: 'https://i.pinimg.com/736x/f2/3e/72/f23e72bdcb8e366e5efa976cb61b3388.jpg',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video:
-      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
-  },
-  {
-    _id: '2',
-    title: 'Thương em khi mùa thu, thương em sang mùa hạ... 4 Mùa Thương Em Lofi | Nhạc Chill Tiktok',
-    createdAt: '2021-10-10',
-    views: 3600,
-    comments: 1,
-    like: 1900,
-    thumbnail: 'https://i.pinimg.com/564x/c5/b7/f9/c5b7f915a41d4c65dd385edd760db677.jpg',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video:
-      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
-  },
-  {
-    _id: '3',
-    title: 'Hẹn Em Ở Lần Yêu Thứ 2 (Lofi Ver.) - Nguyenn x Đặng Tuấn Vũ | Anh Phải Làm Gì Để Em...| Quất Bạc Hà',
-    createdAt: '2021-10-10',
-    views: 26600,
-    comments: 4,
-    like: 1000,
-    thumbnail: 'https://i.pinimg.com/736x/13/c9/fd/13c9fdc7ad29f43b2119a4ecae7d0a61.jpg',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-    video:
-      'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
-  }
-]
+// const data = [
+//   {
+//     _id: '1',
+//     title: 'Rót mật ngọt vào tai em tắt ánh đèn... Bật Tình Yêu Lên | Nhạc Lofi Chill Gây Nghiện Hot Tiktok 2023',
+//     createdAt: '2021-10-10',
+//     views: 21000,
+//     comments: 2,
+//     like: 2600,
+//     thumbnail: 'https://i.pinimg.com/736x/f2/3e/72/f23e72bdcb8e366e5efa976cb61b3388.jpg',
+//     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+//     video:
+//       'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
+//   },
+//   {
+//     _id: '2',
+//     title: 'Thương em khi mùa thu, thương em sang mùa hạ... 4 Mùa Thương Em Lofi | Nhạc Chill Tiktok',
+//     createdAt: '2021-10-10',
+//     views: 3600,
+//     comments: 1,
+//     like: 1900,
+//     thumbnail: 'https://i.pinimg.com/564x/c5/b7/f9/c5b7f915a41d4c65dd385edd760db677.jpg',
+//     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+//     video:
+//       'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
+//   },
+//   {
+//     _id: '3',
+//     title: 'Hẹn Em Ở Lần Yêu Thứ 2 (Lofi Ver.) - Nguyenn x Đặng Tuấn Vũ | Anh Phải Làm Gì Để Em...| Quất Bạc Hà',
+//     createdAt: '2021-10-10',
+//     views: 26600,
+//     comments: 4,
+//     like: 1000,
+//     thumbnail: 'https://i.pinimg.com/736x/13/c9/fd/13c9fdc7ad29f43b2119a4ecae7d0a61.jpg',
+//     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+//     video:
+//       'https://res.cloudinary.com/dw254eqyp/video/upload/v1680777288/Vite_React_TS_-_Google_Chrome_2023-03-23_17-55-06_oeuce6.mp4'
+//   }
+// ]
 
+type FormData = uploadVideoSchemaType
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const { extendedVideos, setExtendedVideos } = useContext(AppContext)
+
+  const { data: dataVideo, refetch } = useQuery({
+    queryKey: ['ListVideo'],
+    queryFn: videoApi.getVideo
+  })
+
+  console.log('dataVideo:', dataVideo?.data.data)
+  const data = dataVideo?.data.data
+
+  // const updateInforVideoMutation = useMutation({
+  //   mutationFn: (data:FormData)=> videoApi.updateInforVideo(data, idVideo as String)
+  //   onSuccess: () => {
+  //     // khi thành công có sẽ refetch lại api này
+  //     refetch()
+  //   }
+  // })
   const isAllChecked = useMemo(() => extendedVideos.every((item) => item.checked), [extendedVideos])
   const checkedVideos = useMemo(() => extendedVideos.filter((item) => item.checked), [extendedVideos])
   const checkedVideosCount = checkedVideos?.length
@@ -61,21 +81,22 @@ const ManageContentPage = () => {
 
   useEffect(() => {
     setExtendedVideos((prev) => {
-      const extendsPurchasesObject = keyBy(prev, '_id')
+      const extendsVideosObject = keyBy(prev, '_id')
       // 1: {_id: '1', title: 'Video 1', createdAt: '2021-10-10', views: 100, comments: 10, …}
       // 2: {_id: '2', title: 'Video 1', createdAt: '2021-10-10', views: 100, comments: 10, …}
       // 3: {_id: '3', title: 'Video 1', createdAt: '2021-10-10', views: 100, comments: 10, …}
+
       return (
-        data?.map((purchase) => {
+        data?.map((item) => {
           return {
-            ...purchase,
-            checked: Boolean(extendsPurchasesObject[purchase._id]?.checked),
+            ...item,
+            checked: Boolean(extendsVideosObject[item._id]?.checked),
             disabled: false
           }
         }) || []
       )
     })
-  }, [setExtendedVideos])
+  }, [setExtendedVideos, data])
 
   const handleCheckAll = () => {
     setExtendedVideos((prev) =>
@@ -198,7 +219,7 @@ const ManageContentPage = () => {
                           className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                           title={String(item.views)}
                         >
-                          {convertNumberToDisplayString(item.views)}
+                          {/* {convertNumberToDisplayString(item.views)} */}
                         </span>
                       </th>
                       <th>
@@ -206,7 +227,7 @@ const ManageContentPage = () => {
                           className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                           title={String(item.comments)}
                         >
-                          {convertNumberToDisplayString(item.comments)}
+                          {/* {convertNumberToDisplayString(item.comments)} */}
                         </span>
                       </th>
                       <th>
@@ -214,7 +235,7 @@ const ManageContentPage = () => {
                           className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                           title={String(item.like)}
                         >
-                          {convertNumberToDisplayString(item.like)}
+                          {/* {convertNumberToDisplayString(item.like)} */}
                         </span>
                       </th>
                       <th>
