@@ -145,7 +145,6 @@ const Video = ({ handleTheaterMode }: any) => {
         slider(volumeRef, 'white', 'rgba(255, 255, 255, 0.3)')
       }
     }
-
     setMuted(!muted)
   }
 
@@ -200,6 +199,37 @@ const Video = ({ handleTheaterMode }: any) => {
     if(videoIndex == 0) setVideoIndex(playlistSrc.length - 1)
     else setVideoIndex(prev => prev - 1);
   }
+
+  // Handle keyboard shortcuts 
+  const keyboardShortcuts = (event:any) => {
+    const {key} = event;
+    switch(key) {
+      case 'a':
+        movingBackwardVideo();
+        break;
+      case 'k':
+        handlePlayAndPause();
+        break;
+      case 'd':
+        movingForwardVideo();
+        break;
+      case 'm':
+        toggleMute();
+        break;
+      case 't':
+        handleClickTheaterMode();
+        break;
+      case 'f':
+        toggleFullScreen();
+        break;
+      default:
+        break;
+      
+    }
+  }
+  useEffect(()=> {
+    window.addEventListener('keyup', keyboardShortcuts);
+  }, [playing, zoomOut, theaterMode, muted])
 
 
   return (
@@ -269,10 +299,10 @@ const Video = ({ handleTheaterMode }: any) => {
                       onClick={movingBackwardVideo} 
                       className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' 
                     />
-                    <ToolTip text="Phát video trước" keyname="q" left="0"/>
+                    <ToolTip text="Phát video trước" keyname="a" left="0"/>
                   </div>
                   <div className='hidden lg:flex lg:hover:cursor-pointer'>
-                    <div className="tooltip-video">
+                    <div className="tooltip-video flex justify-center items-center">
                       <BiPlay 
                         className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'} 
                         onClick={playVideo} 
@@ -280,7 +310,7 @@ const Video = ({ handleTheaterMode }: any) => {
                       <ToolTip text="Phát" keyname="k"/>
                     </div>
 
-                    <div className="tooltip-video">
+                    <div className="tooltip-video flex justify-center items-center">
                       <BiPause
                         className={(playing ? '' : 'hidden') + ' h-12 w-12 px-1 text-white'}
                         onClick={pauseVideo}
@@ -289,12 +319,12 @@ const Video = ({ handleTheaterMode }: any) => {
 
                     </div>
                   </div>
-                  <div className="tooltip-video">
+                  <div className="tooltip-video flex justify-center items-center">
                     <BiSkipNext 
                       onClick={movingForwardVideo}  
                       className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer' 
                     />
-                    <ToolTip text="Phát video tiếp theo" keyname="q"/>
+                    <ToolTip text="Phát video tiếp theo" keyname="d"/>
 
                   </div>
 
@@ -304,12 +334,12 @@ const Video = ({ handleTheaterMode }: any) => {
                       onClick={toggleMute}
                       role='presentation'
                     >
-                      <div className="tooltip-video">
+                      <div className="tooltip-video flex justify-center items-center">
                         <HiVolumeUp className={`${muted  && 'hidden'} w-12 text-[1.5rem] text-white`} />
                         <ToolTip text="Tắt tiếng" keyname="m"/>
                       </div>
 
-                      <div className="tooltip-video">
+                      <div className="tooltip-video flex justify-center items-center">
                         <HiVolumeOff className={`${!muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
                         <ToolTip text="Bật âm thanh" keyname="m"/>
                       </div>
@@ -338,7 +368,7 @@ const Video = ({ handleTheaterMode }: any) => {
                 </div>
 
                 <div className='flex items-center'>
-                  <div className='tooltip-video hidden items-center hover:cursor-pointer md:flex lg:h-12'>
+                  <div className='tooltip-video hidden items-center justify-center hover:cursor-pointer md:flex lg:h-12'>
                     <IoMdSettings className='text-white lg:w-12 lg:text-[1.5rem]' />
                     <ToolTip text="Cài đặt" keyname="s"/>
                   </div>
