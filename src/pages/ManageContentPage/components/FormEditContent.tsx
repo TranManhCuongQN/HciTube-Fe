@@ -106,19 +106,22 @@ const FormEditContent = (props: FormEditContentProps) => {
   const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setCategoriesSelected([...categoriesSelected, e.target.value])
+      setValue('category', [...categoriesSelected, e.target.value])
     } else {
       setCategoriesSelected(categoriesSelected.filter((item) => item !== e.target.value))
+      setValue(
+        'category',
+        categoriesSelected.filter((item) => item !== e.target.value)
+      )
     }
   }
 
   const onSubmit = handleSubmit((value) => {
-    setValue('category', categoriesSelected)
     const dataEdit = {
       ...value,
-      thumbnail: urlImage,
-      video: data?.video
+      playList: playListSelected
     }
-    console.log(dataEdit)
+    console.log('dataEdit:', dataEdit)
   })
 
   useEffect(() => {
@@ -128,17 +131,19 @@ const FormEditContent = (props: FormEditContentProps) => {
       setValue('thumbnail', data.thumbnail)
       setValue('video', data.video)
       setPlayListSelected(data.playList)
-      if (data.category) {
-        data.category.map((item) => setCategoriesSelected((prev) => [...prev, item._id]))
-      }
+      data.category.map((item) => {
+        setCategoriesSelected((prev) => [...prev, item._id])
+      })
     }
-  }, [data, setValue, isOpenModal])
+  }, [data, isOpenModal, setValue])
 
   const handleClose = () => {
     handleCloseModal()
     setUrlImage('')
     setFileImage(null)
     setProgressImage(0)
+    setPlayListSelected([])
+    setCategoriesSelected([])
     reset()
 
     // Cancel API
