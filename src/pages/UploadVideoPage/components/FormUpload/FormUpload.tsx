@@ -22,6 +22,7 @@ import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
 import { toast } from 'react-toastify'
 import { convertBytesToMB } from 'src/utils/utils'
+import { Video } from 'src/types/video.type'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -67,6 +68,7 @@ const FormUpload = (props: FormUploadProps) => {
   })
 
   const { isModalOpen, handleCloseModal, handleOpenModalPlayList } = props
+  const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
   const [fileVideo, setFileVideo] = useState<File | null>(null)
   const [fileImage, setFileImage] = useState<File | null>(null)
   const imageRef = React.useRef<HTMLInputElement>(null)
@@ -281,6 +283,14 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
+  const handleCloseDropDown = () => {
+    setIsOpenDropDown(false)
+  }
+
+  const handleOpenDropDown = () => {
+    setIsOpenDropDown(true)
+  }
+
   const createVideoMutation = useMutation({
     mutationFn: uploadApi.createVideo,
     onSuccess: () => {
@@ -488,6 +498,9 @@ const FormUpload = (props: FormUploadProps) => {
                     </span>
                     <Dropdown
                       childRef={childRef}
+                      isOpen={isOpenDropDown}
+                      handleClose={handleCloseDropDown}
+                      handleOpen={handleOpenDropDown}
                       renderData={
                         <div
                           className='absolute top-0 left-0 z-40 flex h-72 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f] max-lg:h-60 max-md:h-48'
@@ -525,7 +538,11 @@ const FormUpload = (props: FormUploadProps) => {
                               >
                                 TẠO MỚI
                               </button>
-                              <button className='text-xs font-semibold text-[#1569d6]' type='button'>
+                              <button
+                                className='text-xs font-semibold text-[#1569d6]'
+                                type='button'
+                                onClick={handleCloseDropDown}
+                              >
                                 XONG
                               </button>
                             </div>

@@ -13,6 +13,8 @@ import videoApi from 'src/api/video.api'
 import parse from 'html-react-parser'
 import DialogCustom from 'src/components/DialogCustome'
 import { toast } from 'react-toastify'
+import { NavLink } from 'react-router-dom'
+import path from 'src/constants/path'
 
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
@@ -113,8 +115,9 @@ const ManageContentPage = () => {
   }
 
   const handleDeleteVideo = () => {
-    console.log('idVideo:', idVideo)
+    console.log('idVideo1:', idVideo)
     if (idVideo) {
+      console.log('idVideo2:', idVideo[0])
       deleteVideoMutation.mutate(idVideo[0], {
         onSuccess: () => {
           setIsShowNotification(false)
@@ -152,7 +155,7 @@ const ManageContentPage = () => {
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>
           <div className='my-10 min-w-[710px]'>
-            <table className='w-full  '>
+            <table className='w-full'>
               <thead>
                 <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
                   <th>
@@ -258,6 +261,21 @@ const ManageContentPage = () => {
                       </th>
                     </tr>
                   ))}
+                {extendedVideos.length === 0 && (
+                  <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
+                    <th colSpan={7} className='py-4 text-center'>
+                      <span className='text-xs text-black dark:text-white md:text-sm'>
+                        Không có video nào được tải lên
+                      </span>
+                      <NavLink
+                        to={path.upload}
+                        className='ml-2 rounded-sm bg-[#f0f0f0] px-2 py-1 text-xs font-semibold text-black dark:bg-[#363636] dark:text-white'
+                      >
+                        Tải lên tại đây
+                      </NavLink>
+                    </th>
+                  </tr>
+                )}
               </tbody>
               <tfoot>
                 <tr className='border-b border-t text-xs hover:bg-gray-200 dark:border-[#363636] dark:hover:bg-gray-800 md:text-sm'>

@@ -9,7 +9,7 @@ export interface Video {
   description: string
   video: string
   duration: string
-  category: { _id: string; name: string; id: string }[]
+  category: string[]
   playList: string[]
 }
 

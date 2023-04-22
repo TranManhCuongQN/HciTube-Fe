@@ -60,9 +60,18 @@ const FormEditContent = (props: FormEditContentProps) => {
   const childRef = useRef<HTMLDivElement>(null)
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [categoriesSelected, setCategoriesSelected] = useState<string[]>([])
+  const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
 
   const handleUploadImage = () => {
     imageRef.current?.click()
+  }
+
+  const handleCloseDropDown = () => {
+    setIsOpenDropDown(false)
+  }
+
+  const handleOpenDropDown = () => {
+    setIsOpenDropDown(true)
   }
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -282,6 +291,9 @@ const FormEditContent = (props: FormEditContentProps) => {
                   </span>
                   <Dropdown
                     childRef={childRef}
+                    isOpen={isOpenDropDown}
+                    handleClose={handleCloseDropDown}
+                    handleOpen={handleOpenDropDown}
                     renderData={
                       <div
                         className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
@@ -313,7 +325,7 @@ const FormEditContent = (props: FormEditContentProps) => {
                           <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
                             TẠO MỚI
                           </button>
-                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseModalPlayList}>
+                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseDropDown}>
                             XONG
                           </button>
                         </div>
@@ -367,7 +379,9 @@ const FormEditContent = (props: FormEditContentProps) => {
                     })}
                   </div>
 
-                  <div className='my-1 min-h-[1.25rem]'></div>
+                  <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                    {errors.category?.message}
+                  </div>
                 </div>
               </div>
 
