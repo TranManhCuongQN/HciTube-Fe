@@ -49,6 +49,7 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
+    "@svgr/webpack": "^7.0.0",
     "@types/lodash": "^4.14.192",
     "@types/node": "^18.15.1",
     "@types/react": "^18.0.27",

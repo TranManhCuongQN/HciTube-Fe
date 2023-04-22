@@ -46,7 +46,7 @@ const SearchMobie = () => {
               ref={inputRef}
             />
             <ToolTip position='bottom' content={t('side bar.search')}>
-              <button className='ml-[1px] flex h-8 cursor-pointer items-center justify-center  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'>
+              <button className='ml-[1px] flex h-8 cursor-pointer items-center justify-center md:border-y md:border-r md:border-[#d8d8d8]  rounded-r-full bg-[#f8f8f8] px-4 py-1 dark:bg-[#222222]'>
                 <AiOutlineSearch className='h-8 w-8 text-black dark:text-white' />
               </button>
             </ToolTip>
