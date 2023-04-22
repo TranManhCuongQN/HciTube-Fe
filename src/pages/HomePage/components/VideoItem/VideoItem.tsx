@@ -72,7 +72,7 @@ const VideoItem = (props: VideoItemProps) => {
           <img src={data.avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
         </div>
         <div className='flex flex-col gap-y-1'>
-          <span className='sm:text-sm lg:text-base sm:font-normal lg:font-bold text-black line-clamp-2 pr-6 mb-1 dark:text-white'>{data.title}</span>
+          <span className='sm:text-sm lg:text-base font-semibold md:font-bold text-black line-clamp-2 pr-6 mb-1 dark:text-white'>{data.title}</span>
           <span className='sm:text-xs lg:text-sm font-normal text-[#666d74] dark:text-gray-400'>{data.user}</span>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='sm:text-xs lg:text-sm font-normal text-[#666d74] dark:text-gray-400'>{data.view} N lượt xem</span>

@@ -35,7 +35,7 @@ const AsideBar = () => {
             className='mt-16 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727] md:mt-20'
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.home')}</span>
           </NavLink>
 
           <NavLink
@@ -43,7 +43,7 @@ const AsideBar = () => {
             className=' flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.subscriptions')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'> {t('side bar.subscriptions')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -53,35 +53,35 @@ const AsideBar = () => {
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'> {t('side bar.library')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'> {t('side bar.library')}</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.history')}</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.your videos')}</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.watch later')}</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.liked videos')}</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -96,7 +96,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full text-black dark:text-white'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
           </NavLink>
           <NavLink
             to=''
@@ -107,7 +107,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Hello everyone</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Hello everyone</span>
           </NavLink>
           <NavLink
             to=''
@@ -118,7 +118,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
           </NavLink>
           <NavLink
             to=''
@@ -129,7 +129,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Hello world</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Hello world</span>
           </NavLink>
           <NavLink
             to=''
@@ -140,7 +140,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Xin chao</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Xin chao</span>
           </NavLink>
           <NavLink
             to=''
@@ -151,7 +151,7 @@ const AsideBar = () => {
               alt='avatar'
               className='h-6 w-6 rounded-full'
             />
-            <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
           </NavLink>
         </div>
       </div>
@@ -170,14 +170,14 @@ const AsideBar = () => {
           className=' flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.home')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.home')}</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <MdOutlineVideoStable className='h-6 w-6 mr- text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.subscriptions')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
         </NavLink>
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -186,35 +186,35 @@ const AsideBar = () => {
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.library')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.library')}</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.history')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.history')}</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.your videos')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.your videos')}</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.watch later')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.watch later')}</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <BiLike className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-medium text-black dark:text-white'>{t('side bar.liked videos')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.liked videos')}</span>
         </NavLink>
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -228,7 +228,7 @@ const AsideBar = () => {
             alt='avatar'
             className='h-6 w-6 rounded-full'
           />
-          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
+          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
         </NavLink>
         <NavLink
           to=''
@@ -239,7 +239,7 @@ const AsideBar = () => {
             alt='avatar'
             className='h-6 w-6 rounded-full'
           />
-          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>Được Dev</span>
+          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Được Dev</span>
         </NavLink>
         <NavLink
           to=''
@@ -250,7 +250,7 @@ const AsideBar = () => {
             alt='avatar'
             className='h-6 w-6 rounded-full'
           />
-          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
         </NavLink>
         <NavLink
           to=''
@@ -261,7 +261,7 @@ const AsideBar = () => {
             alt='avatar'
             className='h-6 w-6 rounded-full'
           />
-          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
         </NavLink>
         <NavLink
           to=''
@@ -272,7 +272,7 @@ const AsideBar = () => {
             alt='avatar'
             className='h-6 w-6 rounded-full'
           />
-          <span className='text-sm font-medium text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
+          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
         </NavLink>
       </div>
     </>
