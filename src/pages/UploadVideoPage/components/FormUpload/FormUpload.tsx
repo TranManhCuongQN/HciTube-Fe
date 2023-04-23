@@ -22,6 +22,7 @@ import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
 import { toast } from 'react-toastify'
 import { convertBytesToMB } from 'src/utils/utils'
+import { Video } from 'src/types/video.type'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -67,6 +68,7 @@ const FormUpload = (props: FormUploadProps) => {
   })
 
   const { isModalOpen, handleCloseModal, handleOpenModalPlayList } = props
+  const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
   const [fileVideo, setFileVideo] = useState<File | null>(null)
   const [fileImage, setFileImage] = useState<File | null>(null)
   const imageRef = React.useRef<HTMLInputElement>(null)
@@ -85,7 +87,7 @@ const FormUpload = (props: FormUploadProps) => {
   const childRef = React.useRef<HTMLDivElement>(null)
   const [categories, setCategories] = useState<string[]>([])
 
-  const { data: dataPlayList, refetch } = useQuery({
+  const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
     queryFn: () => playListAPI.getPlayList()
   })
@@ -281,6 +283,14 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
+  const handleCloseDropDown = () => {
+    setIsOpenDropDown(false)
+  }
+
+  const handleOpenDropDown = () => {
+    setIsOpenDropDown(true)
+  }
+
   const createVideoMutation = useMutation({
     mutationFn: uploadApi.createVideo,
     onSuccess: () => {
@@ -314,8 +324,6 @@ const FormUpload = (props: FormUploadProps) => {
     createVideoMutation.mutate(dataUpload)
     console.log(dataUpload)
   })
-
-  console.log('urlImage:', urlImage)
 
   return (
     <DialogCustom
@@ -490,45 +498,54 @@ const FormUpload = (props: FormUploadProps) => {
                     </span>
                     <Dropdown
                       childRef={childRef}
+                      isOpen={isOpenDropDown}
+                      handleClose={handleCloseDropDown}
+                      handleOpen={handleOpenDropDown}
                       renderData={
                         <div
                           className='absolute top-0 left-0 z-40 flex h-72 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f] max-lg:h-60 max-md:h-48'
                           ref={childRef}
                         >
-                          {dataPlayList &&
-                            dataPlayList.data.data.map((item) => (
-                              <div
-                                className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
-                                key={item._id}
-                              >
-                                <input
-                                  type='checkbox'
-                                  className='h-4 w-4 accent-black dark:accent-white'
-                                  id={item._id}
-                                  value={item._id}
-                                  checked={playListSelected.includes(item._id)}
-                                  onChange={handleChangeSelected}
-                                />
-                                <label
-                                  className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                                  htmlFor={item._id}
+                          <div className='relative w-full pb-6'>
+                            {dataPlayList &&
+                              dataPlayList.data.data.map((item) => (
+                                <div
+                                  className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                  key={item._id}
                                 >
-                                  {item.title}
-                                </label>
-                              </div>
-                            ))}
+                                  <input
+                                    type='checkbox'
+                                    className='h-4 w-4 accent-black dark:accent-white'
+                                    id={item._id}
+                                    value={item._id}
+                                    checked={playListSelected.includes(item._id)}
+                                    onChange={handleChangeSelected}
+                                  />
+                                  <label
+                                    className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
+                                    htmlFor={item._id}
+                                  >
+                                    {item.title}
+                                  </label>
+                                </div>
+                              ))}
 
-                          <div className='absolute bottom-1 left-1 my-1 flex w-full items-center justify-between px-2'>
-                            <button
-                              className='text-xs font-semibold text-[#1569d6]'
-                              type='button'
-                              onClick={handleOpenModalPlayList}
-                            >
-                              TẠO MỚI
-                            </button>
-                            <button className='text-xs font-semibold text-[#1569d6]' type='button'>
-                              XONG
-                            </button>
+                            <div className='absolute bottom-1 left-1 my-1 flex w-full items-center justify-between px-2'>
+                              <button
+                                className='text-xs font-semibold text-[#1569d6]'
+                                type='button'
+                                onClick={handleOpenModalPlayList}
+                              >
+                                TẠO MỚI
+                              </button>
+                              <button
+                                className='text-xs font-semibold text-[#1569d6]'
+                                type='button'
+                                onClick={handleCloseDropDown}
+                              >
+                                XONG
+                              </button>
+                            </div>
                           </div>
                         </div>
                       }

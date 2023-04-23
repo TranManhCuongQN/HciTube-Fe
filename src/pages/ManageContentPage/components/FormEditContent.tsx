@@ -15,48 +15,12 @@ import { BiCopy } from 'react-icons/bi'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import Editor from 'src/components/Editor'
 import Dropdown from 'src/components/Dropdown'
+import parse from 'html-react-parser'
+import playListAPI from 'src/api/playlist.api'
+import { useQuery } from 'react-query'
+import categoryAPI from 'src/api/category.api'
+import { getPublicId } from 'src/utils/utils'
 
-const dataPlayList = [
-  {
-    id: 1,
-    name: 'Vlog 24h'
-  },
-  {
-    id: 2,
-    name: 'Series NextJS'
-  },
-  {
-    id: 3,
-    name: 'BlackPink'
-  }
-]
-
-const dataCategories = [
-  {
-    id: 1,
-    name: 'Giải trí'
-  },
-  {
-    id: 2,
-    name: 'Thể Thao'
-  },
-  {
-    id: 3,
-    name: 'Âm nhạc'
-  },
-  {
-    id: 4,
-    name: 'Đời sống'
-  },
-  {
-    id: 5,
-    name: 'Tin tức và sự kiện '
-  },
-  {
-    id: 6,
-    name: 'Khoa học và công nghệ'
-  }
-]
 interface FormEditContentProps {
   isOpenModal: boolean
   handleCloseModal: () => void
@@ -69,14 +33,17 @@ type FormData = uploadVideoSchemaType
 const uploadVideo = uploadVideoSchema
 const FormEditContent = (props: FormEditContentProps) => {
   const { isOpenModal, handleCloseModal, data, handleCloseModalPlayList, handleOpenModalPlayList } = props
+  const { data: dataPlayList } = useQuery({
+    queryKey: 'playList',
+    queryFn: () => playListAPI.getPlayList()
+  })
+
+  const { data: dataCategories } = useQuery({
+    queryKey: 'categories',
+    queryFn: () => categoryAPI.getCategories()
+  })
   const form = useForm<FormData>({
-    resolver: yupResolver(uploadVideo),
-    defaultValues: {
-      title: data?.title || '',
-      description: data?.description || '',
-      thumbnail: data?.thumbnail || '',
-      video: data?.video || ''
-    }
+    resolver: yupResolver(uploadVideo)
   })
   const {
     handleSubmit,
@@ -89,18 +56,41 @@ const FormEditContent = (props: FormEditContentProps) => {
   const imageRef = React.useRef<HTMLInputElement>(null)
   const [urlImage, setUrlImage] = useState<string>('')
   const [progressImage, setProgressImage] = useState<number>(0)
+  const [idImage, setIdImage] = useState<string>('')
   const childRef = useRef<HTMLDivElement>(null)
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
-  const [categories, setCategories] = useState<string[]>([])
+  const [categoriesSelected, setCategoriesSelected] = useState<string[]>([])
+  const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
 
   const handleUploadImage = () => {
     imageRef.current?.click()
   }
 
+  const handleCloseDropDown = () => {
+    setIsOpenDropDown(false)
+  }
+
+  const handleOpenDropDown = () => {
+    setIsOpenDropDown(true)
+  }
+
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
-    if (files) {
+    if (files?.length === 1) {
       setFileImage(files[0])
+      if (idImage) {
+        handleDeleteImage(idImage)
+        setUrlImage('')
+        setValue('thumbnail', '')
+      }
+    }
+  }
+
+  const handleDeleteImage = async (idImage: string) => {
+    try {
+      const res = await uploadApi.deleteImage(idImage)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -115,6 +105,7 @@ const FormEditContent = (props: FormEditContentProps) => {
       const res = await uploadApi.uploadImage(fileImage as File, options)
       console.log('Image:', res.data.url)
       setUrlImage(res.data.url)
+      setIdImage(res.data.public_id)
       setValue('thumbnail', res.data.url)
       setFileImage(null)
       setProgressImage(0)
@@ -139,42 +130,63 @@ const FormEditContent = (props: FormEditContentProps) => {
 
   const handleChangeCategories = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
-      setCategories([...categories, e.target.value])
+      setCategoriesSelected([...categoriesSelected, e.target.value])
+      setValue('category', [...categoriesSelected, e.target.value])
     } else {
-      setCategories(categories.filter((item) => item !== e.target.value))
+      setCategoriesSelected(categoriesSelected.filter((item) => item !== e.target.value))
+      setValue(
+        'category',
+        categoriesSelected.filter((item) => item !== e.target.value)
+      )
     }
   }
 
   const onSubmit = handleSubmit((value) => {
     const dataEdit = {
       ...value,
-      thumbnail: urlImage,
-      video: data?.video
+      playList: playListSelected
     }
-    console.log(dataEdit)
+    console.log('dataEdit:', dataEdit)
   })
 
   useEffect(() => {
     if (data) {
       setValue('title', data.title)
-      setValue('description', data.description)
+      setValue('description', String(parse(data.description)))
+
       setValue('thumbnail', data.thumbnail)
+      setIdImage(getPublicId(data.thumbnail) as string)
+
       setValue('video', data.video)
+
+      setPlayListSelected(data.playList)
+      data.category.map((item) => {
+        setCategoriesSelected((prev) => [...prev, item._id])
+      })
     }
-  }, [data, setValue, isOpenModal])
+  }, [data, isOpenModal, setValue])
 
   const handleClose = () => {
     handleCloseModal()
     setUrlImage('')
     setFileImage(null)
     setProgressImage(0)
+    setPlayListSelected([])
+    setCategoriesSelected([])
     reset()
 
     // Cancel API
     if (controllerImage) {
       controllerImage.abort()
     }
+
+    if (idImage) {
+      handleDeleteImage(idImage)
+      setIdImage('')
+    }
   }
+
+  console.log('errors:', errors)
 
   return (
     <DialogCustom
@@ -249,16 +261,18 @@ const FormEditContent = (props: FormEditContentProps) => {
 
                   {progressImage === 0 && (
                     <>
-                      <div className='relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2 '>
+                      <div className='upload-image relative mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-2 '>
                         <img src={urlImage || data?.thumbnail} alt='' className='h-full w-full object-cover' />
-                        <button
-                          className='absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                          title='Thay đổi ảnh'
-                          onClick={handleUploadImage}
-                          type='button'
-                        >
-                          <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                        </button>
+                        <div className='absolute top-0 left-0 h-full w-full hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
+                          <button
+                            className='button-edit absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                            title='Thay đổi ảnh'
+                            onClick={handleUploadImage}
+                            type='button'
+                          >
+                            <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                          </button>
+                        </div>
                       </div>
                       <div className='my-1 min-h-[1.25rem]'></div>
                     </>
@@ -277,29 +291,32 @@ const FormEditContent = (props: FormEditContentProps) => {
                   </span>
                   <Dropdown
                     childRef={childRef}
+                    isOpen={isOpenDropDown}
+                    handleClose={handleCloseDropDown}
+                    handleOpen={handleOpenDropDown}
                     renderData={
                       <div
                         className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
                         ref={childRef}
                       >
-                        {dataPlayList.map((item) => (
+                        {dataPlayList?.data.data.map((item) => (
                           <div
                             className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
-                            key={item.id}
+                            key={item._id}
                           >
                             <input
                               type='checkbox'
                               className='h-4 w-4 accent-black dark:accent-white'
-                              id={item.name}
-                              value={item.name}
-                              checked={playListSelected.includes(item.name)}
+                              id={item._id}
+                              value={item._id}
+                              checked={playListSelected?.includes(item._id)}
                               onChange={handleChangeSelected}
                             />
                             <label
                               className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                              htmlFor={item.name}
+                              htmlFor={item._id}
                             >
-                              {item.name}
+                              {item.title}
                             </label>
                           </div>
                         ))}
@@ -308,23 +325,23 @@ const FormEditContent = (props: FormEditContentProps) => {
                           <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
                             TẠO MỚI
                           </button>
-                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseModalPlayList}>
+                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseDropDown}>
                             XONG
                           </button>
                         </div>
                       </div>
                     }
                   >
-                    {playListSelected.length === 0 && <span>Chọn</span>}
-                    {playListSelected.length === 1 && (
+                    {playListSelected?.length === 0 && <span>Chọn</span>}
+                    {playListSelected?.length === 1 && (
                       <span className='text-xs text-gray-900 dark:text-gray-300 md:text-sm'>
                         {' '}
-                        {playListSelected[0]}
+                        {dataPlayList && dataPlayList.data.data.find((item) => item._id === playListSelected[0])?.title}
                       </span>
                     )}
-                    {playListSelected.length > 1 && (
+                    {playListSelected?.length > 1 && (
                       <span className='text-xs text-gray-900 dark:text-gray-300 md:text-sm'>
-                        {playListSelected.length} danh sách phát
+                        {playListSelected?.length} danh sách phát
                       </span>
                     )}
                   </Dropdown>
@@ -339,28 +356,32 @@ const FormEditContent = (props: FormEditContentProps) => {
                   </label>
 
                   <div className='flex w-full flex-wrap gap-x-6 gap-y-5'>
-                    {dataCategories.map((item) => (
-                      <div className='flex items-center' key={item.id}>
-                        <input
-                          type='checkbox'
-                          name='categories'
-                          value={item.name}
-                          id={item.name}
-                          checked={categories.includes(item.name)}
-                          className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
-                          onChange={handleChangeCategories}
-                        />
-                        <label
-                          htmlFor={item.name}
-                          className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
-                        >
-                          {item.name}
-                        </label>
-                      </div>
-                    ))}
+                    {dataCategories?.data.data.map((item) => {
+                      return (
+                        <div className='flex items-center' key={item._id}>
+                          <input
+                            type='checkbox'
+                            name='categories'
+                            value={item._id}
+                            id={item._id}
+                            checked={categoriesSelected.includes(item._id)}
+                            className='h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700'
+                            onChange={handleChangeCategories}
+                          />
+                          <label
+                            htmlFor={item._id}
+                            className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                          >
+                            {item.name}
+                          </label>
+                        </div>
+                      )
+                    })}
                   </div>
 
-                  <div className='my-1 min-h-[1.25rem]'></div>
+                  <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                    {errors.category?.message}
+                  </div>
                 </div>
               </div>
 

@@ -67,7 +67,10 @@ export const profileSchema = yup.object({
     .max(500, 'Tối đa 500 ký tự')
 })
 
-// * upload video
+// * upload
+const notEmptyArray = (array: any) => {
+  return array && array.length > 0
+}
 export const uploadVideoSchema = yup.object({
   title: yup.string().required('Vui lòng thêm tiêu đề').min(3, 'Tối thiểu 3 ký tự').max(100, 'Tối đa 100 ký tự'),
   description: yup
@@ -81,7 +84,10 @@ export const uploadVideoSchema = yup.object({
     .max(500, 'Tối đa 500 ký tự'),
   thumbnail: yup.string().required('Vui lòng thêm ảnh'),
   video: yup.string().required('Vui lòng thêm video'),
-  category: yup.array().required('Vui lòng thêm thể loại video bạn muốn')
+  category: yup
+    .array()
+    .test('notEmpty', 'Vui lòng thêm thể loại video bạn muốn', notEmptyArray)
+    .required('Vui lòng thêm thể loại video bạn muốn')
 })
 
 // * playList
