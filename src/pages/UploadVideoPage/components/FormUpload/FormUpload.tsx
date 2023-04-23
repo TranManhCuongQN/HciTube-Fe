@@ -589,7 +589,7 @@ const FormUpload = (props: FormUploadProps) => {
                             />
                             <label
                               htmlFor={item._id}
-                              className='ml-2 text-sm font-medium text-gray-900 dark:text-gray-300'
+                              className='ml-2 cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-300'
                             >
                               {item.name}
                             </label>

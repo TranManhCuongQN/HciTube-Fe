@@ -16,7 +16,6 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
-
 @media screen and (min-width: 1536px) {
   body {
     overflow-y: auto !important;
@@ -316,15 +315,13 @@ th {
   display: none !important;
 }
 
-
 /* Swipper */
 .swiper {
-  margin: 0!important; 
-  padding: 0!important;
-
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .swiper-slide {
   flex-shrink: initial !important;
-  width: fit-content!important;
+  width: fit-content !important;
 }

@@ -30,25 +30,25 @@ const ListFilter = () => {
   const handleSwiper = (swiper: any) => {
     setIsBeginning(swiper.activeIndex === 0)
     console.log(innerWidth)
-    if (innerWidth < 640) {
-      setIsEnd(swiper.activeIndex === swiper.slides.length - 2)
-    }
-    if (innerWidth >= 640) {
-      setIsEnd(swiper.activeIndex === swiper.slides.length - 3)
-    }
+
+    setIsEnd(swiper.activeIndex === swiper.slides.length - 5)
   }
   return (
     <>
-      <div className='relative py-2 px-3 flex max-w-full items-center justify-between gap-x-5'>
-          <div className={`absolute left-0 md:ml-2 md:w-9 bg-white dark:bg-[#0f0f0f] w-8 h-8 lg:w-10 lg:h-10 z-20 ${isBeginning ? 'invisible' : 'visible'}`}></div>
-          <button
-            className={`absolute left-0 z-30 hover:border-0 hover:outline-none flex h-8 w-8 md:ml-3 cursor-pointer items-center justify-center rounded-full text-xs bg-white dark:bg-black hover:bg-[#E5E5E5] dark:hover:bg-[#3F3F3F] lg:hidden lg:h-10 lg:w-10 ${
-              isBeginning ? 'invisible' : 'visible'
-            } `}
-            onClick={goPrev}
-          >
-            <AiOutlineLeft className='h-5 w-5 text-black  dark:text-white lg:h-6 lg:w-6' />
-          </button>
+      <div className='relative flex max-w-full items-center justify-between gap-x-5 py-2 px-3'>
+        <div
+          className={`absolute left-0 z-20 h-8 w-8 bg-white dark:bg-[#0f0f0f] md:ml-2 md:w-9 lg:h-10 lg:w-10 ${
+            isBeginning ? 'invisible' : 'visible'
+          }`}
+        ></div>
+        <button
+          className={`absolute left-0 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs hover:border-0 hover:bg-[#E5E5E5] hover:outline-none dark:bg-black dark:hover:bg-[#3F3F3F] md:ml-3 lg:hidden lg:h-10 lg:w-10 ${
+            isBeginning ? 'invisible' : 'visible'
+          } `}
+          onClick={goPrev}
+        >
+          <AiOutlineLeft className='h-5 w-5 text-black  dark:text-white lg:h-6 lg:w-6' />
+        </button>
         <Swiper
           pagination={false}
           modules={[Pagination]}
@@ -57,25 +57,11 @@ const ListFilter = () => {
           onSlideChange={(swiper) => {
             handleSwiper(swiper)
           }}
-          breakpoints={{
-            0: {
-              slidesPerView: 2
-            },
-            325: {
-              slidesPerView: 2
-            },
-            640: {
-              slidesPerView: 3
-            },
-            1280: {
-              slidesPerView: 7
-            }
-          }}
         >
           {listFilter.map((item, index) => (
             <SwiperSlide key={index}>
               <button
-                className={classNames('whitespace-nowrap rounded-lg px-3 h-8 max-[320px]:py-1 mr-3', {
+                className={classNames('mr-3 h-8 whitespace-nowrap rounded-lg px-3 max-[320px]:py-1', {
                   'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
                   'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}
@@ -87,7 +73,7 @@ const ListFilter = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute right-0 z-10 flex h-8 w-8 md:mr-3 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[#3F3F3F] lg:hidden lg:h-10 lg:w-10 ${
+          className={`absolute right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[#3F3F3F] md:mr-3 lg:hidden lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}

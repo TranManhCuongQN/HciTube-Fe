@@ -8,9 +8,8 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 import { HiOutlineBars3 } from 'react-icons/hi2'
 import { useTranslation } from 'react-i18next'
 import Search from './components/Search'
-import  LightLogo from 'src/assets/logo-light.svg'
-import  DarkLogo from 'src/assets/logo-dark.svg'
-
+import LightLogo from 'src/assets/logo-light.svg'
+import DarkLogo from 'src/assets/logo-dark.svg'
 
 import ToolTip from '../ToolTip'
 import Inform from './components/Inform'
@@ -36,7 +35,7 @@ const Header = () => {
   return (
     <>
       {!showSearchMobie && (
-        <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
+        <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white pl-2 pr-2 shadow-sm dark:bg-[#0f0f0f] md:h-16 lg:px-8'>
           <div className='flex items-center gap-x-1'>
             <button
               className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 2xl:hidden '
@@ -53,9 +52,8 @@ const Header = () => {
               </Link>
             </ToolTip> */}
             <Link to='/' className='flex cursor-pointer xl:ml-2'>
-              {theme == "Dark" ? <img src={DarkLogo} alt="Logo HciTube" /> : <img src={LightLogo} alt="Logo HciTube" /> }
+              {theme == 'Dark' ? <img src={DarkLogo} alt='Logo HciTube' /> : <img src={LightLogo} alt='Logo HciTube' />}
             </Link>
-            
           </div>
 
           {/* //* search */}

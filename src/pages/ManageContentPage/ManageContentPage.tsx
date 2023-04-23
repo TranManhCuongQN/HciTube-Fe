@@ -15,14 +15,21 @@ import DialogCustom from 'src/components/DialogCustome'
 import { toast } from 'react-toastify'
 import { NavLink } from 'react-router-dom'
 import path from 'src/constants/path'
+import Skeleton from 'src/components/Skeleton'
 
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
-  const [isShowNotification, setIsShowNotification] = useState<boolean>(false)
+  const [isShowNotificationDelete, setIsShowNotificationDelete] = useState<boolean>(false)
+  const [isShowNotificationDeleteAll, setIsShowNotificationDeleteAll] = useState<boolean>(false)
   const { extendedVideos, setExtendedVideos } = useContext(AppContext)
   const [idVideo, setIdVideo] = useState<string[] | undefined>([''])
 
-  const { data: dataVideo, refetch } = useQuery({
+  const {
+    data: dataVideo,
+    refetch,
+    isLoading,
+    isSuccess
+  } = useQuery({
     queryKey: ['ListVideo'],
     queryFn: videoApi.getVideo
   })
@@ -83,7 +90,7 @@ const ManageContentPage = () => {
   const handleDelete = (id: string) => () => {
     const videoId = checkedVideos.filter((item) => item._id === id)
     const VideoItem = data?.filter((item) => item._id === id) as Video[]
-    setIsShowNotification(true)
+    setIsShowNotificationDelete(true)
     if (checkedVideosCount > 0 && videoId.length > 0) {
       setIdVideo(videoId.map((item) => item._id))
     }
@@ -109,8 +116,8 @@ const ManageContentPage = () => {
     setIsOpenModalPlayList(true)
   }
 
-  const handleCloseNotification = () => {
-    setIsShowNotification(false)
+  const handleCloseNotificationDelete = () => {
+    setIsShowNotificationDelete(false)
     setIdVideo([''])
   }
 
@@ -120,7 +127,7 @@ const ManageContentPage = () => {
       console.log('idVideo2:', idVideo[0])
       deleteVideoMutation.mutate(idVideo[0], {
         onSuccess: () => {
-          setIsShowNotification(false)
+          setIsShowNotificationDelete(false)
           setIdVideo([''])
           toast.success('Xóa video thành công', {
             position: 'top-right',
@@ -175,106 +182,146 @@ const ManageContentPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {extendedVideos.length > 0 &&
-                  extendedVideos.map((item) => (
-                    <tr
-                      key={item._id}
-                      className='border-b border-t text-xs hover:bg-gray-200 dark:border-[#363636] dark:hover:bg-gray-800 md:text-sm'
-                    >
-                      <th>
-                        {' '}
-                        <input
-                          type='checkbox'
-                          className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
-                          checked={item.checked}
-                          onChange={handleCheck(item._id)}
-                        />
-                      </th>
-                      <th className='w-1/3'>
-                        <div className='flex items-start gap-x-1'>
-                          <div className='h-16 w-28 flex-shrink-0 rounded-sm'>
-                            <img src={item.thumbnail} alt='' className='h-full w-full object-cover object-top' />
+                {isLoading &&
+                  Array(5)
+                    .fill(0)
+                    .map((item, index) => (
+                      <tr key={index} className='border-b border-t dark:border-[#363636] dark:hover:bg-gray-800'>
+                        <th>
+                          {' '}
+                          <Skeleton className='mx-auto h-5 w-5 rounded' />
+                        </th>
+                        <th className='flex w-1/3 items-start'>
+                          <Skeleton className='h-16 w-28 flex-shrink-0 rounded-sm' />
+                          <div className='ml-2 flex flex-col items-start gap-y-1'>
+                            <Skeleton className='h-4 w-60 rounded' />
+                            <Skeleton className='h-4 w-1/2 rounded' />
                           </div>
-                          <div className='flex flex-col items-start gap-y-1'>
-                            <span
-                              className='cursor-pointer text-xs font-semibold text-black line-clamp-1 dark:text-white md:text-sm'
-                              title={item.title}
-                            >
-                              {item.title}
+                        </th>
+                        <th>
+                          <Skeleton className='mx-auto h-5 w-28 rounded' />
+                        </th>
+                        <th>
+                          <Skeleton className='mx-auto h-5 w-10 rounded' />
+                        </th>
+                        <th>
+                          <Skeleton className='mx-auto h-5 w-10 rounded' />
+                        </th>
+                        <th>
+                          <Skeleton className='mx-auto h-5 w-10 rounded' />
+                        </th>
+                        <th>
+                          <div className='flex items-center justify-around'>
+                            <Skeleton className='h-5 w-5 rounded' />
+                            <Skeleton className='h-5 w-5 rounded' />
+                          </div>
+                        </th>
+                      </tr>
+                    ))}
+                {isSuccess && (
+                  <>
+                    {extendedVideos.length > 0 &&
+                      extendedVideos.map((item) => (
+                        <tr
+                          key={item._id}
+                          className='border-b border-t text-xs hover:bg-gray-200 dark:border-[#363636] dark:hover:bg-gray-800 md:text-sm'
+                        >
+                          <th>
+                            {' '}
+                            <input
+                              type='checkbox'
+                              className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
+                              checked={item.checked}
+                              onChange={handleCheck(item._id)}
+                            />
+                          </th>
+                          <th className='w-1/3'>
+                            <div className='flex items-start gap-x-1'>
+                              <div className='h-16 w-28 flex-shrink-0 rounded-sm'>
+                                <img src={item.thumbnail} alt='' className='h-full w-full object-cover object-top' />
+                              </div>
+                              <div className='flex flex-col items-start gap-y-1'>
+                                <span
+                                  className='cursor-pointer text-xs font-semibold text-black line-clamp-1 dark:text-white md:text-sm'
+                                  title={item.title}
+                                >
+                                  {item.title}
+                                </span>
+                                <span
+                                  className='cursor-pointer text-xs text-black  line-clamp-2 dark:text-white'
+                                  dangerouslySetInnerHTML={{ __html: String(parse(item.description)) }}
+                                ></span>
+                              </div>
+                            </div>
+                          </th>
+                          <th>
+                            <span className=' text-xs text-black dark:text-white md:text-sm'>
+                              {getFormattedDate(item.createdAt)}
                             </span>
+                          </th>
+                          <th>
                             <span
-                              className='cursor-pointer text-xs text-black  line-clamp-2 dark:text-white'
-                              dangerouslySetInnerHTML={{ __html: String(parse(item.description)) }}
-                            ></span>
-                          </div>
-                        </div>
-                      </th>
-                      <th>
-                        <span className=' text-xs text-black dark:text-white md:text-sm'>
-                          {getFormattedDate(item.createdAt)}
-                        </span>
-                      </th>
-                      <th>
-                        <span
-                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
-                          title={String(item.views)}
-                        >
-                          {/* {convertNumberToDisplayString(item.views)} */}
-                        </span>
-                      </th>
-                      <th>
-                        <span
-                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
-                          title={String(item.comments)}
-                        >
-                          {/* {convertNumberToDisplayString(item.comments)} */}
-                        </span>
-                      </th>
-                      <th>
-                        <span
-                          className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
-                          title={String(item.like)}
-                        >
-                          {/* {convertNumberToDisplayString(item.like)} */}
-                        </span>
-                      </th>
-                      <th>
-                        <div className='flex items-center justify-around'>
-                          <ToolTip position='bottom' content='Chỉnh sửa'>
-                            <button
-                              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-                              onClick={handleEdit(item._id)}
+                              className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                              title={String(item.views)}
                             >
-                              <BiEditAlt className='h-6 w-6 text-black dark:text-white ' />
-                            </button>
-                          </ToolTip>
+                              {/* {convertNumberToDisplayString(item.views)} */} 0
+                            </span>
+                          </th>
+                          <th>
+                            <span
+                              className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                              title={String(item.comments)}
+                            >
+                              {/* {convertNumberToDisplayString(item.comments)} */}0
+                            </span>
+                          </th>
+                          <th>
+                            <span
+                              className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
+                              title={String(item.like)}
+                            >
+                              {/* {convertNumberToDisplayString(item.like)} */} 0
+                            </span>
+                          </th>
+                          <th>
+                            <div className='flex items-center justify-around'>
+                              <ToolTip position='bottom' content='Chỉnh sửa'>
+                                <button
+                                  className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                                  onClick={handleEdit(item._id)}
+                                >
+                                  <BiEditAlt className='h-6 w-6 text-black dark:text-white ' />
+                                </button>
+                              </ToolTip>
 
-                          <ToolTip position='bottom' content='Xóa'>
-                            <button
-                              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-                              onClick={handleDelete(item._id)}
-                            >
-                              <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
-                            </button>
-                          </ToolTip>
-                        </div>
-                      </th>
-                    </tr>
-                  ))}
-                {extendedVideos.length === 0 && (
-                  <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
-                    <th colSpan={7} className='py-4 text-center'>
-                      <span className='text-xs text-black dark:text-white md:text-sm'>
-                        Không có video nào được tải lên
-                      </span>
-                      <NavLink
-                        to={path.upload}
-                        className='ml-2 rounded-sm bg-[#f0f0f0] px-2 py-1 text-xs font-semibold text-black dark:bg-[#363636] dark:text-white'
-                      >
-                        Tải lên tại đây
-                      </NavLink>
-                    </th>
-                  </tr>
+                              <ToolTip position='bottom' content='Xóa'>
+                                <button
+                                  className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+                                  onClick={handleDelete(item._id)}
+                                >
+                                  <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
+                                </button>
+                              </ToolTip>
+                            </div>
+                          </th>
+                        </tr>
+                      ))}
+                    {extendedVideos.length === 0 && (
+                      <tr className='border-b border-t text-xs dark:border-[#363636] md:text-sm'>
+                        <th colSpan={7} className='py-4 text-center'>
+                          <span className='text-xs text-black dark:text-white md:text-sm'>
+                            Không có video nào được tải lên
+                          </span>
+                          <NavLink
+                            to={path.upload}
+                            className='ml-2 rounded-sm bg-[#f0f0f0] px-2 py-1 text-xs font-semibold text-black dark:bg-[#363636] dark:text-white'
+                          >
+                            Tải lên tại đây
+                          </NavLink>
+                        </th>
+                      </tr>
+                    )}
+                  </>
                 )}
               </tbody>
               <tfoot>
@@ -300,7 +347,7 @@ const ManageContentPage = () => {
                     <ToolTip position='bottom' content='Xóa tất cả'>
                       <button
                         className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-                        onClick={handleDeleteAll}
+                        onClick={() => setIsShowNotificationDeleteAll(true)}
                       >
                         <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
                       </button>
@@ -325,8 +372,8 @@ const ManageContentPage = () => {
       <FormAddPlayList showModal={isOpenModalPlayList} closeModal={handleCLoseModalPlayList} />
 
       <DialogCustom
-        isOpen={isShowNotification}
-        handleClose={() => setIsShowNotification(false)}
+        isOpen={isShowNotificationDelete}
+        handleClose={handleCloseNotificationDelete}
         className='z-50 rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[140px] md:w-[500px]'
       >
         <div className='flex w-full flex-col  p-2'>
@@ -334,13 +381,39 @@ const ManageContentPage = () => {
           <div className='flex items-center justify-end gap-x-5 md:mt-8'>
             <button
               className='flex h-8 w-20 items-center justify-center rounded-md bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#363636] dark:text-white dark:hover:bg-[#2f2f2f]'
-              onClick={handleCloseNotification}
+              onClick={handleCloseNotificationDelete}
             >
               Hủy
             </button>
             <button
               className='flex h-8 w-20 items-center justify-center rounded-md bg-red-500 text-white hover:bg-red-600'
               onClick={handleDeleteVideo}
+            >
+              Xóa
+            </button>
+          </div>
+        </div>
+      </DialogCustom>
+
+      <DialogCustom
+        isOpen={isShowNotificationDeleteAll}
+        handleClose={() => setIsShowNotificationDeleteAll(false)}
+        className='z-50 rounded-lg bg-white shadow-md dark:bg-[#212121] md:h-[140px] md:w-[500px]'
+      >
+        <div className='flex w-full flex-col  p-2'>
+          <span className='text-lg font-semibold text-black dark:text-white'>
+            Bạn có muốn xóa tất cả {checkedVideos.length} video này không ?
+          </span>
+          <div className='flex items-center justify-end gap-x-5 md:mt-8'>
+            <button
+              className='flex h-8 w-20 items-center justify-center rounded-md bg-gray-200 text-black hover:bg-gray-300 dark:bg-[#363636] dark:text-white dark:hover:bg-[#2f2f2f]'
+              onClick={() => setIsShowNotificationDeleteAll(false)}
+            >
+              Hủy
+            </button>
+            <button
+              className='flex h-8 w-20 items-center justify-center rounded-md bg-red-500 text-white hover:bg-red-600'
+              onClick={handleDeleteAll}
             >
               Xóa
             </button>
