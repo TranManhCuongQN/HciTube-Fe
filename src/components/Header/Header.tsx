@@ -8,6 +8,9 @@ import { HiOutlineUserCircle } from 'react-icons/hi'
 import { HiOutlineBars3 } from 'react-icons/hi2'
 import { useTranslation } from 'react-i18next'
 import Search from './components/Search'
+import  LightLogo from 'src/assets/logo-light.svg'
+import  DarkLogo from 'src/assets/logo-dark.svg'
+
 
 import ToolTip from '../ToolTip'
 import Inform from './components/Inform'
@@ -18,7 +21,7 @@ import AvatarLetter from '../AvatarLetter'
 import AvatarProfile from './components/AvatarProfile'
 
 const Header = () => {
-  const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify } = useContext(AppContext)
+  const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify, theme } = useContext(AppContext)
 
   const { t } = useTranslation(['home'])
 
@@ -43,12 +46,16 @@ const Header = () => {
             </button>
 
             {/* //* Trang chu Youtube */}
-            <ToolTip position='bottom' content={t('side bar.youtube home')}>
+            {/* <ToolTip position='bottom' content={t('side bar.youtube home')}>
               <Link to='/' className='flex cursor-pointer items-end gap-x-1 xl:ml-2'>
                 <BsYoutube className='h-6 w-6 text-red-600 md:h-8 md:w-8' />
                 <span className='text-base font-semibold text-black dark:text-white md:text-lg'>YouTube</span>
               </Link>
-            </ToolTip>
+            </ToolTip> */}
+            <Link to='/' className='flex cursor-pointer xl:ml-2'>
+              {theme == "Dark" ? <img src={DarkLogo} alt="Logo HciTube" /> : <img src={LightLogo} alt="Logo HciTube" /> }
+            </Link>
+            
           </div>
 
           {/* //* search */}

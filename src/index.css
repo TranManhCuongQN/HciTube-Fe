@@ -12,9 +12,10 @@ html {
 }
 
 body {
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  font-weight: 400;
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: 'Nunito', sans-serif;
 }
+
 
 @media screen and (min-width: 1536px) {
   body {
@@ -290,4 +291,40 @@ th {
 }
 .upload-thumbnail:hover .button-edit-thumbnail {
   opacity: 1;
+}
+
+/* Tooltip video */
+.tooltip-video:hover .tooltip-text {
+  visibility: visible;
+}
+
+#Video::-webkit-media-controls {
+  display: none !important;
+}
+#Video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+#Video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+#Video::-moz-media-controls {
+  display: none !important;
+}
+
+#Video::-ms-media-controls {
+  display: none !important;
+}
+
+
+/* Swipper */
+.swiper {
+  margin: 0!important; 
+  padding: 0!important;
+
+}
+
+.swiper-slide {
+  flex-shrink: initial !important;
+  width: fit-content!important;
 }

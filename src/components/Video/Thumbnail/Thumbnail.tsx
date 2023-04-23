@@ -1,17 +1,29 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef } from 'react'
-import Lauv from 'src/assets/Lauv.mp4'
 
-const Thumbnail = ({ props }: any) => {
+
+const Thumbnail = (props:any) => {
   const thumbnailRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  let videoDuration = 1
-  const { mouseClientX, thumbnailCurrentTime, rectProgress } = props
-  if (videoRef.current) {
-    videoDuration = videoRef.current?.duration
-    videoRef.current.currentTime = !isNaN(thumbnailCurrentTime) ? thumbnailCurrentTime : 0
+
+  // Format time
+  const formatTime = (duration: number) => {
+    if(duration) {
+      const result = new Date(duration * 1000).toISOString().slice(11, 19)
+      const hour = result.slice(0, 2)
+      const minute = result.slice(3, 5)
+      const second = result.slice(6, 8)
+      return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
+    }
   }
-  const progressPercent = Math.round((thumbnailCurrentTime / videoDuration) * 100)
+
+  let videoDuration = 1
+  const { mouseClientX , thumbnailCurrentTime, rectProgress } = props.thumbnailProps;
+  if (videoRef.current && thumbnailCurrentTime) {
+    videoDuration = videoRef.current?.duration
+    videoRef.current.currentTime = thumbnailCurrentTime;
+  }
+  const progressPercent = Math.round(((thumbnailCurrentTime ? thumbnailCurrentTime : 0) / videoDuration) * 100)
   if (thumbnailRef.current && mouseClientX && rectProgress) {
     const halfOfThumbnailWidth = thumbnailRef.current?.offsetWidth / 2
     if (mouseClientX - rectProgress.left < halfOfThumbnailWidth) thumbnailRef.current.style.left = '0'
@@ -23,16 +35,19 @@ const Thumbnail = ({ props }: any) => {
       thumbnailRef.current.style.left = `calc(${progressPercent}% - ${halfOfThumbnailWidth}px)`
     }
   }
+
   return (
-    <>
+    <div ref={thumbnailRef} className="absolute bottom-6 flex flex-col items-center " id='Thumbnail'>
       <div
-        ref={thumbnailRef}
-        className='absolute bottom-[100%] h-[6rem] w-[9rem] items-center border-[1.4px] border-solid border-white bg-black'
-        id='Thumbnail'
+        className='h-[6rem] w-[9rem] items-center border-[1.4px] border-solid border-white bg-black rounded-sm'
+        
       >
-        <video src={Lauv} ref={videoRef} className='w-full' />
+        <video src={props.videoSrc} ref={videoRef} className='w-full rounded-sm' />
       </div>
-    </>
+      <span className=" text-white text-xs mt-3 font-medium bg-[rgba(0,0,0,0.2)] px-1 rounded-sm">
+        {formatTime(Math.floor(thumbnailCurrentTime))}
+      </span>
+    </div>
   )
 }
 

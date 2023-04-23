@@ -59,7 +59,7 @@ const Voice = (props: VoiceProps) => {
     <>
       <ToolTip position='bottom' content={t('side bar.search_with_voice')}>
         <button
-          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
+          className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:bg-[#181818] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
           onClick={handleVoice}
         >
           <MdMic className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
