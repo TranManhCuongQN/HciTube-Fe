@@ -15,14 +15,12 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ImCloudUpload } from 'react-icons/im'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
 import Editor from 'src/components/Editor'
-import Skeleton from 'src/components/Skeleton'
 import Dropdown from 'src/components/Dropdown'
 import { useMutation, useQuery } from 'react-query'
 import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
 import { toast } from 'react-toastify'
 import { convertBytesToMB } from 'src/utils/utils'
-import { Video } from 'src/types/video.type'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -40,7 +38,7 @@ const FormUpload = (props: FormUploadProps) => {
 
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     register,
     reset,
     setValue
@@ -83,7 +81,6 @@ const FormUpload = (props: FormUploadProps) => {
   const [idVideo, setIdVideo] = useState<string>('')
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [duration, setDuration] = useState<string>('')
-  const [imageGetVideo, setImageGetVideo] = useState<string>('')
   const childRef = React.useRef<HTMLDivElement>(null)
   const [categories, setCategories] = useState<string[]>([])
 
@@ -199,16 +196,6 @@ const FormUpload = (props: FormUploadProps) => {
     }
   }
 
-  const handleGetImageVideo = useCallback(async () => {
-    try {
-      const res = await uploadApi.getThumbnail(idVideo)
-      const imageUrl = URL.createObjectURL(res.data)
-      setImageGetVideo(imageUrl)
-    } catch (error) {
-      console.log(error)
-    }
-  }, [idVideo])
-
   useEffect(() => {
     if (fileVideo !== null && urlVideo === '') {
       handleUploadCloud()
@@ -220,16 +207,7 @@ const FormUpload = (props: FormUploadProps) => {
     if (fileImage !== null && fileImage !== undefined) {
       handleUploadImageCloud()
     }
-    if (!urlImage) {
-      setValue('thumbnail', imageGetVideo)
-    }
-  }, [fileImage, handleUploadImageCloud, imageGetVideo, setValue, urlImage])
-
-  useEffect(() => {
-    if (idVideo) {
-      handleGetImageVideo()
-    }
-  }, [idVideo, handleGetImageVideo])
+  }, [fileImage, handleUploadImageCloud])
 
   const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -262,7 +240,6 @@ const FormUpload = (props: FormUploadProps) => {
     setProgressVideo(0)
     setProgressImage(0)
     setFileNameVideo('')
-    setImageGetVideo('')
     setPlayListSelected([])
     setCategories([])
     reset()
@@ -309,7 +286,6 @@ const FormUpload = (props: FormUploadProps) => {
       setProgressVideo(0)
       setProgressImage(0)
       setFileNameVideo('')
-      setImageGetVideo('')
       setPlayListSelected([])
       setCategories([])
       reset()
@@ -386,32 +362,15 @@ const FormUpload = (props: FormUploadProps) => {
 
                     {progressImage === 0 && !urlImage && (
                       <>
-                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
-                          <button
-                            type='button'
-                            className='mt-2 flex h-[80px] w-[150px] flex-shrink-0 cursor-pointer flex-col items-center  justify-center gap-y-3 border border-dashed'
-                            onClick={handleUploadImage}
-                          >
-                            <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
-                            <span className='text-xs text-[#a7a7a7] dark:text-white'>Tải hình thu nhỏ lên</span>
-                          </button>
-                          {!imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <Skeleton className='h-full w-full' />
-                                </div>
-                              ))}
-                          {imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
-                                </div>
-                              ))}
-                        </div>
+                        <button
+                          type='button'
+                          className='mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-3 border border-dashed'
+                          onClick={handleUploadImage}
+                        >
+                          <AiOutlineFileImage className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
+                          <span className='text-xs text-[#a7a7a7] dark:text-white'>Tải hình thu nhỏ lên</span>
+                        </button>
+
                         <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                           {errors.thumbnail?.message}
                         </span>
@@ -419,68 +378,33 @@ const FormUpload = (props: FormUploadProps) => {
                     )}
                     {progressImage > 0 && progressImage <= 100 && (
                       <>
-                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
-                          <div className='mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-3 border border-dashed'>
-                            <div className='animate-spin'>
-                              <AiOutlineLoading className='h-9 w-9 text-black dark:text-white' />
-                            </div>
-                            <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                              Đã tải được {progressImage + '%'}
-                            </span>
+                        <div className='mx-auto mt-2 flex h-36 w-60 flex-col items-center justify-center gap-y-3 border border-dashed'>
+                          <div className='animate-spin'>
+                            <AiOutlineLoading className='h-9 w-9 text-black dark:text-white max-md:h-6 max-md:w-6' />
                           </div>
-                          {!imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <Skeleton className='h-full w-full' />
-                                </div>
-                              ))}
-                          {imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
-                                </div>
-                              ))}
+                          <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                            Đã tải được {progressImage + '%'}
+                          </span>
                         </div>
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
                     )}
                     {urlImage && (
                       <>
-                        <div className='flex flex-wrap items-center justify-between max-lg:justify-center max-lg:gap-x-5'>
-                          <div className='upload-image relative mt-2 flex h-[80px] w-[150px] flex-col items-center justify-center gap-y-2'>
-                            <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
-                            <div className='absolute top-0 left-0 h-full w-full hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
-                              <button
-                                className='button-edit absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow transition-all hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] '
-                                title='Thay đổi ảnh'
-                                onClick={handleUploadImage}
-                                type='button'
-                              >
-                                <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                              </button>
-                            </div>
+                        <div className='upload-image relative mx-auto  mt-2  flex  h-36 w-60  flex-col items-center justify-center '>
+                          <img src={urlImage} alt='thumbnail' className='h-full w-full object-cover' />
+                          <div className='absolute top-0 left-0 h-full w-full hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
+                            <button
+                              className='button-edit absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow transition-all hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] '
+                              title='Thay đổi ảnh'
+                              onClick={handleUploadImage}
+                              type='button'
+                            >
+                              <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                            </button>
                           </div>
-                          {!imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <Skeleton className='h-full w-full' />
-                                </div>
-                              ))}
-                          {imageGetVideo &&
-                            Array(2)
-                              .fill(0)
-                              .map((item, index) => (
-                                <div className='mt-2 h-[80px] w-[150px] flex-shrink-0' key={index}>
-                                  <img src={imageGetVideo} alt='thumbnail' className='h-full w-full object-cover' />
-                                </div>
-                              ))}
                         </div>
+
                         <div className='my-1 min-h-[1.25rem]'></div>
                       </>
                     )}
@@ -716,6 +640,7 @@ const FormUpload = (props: FormUploadProps) => {
                 <Button
                   className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
                   type='submit'
+                  disabled={isSubmitting}
                 >
                   Upload
                 </Button>

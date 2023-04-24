@@ -42,11 +42,9 @@ const ChangePasswordPage = () => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     changePasswordMutation.mutate(data)
   })
 
-  console.log(errors)
   return (
     <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
       <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Đổi mật khẩu</span>

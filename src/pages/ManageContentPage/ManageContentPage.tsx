@@ -6,7 +6,7 @@ import { AppContext } from 'src/context/app.context'
 import { keyBy } from 'lodash'
 import FormEditContent from './components'
 import { Video } from 'src/types/video.type'
-import { convertNumberToDisplayString, getFormattedDate } from 'src/utils/utils'
+import { getFormattedDate, getPublicId } from 'src/utils/utils'
 import FormAddPlayList from '../UploadVideoPage/components/FormAddPlayList'
 import { useMutation, useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
@@ -16,6 +16,7 @@ import { toast } from 'react-toastify'
 import { NavLink } from 'react-router-dom'
 import path from 'src/constants/path'
 import Skeleton from 'src/components/Skeleton'
+import uploadApi from 'src/api/upload.api'
 
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
@@ -23,6 +24,8 @@ const ManageContentPage = () => {
   const [isShowNotificationDeleteAll, setIsShowNotificationDeleteAll] = useState<boolean>(false)
   const { extendedVideos, setExtendedVideos } = useContext(AppContext)
   const [idVideo, setIdVideo] = useState<string[] | undefined>([''])
+  const [urlImage, setUrlImage] = useState<string>('')
+  const [urlVideo, setUrlVideo] = useState<string>('')
 
   const {
     data: dataVideo,
@@ -87,15 +90,35 @@ const ManageContentPage = () => {
     )
   }
 
+  const handleDeleteImageCloud = async (idImage: string) => {
+    try {
+      const res = await uploadApi.deleteImage(idImage)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDeleteVideoCloud = async (idVideo: string) => {
+    try {
+      const res = await uploadApi.deleteVideo(idVideo)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const handleDelete = (id: string) => () => {
     const videoId = checkedVideos.filter((item) => item._id === id)
     const VideoItem = data?.filter((item) => item._id === id) as Video[]
     setIsShowNotificationDelete(true)
     if (checkedVideosCount > 0 && videoId.length > 0) {
       setIdVideo(videoId.map((item) => item._id))
+      setUrlImage(VideoItem[0].thumbnail)
+      setUrlVideo(VideoItem[0].video)
     }
     if (checkedVideosCount === 0) {
       setIdVideo(VideoItem.map((item) => item._id))
+      setUrlImage(VideoItem[0].thumbnail)
+      setUrlVideo(VideoItem[0].video)
     }
   }
 
@@ -134,6 +157,8 @@ const ManageContentPage = () => {
             autoClose: 2000,
             pauseOnHover: false
           })
+          handleDeleteVideoCloud(getPublicId(urlVideo))
+          handleDeleteImageCloud(getPublicId(urlImage))
           refetch()
         }
       })
