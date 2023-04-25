@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import uploadApi, { controllerImage } from 'src/api/upload.api'
+import uploadApi from 'src/api/upload.api'
 import Editor from 'src/components/Editor'
 import Input from 'src/components/Input'
 import { MdOutlineSystemUpdateAlt } from 'react-icons/md'
@@ -186,8 +186,9 @@ const ProfilePage = () => {
     console.log(data)
     updateProfileMutation.mutate(data, {
       onSuccess: (res) => {
-        setProfile(res.data.user)
-        setProfileToLocalStorage(res.data.user)
+        console.log(res)
+        setProfile(res.data.data.user)
+        setProfileToLocalStorage(res.data.data.user)
         toast.dismiss()
         toast.success('Cập nhật thành công', {
           position: 'top-right',

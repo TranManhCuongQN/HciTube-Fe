@@ -7,7 +7,7 @@ export interface Video {
   title?: string
   createdAt?: string
   view?: number
-  like?: number
+  like?: []
   comments?: number
   description?: string
   video?: string
