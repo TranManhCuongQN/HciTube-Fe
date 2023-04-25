@@ -1,34 +1,35 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
-import Lauv from 'src/assets/Lauv.mp4'
 
-
-const playlistSrc = Lauv;
-
-
-const Video = (props:any) => {
+interface VideoProps {
+  lastPlayedTime: number
+  urlVideo: string
+}
+const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
+  console.log('lastPlayerTime:', lastPlayedTime)
+  console.log('urlVideo:', urlVideo)
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
 
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
 
   useEffect(() => {
-    if(videoRef.current) {
-      videoRef.current.currentTime = props.lastPlayedTime;
+    if (videoRef.current && lastPlayedTime) {
+      videoRef.current.currentTime = lastPlayedTime
     }
-  }, [])
+  }, [lastPlayedTime])
 
+  const videoDuration = videoRef.current?.duration || 0
 
-  const videoDuration = videoRef.current?.duration || 0;
+  console.log('videoDuration:', videoDuration)
 
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
-    let valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
+    const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
     if (ref.current) {
       ref.current.style.background = `linear-gradient(to right, ${leftColor} ${valPercent}%, ${rightColor} ${valPercent}%`
     }
   }
-
 
   // Format time
   const formatTime = (duration: number) => {
@@ -52,14 +53,13 @@ const Video = (props:any) => {
     if (progressRef.current) {
       progressRef.current.value = String(durationPercent)
     }
-    if(videoDuration != 0) slider(progressRef, 'red', 'rgba(255, 255, 255, 0.3)')
+    if (videoDuration != 0) slider(progressRef, 'red', 'rgba(255, 255, 255, 0.3)')
     else slider(progressRef, 'rgba(255, 255, 255, 0.3)', 'rgba(255, 255, 255, 0.3)')
-  }, [timeElapsed])
+  }, [timeElapsed, videoDuration])
 
-
-  const handleClickProgress = (e:any) => {
-    if(videoRef.current) {
-      videoRef.current.currentTime = Number(progressRef.current?.value) / 100 * videoDuration;
+  const handleClickProgress = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = (Number(progressRef.current?.value) / 100) * videoDuration
       updateTimeElapsed()
     }
   }
@@ -67,40 +67,36 @@ const Video = (props:any) => {
   return (
     <div className={`max-w-full`}>
       <div className={`h-full bg-black`}>
-        <div
-          className={`group relative h-full`}
-          role='presentation'
-        >
+        <div className={`group relative h-full`} role='presentation'>
           <video
-            src={playlistSrc}
+            src={urlVideo}
             ref={videoRef}
             autoPlay
             onTimeUpdate={updateTimeElapsed}
             className={`aspect-video h-full `}
-            id="Video"
+            id='Video'
           />
 
-          <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>          
-            <div className='text-xs ml-3 text-[#DDD] z-50'>
+          <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>
+            <div className='z-50 ml-3 text-xs text-[#DDD]'>
               <span>{timeElapsed}</span>
               <span className='opacity-70 lg:opacity-100'> / </span>
               <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
             </div>
 
-            <div className='w-full z-50'>
-                <input
-                  ref={progressRef}
-                  onInput={(e) => {handleClickProgress(e)}}
-                  type='range'
-                  min={0}
-                  max={100}
-                  step={0.1}
-                  className='progress-slider mt-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
-                />
+            <div className='z-50 w-full'>
+              <input
+                ref={progressRef}
+                onInput={handleClickProgress}
+                type='range'
+                min={0}
+                max={100}
+                step={0.1}
+                className='progress-slider mt-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
+              />
             </div>
 
-            <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(0,0,0,0.6)] from-0% via-[rgba(0,0,0,0.2)] via-20% to-[rgba(0,0,0,0)] to-90% h-[300%]">
-            </div>
+            <div className='from-0% via-20% to-90% absolute bottom-0 left-0 right-0 hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:block'></div>
           </div>
         </div>
       </div>

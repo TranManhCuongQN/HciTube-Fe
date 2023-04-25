@@ -28,16 +28,19 @@ export function isAxiosExpiredTokenError<UnauthorizedError>(error: unknown): err
 
 // convert
 export function convertNumberToDisplayString(num: number): string {
-  const absNum = Math.abs(num)
-  if (absNum >= 1e9) {
-    return (num / 1e9).toFixed(1) + 'B'
-  } else if (absNum >= 1e6) {
-    return (num / 1e6).toFixed(1) + 'M'
-  } else if (absNum >= 1e3) {
-    return (num / 1e3).toFixed(1) + 'K'
-  } else {
-    return num.toString()
+  if (num) {
+    const absNum = Math.abs(num)
+    if (absNum >= 1e9) {
+      return (num / 1e9).toFixed(1) + 'B'
+    } else if (absNum >= 1e6) {
+      return (num / 1e6).toFixed(1) + 'M'
+    } else if (absNum >= 1e3) {
+      return (num / 1e3).toFixed(1) + 'K'
+    } else {
+      return num.toString()
+    }
   }
+  return '0'
 }
 
 export function getFormattedDate(dates: string) {
@@ -84,4 +87,36 @@ export function convertBytesToMB(bytes: number) {
 export const getPublicId = (imageURL: string) => {
   const getPublicId = `youtube-clone/video/${imageURL?.split('/')?.pop()?.split('.')[0]}`
   return getPublicId
+}
+
+export function convertToRelativeTime(timestamp: string): string {
+  const now = new Date()
+  const datetimeObj = new Date(timestamp)
+  const timeDelta = now.getTime() - datetimeObj.getTime()
+  const secondsPerMinute = 60
+  const secondsPerHour = secondsPerMinute * 60
+  const secondsPerDay = secondsPerHour * 24
+  const secondsPerWeek = secondsPerDay * 7
+  const secondsPerMonth = secondsPerDay * 30
+  const secondsPerYear = secondsPerDay * 365
+
+  if (timeDelta >= secondsPerYear * 1000) {
+    const years = Math.floor(timeDelta / (secondsPerYear * 1000))
+    return `${years} năm trước`
+  } else if (timeDelta >= secondsPerMonth * 1000) {
+    const months = Math.floor(timeDelta / (secondsPerMonth * 1000))
+    return `${months} tháng trước`
+  } else if (timeDelta >= secondsPerWeek * 1000) {
+    const weeks = Math.floor(timeDelta / (secondsPerWeek * 1000))
+    return `${weeks} tuần trước`
+  } else if (timeDelta >= secondsPerDay * 1000) {
+    const days = Math.floor(timeDelta / (secondsPerDay * 1000))
+    return `${days} ngày trước`
+  } else if (timeDelta >= secondsPerHour * 1000) {
+    const hours = Math.floor(timeDelta / (secondsPerHour * 1000))
+    return `${hours} giờ trước`
+  } else {
+    const minutes = Math.floor(timeDelta / (secondsPerMinute * 1000))
+    return `${minutes} phút trước`
+  }
 }

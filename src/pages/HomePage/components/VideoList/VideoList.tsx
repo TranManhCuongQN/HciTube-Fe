@@ -1,148 +1,44 @@
+import { useQuery } from 'react-query'
+import videoApi from 'src/api/video.api'
+import Skeleton from 'src/components/Skeleton'
 import VideoItem from '../VideoItem/VideoItem'
 
-const InforVideo = [
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 127,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 60,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 10,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  },
-  {
-    thumbnail:
-      'https://i.ytimg.com/vi/TOI0keZyzYo/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDJif58-vZgK74wfHBfAbWS-r1dnA',
-    avatar: 'https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg',
-    title: '2 HOURS WORK & STUDY WITH ME🕯📝  | REAL TIME | no breaks | 🎧 Focused Lofi study Music',
-    user: 'Mạnh Cường',
-    view: 10,
-    dataSubmitted: 1,
-    lastPlayedTime: 0,
-    videoDuration: 216.85
-  }
-]
-
 const VideoList = () => {
+  const {
+    data: VideoList,
+    isSuccess,
+    isLoading
+  } = useQuery({
+    queryKey: 'videoList',
+    queryFn: videoApi.getVideoAll
+  })
+
+  console.log(VideoList)
+
   return (
     <div
       className={`grid grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
     >
-      {InforVideo.map((item, index) => (
-        <VideoItem key={index} data={item} />
-      ))}
+      {isLoading &&
+        Array(6)
+          .fill(0)
+          .map((item, index) => (
+            <div className='mb-5 flex cursor-pointer flex-col gap-y-3' key={index}>
+              <Skeleton className='h-48 w-full rounded-lg' />
+              <div className='flex items-start gap-x-3 px-3 md:px-0'>
+                <div className='relative h-8 w-8 flex-shrink-0 '>
+                  <Skeleton className='h-full w-full rounded-full object-cover' />
+                </div>
+                <div className='flex w-full flex-col gap-y-3'>
+                  <Skeleton className='h-4 w-full rounded' />
+                  <Skeleton className='h-4 w-1/2 rounded' />
+                  <Skeleton className='h-4 w-1/2 rounded' />
+                </div>
+              </div>
+            </div>
+          ))}
+
+      {isSuccess && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
     </div>
   )
 }

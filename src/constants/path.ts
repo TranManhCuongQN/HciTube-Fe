@@ -2,7 +2,7 @@ const path = {
   home: '/',
   login: '/login',
   register: '/register',
-  detail: '/:id',
+  detail: 'detail/:id',
   verify: '/verify',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',

@@ -26,15 +26,16 @@ const ManageContentPage = () => {
   const [idVideo, setIdVideo] = useState<string[] | undefined>([''])
   const [urlImage, setUrlImage] = useState<string>('')
   const [urlVideo, setUrlVideo] = useState<string>('')
-
+  const { profile } = useContext(AppContext)
+  const idChannel = profile?._id
   const {
     data: dataVideo,
     refetch,
     isLoading,
     isSuccess
   } = useQuery({
-    queryKey: ['ListVideo'],
-    queryFn: videoApi.getVideo
+    queryKey: ['videoList', idChannel],
+    queryFn: () => videoApi.getVideoChannel(idChannel as string)
   })
 
   const data = dataVideo?.data.data
@@ -67,7 +68,7 @@ const ManageContentPage = () => {
         data?.map((item) => {
           return {
             ...item,
-            checked: Boolean(extendsVideosObject[item._id]?.checked),
+            checked: Boolean(extendsVideosObject[item._id as string]?.checked),
             disabled: false
           }
         }) || []
@@ -111,14 +112,14 @@ const ManageContentPage = () => {
     const VideoItem = data?.filter((item) => item._id === id) as Video[]
     setIsShowNotificationDelete(true)
     if (checkedVideosCount > 0 && videoId.length > 0) {
-      setIdVideo(videoId.map((item) => item._id))
-      setUrlImage(VideoItem[0].thumbnail)
-      setUrlVideo(VideoItem[0].video)
+      // setIdVideo(videoId.map((item) => item._id))
+      // setUrlImage(VideoItem[0].thumbnail)
+      // setUrlVideo(VideoItem[0].video)
     }
     if (checkedVideosCount === 0) {
-      setIdVideo(VideoItem.map((item) => item._id))
-      setUrlImage(VideoItem[0].thumbnail)
-      setUrlVideo(VideoItem[0].video)
+      // setIdVideo(VideoItem.map((item) => item._id))
+      // setUrlImage(VideoItem[0].thumbnail)
+      // setUrlVideo(VideoItem[0].video)
     }
   }
 
@@ -257,7 +258,7 @@ const ManageContentPage = () => {
                               type='checkbox'
                               className='h-5 w-5 rounded-sm accent-black dark:accent-white max-md:h-4 max-md:w-4'
                               checked={item.checked}
-                              onChange={handleCheck(item._id)}
+                              onChange={handleCheck(item._id as string)}
                             />
                           </th>
                           <th className='w-1/3'>
@@ -274,20 +275,20 @@ const ManageContentPage = () => {
                                 </span>
                                 <span
                                   className='cursor-pointer text-xs text-black  line-clamp-2 dark:text-white'
-                                  dangerouslySetInnerHTML={{ __html: String(parse(item.description)) }}
+                                  dangerouslySetInnerHTML={{ __html: String(parse(item.description as string)) }}
                                 ></span>
                               </div>
                             </div>
                           </th>
                           <th>
                             <span className=' text-xs text-black dark:text-white md:text-sm'>
-                              {getFormattedDate(item.createdAt)}
+                              {getFormattedDate(item.createdAt as string)}
                             </span>
                           </th>
                           <th>
                             <span
                               className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
-                              title={String(item.views)}
+                              title={String(item.view)}
                             >
                               {/* {convertNumberToDisplayString(item.views)} */} 0
                             </span>
@@ -313,7 +314,7 @@ const ManageContentPage = () => {
                               <ToolTip position='bottom' content='Chỉnh sửa'>
                                 <button
                                   className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-                                  onClick={handleEdit(item._id)}
+                                  onClick={handleEdit(item._id as string)}
                                 >
                                   <BiEditAlt className='h-6 w-6 text-black dark:text-white ' />
                                 </button>
@@ -322,7 +323,7 @@ const ManageContentPage = () => {
                               <ToolTip position='bottom' content='Xóa'>
                                 <button
                                   className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-                                  onClick={handleDelete(item._id)}
+                                  onClick={handleDelete(item._id as string)}
                                 >
                                   <AiOutlineDelete className='h-6 w-6 text-black dark:text-white ' />
                                 </button>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { BsEmojiLaughing } from 'react-icons/bs'
@@ -7,6 +7,10 @@ import CommentItem from '../CommentItem'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import ToolTip from 'src/components/ToolTip'
+import { useMutation, useQuery } from 'react-query'
+import { commentApi } from 'src/api/comment.api'
+import { AppContext } from 'src/context/app.context'
+import { useParams } from 'react-router-dom'
 
 const Comment = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
@@ -15,14 +19,37 @@ const Comment = () => {
   const [comment, setComment] = useState<string>('')
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
   const [valueArrange, setValueArrange] = useState<string>('comment')
-  const arrangeRef = useRef<HTMLDivElement>(null)
+  const arrangeRef = useRef<HTMLDivElement | null>(null)
   const { t } = useTranslation(['detail'])
+  const { profile } = useContext(AppContext)
+  const { id } = useParams()
 
-  useOnClickOutSide(emojiRef.current, () => {
+  const { data, refetch } = useQuery({
+    queryKey: ['comment', id],
+    queryFn: () => commentApi.getComment(id as string)
+  })
+
+  const createCommentMutation = useMutation({
+    mutationFn: (comment: string) =>
+      commentApi.createComment({
+        comment,
+        video: id as string
+      }),
+    onSuccess: () => {
+      refetch()
+      setComment('')
+      setIsShow(false)
+    }
+  })
+
+  console.log('DataComment:', data)
+  console.log(data?.data.data.length)
+
+  useOnClickOutSide(emojiRef, () => {
     setIsShowEmoji(false)
   })
 
-  useOnClickOutSide(arrangeRef.current, () => {
+  useOnClickOutSide(arrangeRef, () => {
     setIsShowArrange(false)
   })
 
@@ -30,14 +57,13 @@ const Comment = () => {
     setIsShowEmoji(!isShowEmoji)
   }
 
-  function onClick(emojiData: EmojiClickData, event: MouseEvent) {
+  function onClick(emojiData: EmojiClickData) {
     setComment(comment + emojiData.emoji)
   }
 
   const handleComment = () => {
     console.log(comment)
-    setComment('')
-    setIsShow(false)
+    createCommentMutation.mutate(comment)
   }
 
   return (
@@ -45,7 +71,7 @@ const Comment = () => {
       <div className='my-3 flex flex-col '>
         <div className='flex items-center gap-x-5'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-            14 {t('detail:detail.comments')}
+            {data?.data?.data?.length} bình luận
           </span>
           <div
             className='relative flex cursor-pointer items-center gap-x-1'
@@ -55,9 +81,7 @@ const Comment = () => {
           >
             <BiMenuAltLeft className='h-5 w-5 text-black dark:text-white' />
             <ToolTip content={t('detail:detail.sort_comment')} position='bottom'>
-              {' '}
               <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                {' '}
                 {t('detail:detail.sort_by')}
               </span>
             </ToolTip>
@@ -92,7 +116,7 @@ const Comment = () => {
         </div>
         <div className='mt-3 flex items-center gap-x-2'>
           <img
-            src='https://i.pinimg.com/564x/07/62/6d/07626d571a0345c94de4efb57a0fe3b3.jpg'
+            src={profile?.avatar}
             alt='avatar'
             className='h-8 w-8 flex-shrink-0 rounded-full object-cover  md:h-10 md:w-10'
           />
@@ -145,7 +169,10 @@ const Comment = () => {
             )}
           </div>
         </div>
-        <CommentItem />
+        {(data?.data.data.length as number) > 0 &&
+          data?.data.data.map((item, index) => {
+            return <CommentItem key={item._id} dataComment={item} />
+          })}
       </div>
     </>
   )
