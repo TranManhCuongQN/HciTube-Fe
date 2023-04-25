@@ -1,4 +1,4 @@
-import { User } from 'src/types/user.type'
+import { User, UserProfile } from 'src/types/user.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
 
@@ -10,7 +10,7 @@ const profileApi = {
     return http.get<SuccessResponse<User>>(`${URL_GET_PROFILE}`)
   },
   updateProfle: (data: Omit<User, '_id'>) => {
-    return http.patch<SuccessResponse<User>>(`${URL_UPDATE_PROFILE}`, data)
+    return http.patch<SuccessResponse<UserProfile<User>>>(`${URL_UPDATE_PROFILE}`, data)
   },
   changePassword: (data: { passwordCurrent: string; password: string; passwordConfirm: string }) => {
     return http.patch<SuccessResponse<null>>(`${URL_CHANGE_PASSWORD}`, data)

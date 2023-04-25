@@ -8,12 +8,13 @@ export interface Video {
   createdAt?: string
   view?: number
   like?: []
-  comments?: number
+  comments?: []
   description?: string
   video?: string
   duration?: string
   category?: string[]
   playList?: string[]
+  dislike?: []
   watchTime?: number
   channel?: User
 }

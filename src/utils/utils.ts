@@ -40,7 +40,7 @@ export function convertNumberToDisplayString(num: number): string {
       return num.toString()
     }
   }
-  return '0'
+  return num.toString()
 }
 
 export function getFormattedDate(dates: string) {

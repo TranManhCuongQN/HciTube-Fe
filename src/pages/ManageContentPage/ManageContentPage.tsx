@@ -39,16 +39,7 @@ const ManageContentPage = () => {
   })
 
   const data = dataVideo?.data.data
-
-  console.log('dataVideo:', data)
-
-  // const updateInforVideoMutation = useMutation({
-  //   mutationFn: (data:FormData)=> videoApi.updateInforVideo(data, idVideo as String)
-  //   onSuccess: () => {
-  //     // khi thành công có sẽ refetch lại api này
-  //     refetch()
-  //   }
-  // })
+  console.log('data:', data)
 
   const deleteVideoMutation = useMutation({
     mutationFn: (id: string) => videoApi.deleteVideo(id)
@@ -114,20 +105,34 @@ const ManageContentPage = () => {
     const VideoItem = data?.filter((item) => item._id === id) as Video[]
     setIsShowNotificationDelete(true)
     if (checkedVideosCount > 0 && videoId.length > 0) {
-      // setIdVideo(videoId.map((item) => item._id))
-      // setUrlImage(VideoItem[0].thumbnail)
-      // setUrlVideo(VideoItem[0].video)
+      setIdVideo(videoId.map((item) => item._id) as string[])
+      setUrlImage(VideoItem[0].thumbnail as string)
+      setUrlVideo(VideoItem[0].video as string)
     }
     if (checkedVideosCount === 0) {
-      // setIdVideo(VideoItem.map((item) => item._id))
-      // setUrlImage(VideoItem[0].thumbnail)
-      // setUrlVideo(VideoItem[0].video)
+      setIdVideo(VideoItem.map((item) => item._id) as string[])
+      setUrlImage(VideoItem[0].thumbnail as string)
+      setUrlVideo(VideoItem[0].video as string)
     }
   }
 
+  const deleteAllVideoMutation = useMutation({
+    mutationFn: (videoIds: string[]) => videoApi.deleteAllVideo(videoIds)
+  })
+
   const handleDeleteAll = () => {
     const videoIds = checkedVideos.map((item) => item._id)
-    console.log('videos:', videoIds)
+    deleteAllVideoMutation.mutate(videoIds as string[], {
+      onSuccess: () => {
+        setIsShowNotificationDeleteAll(false)
+        toast.success('Xóa video thành công', {
+          position: 'top-right',
+          autoClose: 2000,
+          pauseOnHover: false
+        })
+        refetch()
+      }
+    })
   }
 
   const handleCloseModal = () => {
@@ -148,9 +153,7 @@ const ManageContentPage = () => {
   }
 
   const handleDeleteVideo = () => {
-    console.log('idVideo1:', idVideo)
     if (idVideo) {
-      console.log('idVideo2:', idVideo[0])
       deleteVideoMutation.mutate(idVideo[0], {
         onSuccess: () => {
           setIsShowNotificationDelete(false)
@@ -171,7 +174,7 @@ const ManageContentPage = () => {
   const handleEdit = (id: string) => () => {
     const videoEdit = checkedVideos.filter((item) => item._id === id)
     const videoItem = data?.filter((item) => item._id === id) as Video[]
-    console.log('video:', videoItem)
+
     if (checkedVideosCount > 0 && videoEdit.length > 0) {
       setIsOpenModal(true)
       setDataEdit(videoEdit[0])
@@ -266,7 +269,7 @@ const ManageContentPage = () => {
                           <th className='w-1/3'>
                             <div className='flex items-start gap-x-1'>
                               <div className='h-16 w-28 flex-shrink-0 rounded-sm'>
-                                <img src={item.thumbnail} alt='' className='h-full w-full object-cover object-top' />
+                                <img src={item.thumbnail} alt='' className='h-full w-full object-cover ' />
                               </div>
                               <div className='flex flex-col items-start gap-y-1'>
                                 <span
@@ -300,7 +303,7 @@ const ManageContentPage = () => {
                               className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                               title={String(item.comments)}
                             >
-                              {/* {convertNumberToDisplayString(item.comments)} */}0
+                              {convertNumberToDisplayString(item.comments?.length as number)}
                             </span>
                           </th>
                           <th>

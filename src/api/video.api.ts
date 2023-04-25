@@ -18,8 +18,14 @@ const videoApi = {
   deleteVideo: (idVideo: string) => {
     return http.delete<SuccessResponse<Video>>(`${URL_GET_VIDEO}/${idVideo}`)
   },
+  deleteAllVideo: (videos: string[]) => {
+    return http.patch<SuccessResponse<Video[]>>(`${URL_GET_VIDEO}/delete-multiple-videos`, { videos })
+  },
   getVideoChannel: (idChannel: string) => {
     return http.get<SuccessResponse<Video[]>>(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/videos`)
+  },
+  setAction: () => {
+    return http.patch<SuccessResponse<null>>(`${URL_GET_VIDEO}/action`)
   }
 }
 export default videoApi

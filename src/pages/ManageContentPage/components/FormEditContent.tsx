@@ -17,9 +17,11 @@ import Editor from 'src/components/Editor'
 import Dropdown from 'src/components/Dropdown'
 import parse from 'html-react-parser'
 import playListAPI from 'src/api/playlist.api'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import categoryAPI from 'src/api/category.api'
 import { getPublicId } from 'src/utils/utils'
+import videoApi from 'src/api/video.api'
+import { toast } from 'react-toastify'
 
 interface FormEditContentProps {
   isOpenModal: boolean
@@ -32,7 +34,7 @@ interface FormEditContentProps {
 type FormData = uploadVideoSchemaType
 const uploadVideo = uploadVideoSchema
 const FormEditContent = (props: FormEditContentProps) => {
-  const { isOpenModal, handleCloseModal, data, handleCloseModalPlayList, handleOpenModalPlayList } = props
+  const { isOpenModal, handleCloseModal, data, handleOpenModalPlayList } = props
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
     queryFn: () => playListAPI.getPlayList()
@@ -47,7 +49,7 @@ const FormEditContent = (props: FormEditContentProps) => {
   })
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     register,
     setValue,
     reset
@@ -61,6 +63,26 @@ const FormEditContent = (props: FormEditContentProps) => {
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [categoriesSelected, setCategoriesSelected] = useState<string[]>([])
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
+  const queryClient = useQueryClient()
+
+  const editVideoMutation = useMutation({
+    mutationFn: (dataUpdate: FormData) => videoApi.updateInforVideo(dataUpdate, data?._id as string),
+    onSuccess: () => {
+      toast.success('Cập nhật thông tin video thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      handleCloseModal()
+      setUrlImage('')
+      setFileImage(null)
+      setProgressImage(0)
+      setPlayListSelected([])
+      setCategoriesSelected([])
+      reset()
+      queryClient.invalidateQueries('videoList')
+    }
+  })
 
   const handleUploadImage = () => {
     imageRef.current?.click()
@@ -146,23 +168,23 @@ const FormEditContent = (props: FormEditContentProps) => {
       ...value,
       playList: playListSelected
     }
-    console.log('dataEdit:', dataEdit)
+    console.log('dataEdit', dataEdit)
+    editVideoMutation.mutate(dataEdit)
   })
 
   useEffect(() => {
     if (data) {
-      setValue('title', data.title)
-      setValue('description', String(parse(data.description)))
+      setValue('title', data?.title as string)
+      setValue('description', String(parse(data.description as string)))
 
-      setValue('thumbnail', data.thumbnail)
-      setIdImage(getPublicId(data.thumbnail) as string)
+      setValue('thumbnail', data?.thumbnail as string)
+      setIdImage(getPublicId(data?.thumbnail as string) as string)
 
-      setValue('video', data.video)
+      setValue('video', data.video as string)
 
-      setPlayListSelected(data.playList)
-      data.category.map((item) => {
-        setCategoriesSelected((prev) => [...prev, item._id])
-      })
+      setPlayListSelected(data.playList as string[])
+      setValue('category', data.category as string[])
+      setCategoriesSelected(data.category as string[])
     }
   }, [data, isOpenModal, setValue])
 
@@ -187,6 +209,7 @@ const FormEditContent = (props: FormEditContentProps) => {
   }
 
   console.log('errors:', errors)
+  console.log('idImage:', idImage)
 
   return (
     <DialogCustom
@@ -425,6 +448,7 @@ const FormEditContent = (props: FormEditContentProps) => {
               <Button
                 className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
                 type='submit'
+                disabled={isSubmitting}
               >
                 Upload
               </Button>

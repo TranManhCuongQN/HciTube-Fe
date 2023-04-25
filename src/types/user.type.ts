@@ -5,3 +5,7 @@ export interface User {
   description: string
   thumbnail: string
 }
+
+export interface UserProfile<User> {
+  user: User
+}

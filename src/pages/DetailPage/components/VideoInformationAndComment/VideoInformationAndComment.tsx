@@ -55,12 +55,16 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <button className='flex items-center gap-x-2 '>
                 <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                  {data?.video?.like?.length}
+                </span>
               </button>
               <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400 md:h-5 md:w-5' />
               <button className='flex items-center gap-x-2 '>
                 <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>22</span>
+                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                  {data?.video?.dislike?.length}
+                </span>
               </button>
             </div>
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
@@ -79,12 +83,12 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
           <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <button className='flex items-center gap-x-2 '>
               <BiLike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
+              <span className='text-xs  font-semibold text-black dark:text-white'>{data?.video?.like?.length}</span>
             </button>
             <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400' />
             <button className='flex items-center gap-x-2 '>
               <BiDislike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>22</span>
+              <span className='text-xs  font-semibold text-black dark:text-white'>{data?.video?.dislike?.length}</span>
             </button>
           </div>
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
