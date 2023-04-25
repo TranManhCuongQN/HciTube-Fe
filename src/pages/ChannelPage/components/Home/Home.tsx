@@ -109,7 +109,7 @@ const Home = () => {
   return (
     <div className='flex flex-col md:px-20 lg:px-40'>
       {/* //* Introduction */}
-      <div className='flex w-full flex-col gap-y-5 mt-6 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
+      <div className='flex items-center w-full flex-col gap-y-5 mt-6 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
         <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 lg:h-64 lg:w-[500px] '>
           <video
             src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'

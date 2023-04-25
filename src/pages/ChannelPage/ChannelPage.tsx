@@ -57,7 +57,7 @@ const ChannelPage = () => {
             className='h-full w-full rounded object-cover'
           />
         </div>
-        <div className='pt-4 pb-1 flex w-full px-10 justify-between gap-y-2 max-sm:flex-col md:px-20 lg:px-40 lg:max-w-[1150px]'>
+        <div className='pt-4 pb-1 flex w-full px-10 justify-between gap-y-2 max-sm:flex-col md:px-20 lg:px-40'>
           <div className='flex flex-1 justify-start items-start gap-x-5 pt-2'>
             <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
               <img
