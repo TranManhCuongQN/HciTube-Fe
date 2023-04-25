@@ -251,7 +251,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
           />
           {/* Play and Pause on Desktop */}
           <div
-            className='absolute top-0 right-0 left-0 z-30 hidden h-full items-center justify-center lg:flex'
+            className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
             role='presentation'
             onClick={handlePlayAndPause}
           >
@@ -285,7 +285,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
             </div>
 
             <div className=' absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between lg:left-[0.75rem] lg:right-[0.75rem] lg:flex-col-reverse '>
-              <div className=' z-50 flex w-full items-center justify-between lg:h-12'>
+              <div className=' z-20 flex w-full items-center justify-between lg:h-12'>
                 <div className='flex items-center'>
                   <div className='tooltip-video'>
                     <BiSkipPrevious
@@ -349,7 +349,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                     </div>
                   </div>
 
-                  <div className='text-xs lg:flex lg:h-12 lg:items-center'>
+                  <div className='text-xs font-semibold lg:flex lg:h-12 lg:items-center'>
                     <div className='lg:text-[#DDD]'>
                       <span>{timeElapsed}</span>
                       <span className='opacity-70 lg:opacity-100'> / </span>
@@ -399,7 +399,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                 </div>
               </div>
 
-              <div className='relative z-50' id='ProgressBar'>
+              <div className='relative z-30' id='ProgressBar'>
                 {!isUndefined(thumbnailProps) && <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} />}
                 <div className='w-full '>
                   <input
@@ -419,7 +419,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                 </div>
               </div>
 
-              <div className='from-0% via-20% to-90% absolute bottom-0 left-[-30px] right-[-30px] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:block'></div>
+              <div className='from-0% via-20% to-90% absolute bottom-0 left-[-1.875rem] right-[-1.875rem] lg:left-[-0.75rem] lg:right-[-0.75rem] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:block'></div>
             </div>
           </div>
         </div>

@@ -66,20 +66,23 @@ const dataVideo = [
 ]
 const PlayList = () => {
   return (
-    <div className='my-10 mx-auto grid max-w-full gap-x-5 gap-y-10 max-lg:grid-cols-2 lg:mx-10 lg:grid-cols-3'>
+    <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 md:px-20 lg:px-40 max-lg:grid-cols-2 lg:grid-cols-3'>
       {dataVideo.map((item) => (
-        <div className='flex w-[300px] cursor-pointer flex-col gap-y-2 max-sm:w-40 max-[320px]:w-36' key={item.id}>
-          <div className='relative h-[150px] w-full flex-shrink-0 rounded-lg max-sm:h-20'>
-            <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
+        <div className='flex cursor-pointer flex-col gap-y-2' key={item.id}>
+          <div className='relative h-fit w-full flex-shrink-0 rounded-lg'>
+            <img src={item.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
             <div className='absolute bottom-0 right-0 top-0 flex h-full w-2/5 flex-col items-center justify-center gap-y-2 rounded bg-[#1a1315c0] shadow'>
               <span className='text-base font-medium text-white'>{item.total}</span>
               <MdOutlinePlaylistPlay className='h-8 w-8 text-center text-white' />
             </div>
           </div>
-          <span className='text-xs font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
-          <span className='cursor-pointer text-xs font-bold text-gray-500 line-clamp-2 hover:text-black dark:text-white'>
-            Xem toàn bộ danh sách
-          </span>
+
+          <div className="pr-3 md:pr-6">
+            <span className='text-sm font-bold mb-1 text-black line-clamp-2 dark:text-white'>{item.title}</span>
+            <span className='cursor-pointer text-xs font-bold text-gray-500 line-clamp-2 hover:text-black dark:text-white'>
+              Xem toàn bộ danh sách
+            </span>
+          </div>
         </div>
       ))}
     </div>

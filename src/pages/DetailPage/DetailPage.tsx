@@ -36,7 +36,8 @@ const DetailPage = () => {
             <Video handleTheaterMode={handleTheaterMode} urlVideo={data?.data.data.video.video} />
             {!isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
           </div>
-          <div className={`${isTheaterMode && 'flex bg-white dark:bg-[#0f0f0f] lg:gap-x-5 lg:px-10'}`}>
+
+          <div className={`${isTheaterMode && 'flex justify-between bg-white dark:bg-[#0f0f0f] lg:gap-x-5 lg:px-24'}`}>
             {isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
             <CompactVideoItem />
           </div>

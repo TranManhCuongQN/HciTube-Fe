@@ -47,7 +47,7 @@ const ChannelPage = () => {
   console.log(isBeginning, isEnd)
 
   return (
-    <div className='container flex gap-x-20 bg-[#ffffff] pl-2 pr-2 dark:bg-[#0f0f0f] lg:px-8'>
+    <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
       <AsideBar />
       <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
         <div className='h-52 w-full'>
@@ -57,8 +57,8 @@ const ChannelPage = () => {
             className='h-full w-full rounded object-cover'
           />
         </div>
-        <div className='mt-5 flex w-full items-center justify-between gap-y-2 max-sm:flex-col md:px-5 lg:mx-auto lg:max-w-[1150px]'>
-          <div className='flex items-center gap-x-5'>
+        <div className='pt-4 pb-1 flex w-full px-10 justify-between gap-y-2 max-sm:flex-col md:px-20 lg:px-40 lg:max-w-[1150px]'>
+          <div className='flex flex-1 justify-start items-start gap-x-5 pt-2'>
             <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
               <img
                 src='https://i.pinimg.com/736x/47/ce/d6/47ced656facf572c471fde541c60faa8.jpg'
@@ -66,44 +66,50 @@ const ChannelPage = () => {
                 className='h-full w-full flex-shrink-0 rounded-full object-cover'
               />
             </div>
-            <div className='flex flex-col gap-y-2'>
-              <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Tips JavaScript</span>
-              <div className='flex items-center gap-x-4'>
-                <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
-                  {convertNumberToDisplayString(16000)} người đăng ký
-                </span>
-                <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
-                  {convertNumberToDisplayString(254)} video
-                </span>
+
+            <div className="flex flex-1 flex-row justify-between  max-sm:items-start max-sm:gap-y-5 max-sm:flex-col">
+              <div className='flex flex-col gap-y-2'>
+                <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Tips JavaScript</span>
+                <div className='flex items-center gap-x-4'>
+                  <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
+                    {convertNumberToDisplayString(16000)} người đăng ký
+                  </span>
+                  <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
+                    {convertNumberToDisplayString(254)} video
+                  </span>
+                </div>
+                <NavLink
+                  to={path.about}
+                  className='flex items-center gap-x-2 text-xs font-semibold text-[#8e8883] md:text-sm'
+                >
+                  About Tips Javascript!
+                  <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
+                </NavLink>
               </div>
-              <NavLink
-                to={path.about}
-                className='flex items-center gap-x-2 text-xs font-semibold text-[#8e8883] md:text-sm'
-              >
-                About Tips Javascript!
-                <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
-              </NavLink>
+
+              <button className='flex items-center h-fit gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'>
+                <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
+                Đã đăng ký
+              </button>
             </div>
           </div>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:ml-10 max-sm:px-3 max-sm:py-1 md:text-sm'>
-            <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
-            Đã đăng ký
-          </button>
+         
         </div>
 
-        <div className=' relative mt-5 max-w-full'>
+        <div className='flex relative  mt-5 max-w-full md:px-20 lg:px-40 border-b border-b-gray-500  '>
           <button
-            className={`absolute top-0 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute bottom-2 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isBeginning ? 'invisible' : 'visible'
             } `}
             onClick={goPrev}
           >
             <AiOutlineLeft className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
           </button>
+
           <Swiper
             pagination={false}
             modules={[Pagination]}
-            className='border-b border-b-gray-500 max-md:mx-auto max-md:w-5/6 md:px-5 lg:mx-auto lg:max-w-[1150px]'
+            className='max-md:mx-auto max-md:w-5/6'
             ref={swiperRef}
             onSlideChange={(swiper) => {
               handleSwiper(swiper)
@@ -127,8 +133,8 @@ const ChannelPage = () => {
               {' '}
               <NavLink
                 to={path.channel}
-                className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
-                  'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white ':
+                className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                  'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white ':
                     choose === 'channel',
                   'text-gray-500 ': choose !== 'channel'
                 })}
@@ -143,8 +149,8 @@ const ChannelPage = () => {
               {' '}
               <NavLink
                 to={path.video}
-                className={classNames(`p-3 text-xs font-semibold md:text-sm`, {
-                  'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
+                className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold md:text-sm`, {
+                  'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
                     choose === 'video',
                   'text-gray-500': choose !== 'video'
                 })}
@@ -157,8 +163,8 @@ const ChannelPage = () => {
             <SwiperSlide>
               <NavLink
                 to={path.playList}
-                className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
-                  'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
+                className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                  'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
                     choose === 'playlist',
                   'text-gray-500': choose !== 'playlist'
                 })}
@@ -172,8 +178,8 @@ const ChannelPage = () => {
               {' '}
               <NavLink
                 to={path.about}
-                className={classNames(`whitespace-nowrap p-3 text-xs font-semibold  md:text-sm`, {
-                  'border-b-2 border-b-black font-semibold text-black dark:border-b-white dark:text-white':
+                className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                  'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
                     choose === 'about',
                   'text-gray-500': choose !== 'about'
                 })}
@@ -184,8 +190,9 @@ const ChannelPage = () => {
               </NavLink>
             </SwiperSlide>
           </Swiper>
+
           <button
-            className={`absolute top-0 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+            className={`absolute bottom-2 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
               isEnd ? 'invisible' : 'visible'
             } `}
             onClick={goNext}

@@ -78,7 +78,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
           />
 
           <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>
-            <div className='z-50 ml-3 text-xs text-[#DDD]'>
+            <div className='z-20 font-semibold ml-3 text-xs text-[#DDD]'>
               <span>{timeElapsed}</span>
               <span className='opacity-70 lg:opacity-100'> / </span>
               <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
