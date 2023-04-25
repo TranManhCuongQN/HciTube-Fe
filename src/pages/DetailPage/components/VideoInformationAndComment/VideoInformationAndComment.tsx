@@ -1,20 +1,79 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BsBell } from 'react-icons/bs'
-import { BiLike, BiDislike } from 'react-icons/bi'
 import { RxDividerVertical } from 'react-icons/rx'
 import { TbShare3 } from 'react-icons/tb'
 import { RiMenuAddFill } from 'react-icons/ri'
 import Comment from '../Comment'
 import { VideoItem } from 'src/types/video.type'
+import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from 'react-icons/ai'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import parse from 'html-react-parser'
+import { useMutation } from 'react-query'
+import videoApi from 'src/api/video.api'
+import { AppContext } from 'src/context/app.context'
 
 interface VideoInformationAndCommentProps {
   data: VideoItem
 }
 const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) => {
-  const videoRef = React.useRef<HTMLVideoElement>(null)
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
+  const [isLike, setIsLike] = useState<boolean>(false)
+  const [isDislike, setIsDislike] = useState<boolean>(false)
+  const [totalLike, setTotalLike] = useState<number>(data.video.like?.length as number)
+  const [totalDisLike, setTotalDislike] = useState<number>(data.video.dislike?.length as number)
+  const { profile } = useContext(AppContext)
+
+  useEffect(() => {
+    if (data && data.video.like) {
+      const checkLikeVideo = data?.video?.like?.findIndex((item) => item === profile?._id) || false
+      if (checkLikeVideo !== -1) {
+        setIsLike(true)
+      } else {
+        setIsLike(false)
+      }
+    }
+  }, [data, profile])
+
+  useEffect(() => {
+    if (data && data.video.dislike) {
+      const checkLikeVideo = data?.video?.dislike?.findIndex((item) => item === profile?._id) || false
+      if (checkLikeVideo !== -1) {
+        setIsDislike(true)
+      } else {
+        setIsDislike(false)
+      }
+    }
+  }, [data, profile])
+
+  const likeVideoMutation = useMutation({
+    mutationFn: () =>
+      videoApi.setAction({
+        action: 'like',
+        video: data.video._id as string
+      }),
+    onSuccess: (data) => {
+      console.log('res like:', data)
+    }
+  })
+
+  const dislikeVideoMutation = useMutation({
+    mutationFn: () =>
+      videoApi.setAction({
+        action: 'dislike',
+        video: data.video._id as string
+      }),
+    onSuccess: (data) => {
+      console.log('res dislike:', data)
+    }
+  })
+
+  const handleLikeVideo = () => {
+    likeVideoMutation.mutate()
+  }
+
+  const handleDislikeVideo = () => {
+    dislikeVideoMutation.mutate()
+  }
 
   return (
     <>
@@ -53,18 +112,34 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
           {/* //* Group */}
           <div className='flex items-center justify-between gap-x-5 max-md:hidden'>
             <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
-              <button className='flex items-center gap-x-2 '>
-                <BiLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                  {data?.video?.like?.length}
-                </span>
+              <button className='flex items-center gap-x-2 ' onClick={handleLikeVideo}>
+                {isLike ? (
+                  <>
+                    <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                      {totalLike}
+                    </span>{' '}
+                  </>
+                ) : (
+                  <>
+                    <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
+                  </>
+                )}
               </button>
               <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400 md:h-5 md:w-5' />
-              <button className='flex items-center gap-x-2 '>
-                <BiDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                  {data?.video?.dislike?.length}
-                </span>
+              <button className='flex items-center gap-x-2 ' onClick={handleDislikeVideo}>
+                {isDislike ? (
+                  <>
+                    <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                  </>
+                ) : (
+                  <>
+                    <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                  </>
+                )}
               </button>
             </div>
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
@@ -81,14 +156,32 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         {/* //* Group */}
         <div className='mt-3 flex items-center justify-between gap-x-5 md:hidden'>
           <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <button className='flex items-center gap-x-2 '>
-              <BiLike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>{data?.video?.like?.length}</span>
+            <button className='flex items-center gap-x-2 ' onClick={handleLikeVideo}>
+              {isLike ? (
+                <>
+                  <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>{' '}
+                </>
+              ) : (
+                <>
+                  <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
+                </>
+              )}
             </button>
             <RxDividerVertical className='h-full text-[#666d74] dark:text-gray-400' />
-            <button className='flex items-center gap-x-2 '>
-              <BiDislike className='text-black dark:text-white' />
-              <span className='text-xs  font-semibold text-black dark:text-white'>{data?.video?.dislike?.length}</span>
+            <button className='flex items-center gap-x-2 ' onClick={handleDislikeVideo}>
+              {isDislike ? (
+                <>
+                  <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                </>
+              ) : (
+                <>
+                  <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                </>
+              )}
             </button>
           </div>
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>

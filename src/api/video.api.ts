@@ -24,8 +24,8 @@ const videoApi = {
   getVideoChannel: (idChannel: string) => {
     return http.get<SuccessResponse<Video[]>>(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/videos`)
   },
-  setAction: () => {
-    return http.patch<SuccessResponse<null>>(`${URL_GET_VIDEO}/action`)
+  setAction: (data: { action: string; video: string }) => {
+    return http.patch<SuccessResponse<null>>(`${URL_GET_VIDEO}/action`, data)
   }
 }
 export default videoApi
