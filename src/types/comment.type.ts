@@ -8,6 +8,7 @@ export interface Comment {
   video?: string
   channel?: User
   like?: []
+  dislike?: []
   parent?: string
   children?: Comment[]
   isHidden?: boolean

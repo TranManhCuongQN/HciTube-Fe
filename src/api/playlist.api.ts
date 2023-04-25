@@ -7,7 +7,7 @@ const playListAPI = {
     return http.get<SuccessResponse<{ _id: string; title: string }[]>>(`${URL_PLAYLIST}`)
   },
   createPlayList: (data: { title: string; description: string }) => {
-    return http.post<SuccessResponse<null>>(`${URL_PLAYLIST}`, data)
+    return http.post(`${URL_PLAYLIST}`, data)
   }
 }
 

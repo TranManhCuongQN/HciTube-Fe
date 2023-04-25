@@ -16,5 +16,8 @@ export const commentApi = {
   },
   deleteComment: (idComment: string) => {
     return http.delete<SuccessResponse<Comment>>(`${URL_CREATE_COMMENT}/${idComment}`)
+  },
+  setAction: (data: { action: string; comment: string }) => {
+    return http.patch(`${URL_CREATE_COMMENT}/action`, data)
   }
 }

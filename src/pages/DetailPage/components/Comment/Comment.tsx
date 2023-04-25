@@ -7,12 +7,12 @@ import CommentItem from '../CommentItem'
 import classNames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import ToolTip from 'src/components/ToolTip'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { commentApi } from 'src/api/comment.api'
 import { AppContext } from 'src/context/app.context'
 import { useParams } from 'react-router-dom'
 
-const Comment = () => {
+const Comment = ({ totalComment }: { totalComment: number }) => {
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isShowArrange, setIsShowArrange] = useState<boolean>(false)
   const emojiRef = useRef<HTMLDivElement>(null)
@@ -23,6 +23,7 @@ const Comment = () => {
   const { t } = useTranslation(['detail'])
   const { profile } = useContext(AppContext)
   const { id } = useParams()
+  const queryClient = useQueryClient()
 
   const { data, refetch } = useQuery({
     queryKey: ['comment', id],
@@ -39,11 +40,9 @@ const Comment = () => {
       refetch()
       setComment('')
       setIsShow(false)
+      queryClient.invalidateQueries('video')
     }
   })
-
-  console.log('DataComment:', data)
-  console.log(data?.data.data.length)
 
   useOnClickOutSide(emojiRef, () => {
     setIsShowEmoji(false)
@@ -62,7 +61,6 @@ const Comment = () => {
   }
 
   const handleComment = () => {
-    console.log(comment)
     createCommentMutation.mutate(comment)
   }
 
@@ -70,9 +68,7 @@ const Comment = () => {
     <>
       <div className='my-3 flex flex-col '>
         <div className='flex items-center gap-x-5'>
-          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-            {data?.data?.data?.length} bình luận
-          </span>
+          <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>{totalComment} bình luận</span>
           <div
             className='relative flex cursor-pointer items-center gap-x-1'
             onClick={() => setIsShowArrange(!isShowArrange)}

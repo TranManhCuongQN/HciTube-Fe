@@ -69,6 +69,46 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
     }
   })
 
+  const handleLikeCommentMutation = useMutation({
+    mutationFn: () => commentApi.setAction({ action: 'like', comment: dataComment._id as string }),
+    onSuccess: (data) => {
+      console.log('dataCommentLike:', data)
+      queryClient.invalidateQueries(['comment', id])
+    }
+  })
+
+  const handleDislikeCommentMutation = useMutation({
+    mutationFn: () => commentApi.setAction({ action: 'dislike', comment: dataComment._id as string }),
+    onSuccess: (data) => {
+      console.log('dataCommentDisLike:', data)
+      queryClient.invalidateQueries(['comment', id])
+    }
+  })
+
+  useEffect(() => {
+    if (dataComment.dislike) {
+      const checkDisLikeVideo = dataComment?.dislike?.findIndex((item) => item === profile?._id) || false
+      console.log('checkDisLikeVideo:', checkDisLikeVideo)
+      if (checkDisLikeVideo !== -1) {
+        setIsDislike(true)
+      } else {
+        setIsDislike(false)
+      }
+    }
+  }, [dataComment, profile?._id])
+
+  useEffect(() => {
+    if (dataComment.like) {
+      const checkLikeVideo = dataComment?.like?.findIndex((item) => item === profile?._id) || false
+      console.log('checkLikeVideo:', checkLikeVideo)
+      if (checkLikeVideo !== -1) {
+        setIsLike(true)
+      } else {
+        setIsLike(false)
+      }
+    }
+  }, [dataComment, profile?._id])
+
   const handleCloseModal = () => {
     setIsShowModal(false)
   }
@@ -86,11 +126,11 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   }
 
   const handleLike = () => {
-    console.log('Like')
+    handleLikeCommentMutation.mutate()
   }
 
   const handleDislike = () => {
-    console.log('Dislike')
+    handleDislikeCommentMutation.mutate()
   }
 
   const handleReply = () => {
@@ -195,65 +235,89 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
                   </div>
                   <span className='text-xs text-black dark:text-white md:text-sm'>{dataComment?.comment}</span>
                 </div>
-                <div className='relative' ref={editRef}>
-                  <RxDotsVertical
-                    className='h-5 w-5 cursor-pointer text-black dark:text-white'
-                    onClick={() => setIsShow(!isShow)}
-                  />
-                  {isShow && (
-                    <div className='absolute top-6 right-0 z-40 flex w-[120px] flex-col gap-y-2 rounded-xl bg-white py-2 shadow transition-all ease-linear  dark:bg-[#212121] md:w-[160px]'>
-                      <button
-                        className={
-                          'flex w-full items-center justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
-                        }
-                        onClick={() => {
-                          setIsShowEdit(true)
-                          setIsShow(false)
-                        }}
-                      >
-                        <FiEdit2 className='h-5 w-5 text-black dark:text-white' />
-                        Chỉnh sửa
-                      </button>
-                      <button
-                        className={
-                          'flex w-full justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
-                        }
-                        onClick={() => {
-                          setIsShowModal(true)
-                          setIsShow(false)
-                        }}
-                      >
-                        <RiDeleteBin6Line className='h-5 w-5 text-black dark:text-white' />
-                        Xóa
-                      </button>
-                    </div>
-                  )}
-                </div>
+                {dataComment.channel?._id === profile?._id && (
+                  <div className='relative' ref={editRef}>
+                    <RxDotsVertical
+                      className='h-5 w-5 cursor-pointer text-black dark:text-white'
+                      onClick={() => setIsShow(!isShow)}
+                    />
+                    {isShow && (
+                      <div className='absolute top-6 right-0 z-40 flex w-[120px] flex-col gap-y-2 rounded-xl bg-white py-2 shadow transition-all ease-linear  dark:bg-[#212121] md:w-[160px]'>
+                        <button
+                          className={
+                            'flex w-full items-center justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
+                          }
+                          onClick={() => {
+                            setIsShowEdit(true)
+                            setIsShow(false)
+                          }}
+                        >
+                          <FiEdit2 className='h-5 w-5 text-black dark:text-white' />
+                          Chỉnh sửa
+                        </button>
+                        <button
+                          className={
+                            'flex w-full justify-start gap-x-5 p-1 text-xs text-black hover:bg-[#e5e5e5] dark:text-white dark:hover:bg-[#4d4d4d] md:p-2 md:text-sm'
+                          }
+                          onClick={() => {
+                            setIsShowModal(true)
+                            setIsShow(false)
+                          }}
+                        >
+                          <RiDeleteBin6Line className='h-5 w-5 text-black dark:text-white' />
+                          Xóa
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>
         </div>
         <div className='flex items-center gap-x-2 pl-8 pr-3'>
-          <button
-            className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
-            onClick={handleLike}
-          >
-            {isLike ? (
-              <AiFillLike className='h-5 w-5 text-black dark:text-white' />
-            ) : (
-              <AiOutlineLike className='h-5 w-5 text-black dark:text-white' />
+          <div className='flex items-center'>
+            <button
+              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10'
+              onClick={handleLike}
+            >
+              {isLike ? (
+                <>
+                  <AiFillLike className='h-5 w-5 text-black dark:text-white' />
+                </>
+              ) : (
+                <>
+                  <AiOutlineLike className='h-5 w-5 text-black dark:text-white' />
+                </>
+              )}
+            </button>
+            {(dataComment.like?.length as number) > 0 && (
+              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                {dataComment.like?.length}
+              </span>
             )}
-          </button>
-          <button
-            className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[hsla(0,0%,88%,0)] lg:h-10 lg:w-10'
-            onClick={handleDislike}
-          >
-            {isDislike ? (
-              <AiFillDislike className='h-5 w-5 text-black dark:text-white' />
-            ) : (
-              <AiOutlineDislike className='h-5 w-5 text-black dark:text-white' />
+          </div>
+          <div className='flex items-center'>
+            <button
+              className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[hsla(0,0%,88%,0)] lg:h-10 lg:w-10'
+              onClick={handleDislike}
+            >
+              {isDislike ? (
+                <>
+                  <AiFillDislike className='h-5 w-5 text-black dark:text-white' />
+                </>
+              ) : (
+                <>
+                  <AiOutlineDislike className='h-5 w-5 text-black dark:text-white' />
+                </>
+              )}
+            </button>
+            {(dataComment.dislike?.length as number) > 0 && (
+              <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                {dataComment.dislike?.length}
+              </span>
             )}
-          </button>
+          </div>
           <button
             className='rounded-2xl px-4 py-2 text-xs font-semibold text-black hover:bg-[#f2f2f2] dark:text-white dark:hover:bg-[#272727] md:text-sm'
             onClick={handleReply}

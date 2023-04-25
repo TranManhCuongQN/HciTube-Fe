@@ -13,7 +13,7 @@ const profileApi = {
     return http.patch<SuccessResponse<UserProfile<User>>>(`${URL_UPDATE_PROFILE}`, data)
   },
   changePassword: (data: { passwordCurrent: string; password: string; passwordConfirm: string }) => {
-    return http.patch<SuccessResponse<null>>(`${URL_CHANGE_PASSWORD}`, data)
+    return http.patch(`${URL_CHANGE_PASSWORD}`, data)
   }
 }
 export default profileApi

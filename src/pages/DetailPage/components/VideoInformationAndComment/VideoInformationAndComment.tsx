@@ -8,9 +8,11 @@ import { VideoItem } from 'src/types/video.type'
 import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from 'react-icons/ai'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import parse from 'html-react-parser'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import videoApi from 'src/api/video.api'
 import { AppContext } from 'src/context/app.context'
+import { subscriberApi } from 'src/api/subscriber.api'
+import { toast } from 'react-toastify'
 
 interface VideoInformationAndCommentProps {
   data: VideoItem
@@ -19,9 +21,11 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const [isLike, setIsLike] = useState<boolean>(false)
   const [isDislike, setIsDislike] = useState<boolean>(false)
-  const [totalLike, setTotalLike] = useState<number>(data.video.like?.length as number)
-  const [totalDisLike, setTotalDislike] = useState<number>(data.video.dislike?.length as number)
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
   const { profile } = useContext(AppContext)
+  const queryClient = useQueryClient()
+
+  console.log('Data:', data)
 
   useEffect(() => {
     if (data && data.video.like) {
@@ -35,9 +39,20 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   }, [data, profile])
 
   useEffect(() => {
+    if (data && data.video.channel?.subscribers) {
+      const checkSubscribed = data?.video?.channel?.subscribers?.findIndex((item) => item._id === profile?._id) || false
+      if (checkSubscribed !== -1) {
+        setIsSubscribed(true)
+      } else {
+        setIsSubscribed(false)
+      }
+    }
+  }, [data, profile])
+
+  useEffect(() => {
     if (data && data.video.dislike) {
-      const checkLikeVideo = data?.video?.dislike?.findIndex((item) => item === profile?._id) || false
-      if (checkLikeVideo !== -1) {
+      const checkDisLikeVideo = data?.video?.dislike?.findIndex((item) => item === profile?._id) || false
+      if (checkDisLikeVideo !== -1) {
         setIsDislike(true)
       } else {
         setIsDislike(false)
@@ -52,7 +67,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         video: data.video._id as string
       }),
     onSuccess: (data) => {
-      console.log('res like:', data)
+      queryClient.invalidateQueries('video')
     }
   })
 
@@ -63,7 +78,37 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         video: data.video._id as string
       }),
     onSuccess: (data) => {
-      console.log('res dislike:', data)
+      queryClient.invalidateQueries('video')
+    }
+  })
+
+  const subscribeChannelMutation = useMutation({
+    mutationFn: () =>
+      subscriberApi.subscribeChannel({
+        channel: data.video.channel?._id as string
+      }),
+    onSuccess: (data) => {
+      toast.success('Đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      queryClient.invalidateQueries('video')
+    }
+  })
+
+  const deleteSubscribeChannelMutation = useMutation({
+    mutationFn: () =>
+      subscriberApi.deleteSubscribeChannel({
+        channel: data.video.channel?._id as string
+      }),
+    onSuccess: (data) => {
+      toast.success('Hủy đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      queryClient.invalidateQueries('video')
     }
   })
 
@@ -73,6 +118,14 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const handleDislikeVideo = () => {
     dislikeVideoMutation.mutate()
+  }
+
+  const handleSubscribeChannel = () => {
+    subscribeChannelMutation.mutate()
+  }
+
+  const handleDeleteSubscribeChannel = () => {
+    deleteSubscribeChannelMutation.mutate()
   }
 
   return (
@@ -94,20 +147,46 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               <span className='text-xs font-bold text-black line-clamp-1 dark:text-white md:text-sm'>
                 {data?.video?.channel?.fullName}
               </span>
-              <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>0</span>
+              <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>
+                {data?.video?.channel?.subscribers.length}
+              </span>
             </div>
 
             {/* //* Sign in channel */}
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] max-md:hidden md:px-3'>
-              <BsBell className='text-black dark:text-white' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Đã đăng ký</span>
-            </button>
+            {isSubscribed ? (
+              <button
+                className='ml-5 flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] max-md:hidden md:px-3'
+                onClick={handleDeleteSubscribeChannel}
+              >
+                <BsBell className='text-black dark:text-white' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Đã đăng ký</span>
+              </button>
+            ) : (
+              <button
+                className='ml-5 flex items-center gap-x-2 rounded-2xl bg-[#0f0f0f] p-2 dark:bg-[#f1f1f1] max-md:hidden md:px-3'
+                onClick={handleSubscribeChannel}
+              >
+                <span className='text-xs font-semibold text-white dark:text-black md:text-sm'>Đăng ký</span>
+              </button>
+            )}
           </div>
 
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:hidden'>
-            <BsBell className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Đã đăng ký</span>
-          </button>
+          {isSubscribed ? (
+            <button
+              className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:hidden'
+              onClick={handleDeleteSubscribeChannel}
+            >
+              <BsBell className='text-black dark:text-white' />
+              <span className='text-xs font-semibold text-black dark:text-white'>Đã đăng ký</span>
+            </button>
+          ) : (
+            <button
+              className='flex items-center gap-x-2 rounded-2xl bg-[#0f0f0f] p-2 dark:bg-[#f1f1f1] md:hidden'
+              onClick={handleSubscribeChannel}
+            >
+              <span className='text-xs font-semibold text-white dark:text-black'>Đăng ký</span>
+            </button>
+          )}
 
           {/* //* Group */}
           <div className='flex items-center justify-between gap-x-5 max-md:hidden'>
@@ -117,13 +196,15 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   <>
                     <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
                     <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                      {totalLike}
+                      {data?.video?.like?.length}
                     </span>{' '}
                   </>
                 ) : (
                   <>
                     <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                      {data?.video?.like?.length}
+                    </span>
                   </>
                 )}
               </button>
@@ -132,12 +213,16 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 {isDislike ? (
                   <>
                     <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                      {data?.video?.dislike?.length}
+                    </span>
                   </>
                 ) : (
                   <>
                     <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                      {data?.video?.dislike?.length}
+                    </span>
                   </>
                 )}
               </button>
@@ -160,12 +245,16 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               {isLike ? (
                 <>
                   <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>{' '}
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                    {data?.video?.like?.length}
+                  </span>{' '}
                 </>
               ) : (
                 <>
                   <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                    {data?.video?.like?.length}
+                  </span>
                 </>
               )}
             </button>
@@ -174,12 +263,16 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               {isDislike ? (
                 <>
                   <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                    {data?.video?.dislike?.length}
+                  </span>
                 </>
               ) : (
                 <>
                   <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDisLike}</span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
+                    {data?.video?.dislike?.length}
+                  </span>
                 </>
               )}
             </button>
@@ -226,7 +319,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             )}
           </div>
         </div>
-        <Comment />
+        <Comment totalComment={data?.video?.comments?.length as number} />
       </div>
     </>
   )
