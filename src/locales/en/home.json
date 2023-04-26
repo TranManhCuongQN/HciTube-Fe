@@ -1,0 +1,33 @@
+{
+  "side bar": {
+    "home": "Home",
+    "short": "Shorts",
+    "subscriptions": "Subscriptions",
+    "library": "Library",
+    "history": "History",
+    "your videos": "Your videos",
+    "watch later": "Watch later",
+    "liked videos": "Liked videos",
+    "search": "Search",
+    "youtube home": "YouTube Home",
+    "search_with_voice": "Search with your voice",
+    "create": "Create",
+    "notifications": "Notifications",
+    "language": "Language: ",
+    "appearance": "Appearance: ",
+    "listening": "Listening...",
+    "didnt her that": "Didn't hear that. Try again.",
+    "tap the mic": "Tap the microphone to try agian",
+    "sign in": "Sign in",
+    "back": "Back"
+  },
+  "list filter": [
+    { "id": 1, "name": "All" },
+    { "id": 2, "name": "Music" },
+    { "id": 3, "name": "Sport" },
+    { "id": 4, "name": "Entertainment" },
+    { "id": 5, "name": "Life" },
+    { "id": 6, "name": "news and events" },
+    { "id": 7, "name": "science and technology" }
+  ]
+}

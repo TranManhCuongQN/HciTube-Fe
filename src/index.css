@@ -1,0 +1,331 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+html {
+  line-height: 1.2;
+  height: 100%;
+  overflow: visible !important;
+}
+
+body {
+  /* font-family: 'Roboto', sans-serif; */
+  font-family: 'Nunito', sans-serif;
+}
+
+@media screen and (min-width: 1536px) {
+  body {
+    overflow-y: auto !important;
+  }
+}
+
+.container {
+  max-width: 100%!important;
+}
+
+.swiper-pagination-bullets {
+  display: none;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0f0f0f7b;
+  height: 100%;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 10px;
+  height: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #272727;
+  height: 5px;
+}
+
+.sidebar-overlay {
+  width: calc(100% - 176px);
+}
+
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .sidebar-overlay {
+    width: calc(100% - 208px);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar-overlay {
+    width: calc(100% - 256px);
+  }
+}
+
+/* Custome emoji */
+.epr-header-overlay.Flex.FlexRow {
+  display: none;
+}
+.__EmojiPicker__.epr-emoji-img {
+  width: 35px;
+  height: 35px;
+}
+.Flex.epr-preview.FlexRow {
+  display: none;
+}
+
+/* Custom animation text */
+.dynamic {
+  position: relative;
+}
+.dynamic::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-left: 2px solid #fc6d6d;
+  animation: typing 1.5s steps(10) infinite;
+}
+
+@keyframes typing {
+  100% {
+    left: 100%;
+    margin: 0 -35px 0 20px;
+  }
+}
+
+/* table */
+td,
+th {
+  text-align: center;
+  padding: 8px;
+}
+
+/* editor */
+
+.quill {
+  position: relative;
+}
+
+.ql-container {
+  height: 205px;
+}
+
+.ql-light .ql-editor {
+  background-color: white;
+  color: #000;
+  height: 200px;
+  word-break: break-all;
+}
+
+.ql-light .ql-toolbar {
+  background-color: white;
+  color: #000;
+}
+
+.ql-dark .ql-editor {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  height: 200px;
+  word-break: break-all;
+}
+
+.ql-dark .ql-toolbar {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+.ql-editor img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.skeleton-light {
+  background-color: #e2e5e7;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+  background-size: 40px 100%;
+  background-repeat: no-repeat;
+  background-position: left -40px top 0;
+  animation: shine 1s ease infinite;
+}
+
+.skeleton-dark {
+  background-color: #272727;
+  background-image: linear-gradient(90deg, rgba(100, 100, 100, 0), rgba(100, 100, 100, 0.5), rgba(100, 100, 100, 0));
+  background-size: 40px 100%;
+  background-repeat: no-repeat;
+  background-position: left -40px top 0;
+  animation: shine 1s ease infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: right -40px top 0;
+  }
+}
+
+/* Input range */
+/* Style the progress slider */
+.progress-slider {
+  width: 100%;
+  height: 3px;
+  outline: none;
+  transition: 0.3s;
+  -webkit-appearance: none;
+}
+
+.progress-slider:hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.progress-slider::-webkit-slider-thumb {
+  opacity: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: rgb(245, 49, 49);
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+.progress-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: rgb(245, 49, 49);
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+/* Style the volume slider */
+
+.volume-slider-container {
+  width: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.1s ease-out;
+}
+
+#Volume:hover .volume-slider-container {
+  transform: scaleX(1);
+  width: 50px;
+}
+
+.volume-slider {
+  width: 50px;
+  height: 2px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+#DesktopPlayBtn {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  opacity: 0;
+  transition: display;
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+#DesktopPauseBtn {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 100%;
+  opacity: 0;
+  transition: display;
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+#ProgressBar:hover #Thumbnail {
+  display: flex;
+}
+
+#Thumbnail {
+  display: none;
+}
+
+.swiper {
+  position: relative;
+  z-index: 0 !important;
+}
+
+.upload-image:hover .button-edit {
+  opacity: 1;
+}
+.upload-thumbnail:hover .button-edit-thumbnail {
+  opacity: 1;
+}
+
+/* Tooltip video */
+.tooltip-video:hover .tooltip-text {
+  visibility: visible;
+}
+
+#Video::-webkit-media-controls {
+  display: none !important;
+}
+#Video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+#Video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+#Video::-moz-media-controls {
+  display: none !important;
+}
+
+#Video::-ms-media-controls {
+  display: none !important;
+}
+
+/* Swipper */
+.swiper {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.swiper-slide {
+  flex-shrink: initial !important;
+  width: fit-content !important;
+}
