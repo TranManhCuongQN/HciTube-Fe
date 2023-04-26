@@ -107,10 +107,10 @@ const Home = () => {
     }
   }
   return (
-    <div className='my-5 flex flex-col'>
+    <div className='flex flex-col md:px-20 lg:px-40'>
       {/* //* Introduction */}
-      <div className='flex w-full flex-col gap-y-5 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
-        <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:px-5 lg:h-64 lg:w-[500px] '>
+      <div className='flex items-center w-full flex-col gap-y-5 mt-6 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
+        <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 lg:h-64 lg:w-[500px] '>
           <video
             src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'
             className='aspect-video h-full w-full rounded-lg object-cover'
@@ -140,7 +140,7 @@ const Home = () => {
       </div>
 
       {/* //* VideoList */}
-      <div className='my-5 h-[1px] w-full bg-gray-500 md:mx-auto md:w-[750px] lg:mx-auto lg:max-w-[1150px] '></div>
+      <div className='h-[1px] w-full bg-gray-500 my-6'></div>
       <div className='mb-3 flex w-full items-center justify-start gap-x-2'>
         <span className='text-sm font-semibold text-black dark:text-white max-lg:px-2 md:text-base lg:px-8'>Video</span>
         <button className='flex items-end gap-x-1 rounded-xl px-3 py-2 hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-sm:py-1 max-sm:px-2'>
@@ -182,21 +182,23 @@ const Home = () => {
         >
           {dataVideo.map((item, index) => (
             <SwiperSlide key={item.id}>
-              <div className='flex w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
+              <div className='flex mr-2 w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
                 <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
                   <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
                   <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
                     <span className='text-xs font-semibold text-white'>{convertDuration(item.duration)}</span>
                   </div>
                 </div>
-                <span className='text-xs font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
+                <div className="pr-3 md:pr-6">
+                  <span className='text-sm mb-1 font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
 
-                <div className='flex flex-wrap items-center gap-x-1'>
-                  <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
-                    {convertNumberToDisplayString(10000)} lượt xem
-                  </span>
-                  <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-                  <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+                  <div className='flex flex-wrap items-center gap-x-1'>
+                    <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
+                      {convertNumberToDisplayString(10000)} lượt xem
+                    </span>
+                    <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
+                    <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>
@@ -213,7 +215,7 @@ const Home = () => {
       </div>
 
       {/* //* VideoList */}
-      <div className='my-5 h-[1px] w-full bg-gray-500 md:mx-auto md:w-[750px] lg:mx-auto lg:max-w-[1150px] '></div>
+      <div className='h-[1px] w-full bg-gray-500 my-6'></div>
       <div className='mb-3 flex w-full items-center justify-start gap-x-2'>
         <span className='text-sm font-semibold text-black dark:text-white max-lg:px-2 md:text-base lg:px-8'>Video</span>
         <button className='flex items-end gap-x-1 rounded-xl px-3 py-2 hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-sm:py-1 max-sm:px-2'>
@@ -255,21 +257,23 @@ const Home = () => {
         >
           {dataVideo.map((item, index) => (
             <SwiperSlide key={item.id}>
-              <div className='flex w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
+              <div className='flex mr-2 w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
                 <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
                   <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
                   <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
                     <span className='text-xs font-semibold text-white'>{convertDuration(item.duration)}</span>
                   </div>
                 </div>
-                <span className='text-xs font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
+                <div className="pr-3 md:pr-6">
+                  <span className='text-sm mb-1 font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
 
-                <div className='flex flex-wrap items-center gap-x-1'>
-                  <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
-                    {convertNumberToDisplayString(10000)} lượt xem
-                  </span>
-                  <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-                  <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+                  <div className='flex flex-wrap items-center gap-x-1'>
+                    <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
+                      {convertNumberToDisplayString(10000)} lượt xem
+                    </span>
+                    <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
+                    <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>

@@ -64,23 +64,26 @@ const dataVideo = [
 ]
 const Video = () => {
   return (
-    <div className='my-10 mx-auto grid max-w-full cursor-pointer gap-x-5 gap-y-10 max-lg:grid-cols-2 lg:mx-10 lg:grid-cols-3'>
+    <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 md:px-20 lg:px-40 max-lg:grid-cols-2 lg:grid-cols-3'>
       {dataVideo.map((item) => (
-        <div className='flex w-[300px] flex-col gap-y-2 max-sm:w-40 max-[320px]:w-36' key={item.id}>
-          <div className='relative h-[150px] w-full flex-shrink-0 rounded-lg max-sm:h-20'>
-            <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
+        <div className='flex cursor-pointer flex-col gap-y-2' key={item.id}>
+          <div className='relative w-full flex-shrink-0 rounded-lg'>
+            <img src={item.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
             <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
               <span className='text-xs font-semibold text-white'>{convertDuration(item.duration)}</span>
             </div>
           </div>
-          <span className='text-xs font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
 
-          <div className='flex flex-wrap items-center gap-x-1'>
-            <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
-              {convertNumberToDisplayString(10000)} lượt xem
-            </span>
-            <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-            <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+          <div className="pr-3 md:pr-6">
+            <span className='text-sm mb-1 font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
+
+            <div className='flex flex-wrap items-center gap-x-1'>
+              <span className='text-xs  text-[#666d74] dark:text-gray-400 '>
+                {convertNumberToDisplayString(10000)} lượt xem
+              </span>
+              <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
+              <span className='text-xs  text-[#666d74] dark:text-gray-400 '>3 tháng trước</span>
+            </div>
           </div>
         </div>
       ))}

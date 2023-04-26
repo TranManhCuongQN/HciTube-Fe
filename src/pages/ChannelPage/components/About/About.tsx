@@ -2,7 +2,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div className='my-5 flex w-full items-start justify-between gap-y-5 px-5 max-lg:flex-col lg:mx-auto lg:max-w-[1150px]'>
+    <div className='my-5 flex w-full items-start justify-between gap-y-5 px-5 md:px-20 lg:px-40 max-lg:flex-col'>
       <div className='flex w-full flex-shrink-0 flex-col gap-y-5 lg:w-1/2'>
         <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Mô tả</span>
         <div className='break-words text-xs text-black dark:text-white md:text-sm'>

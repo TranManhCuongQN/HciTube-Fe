@@ -62,7 +62,7 @@ const VideoItem = (props: VideoItemProps) => {
         ) : (
           <div className='relative overflow-hidden md:rounded-xl'>
             <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
-            <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs text-slate-200'>
+            <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
               {formatTime(Number(data?.duration))}
             </span>
             {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
@@ -74,19 +74,19 @@ const VideoItem = (props: VideoItemProps) => {
         <div className='relative h-8 w-8 flex-shrink-0 '>
           <img src={(data?.channel as User).avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
         </div>
-        <div className='flex flex-col gap-y-1'>
+        <div className='flex flex-col'>
           <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base'>
             {data?.title}
           </span>
-          <span className='font-normal text-[#666d74] dark:text-gray-400 sm:text-xs lg:text-sm'>
+          <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
             {(data?.channel as User).fullName}
           </span>
           <div className='flex flex-wrap items-center gap-x-1'>
-            <span className='font-normal text-[#666d74] dark:text-gray-400 sm:text-xs lg:text-sm'>
+            <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
               {data?.view} lượt xem
             </span>
-            <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-            <span className='font-normal text-[#666d74] dark:text-gray-400 sm:text-xs lg:text-sm'>
+            <RxDividerHorizontal className='h-3 w-3 text-gray-500 dark:text-gray-400' />
+            <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
               {convertToRelativeTime(data?.createdAt as string)}
             </span>
           </div>
