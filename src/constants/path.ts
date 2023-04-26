@@ -11,9 +11,9 @@ const path = {
   content: '/content',
   analytics: '/analytics',
   changePassword: 'changePassword',
-  channel: '/channel',
-  video: '/video',
-  playList: '/playlist',
-  about: '/about'
+  channel: ':id/channel',
+  video: ':id/video',
+  playList: ':id/playlist',
+  about: ':id/about'
 } as const
 export default path

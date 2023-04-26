@@ -71,16 +71,19 @@ const VideoItem = (props: VideoItemProps) => {
       </div>
 
       <div className='flex items-start gap-x-3 px-3 md:px-0'>
-        <div className='relative h-8 w-8 flex-shrink-0 '>
+        <NavLink to={`${data.channel?._id}/channel`} className='relative h-8 w-8 flex-shrink-0 '>
           <img src={(data?.channel as User).avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
-        </div>
+        </NavLink>
         <div className='flex flex-col'>
           <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base'>
             {data?.title}
           </span>
-          <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
+          <NavLink
+            to={`${data.channel?._id}/channel`}
+            className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'
+          >
             {(data?.channel as User).fullName}
-          </span>
+          </NavLink>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
               {data?.view} lượt xem

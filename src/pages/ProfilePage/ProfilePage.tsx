@@ -180,7 +180,7 @@ const ProfilePage = () => {
   }
 
   const updateProfileMutation = useMutation({
-    mutationFn: (data: Omit<User, '_id'>) => profileApi.updateProfle(data)
+    mutationFn: (data: Omit<User, '_id' | 'subscribers'>) => profileApi.updateProfle(data)
   })
   const onSubmit = handleSubmit((data) => {
     console.log(data)

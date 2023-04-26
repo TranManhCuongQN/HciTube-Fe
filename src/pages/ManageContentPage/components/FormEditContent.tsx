@@ -68,6 +68,7 @@ const FormEditContent = (props: FormEditContentProps) => {
   const editVideoMutation = useMutation({
     mutationFn: (dataUpdate: FormData) => videoApi.updateInforVideo(dataUpdate, data?._id as string),
     onSuccess: () => {
+      toast.dismiss()
       toast.success('Cập nhật thông tin video thành công', {
         position: 'top-right',
         autoClose: 2000,

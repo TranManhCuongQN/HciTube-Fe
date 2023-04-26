@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
-import Header from './components/Header'
 import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'

@@ -50,6 +50,7 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
         queryClient.invalidateQueries({ queryKey: ['playList'], exact: true })
         closeModal()
         reset()
+        toast.dismiss()
         toast.success('Tạo danh sách phát thành công', {
           position: 'top-right',
           autoClose: 2000,
