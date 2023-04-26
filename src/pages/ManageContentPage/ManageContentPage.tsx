@@ -6,7 +6,7 @@ import { AppContext } from 'src/context/app.context'
 import { keyBy } from 'lodash'
 import FormEditContent from './components'
 import { Video } from 'src/types/video.type'
-import { getFormattedDate, getPublicId } from 'src/utils/utils'
+import { convertNumberToDisplayString, getFormattedDate, getPublicId } from 'src/utils/utils'
 import FormAddPlayList from '../UploadVideoPage/components/FormAddPlayList'
 import { useMutation, useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
@@ -39,6 +39,8 @@ const ManageContentPage = () => {
   })
 
   const data = dataVideo?.data.data
+
+  console.log('dataVideo:', data)
 
   // const updateInforVideoMutation = useMutation({
   //   mutationFn: (data:FormData)=> videoApi.updateInforVideo(data, idVideo as String)
@@ -290,7 +292,7 @@ const ManageContentPage = () => {
                               className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                               title={String(item.view)}
                             >
-                              {/* {convertNumberToDisplayString(item.views)} */} 0
+                              {convertNumberToDisplayString(item.view as number)}
                             </span>
                           </th>
                           <th>
@@ -306,7 +308,7 @@ const ManageContentPage = () => {
                               className=' cursor-pointer text-xs text-black dark:text-white md:text-sm'
                               title={String(item.like)}
                             >
-                              {/* {convertNumberToDisplayString(item.like)} */} 0
+                              {convertNumberToDisplayString(item?.like?.length as number)}
                             </span>
                           </th>
                           <th>
