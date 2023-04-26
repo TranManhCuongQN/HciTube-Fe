@@ -72,7 +72,6 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleLikeCommentMutation = useMutation({
     mutationFn: () => commentApi.setAction({ action: 'like', comment: dataComment._id as string }),
     onSuccess: (data) => {
-      console.log('dataCommentLike:', data)
       queryClient.invalidateQueries(['comment', id])
     }
   })
@@ -80,7 +79,6 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleDislikeCommentMutation = useMutation({
     mutationFn: () => commentApi.setAction({ action: 'dislike', comment: dataComment._id as string }),
     onSuccess: (data) => {
-      console.log('dataCommentDisLike:', data)
       queryClient.invalidateQueries(['comment', id])
     }
   })
@@ -88,7 +86,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   useEffect(() => {
     if (dataComment.dislike) {
       const checkDisLikeVideo = dataComment?.dislike?.findIndex((item) => item === profile?._id) || false
-      console.log('checkDisLikeVideo:', checkDisLikeVideo)
+
       if (checkDisLikeVideo !== -1) {
         setIsDislike(true)
       } else {
@@ -100,7 +98,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   useEffect(() => {
     if (dataComment.like) {
       const checkLikeVideo = dataComment?.like?.findIndex((item) => item === profile?._id) || false
-      console.log('checkLikeVideo:', checkLikeVideo)
+
       if (checkLikeVideo !== -1) {
         setIsLike(true)
       } else {
@@ -155,8 +153,8 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
     }
   }, [isShowEdit, dataComment.comment])
 
-  const nestedComments = (dataComment?.children || []).map((item) => {
-    return <CommentItem dataComment={item} key={dataComment._id} />
+  const nestedComments = (dataComment?.children || []).map((item, index) => {
+    return <CommentItem dataComment={item} key={index} />
   })
 
   return (
