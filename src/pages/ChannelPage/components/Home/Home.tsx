@@ -7,6 +7,9 @@ import { RxDividerHorizontal } from 'react-icons/rx'
 import { BsFillPlayFill } from 'react-icons/bs'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
+import Lauv from 'src/assets/Lauv.mp4'
+import VideoPlayer from 'src/components/Video'
+
 
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -110,12 +113,8 @@ const Home = () => {
     <div className='flex flex-col md:px-20 lg:px-40'>
       {/* //* Introduction */}
       <div className='flex items-center w-full flex-col gap-y-5 mt-6 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
-        <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 lg:h-64 lg:w-[500px] '>
-          <video
-            src='https://res.cloudinary.com/dnmazjnlr/video/upload/v1679565900/samples/Video/y2mate.com_-_Playlistth%E1%BB%8F_7_m%C3%A0u_nh%E1%BA%A1c_relax_gi%C3%B3_c%C3%B4_g%C3%A1i_n%C3%A0y_c%E1%BB%A7a_ai_y%C3%AAu_anh_%C4%91i_m%E1%BA%B9_anh_b%C3%A1n_b%C3%A1nh_l%C3%A0_anh_tan_720pFHR_rrwkta.mp4'
-            className='aspect-video h-full w-full rounded-lg object-cover'
-            controls
-          />
+        <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 h-fit lg:w-[500px] '>
+          <VideoPlayer lastPlayedTime={0} handleTheaterMode={()=>{}} urlVideo={Lauv} />
         </div>
         <div className='flex flex-col items-start justify-center gap-y-1 md:w-2/3 md:px-5 lg:gap-y-5'>
           <span className='text-sm font-bold text-black line-clamp-1 dark:text-white md:text-base'>
@@ -150,12 +149,12 @@ const Home = () => {
       </div>
       <div className='relative max-w-full'>
         <button
-          className={`absolute top-12 left-2 z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white text-xs  shadow max-lg:-left-3 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 left-0 md:left-[-1rem] z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white dark:bg-[#212121] hover:bg-[#E5E5E5] dark:hover:bg-[#4D4D4D] text-xs drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)] lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}
         >
-          <AiOutlineLeft className='h-5 w-5 text-black lg:h-6 lg:w-6' />
+          <AiOutlineLeft className='h-4 w-4 text-black dark:text-white lg:h-5 lg:w-5' />
         </button>
         <Swiper
           pagination={false}
@@ -185,9 +184,9 @@ const Home = () => {
               <div className='flex mr-2 w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
                 <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
                   <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
-                  <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
-                    <span className='text-xs font-semibold text-white'>{convertDuration(item.duration)}</span>
-                  </div>
+                  <span className='absolute right-1 bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+                    {convertDuration(item.duration)}
+                  </span>
                 </div>
                 <div className="pr-3 md:pr-6">
                   <span className='text-sm mb-1 font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
@@ -205,12 +204,12 @@ const Home = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-12 right-5 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 right-0 md:right-[-1rem] z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-[#212121] hover:bg-[#E5E5E5] dark:hover:bg-[#4D4D4D] text-xs drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)] lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}
         >
-          <AiOutlineRight className='h-5 w-5 text-black  lg:h-6 lg:w-6' />
+          <AiOutlineRight className='h-4 w-4 text-black dark:text-white  lg:h-5 lg:w-5' />
         </button>
       </div>
 
@@ -225,12 +224,12 @@ const Home = () => {
       </div>
       <div className='relative max-w-full'>
         <button
-          className={`absolute top-12 left-2  z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white text-xs  shadow max-lg:-left-3 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 left-0 md:left-[-1rem]  z-10 flex h-8 w-8 cursor-pointer items-center justify-center  rounded-full bg-white dark:bg-[#212121] hover:bg-[#E5E5E5] dark:hover:bg-[#4D4D4D] text-xs drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)] lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}
         >
-          <AiOutlineLeft className='h-5 w-5 text-black lg:h-6 lg:w-6' />
+          <AiOutlineLeft className='h-4 w-4 text-black dark:text-white lg:h-5 lg:w-5' />
         </button>
         <Swiper
           pagination={false}
@@ -260,9 +259,9 @@ const Home = () => {
               <div className='flex mr-2 w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'>
                 <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
                   <img src={item.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
-                  <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
-                    <span className='text-xs font-semibold text-white'>{convertDuration(item.duration)}</span>
-                  </div>
+                  <span className='absolute right-1 bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+                    {convertDuration(item.duration)}
+                  </span>
                 </div>
                 <div className="pr-3 md:pr-6">
                   <span className='text-sm mb-1 font-bold text-black line-clamp-2 dark:text-white'>{item.title}</span>
@@ -280,12 +279,12 @@ const Home = () => {
           ))}
         </Swiper>
         <button
-          className={`absolute top-12 right-5 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs shadow max-sm:-right-2 lg:h-10 lg:w-10 ${
+          className={`absolute top-12 right-0 md:right-[-1rem] z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-[#212121] hover:bg-[#E5E5E5] dark:hover:bg-[#4D4D4D] text-xs drop-shadow-[0_4px_4px_rgba(0,0,0,0.3)] lg:h-10 lg:w-10 ${
             isEnd ? 'invisible' : 'visible'
           } `}
           onClick={goNext}
         >
-          <AiOutlineRight className='h-5 w-5 text-black  lg:h-6 lg:w-6' />
+          <AiOutlineRight className='h-4 w-4 text-black dark:text-white  lg:h-5 lg:w-5' />
         </button>
       </div>
     </div>
