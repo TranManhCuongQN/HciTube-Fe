@@ -221,12 +221,12 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
                       {dataComment?.channel?.fullName}
                     </span>
                     {dataComment?.updatedAt ? (
-                      <span className='text-xs text-[#959197] '>
+                      <span className='text-xs text-gray-600 dark:text-gray-400 '>
                         {convertToRelativeTime(dataComment?.updatedAt as string)}
                         &ensp; (đã chỉnh sửa)
                       </span>
                     ) : (
-                      <span className='text-xs text-[#959197] '>
+                      <span className='text-xs text-gray-600 dark:text-gray-400 '>
                         {convertToRelativeTime(dataComment?.createdAt as string)}
                       </span>
                     )}

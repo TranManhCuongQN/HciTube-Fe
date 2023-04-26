@@ -22,6 +22,10 @@ body {
   }
 }
 
+.container {
+  max-width: 100%!important;
+}
+
 .swiper-pagination-bullets {
   display: none;
 }
@@ -155,7 +159,7 @@ th {
 }
 
 .skeleton-dark {
-  background-color: #0f0f0f;
+  background-color: #272727;
   background-image: linear-gradient(90deg, rgba(100, 100, 100, 0), rgba(100, 100, 100, 0.5), rgba(100, 100, 100, 0));
   background-size: 40px 100%;
   background-repeat: no-repeat;

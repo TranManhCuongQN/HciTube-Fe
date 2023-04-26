@@ -130,7 +130,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   return (
     <>
-      <div className='flex flex-col bg-white dark:bg-[#0f0f0f]'>
+      <div className='flex flex-col flex-1 bg-white dark:bg-[#0f0f0f]'>
         <span className='text-xs font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-base'>
           {data?.video?.title}
         </span>
