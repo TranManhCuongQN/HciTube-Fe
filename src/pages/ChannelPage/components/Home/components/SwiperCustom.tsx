@@ -50,8 +50,8 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
         <>
           {' '}
           <div className='my-6 h-[1px] w-full bg-gray-500'></div>
-          <div className='mb-3 flex w-full items-center justify-start gap-x-2'>
-            <span className='text-sm font-semibold text-black dark:text-white max-lg:px-2 md:text-base lg:px-8'>
+          <div className='flex w-full items-center justify-start gap-x-2'>
+            <span className='text-sm font-semibold text-black dark:text-white max-lg:px-2 md:text-base '>
               {dataVideo?.title}
             </span>
             <button className='flex items-end gap-x-1 rounded-xl px-3 py-2 hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-sm:py-1 max-sm:px-2'>
@@ -60,7 +60,7 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
             </button>
           </div>
           <span
-            className='text-sm text-black dark:text-white max-lg:px-2 md:text-base lg:px-8'
+            className='mb-3 text-xs text-black line-clamp-2 dark:text-white max-lg:px-2 md:text-sm'
             dangerouslySetInnerHTML={{ __html: String(parse(dataVideo?.description) || '') }}
           ></span>
           <div className='relative max-w-full'>
@@ -96,7 +96,6 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
               }}
             >
               {dataVideo.videos?.map((item, index) => {
-                console.log('Video:', item)
                 return (
                   <SwiperSlide key={item._id}>
                     <NavLink

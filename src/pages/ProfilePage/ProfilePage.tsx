@@ -14,7 +14,6 @@ import { profileSchema, profileSchemaType } from 'src/utils/rules'
 import { useMutation, useQuery } from 'react-query'
 import profileApi from 'src/api/profile.api'
 import { AppContext } from 'src/context/app.context'
-import AvatarLetter from 'src/components/AvatarLetter'
 import Skeleton from 'src/components/Skeleton'
 import { User } from 'src/types/user.type'
 import { toast } from 'react-toastify'
@@ -187,8 +186,10 @@ const ProfilePage = () => {
     updateProfileMutation.mutate(data, {
       onSuccess: (res) => {
         console.log(res)
-        setProfile(res.data.data.user)
-        setProfileToLocalStorage(res.data.data.user)
+        // console.log(res.data.data.data.user)
+        // console.log(res.data.data.user)
+        // setProfile(res.data.data.user)
+        // setProfileToLocalStorage(res.data.data.user)
         toast.dismiss()
         toast.success('Cập nhật thành công', {
           position: 'top-right',
@@ -204,10 +205,7 @@ const ProfilePage = () => {
       <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Hồ sơ cá nhân</span>
 
       <FormProvider {...form}>
-        <form
-          className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg bg-white p-5 dark:bg-[#282828]'
-          onSubmit={onSubmit}
-        >
+        <form className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg  p-5 ' onSubmit={onSubmit}>
           {isLoading && (
             <>
               <div className='flex flex-col gap-y-2'>
@@ -255,15 +253,7 @@ const ProfilePage = () => {
                     className='upload-image relative mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full'
                     role='presentation'
                   >
-                    {urlImage ? (
-                      <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
-                    ) : (
-                      <AvatarLetter
-                        className=' h-full w-full object-cover  '
-                        name={profile?.fullName as string}
-                        classNameChild='text-8xl'
-                      />
-                    )}
+                    <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
 
                     <div className='absolute top-0 left-0 h-full w-full rounded-full hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
                       <button

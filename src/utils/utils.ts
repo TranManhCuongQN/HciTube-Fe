@@ -110,8 +110,11 @@ export function convertToRelativeTime(timestamp: string): string {
   } else if (timeDelta >= secondsPerHour * 1000) {
     const hours = Math.floor(timeDelta / (secondsPerHour * 1000))
     return `${hours} giờ trước`
-  } else {
+  } else if (timeDelta >= secondsPerMinute * 1000) {
     const minutes = Math.floor(timeDelta / (secondsPerMinute * 1000))
     return `${minutes} phút trước`
+  } else {
+    const seconds = Math.floor(timeDelta / 1000)
+    return `${seconds} giây trước`
   }
 }

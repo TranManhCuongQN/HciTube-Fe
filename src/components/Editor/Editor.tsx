@@ -1,12 +1,9 @@
 import React, { useContext, useMemo } from 'react'
-import ReactQuill, { Quill } from 'react-quill'
-import uploadApi from 'src/api/upload.api'
+import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import ImageUploader from 'quill-image-uploader'
+
 import { Controller, useFormContext } from 'react-hook-form'
 import { AppContext } from 'src/context/app.context'
-import parse from 'html-react-parser'
-Quill.register('modules/imageUploader', ImageUploader)
 
 const Editor = ({ name }: { name: string }) => {
   const { control } = useFormContext()
@@ -29,8 +26,7 @@ const Editor = ({ name }: { name: string }) => {
     'list',
     'direction',
     'align',
-    'link',
-    'image'
+    'link'
   ]
   const modules = useMemo(
     () => ({
@@ -40,18 +36,8 @@ const Editor = ({ name }: { name: string }) => {
         [{ align: 'center' }, { align: 'right' }, { align: 'justify' }],
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        ['link', 'image']
-      ],
-      imageUploader: {
-        upload: async (file: File) => {
-          try {
-            const res = await uploadApi.uploadImage(file, undefined)
-            return res.data.url
-          } catch (error) {
-            console.log(error)
-          }
-        }
-      }
+        ['link']
+      ]
     }),
     []
   )

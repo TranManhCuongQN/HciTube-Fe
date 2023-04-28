@@ -16,7 +16,6 @@ import Inform from './components/Inform'
 import ChangeLanguage from './components/ChangeLanguage'
 import ChangeTheme from './components/ChangeTheme'
 import path from 'src/constants/path'
-import AvatarLetter from '../AvatarLetter'
 import AvatarProfile from './components/AvatarProfile'
 
 const Header = () => {
