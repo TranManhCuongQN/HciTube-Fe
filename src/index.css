@@ -329,3 +329,22 @@ th {
   flex-shrink: initial !important;
   width: fit-content !important;
 }
+
+.active-grid {
+  display: grid;
+}
+
+@layer components {
+  .filter--active {
+    @apply text-black dark:text-white
+  }
+}
+
+
+.filter__check {
+  display: none
+}
+
+.filter--active .filter__check {
+  display: block!important;
+}

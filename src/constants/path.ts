@@ -14,6 +14,7 @@ const path = {
   channel: '/channel',
   video: '/video',
   playList: '/playlist',
-  about: '/about'
+  about: '/about',
+  search: '/search'
 } as const
 export default path
