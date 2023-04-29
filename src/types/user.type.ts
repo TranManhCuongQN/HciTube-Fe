@@ -6,7 +6,8 @@ export interface User {
   avatar: string
   description: string
   thumbnail: string
-  subscribers: Subscriber[]
+  subscribers?: []
+  createdAt?: string
 }
 
 export interface UserProfile<User> {

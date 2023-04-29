@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import AvatarLetter from 'src/components/AvatarLetter'
 import { CgWindows } from 'react-icons/cg'
 import { NavLink } from 'react-router-dom'
 import path from 'src/constants/path'
@@ -14,13 +13,9 @@ const Sidebar = () => {
   return (
     <div className='flex flex-col gap-y-4 bg-white pb-4 dark:bg-[#282828]  lg:w-60 lg:flex-shrink-0'>
       <div className='mt-5 flex flex-col items-center gap-y-3'>
-        {profile?.avatar ? (
-          <div className='h-32 w-32 rounded-full'>
-            <img src={profile.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
-          </div>
-        ) : (
-          <AvatarLetter className='h-32 w-32' name={profile?.fullName as string} classNameChild='text-6xl ' />
-        )}
+        <div className='h-32 w-32 rounded-full'>
+          <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
+        </div>
 
         <div className='flex flex-col'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm '>Kênh của bạn</span>

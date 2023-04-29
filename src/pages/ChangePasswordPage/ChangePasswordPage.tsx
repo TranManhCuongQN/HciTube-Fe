@@ -26,6 +26,7 @@ const ChangePasswordPage = () => {
   const changePasswordMutation = useMutation({
     mutationFn: (data: FormData) => profileApi.changePassword(data),
     onSuccess: () => {
+      toast.dismiss()
       toast.success('Cập nhật mật khẩu thành công', {
         position: 'top-right',
         autoClose: 2000,

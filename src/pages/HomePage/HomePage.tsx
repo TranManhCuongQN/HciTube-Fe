@@ -22,7 +22,7 @@ const HomePage = () => {
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 
-        <div className={`mb-16 flex w-full flex-col 2xl:pl-64`}>
+        <div className={`mb-16 flex h-full w-full flex-col 2xl:pl-64`}>
           <ListFilter />
           <VideoList />
         </div>

@@ -125,6 +125,7 @@ const ManageContentPage = () => {
     deleteAllVideoMutation.mutate(videoIds as string[], {
       onSuccess: () => {
         setIsShowNotificationDeleteAll(false)
+        toast.dismiss()
         toast.success('Xóa video thành công', {
           position: 'top-right',
           autoClose: 2000,
@@ -158,6 +159,7 @@ const ManageContentPage = () => {
         onSuccess: () => {
           setIsShowNotificationDelete(false)
           setIdVideo([''])
+          toast.dismiss()
           toast.success('Xóa video thành công', {
             position: 'top-right',
             autoClose: 2000,
@@ -280,7 +282,7 @@ const ManageContentPage = () => {
                                 </span>
                                 <span
                                   className='cursor-pointer text-xs text-black  line-clamp-2 dark:text-white'
-                                  dangerouslySetInnerHTML={{ __html: String(parse(item.description as string)) }}
+                                  dangerouslySetInnerHTML={{ __html: String(parse(item.description as string) || '') }}
                                 ></span>
                               </div>
                             </div>

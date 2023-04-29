@@ -173,7 +173,7 @@ const WatchingVideo = () => {
             )}
           </div>
         </div>
-        <Comment />
+        {/* <Comment totalComment={} /> */}
       </div>
     </>
   )

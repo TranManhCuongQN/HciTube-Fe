@@ -40,7 +40,7 @@ export function convertNumberToDisplayString(num: number): string {
       return num.toString()
     }
   }
-  return num.toString()
+  return num?.toString()
 }
 
 export function getFormattedDate(dates: string) {
@@ -57,28 +57,6 @@ export function getFormattedDate(dates: string) {
   return formattedDate
 }
 
-export function convertDuration(duration: string) {
-  const hours = Math.floor(Number(duration) / 3600)
-  const minutes = Math.floor((Number(duration) % 3600) / 60)
-  const seconds = Number(duration) % 60
-  let formattedDuration = ''
-  if (hours > 0) {
-    formattedDuration += hours.toString() + ':'
-  }
-
-  if (minutes < 10) {
-    formattedDuration += '0'
-  }
-  formattedDuration += minutes.toString() + ':'
-
-  if (seconds < 10) {
-    formattedDuration += '0'
-  }
-  formattedDuration += seconds.toString()
-
-  return formattedDuration
-}
-
 export function convertBytesToMB(bytes: number) {
   const megabytes = bytes / (1024 * 1024)
   return megabytes.toFixed(2)
@@ -87,6 +65,23 @@ export function convertBytesToMB(bytes: number) {
 export const getPublicId = (imageURL: string) => {
   const getPublicId = `youtube-clone/video/${imageURL?.split('/')?.pop()?.split('.')[0]}`
   return getPublicId
+}
+
+export function convertDuration(duration: string): string {
+  const hours = Math.floor(Number(duration) / 3600)
+  const minutes = Math.floor((Number(duration) % 3600) / 60)
+  const seconds = Math.floor(Number(duration) % 60)
+
+  const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}`
+  if (hours === 0) {
+    const minutesString = (Number(duration) % 60).toFixed(0)
+    const secondsString = ((Number(duration) % 1) * 60).toFixed(0)
+    return `${minutesString.toString().padStart(2, '0')}:${secondsString.toString().padStart(2, '0')}`
+  }
+
+  return timeString
 }
 
 export function convertToRelativeTime(timestamp: string): string {
@@ -115,8 +110,11 @@ export function convertToRelativeTime(timestamp: string): string {
   } else if (timeDelta >= secondsPerHour * 1000) {
     const hours = Math.floor(timeDelta / (secondsPerHour * 1000))
     return `${hours} giờ trước`
-  } else {
+  } else if (timeDelta >= secondsPerMinute * 1000) {
     const minutes = Math.floor(timeDelta / (secondsPerMinute * 1000))
     return `${minutes} phút trước`
+  } else {
+    const seconds = Math.floor(timeDelta / 1000)
+    return `${seconds} giây trước`
   }
 }

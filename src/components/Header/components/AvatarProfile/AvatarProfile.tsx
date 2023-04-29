@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import AvatarLetter from 'src/components/AvatarLetter'
+
 import { AppContext } from 'src/context/app.context'
 import useOnClickOutside from 'src/hook/useOnClickOutSide'
 import { MdOutlineVideoLibrary } from 'react-icons/md'
@@ -38,21 +38,13 @@ const AvatarProfile = () => {
         role='presentation'
         ref={avatarRef}
       >
-        {profile?.avatar ? (
-          <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
-        ) : (
-          <AvatarLetter className='h-full w-full' name={profile?.fullName as string} />
-        )}
+        <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
 
         {isShow && (
           <div className='absolute top-11 right-5 flex w-[250px] flex-col justify-start gap-y-3 rounded-lg bg-[#ffffff] shadow dark:bg-[#282828] '>
             <div className='flex items-center gap-x-5 border-b-2 border-gray-400 p-2'>
               <div className='h-9 w-9'>
-                {profile?.avatar ? (
-                  <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
-                ) : (
-                  <AvatarLetter className='h-full w-full' name={profile?.fullName as string} />
-                )}
+                <img src={profile?.avatar} alt='avatar' className='h-full w-full rounded-full object-cover' />
               </div>
               <span className='text-sm font-semibold text-black dark:text-white md:text-base'>{profile?.fullName}</span>
             </div>

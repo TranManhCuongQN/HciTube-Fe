@@ -9,7 +9,7 @@ const profileApi = {
   getProfile: () => {
     return http.get<SuccessResponse<User>>(`${URL_GET_PROFILE}`)
   },
-  updateProfle: (data: Omit<User, '_id'>) => {
+  updateProfle: (data: Omit<User, '_id' | ' subscribers'>) => {
     return http.patch<SuccessResponse<UserProfile<User>>>(`${URL_UPDATE_PROFILE}`, data)
   },
   changePassword: (data: { passwordCurrent: string; password: string; passwordConfirm: string }) => {
