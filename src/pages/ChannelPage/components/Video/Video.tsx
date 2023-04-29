@@ -20,17 +20,6 @@ const Video = () => {
 
   console.log('dataVideo:', dataVideo)
   return (
-
-    <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 md:px-20 lg:px-40 max-lg:grid-cols-2 lg:grid-cols-3'>
-      {dataVideo.map((item) => (
-        <div className='flex cursor-pointer flex-col gap-y-2' key={item.id}>
-          <div className='relative w-full flex-shrink-0 rounded-lg'>
-            <img src={item.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
-            <span className='absolute right-1 bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
-              {convertDuration(item.duration)}
-            </span>
-          </div>
-
     <>
       {isLoading && (
         <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 max-lg:grid-cols-2 max-[320px]:grid-cols-1 md:px-20 lg:grid-cols-3 lg:px-40'>
@@ -59,7 +48,6 @@ const Video = () => {
                       </span>
                     </div>
                   </div>
-
 
                   <div className='pr-3 md:pr-6'>
                     <span className='mb-1 text-sm font-bold text-black line-clamp-2 dark:text-white'>

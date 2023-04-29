@@ -21,7 +21,7 @@ const playListAPI = {
     return http.get<SuccessResponse<Video[]>>(`${URL_CHANNEL}/${channelId}/videos`)
   },
   getChannelById: (channelId: string) => {
-    return http.get<SuccessResponse<UserProfile<User>>>(`${URL_CHANNEL}/get-channel/${channelId}`)
+    return http.get<SuccessResponse<User>>(`${URL_CHANNEL}/get-channel/${channelId}`)
   }
 }
 

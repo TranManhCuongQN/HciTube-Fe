@@ -11,7 +11,7 @@ const path = {
   content: '/content',
   analytics: '/analytics',
   changePassword: 'changePassword',
-  search: '/search'
+  search: '/search',
   channel: ':id/channel',
   video: ':id/video',
   playList: ':id/playlist',

@@ -73,7 +73,11 @@ const DetailPage = () => {
               : ' container min-h-screen px-3 pb-5 lg:mt-2 lg:flex lg:items-start lg:gap-x-5 lg:px-24'
           } `}
         >
-          <div className={`${!isTheaterMode && 'flex flex-col bg-white dark:bg-[#0f0f0f] lg:mx-0'} px-0  lg:w-full video-animation`}>
+          <div
+            className={`${
+              !isTheaterMode && 'flex flex-col bg-white dark:bg-[#0f0f0f] lg:mx-0'
+            } video-animation  px-0 lg:w-full`}
+          >
             <Video handleTheaterMode={handleTheaterMode} urlVideo={data?.data.data.video.video} />
             {!isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
           </div>

@@ -43,7 +43,7 @@ const About = () => {
             <div
               className='break-words text-xs text-black dark:text-white md:text-sm'
               dangerouslySetInnerHTML={{
-                __html: String(parse((profileData?.data?.data?.user?.description as string) || ''))
+                __html: String(parse((profileData?.data?.data?.description as string) || ''))
               }}
             ></div>
           </div>
@@ -52,11 +52,11 @@ const About = () => {
               Thống kê
             </span>
             <span className='border-b border-b-gray-500 py-2 text-xs text-black dark:text-white md:text-sm'>
-              Đã tham gia {getFormattedDate(profileData?.data?.data?.user?.createdAt as string)}
+              Đã tham gia {getFormattedDate(profileData?.data?.data?.createdAt as string)}
             </span>
-            <span className='border-b border-b-gray-500 py-2 text-xs  text-black dark:text-white md:text-sm'>
+            {/* <span className='border-b border-b-gray-500 py-2 text-xs  text-black dark:text-white md:text-sm'>
               13.614.734 lượt xem
-            </span>
+            </span> */}
           </div>
         </div>
       )}

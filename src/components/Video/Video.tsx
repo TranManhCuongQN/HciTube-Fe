@@ -27,7 +27,7 @@ declare global {
 interface VideoProps {
   lastPlayedTime?: number
   urlVideo?: string
-  handleTheaterMode: (theaterMode: boolean) => void
+  handleTheaterMode?: (theaterMode: boolean) => void
 }
 
 const playlistSrc = [Lauv, Evy]
@@ -156,7 +156,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
 
   // Pass data from Video to WatchingLayout
   useEffect(() => {
-    handleTheaterMode(theaterMode)
+    if (handleTheaterMode) {
+      handleTheaterMode(theaterMode)
+    }
   }, [theaterMode, handleTheaterMode])
 
   //Handle click zoom button
@@ -419,7 +421,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                 </div>
               </div>
 
-              <div className='from-0% via-20% to-90% absolute bottom-0 left-[-1.875rem] right-[-1.875rem] lg:left-[-0.75rem] lg:right-[-0.75rem] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:block'></div>
+              <div className='from-0% via-20% to-90% absolute bottom-0 left-[-1.875rem] right-[-1.875rem] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:left-[-0.75rem] lg:right-[-0.75rem] lg:block'></div>
             </div>
           </div>
         </div>

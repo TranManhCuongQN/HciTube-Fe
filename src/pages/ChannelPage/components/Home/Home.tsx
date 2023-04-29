@@ -2,13 +2,7 @@
 
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import { RxDividerHorizontal } from 'react-icons/rx'
-
-import { BsFillPlayFill } from 'react-icons/bs'
-import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
-import Lauv from 'src/assets/Lauv.mp4'
 import VideoPlayer from 'src/components/Video'
-
 import playListAPI from 'src/api/playlist.api'
 import { useQuery } from 'react-query'
 import { Link, NavLink, useLocation } from 'react-router-dom'
@@ -43,10 +37,6 @@ const Home = () => {
 
   return (
     <div className='flex flex-col md:px-20 lg:px-40'>
-      {/* //* Introduction */}
-      <div className='flex items-center w-full flex-col gap-y-5 mt-6 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
-        <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 h-fit lg:w-[500px] '>
-          <VideoPlayer lastPlayedTime={0} handleTheaterMode={()=>{}} urlVideo={Lauv} />
       {isLoadingVideo && (
         <div className='my-6 flex w-full flex-col items-center gap-y-5 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
           <Skeleton className='h-64 w-full flex-shrink-0 rounded-lg object-cover max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 lg:w-[500px]' />
@@ -62,11 +52,7 @@ const Home = () => {
       {isSuccessVideo && dataVideo.data.data.length > 0 && (
         <div className='mt-6 flex w-full flex-col items-center gap-y-5 lg:mx-auto lg:max-w-[1150px] lg:flex-row'>
           <div className='w-full flex-shrink-0 rounded-lg max-md:h-48 max-sm:h-52 max-[320px]:h-44 md:w-2/3 md:pr-5 lg:h-64 lg:w-[500px] '>
-            <video
-              src={dataVideo?.data?.data[0]?.video}
-              className='aspect-video h-full w-full rounded-lg object-cover'
-              controls
-            />
+            <VideoPlayer lastPlayedTime={0} urlVideo={dataVideo?.data?.data[0]?.video} />
           </div>
           <div className='flex flex-col items-start justify-center gap-y-1 md:w-2/3 md:px-5 lg:gap-y-5'>
             <span className='text-sm font-bold text-black line-clamp-1 dark:text-white md:text-base'>
@@ -133,7 +119,7 @@ const Home = () => {
         Array(3)
           .fill(0)
           .map((_, index) => (
-            <>
+            <div key={index}>
               <div className='my-6 h-[1px] w-full bg-gray-500'></div>
               <div className='flex w-full items-center justify-start gap-x-2'>
                 <Skeleton className='h-5 w-28 rounded-lg max-lg:px-2 ' />
@@ -173,7 +159,7 @@ const Home = () => {
                     </div>
                   ))}
               </div>
-            </>
+            </div>
           ))}
 
       {isSuccessPlayList &&

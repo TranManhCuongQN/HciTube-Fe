@@ -8,7 +8,7 @@ import { VideoItem } from 'src/types/video.type'
 import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike, AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import parse from 'html-react-parser'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import videoApi from 'src/api/video.api'
 import { AppContext } from 'src/context/app.context'
 import { subscriberApi } from 'src/api/subscriber.api'
@@ -24,10 +24,18 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isLike, setIsLike] = useState<boolean>(false)
   const [isDislike, setIsDislike] = useState<boolean>(false)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
+  const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const { profile } = useContext(AppContext)
   const queryClient = useQueryClient()
 
   console.log('Data:', data)
+
+  const { data: dataFavorite } = useQuery({
+    queryKey: ['favorite'],
+    queryFn: () => favoriteApi.getFavoriteVideos()
+  })
+
+  console.log('dataFavorite:', dataFavorite?.data.data)
 
   useEffect(() => {
     if (data && data.video.like) {
@@ -61,6 +69,17 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       }
     }
   }, [data, profile])
+
+  useEffect(() => {
+    if (dataFavorite) {
+      const checkFavoriteVideo = dataFavorite.data.data.findIndex((item) => item?.video._id === data.video._id) || false
+      if (checkFavoriteVideo !== -1) {
+        setIsFavorite(true)
+      } else {
+        setIsFavorite(false)
+      }
+    }
+  }, [dataFavorite, data])
 
   const likeVideoMutation = useMutation({
     mutationFn: () =>
@@ -124,8 +143,20 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         autoClose: 2000,
         pauseOnHover: false
       })
-      console.log('List favorite:', data)
-      queryClient.invalidateQueries('video')
+      queryClient.invalidateQueries('favorite')
+    }
+  })
+
+  const removeListFavoriteMutation = useMutation({
+    mutationFn: () => favoriteApi.removeFovoriteVideo(data.video._id as string),
+    onSuccess: (data) => {
+      toast.dismiss()
+      toast.success('Xóa khỏi danh sách yêu thích thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      queryClient.invalidateQueries('favorite')
     }
   })
   const handleLikeVideo = () => {
@@ -146,6 +177,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const handleAddListFavorite = () => {
     addListFavoriteMutation.mutate()
+  }
+
+  const handleRemoveListFavorite = () => {
+    removeListFavoriteMutation.mutate()
   }
 
   return (
@@ -257,15 +292,32 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
               <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
             </button>
-            <button
-              className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
-              onClick={handleAddListFavorite}
-            >
-              <AiOutlineHeart className='text-black dark:text-white md:h-5 md:w-5 ' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                Thêm vào danh sách yêu thích
-              </span>
-            </button>
+
+            {isFavorite && (
+              <button
+                className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
+                onClick={handleRemoveListFavorite}
+              >
+                <AiFillHeart className='text-red-600 md:h-5 md:w-5 ' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                  Xóa khỏi danh sách yêu thích
+                </span>{' '}
+              </button>
+            )}
+
+            {!isFavorite && (
+              <button
+                className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
+                onClick={handleAddListFavorite}
+              >
+                {' '}
+                <AiOutlineHeart className='text-black dark:text-white md:h-5 md:w-5 ' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                  Thêm vào danh sách yêu thích
+                </span>{' '}
+              </button>
+            )}
+
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
               <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Thêm vào playlist</span>
@@ -316,13 +368,26 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             <TbShare3 className='text-black dark:text-white' />
             <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
           </button>
-          <button
-            className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'
-            onClick={handleAddListFavorite}
-          >
-            <AiOutlineHeart className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Thêm vào danh sách yêu thích</span>
-          </button>
+          {isFavorite && (
+            <button
+              className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'
+              onClick={handleRemoveListFavorite}
+            >
+              <AiFillHeart className='text-red-600' />
+              <span className='text-xs font-semibold text-black dark:text-white'>Xóa khỏi danh sách yêu thích</span>
+            </button>
+          )}
+
+          {!isFavorite && (
+            <button
+              className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'
+              onClick={handleAddListFavorite}
+            >
+              <AiOutlineHeart className='text-black dark:text-white' />
+              <span className='text-xs font-semibold text-black dark:text-white'>Thêm vào danh sách yêu thích</span>
+            </button>
+          )}
+
           <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <RiMenuAddFill className='text-black dark:text-white' />
             <span className='text-xs font-semibold text-black dark:text-white'>Thêm vào playlist</span>

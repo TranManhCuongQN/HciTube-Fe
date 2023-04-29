@@ -8,6 +8,7 @@ export interface User {
   thumbnail: string
   subscribers?: []
   createdAt?: string
+  id?: string
 }
 
 export interface UserProfile<User> {

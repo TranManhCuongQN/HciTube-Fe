@@ -185,11 +185,8 @@ const ProfilePage = () => {
     console.log(data)
     updateProfileMutation.mutate(data, {
       onSuccess: (res) => {
-        console.log(res)
-        // console.log(res.data.data.data.user)
-        // console.log(res.data.data.user)
-        // setProfile(res.data.data.user)
-        // setProfileToLocalStorage(res.data.data.user)
+        setProfile(res.data.data.user)
+        setProfileToLocalStorage(res.data.data.user)
         toast.dismiss()
         toast.success('Cập nhật thành công', {
           position: 'top-right',

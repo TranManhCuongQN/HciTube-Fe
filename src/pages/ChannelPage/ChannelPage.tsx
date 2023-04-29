@@ -60,7 +60,7 @@ const ChannelPage = () => {
   }
 
   console.log(isBeginning, isEnd)
-  console.log('dataProfile:', profileData)
+  console.log('dataProfile:', profileData?.data.data)
 
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
@@ -90,7 +90,7 @@ const ChannelPage = () => {
         <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
           <div className='h-52 w-full'>
             <img
-              src={profileData?.data?.data?.user.thumbnail}
+              src={profileData?.data?.data?.thumbnail}
               alt='thumbnail'
               className='h-full w-full rounded object-cover'
             />
@@ -99,7 +99,7 @@ const ChannelPage = () => {
             <div className='flex flex-1 items-start justify-start gap-x-5 pt-2'>
               <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
                 <img
-                  src={profileData?.data?.data?.user.avatar}
+                  src={profileData?.data?.data.avatar}
                   alt='avatar'
                   className='h-full w-full flex-shrink-0 rounded-full object-cover'
                 />
@@ -108,16 +108,16 @@ const ChannelPage = () => {
               <div className='flex flex-1 flex-row justify-between  max-sm:flex-col max-sm:items-start max-sm:gap-y-5'>
                 <div className='flex flex-col gap-y-2'>
                   <span className='text-base font-semibold text-black dark:text-white md:text-lg'>
-                    {profileData?.data?.data?.user.fullName}
+                    {profileData?.data?.data?.fullName}
                   </span>
                   <div className='flex items-center gap-x-4'>
                     <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
-                      {convertNumberToDisplayString(profileData?.data?.data?.user.subscribers?.length as number)} người
-                      đăng ký
+                      {convertNumberToDisplayString(profileData?.data?.data.subscribers?.length as number)} người đăng
+                      ký
                     </span>
-                    <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
+                    {/* <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
                       {convertNumberToDisplayString(254)} video
-                    </span>
+                    </span> */}
                   </div>
                   <NavLink
                     to={`/${id}/about`}
@@ -126,14 +126,14 @@ const ChannelPage = () => {
                   >
                     <span
                       dangerouslySetInnerHTML={{
-                        __html: String(parse((profileData?.data?.data?.user?.description as string) || ''))
+                        __html: String(parse((profileData?.data?.data?.description as string) || ''))
                       }}
                     ></span>
                     <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
                   </NavLink>
                 </div>
 
-                {profileData.data.data.user.fullName === profile?.fullName && (
+                {profileData.data.data.id === profile?._id && (
                   <div className='flex flex-wrap items-center gap-3'>
                     <Link
                       to={path.profile}
@@ -150,7 +150,7 @@ const ChannelPage = () => {
                   </div>
                 )}
 
-                {profileData?.data.data.user.fullName !== profile?.fullName && (
+                {profileData?.data?.data?.id !== profile?._id && (
                   <button className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'>
                     <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
                     Đã đăng ký
