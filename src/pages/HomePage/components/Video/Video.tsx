@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
+import { isNull } from 'lodash'
 
 interface VideoProps {
   lastPlayedTime: number
   urlVideo: string
 }
 const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
-  console.log('lastPlayerTime:', lastPlayedTime)
-  console.log('urlVideo:', urlVideo)
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
+  const [playing, setPlaying] = useState<boolean>(true)
+
 
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
 
@@ -20,9 +21,12 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
     }
   }, [lastPlayedTime])
 
-  const videoDuration = videoRef.current?.duration || 0
+  const playVideo = () => {
+    videoRef.current?.play()
+    setPlaying(true)
+  }
 
-  console.log('videoDuration:', videoDuration)
+  const videoDuration = videoRef.current?.duration || 0
 
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
     const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
@@ -71,7 +75,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
           <video
             src={urlVideo}
             ref={videoRef}
-            autoPlay
+            onLoadedMetadata={playVideo}
             onTimeUpdate={updateTimeElapsed}
             className={`aspect-video h-full `}
             id='Video'
@@ -84,7 +88,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
               <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
             </div>
 
-            <div className='z-50 w-full'>
+            <div className='z-30 mb-[-5px] w-full'>
               <input
                 ref={progressRef}
                 onInput={handleClickProgress}

@@ -22,6 +22,7 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import UploadVideoPage from './pages/UploadVideoPage'
 import VerifyPage from './pages/VerifyPage'
+import SearchPage from './pages/SearchPage'
 
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
@@ -117,6 +118,10 @@ const useRouteElement = () => {
               path: path.home,
               index: true,
               element: <HomePage />
+            },
+            {
+              path: path.search,
+              element: <SearchPage />
             },
             {
               path: path.detail,

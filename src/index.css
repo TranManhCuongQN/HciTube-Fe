@@ -329,3 +329,48 @@ th {
   flex-shrink: initial !important;
   width: fit-content !important;
 }
+
+.active-grid {
+  display: grid;
+  transition: display 1s ease-in-out !important;
+}
+
+@layer components {
+  .filter--active {
+    @apply text-black dark:text-white
+  }
+}
+
+
+.filter__check {
+  opacity: 0;
+}
+
+.filter--active .filter__check {
+  opacity: 1!important;
+}
+
+.video-animation {
+  transition: opacity;
+  animation-name: fadeOutVideo;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in-out;
+}
+
+.video-animation--fast {
+  transition: opacity;
+  animation-name: fadeOutVideo;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+
+@keyframes fadeOutVideo {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
