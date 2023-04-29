@@ -1,8 +1,10 @@
 import { RxDividerHorizontal } from 'react-icons/rx'
+import ListFilter from '../ListFilter'
 
 const CompactVideoItem = () => {
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
+      <ListFilter/>
       <div className='flex items-center gap-x-2'>
         <img
           src='https://i1.sndcdn.com/artworks-000659126155-b868u3-t500x500.jpg'

@@ -54,15 +54,21 @@ const VideoItem = () => {
   }, [isOpen, data.watchTime, data.duration])
 
   return (
-    <NavLink to={`detail/${data._id}`} className='flex flex-col  lg:flex-row cursor-pointer mt-4' role='presentation'>
+    <NavLink 
+      to={`detail/${data._id}`} 
+      className='flex flex-col  lg:flex-row cursor-pointer mt-4' 
+      role='presentation'
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
         className='flex w-full aspect-video lg:w-[360px] h-full md:rounded-xl'
       >
         {isOpen ? (
-          <div className=' w-full lg:w-[360px]' role='presentation'>
+          <div className='relative w-full lg:w-[360px] md:rounded-xl overflow-hidden video-animation--fast' role='presentation'>
             <VideoPlayer lastPlayedTime={data?.watchTime as number} urlVideo={data?.video} />
+            {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
+
           </div>
         ) : (
           <div className='relative overflow-hidden  w-full lg:w-[360px] md:rounded-xl'>
@@ -102,7 +108,7 @@ const VideoItem = () => {
           <div className="flex flex-col font-medium text-gray-700 dark:text-gray-400 text-xs ">
             <span>311 N người xem - 11 ngày trước</span>
             <div className="flex items-center py-3">
-              <img src="https://yt3.ggpht.com/JOoDtyUm8ofOw8PCSuhLo_Qxge-RSyC7kjtN9fYIY3x8t04UcGTGrO-6n3i9J6lRxc0HiZLvcYk=s68-c-k-c0x00ffffff-no-rj" alt="" className="h-6 w-6 mr-3" />
+              <img src="https://yt3.ggpht.com/JOoDtyUm8ofOw8PCSuhLo_Qxge-RSyC7kjtN9fYIY3x8t04UcGTGrO-6n3i9J6lRxc0HiZLvcYk=s68-c-k-c0x00ffffff-no-rj" alt="" className="h-6 w-6 mr-3 rounded-full" />
               <span className="block ">ST.319 Entertainment</span>
             </div>
             <span className="block mb-2 line-clamp-2">MV 'đưa em về nhàa' là cuộn băng ghi lại những khoảnh khắc đáng nhớ của GREY D và Chillies khi cùng nhau tập luyện, thu âm ...</span>

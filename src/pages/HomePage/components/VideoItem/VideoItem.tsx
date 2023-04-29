@@ -15,7 +15,6 @@ const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
 
   const { data } = props
-  console.log('data', data)
   let timeout: NodeJS.Timeout
 
   const handleMouseEnter = () => {
@@ -53,10 +52,10 @@ const VideoItem = (props: VideoItemProps) => {
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className='aspect-video h-full w-full md:rounded-xl'
+        className='aspect-video h-fit w-full md:rounded-xl'
       >
         {isOpen ? (
-          <div className='' role='presentation'>
+          <div className='video-animation' role='presentation'>
             <VideoPlayer lastPlayedTime={data?.watchTime as number} urlVideo={data?.video as string} />
           </div>
         ) : (

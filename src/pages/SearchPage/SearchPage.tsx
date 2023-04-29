@@ -23,6 +23,7 @@ const SearchPage = () => {
   const handleClickFilterBtn = () => {
     if(filterRef.current) {
       filterRef.current.classList.toggle('active-grid');
+
     }
   }
 
@@ -124,7 +125,7 @@ const SearchPage = () => {
                         return (
                           <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
                             <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4"/>
+                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
                           </button>
                         )
                       })
@@ -138,7 +139,7 @@ const SearchPage = () => {
                         return (
                           <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
                             <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4"/>
+                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
                           </button>
                         )
                       })
@@ -154,7 +155,7 @@ const SearchPage = () => {
                         return (
                           <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
                             <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4"/>
+                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
                           </button>
                         )
                       })
@@ -168,7 +169,7 @@ const SearchPage = () => {
                         return (
                           <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
                             <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4"/>
+                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
                           </button>
                         )
                       })
