@@ -6,40 +6,40 @@ export const schema = yup.object({
     .string()
     .matches(
       /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/,
-      'auth:error.full name is invalid'
+      'Họ tên không hợp lệ'
     )
-    .required('auth:error.full name is required')
-    .min(2, 'auth:error.full name length')
-    .max(60, 'auth:error.full name length'),
+    .required('Họ tên là bắt buộc')
+    .min(2, 'Họ tên phải từ 2 đến 60 ký tự')
+    .max(60, 'Họ tên phải từ 2 đến 60 ký tự'),
   email: yup
     .string()
-    .email('auth:error.email is invalid')
-    .required('auth:error.email required')
-    .min(6, 'auth:error.email length')
-    .max(60, 'auth:error.email length')
+    .email('Email không hợp lệ')
+    .required('Email là bắt buộc')
+    .min(6, 'Email phải từ 6 đến 60 ký tự')
+    .max(60, 'Email phải từ 6 đến 60 ký tự')
     .trim(),
   password: yup
     .string()
-    .required('auth:error.password is required')
-    .min(6, 'auth:error.password length')
-    .max(60, 'auth:error.password length')
+    .required('Mật khẩu là bắt buộc')
+    .min(6, 'Mật khẩu phải từ 6 đến 60 ký tự')
+    .max(60, 'Mật khẩu phải từ 6 đến 60 ký tự')
     .trim()
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, {
-      message: 'auth:error.password'
+      message: 'Bắt buộc phải có chữ hoa, chữ thường, ký tự đặc biệt, số'
     }),
   passwordConfirm: yup
     .string()
-    .required('auth:error.retype password is required')
-    .oneOf([yup.ref('password')], 'auth:error.passwords do not match')
+    .required('Nhập lại mật khẩu là bắt buộc')
+    .oneOf([yup.ref('password')], 'Mật khẩu không khớp')
 })
 
 // * verify
 export const verifySchema = yup.object({
   encode: yup
     .string()
-    .required('auth:error.verify is required')
-    .min(6, 'auth:error.verify length')
-    .max(6, 'auth:error.verify length')
+    .required('Mã xác nhận là bắt buộc')
+    .min(6, 'Mã xác nhận phải 6 ký tự')
+    .max(6, 'Mã xác nhận phải 6 ký tự')
 })
 
 //* profile

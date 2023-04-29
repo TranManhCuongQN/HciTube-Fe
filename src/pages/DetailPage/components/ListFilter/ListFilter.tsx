@@ -6,15 +6,20 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import classNames from 'classnames'
-import { useTranslation } from 'react-i18next'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
+import { useQuery } from 'react-query'
+import categoryAPI from 'src/api/category.api'
 const ListFilter = () => {
-  const [filter, setFilter] = useState<number>(1)
-  const { t } = useTranslation()
-  const listFilter = t('list filter', { returnObjects: true })
+  const [filter, setFilter] = useState<string>('Tất cả')
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
+
+  const { data: dataCategories } = useQuery({
+    queryKey: 'categories',
+    queryFn: () => categoryAPI.getCategories()
+  })
+
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slidePrev()
@@ -37,7 +42,7 @@ const ListFilter = () => {
     <>
       <div className='relative flex max-w-full items-center justify-between gap-x-5 py-2 px-3'>
         <div
-          className={`absolute left-0 z-10 h-10 w-24 max-md:w-20 bg-gradient-to-r  from-white dark:from-[#0f0f0f] from-70% via-[#fffffff3] dark:via-[#0f0f0ffa] via-95% to-transparent ${
+          className={`from-70% via-95% absolute left-0 z-10 h-10 w-24  bg-gradient-to-r from-white via-[#fffffff3] to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0ffa] max-md:w-20 ${
             isBeginning ? 'invisible' : 'visible'
           }`}
         ></div>
@@ -59,14 +64,14 @@ const ListFilter = () => {
             handleSwiper(swiper)
           }}
         >
-          {listFilter.map((item, index) => (
+          {dataCategories?.data.data.map((item, index) => (
             <SwiperSlide key={index}>
               <button
                 className={classNames('mr-3 h-8 whitespace-nowrap rounded-lg px-3 max-[320px]:py-1', {
-                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
-                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
+                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.name,
+                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
                 })}
-                onClick={() => setFilter(item.id)}
+                onClick={() => setFilter(item.name)}
               >
                 <span className='text-sm'>{item.name}</span>
               </button>
@@ -84,9 +89,8 @@ const ListFilter = () => {
         </button>
 
         <div
-          className={`absolute right-0 z-10 h-10 w-24 max-md:w-20 bg-gradient-to-l  from-white dark:from-[#0f0f0f] from-70% via-[#fffffff3] dark:via-[#0f0f0ffa] via-95% to-transparent`}
-        >
-        </div>
+          className={`from-70% via-95% absolute right-0 z-10 h-10 w-24  bg-gradient-to-l from-white via-[#fffffff3] to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0ffa] max-md:w-20`}
+        ></div>
       </div>
     </>
   )

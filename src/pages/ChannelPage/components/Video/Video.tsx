@@ -44,7 +44,7 @@ const Video = () => {
                     <img src={item?.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
                     <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
                       <span className='text-xs font-semibold text-white'>
-                        {convertDuration(item?.duration as string)}
+                        {convertDuration(Number(item?.duration as string))}
                       </span>
                     </div>
                   </div>

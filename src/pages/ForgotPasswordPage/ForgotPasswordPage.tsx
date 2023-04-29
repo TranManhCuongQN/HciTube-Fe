@@ -1,13 +1,16 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
-import { useTranslation } from 'react-i18next'
 import Input from 'src/components/Input'
 import Button from 'src/components/Button'
 import { forgotPasswordSchemaType, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from 'react-query'
+import authApi from 'src/api/auth.api'
+import { isAxiosNotFoundError } from 'src/utils/utils'
+import { ErrorResponse } from 'src/types/utils.type'
 
 type FormData = forgotPasswordSchemaType
 const forgotPasswordSchema = schema.pick(['email'])
@@ -16,15 +19,29 @@ const ForgotPasswordPage = () => {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isLoading }
+    formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(forgotPasswordSchema)
   })
 
-  const { t } = useTranslation(['auth'])
+  const navigate = useNavigate()
+
+  const forgotPasswordMutaion = useMutation({
+    mutationFn: (email: FormData) => authApi.forgotPassword(email),
+    onSuccess: (data) => {
+      navigate(path.verifyResetPass)
+      console.log(data)
+    },
+    onError: (error) => {
+      if (isAxiosNotFoundError<ErrorResponse<FormData>>(error)) {
+        const formError = error.response?.data.message
+        setError('email', { type: 'custom', message: formError })
+      }
+    }
+  })
 
   const onSubmit = handleSubmit((data) => {
-    console.log('data', data)
+    forgotPasswordMutaion.mutate(data)
   })
   return (
     <div>
@@ -32,9 +49,7 @@ const ForgotPasswordPage = () => {
         <Link to={path.home} className='flex flex-col items-center'>
           <BsYoutube className='h-16 w-16 text-red-600 md:h-24 md:w-24' />
           <div className='flex items-end gap-x-1'>
-            <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>
-              {t('auth:auth.welcome to')}
-            </span>
+            <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>Chào mừng bạn đến</span>
             <span className='dynamic text-lg font-semibold text-red-600 after:bg-white dark:after:bg-[#0f0f0f] md:text-2xl'>
               YouTube
             </span>
@@ -52,9 +67,9 @@ const ForgotPasswordPage = () => {
               name='email'
               type='text'
               register={register}
-              placeholder={t('auth:auth.enter your email')}
+              placeholder='Mời nhập email của bạn'
               id='email'
-              errorMessage={t(errors.email?.message as any)}
+              errorMessage={errors.email?.message}
               classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
             />
           </div>
@@ -62,7 +77,7 @@ const ForgotPasswordPage = () => {
             className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
             type='submit'
           >
-            {t('auth:auth.confirm')}
+            Xác nhận
           </Button>
         </form>
       </div>

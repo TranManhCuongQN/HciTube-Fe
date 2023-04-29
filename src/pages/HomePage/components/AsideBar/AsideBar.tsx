@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { IoMdHome } from 'react-icons/io'
 import { MdOutlineVideoLibrary, MdOutlineVideoStable } from 'react-icons/md'
 import { RxCounterClockwiseClock } from 'react-icons/rx'
@@ -7,11 +7,11 @@ import { AiOutlineClockCircle } from 'react-icons/ai'
 import { BiLike } from 'react-icons/bi'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
-import { useTranslation } from 'react-i18next'
+import path from 'src/constants/path'
+import { HiOutlineUserCircle } from 'react-icons/hi'
 
 const AsideBar = () => {
-  const { showSideBar, setShowSideBar } = useContext(AppContext)
-  const { t } = useTranslation(['home'])
+  const { showSideBar, setShowSideBar, isVerify, profile } = useContext(AppContext)
 
   return (
     <>
@@ -31,11 +31,11 @@ const AsideBar = () => {
           } relative z-50 duration-200 ease-in-out`}
         >
           <NavLink
-            to=''
+            to={path.home}
             className='mt-16 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727] md:mt-20'
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.home')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>Trang chủ</span>
           </NavLink>
 
           <NavLink
@@ -43,7 +43,7 @@ const AsideBar = () => {
             className=' flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'> {t('side bar.subscriptions')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'> Kênh đăng ký</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -53,106 +53,81 @@ const AsideBar = () => {
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'> {t('side bar.library')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'> Thư viện</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.history')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>Video đã xem</span>
           </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.your videos')}</span>
-          </NavLink>
+          {isVerify === '2' && (
+            <NavLink
+              to={path.content}
+              className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            >
+              <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
+              <span className='text-sm font-semibold text-black dark:text-white'>Video của bạn</span>
+            </NavLink>
+          )}
+
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.watch later')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>Xem sau</span>
           </NavLink>
           <NavLink
             to=''
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
-            <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.liked videos')}</span>
+            <span className='text-sm font-semibold text-black dark:text-white'>Video đã thích</span>
           </NavLink>
           <div className='my-4 mx-2 border-t border-t-gray-600' />
 
           {/* //* Kênh đăng ký */}
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.ggpht.com/ytc/AL5GRJVgvAwa9TWshWQm6YFBeCDE7L-xDkOaHPEW9MSkp1I=s88-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full text-black dark:text-white'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Hello everyone</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Hello world</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Xin chao</span>
-          </NavLink>
-          <NavLink
-            to=''
-            className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-          >
-            <img
-              src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-              alt='avatar'
-              className='h-6 w-6 rounded-full'
-            />
-            <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-          </NavLink>
+          {isVerify === '2' && (
+            <>
+              {' '}
+              <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
+              {(profile?.subscribers?.length as number) > 0 &&
+                profile?.subscribers?.map((item, index) => (
+                  <NavLink
+                    to={`${item.id}/channel`}
+                    className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+                    key={item._id}
+                  >
+                    <img src={item.avatar} alt='avatar' className='h-6 w-6 rounded-full text-black dark:text-white' />
+                    <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>
+                      {item.fullName}
+                    </span>
+                  </NavLink>
+                ))}
+              {(profile?.subscribers?.length as number) === 0 && (
+                <div className='my-5 flex w-full items-center justify-center'>
+                  <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
+                </div>
+              )}
+            </>
+          )}
+
+          {isVerify !== '2' && (
+            <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5'>
+              <span className='text-sm font-semibold text-black dark:text-white'>
+                Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
+              </span>
+              <Link
+                to={path.login}
+                className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
+              >
+                <HiOutlineUserCircle className='h-5 w-5 text-[#4b91df]  lg:h-6 lg:w-6' />
+                <span className='text-xs font-medium text-[#4b91df] md:text-sm'>Đăng nhập</span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -164,20 +139,20 @@ const AsideBar = () => {
         ></div>
       )}
 
-      <div className='fixed p-3 top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto transition-all duration-1000 ease-linear max-2xl:hidden'>
+      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto p-3 transition-all duration-1000 ease-linear max-2xl:hidden'>
         <NavLink
-          to=''
+          to={path.home}
           className=' flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <IoMdHome className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.home')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>Trang chủ</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
-          <MdOutlineVideoStable className='h-6 w-6 mr- text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
+          <MdOutlineVideoStable className='mr- h-6 w-6 text-black dark:text-white' />
+          <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
         </NavLink>
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
@@ -186,94 +161,77 @@ const AsideBar = () => {
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.library')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>Thư viện</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.history')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>Video đã xem</span>
         </NavLink>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.your videos')}</span>
-        </NavLink>
+        {isVerify === '2' && (
+          <NavLink
+            to={path.content}
+            className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          >
+            <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
+            <span className='text-sm font-semibold text-black dark:text-white'>Video của bạn</span>
+          </NavLink>
+        )}
+
         <NavLink
           to=''
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <AiOutlineClockCircle className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.watch later')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>Video xem sau</span>
         </NavLink>
         <NavLink
           to=''
           className='mt-2 flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <BiLike className='h-6 w-6 text-black dark:text-white' />
-          <span className='text-sm font-semibold text-black dark:text-white'>{t('side bar.liked videos')}</span>
+          <span className='text-sm font-semibold text-black dark:text-white'>Video đã thích</span>
         </NavLink>
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
-        <span className='pl-2 text-sm font-semibold text-black dark:text-white'>{t('side bar.subscriptions')}</span>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <img
-            src='https://yt3.ggpht.com/ytc/AL5GRJVgvAwa9TWshWQm6YFBeCDE7L-xDkOaHPEW9MSkp1I=s88-c-k-c0x00ffffff-no-rj'
-            alt='avatar'
-            className='h-6 w-6 rounded-full'
-          />
-          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Duy Luân Dễ Thương</span>
-        </NavLink>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <img
-            src='https://yt3.googleusercontent.com/7o10-AKkYj75pwWRr4BEW2U0pVkJmHgBBUajnzU3F_Hjq7gyDX4K5T8ugiA5JBscYtGbOrhmgg0=s176-c-k-c0x00ffffff-no-rj'
-            alt='avatar'
-            className='h-6 w-6 rounded-full'
-          />
-          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>Được Dev</span>
-        </NavLink>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <img
-            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-            alt='avatar'
-            className='h-6 w-6 rounded-full'
-          />
-          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-        </NavLink>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <img
-            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-            alt='avatar'
-            className='h-6 w-6 rounded-full'
-          />
-          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-        </NavLink>
-        <NavLink
-          to=''
-          className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
-        >
-          <img
-            src='https://yt3.googleusercontent.com/wg1TITEoPfxvBGfzuqWyt3bqm_qu35ZhMswUv3feetU3xNX_6wsAXZF40OlPIgY4TmqbqCmAZ1U=s176-c-k-c0x00ffffff-no-rj'
-            alt='avatar'
-            className='h-6 w-6 rounded-full'
-          />
-          <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>JavaScipt Mastery</span>
-        </NavLink>
+        {isVerify === '2' && (
+          <>
+            {' '}
+            <span className='pl-2 text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
+            {(profile?.subscribers?.length as number) > 0 &&
+              profile?.subscribers?.map((item, index) => (
+                <NavLink
+                  to={`${item.id}/channel`}
+                  className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+                  key={item.id}
+                >
+                  <img src={item.avatar} alt='avatar' className='h-6 w-6 rounded-full' />
+                  <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>{item.fullName}</span>
+                </NavLink>
+              ))}
+            {(profile?.subscribers?.length as number) === 0 && (
+              <div className='my-5 flex w-full items-center justify-center'>
+                <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
+              </div>
+            )}
+          </>
+        )}
+        {isVerify !== '2' && (
+          <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5'>
+            <span className='text-sm font-semibold text-black dark:text-white'>
+              Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
+            </span>
+            <Link
+              to={path.login}
+              className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
+            >
+              <HiOutlineUserCircle className='h-5 w-5 text-[#4b91df]  lg:h-6 lg:w-6' />
+              <span className='text-xs font-medium text-[#4b91df] md:text-sm'>Đăng nhập</span>
+            </Link>
+          </div>
+        )}
       </div>
     </>
   )

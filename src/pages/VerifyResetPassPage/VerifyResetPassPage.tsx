@@ -16,7 +16,7 @@ import { clearLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 type FormData = verifySchemaType
 const verifySchema = schema
-const VerifyPage = () => {
+const VerifyResetPassPage = () => {
   const {
     register,
     handleSubmit,
@@ -31,11 +31,13 @@ const VerifyPage = () => {
   const intervalRef = useRef<NodeJS.Timer>()
 
   const navigate = useNavigate()
+
   const verifyMutation = useMutation({
-    mutationFn: (body: { email: string; encode: string }) => authApi.verify(body)
+    mutationFn: (body: { encode: string }) => authApi.verifyResetPassPage(body)
   })
-  const getOTPMutation = useMutation({
-    mutationFn: (body: { email: string }) => authApi.getOtp(body)
+
+  const getOTP = useMutation({
+    mutationFn: (email: string) => authApi.forgotPassword({ email })
   })
 
   useEffect(() => {
@@ -53,7 +55,6 @@ const VerifyPage = () => {
   useEffect(() => {
     if (remainingTime.minutes === 0 && remainingTime.seconds === 0) {
       clearInterval(intervalRef.current)
-      console.log('time up')
     }
   }, [remainingTime])
 
@@ -63,10 +64,10 @@ const VerifyPage = () => {
       setIsVerify('0')
       clearLocalStorage()
     } else {
-      const dataRequest = { email }
-      getOTPMutation.mutate(dataRequest, {
-        onSuccess: () => {
+      getOTP.mutate(email, {
+        onSuccess: (data) => {
           setRemainingTime({ minutes: 1, seconds: 0 })
+          console.log('getOTP', data)
         },
         onError: (error) => {
           if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
@@ -85,20 +86,21 @@ const VerifyPage = () => {
   }
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data)
     const email = getProfileFromLocalStorage()?.email
     if (!email) {
       setIsVerify('0')
       clearLocalStorage()
     } else {
       const dataRequest = {
-        email,
         encode: data.encode
       }
       verifyMutation.mutate(dataRequest, {
         onSuccess: (data) => {
-          setIsVerify('2')
-          navigate('/')
-          setProfile(data.data.data.user)
+          console.log('verifyMutation', data)
+          // setIsVerify('2')
+          // navigate('/')
+          // setProfile(data.data.data.user)
         },
         onError: (error) => {
           if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
@@ -109,6 +111,8 @@ const VerifyPage = () => {
       })
     }
   })
+
+  console.log('errors', errors)
 
   return (
     <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>
@@ -165,4 +169,4 @@ const VerifyPage = () => {
   )
 }
 
-export default VerifyPage
+export default VerifyResetPassPage

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 import { BsYoutube } from 'react-icons/bs'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
@@ -27,7 +26,6 @@ const SignInPage = () => {
     resolver: yupResolver(loginSchema)
   })
 
-  const { t } = useTranslation(['auth'])
   const { setIsVerify, setProfile } = useContext(AppContext)
   const navigate = useNavigate()
   const loginMutation = useMutation({
@@ -60,9 +58,7 @@ const SignInPage = () => {
       <Link to={path.home} className='flex flex-col items-center'>
         <BsYoutube className='h-16 w-16 text-red-600 md:h-24 md:w-24' />
         <div className='flex items-end gap-x-1'>
-          <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>
-            {t('auth:auth.welcome to')}
-          </span>
+          <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>Chào mừng bạn đến</span>
           <span className='dynamic text-lg font-semibold text-red-600 after:bg-white dark:after:bg-[#0f0f0f] md:text-2xl'>
             YouTube
           </span>
@@ -77,9 +73,9 @@ const SignInPage = () => {
             name='email'
             type='text'
             register={register}
-            placeholder={t('auth:auth.enter your email')}
+            placeholder='Mời nhập email của bạn'
             id='email'
-            errorMessage={t(errors.email?.message as any)}
+            errorMessage={errors.email?.message}
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
         </div>
@@ -88,14 +84,14 @@ const SignInPage = () => {
             htmlFor='password'
             className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
           >
-            {t('auth:auth.password')}
+            Mật khẩu
           </label>
           <Input
             name='password'
             type='password'
             register={register}
-            placeholder={t('auth:auth.enter your password')}
-            errorMessage={t(errors.password?.message as any)}
+            placeholder='Mời nhập mật khẩu của bạn'
+            errorMessage={errors.password?.message}
             id='password'
             classNameInput='rounded-lg border border-gray-400 py-2 px-3 placeholder:text-xs w-64 dark:bg-transparent text-black dark:text-white md:w-96 md:placeholder:text-sm outline-none text-xs md:text-sm'
           />
@@ -104,7 +100,7 @@ const SignInPage = () => {
           to={path.forgotPassword}
           className='cursor-pointer text-center text-xs font-semibold text-black underline dark:text-white md:text-sm'
         >
-          {t('auth:auth.forgot your password')}
+          Quên mật khẩu
         </Link>
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
@@ -112,17 +108,15 @@ const SignInPage = () => {
           isLoading={loginMutation.isLoading}
           disabled={loginMutation.isLoading}
         >
-          {t('auth:auth.sign in')}
+          Đăng nhập
         </Button>
         <div className='mt-3 flex items-center justify-center gap-x-1'>
-          <span className='text-xs text-black dark:text-white md:text-sm'>
-            {t('auth:auth.dont have an account yet')}
-          </span>
+          <span className='text-xs text-black dark:text-white md:text-sm'>Bạn chưa có tài khoản?</span>
           <Link
             to={path.register}
             className='cursor-pointer text-xs font-semibold text-black underline dark:text-white md:text-sm'
           >
-            {t('auth:auth.sign up')}
+            Đăng ký
           </Link>
         </div>
       </form>

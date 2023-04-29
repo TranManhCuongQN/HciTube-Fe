@@ -23,6 +23,7 @@ import SignUpPage from './pages/SignUpPage'
 import UploadVideoPage from './pages/UploadVideoPage'
 import VerifyPage from './pages/VerifyPage'
 import SearchPage from './pages/SearchPage'
+import VerifyResetPassPage from './pages/VerifyResetPassPage'
 
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
@@ -64,6 +65,11 @@ const useRouteElement = () => {
             {
               path: path.forgotPassword,
               element: <ForgotPasswordPage />
+            },
+
+            {
+              path: path.verifyResetPass,
+              element: <VerifyResetPassPage />
             },
             {
               path: path.resetPassword,

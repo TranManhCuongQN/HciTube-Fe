@@ -13,6 +13,11 @@ export function isAxiosUnprocessableEntityError<FormError>(error: unknown): erro
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
 }
 
+//  Lỗi 404
+export function isAxiosNotFoundError<NotFoundError>(error: unknown): error is AxiosError<NotFoundError> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.NotFound
+}
+
 //  Lỗi 401
 export function isAxiosUnauthorizedError<UnauthorizedError>(error: unknown): error is AxiosError<UnauthorizedError> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.Unauthorized
@@ -67,21 +72,12 @@ export const getPublicId = (imageURL: string) => {
   return getPublicId
 }
 
-export function convertDuration(duration: string): string {
-  const hours = Math.floor(Number(duration) / 3600)
-  const minutes = Math.floor((Number(duration) % 3600) / 60)
-  const seconds = Math.floor(Number(duration) % 60)
-
-  const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
-    .toString()
-    .padStart(2, '0')}`
-  if (hours === 0) {
-    const minutesString = (Number(duration) % 60).toFixed(0)
-    const secondsString = ((Number(duration) % 1) * 60).toFixed(0)
-    return `${minutesString.toString().padStart(2, '0')}:${secondsString.toString().padStart(2, '0')}`
-  }
-
-  return timeString
+export const convertDuration = (duration: number) => {
+  const result = new Date(duration * 1000).toISOString().slice(11, 19)
+  const hour = result.slice(0, 2)
+  const minute = result.slice(3, 5)
+  const second = result.slice(6, 8)
+  return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
 }
 
 export function convertToRelativeTime(timestamp: string): string {

@@ -13,7 +13,7 @@ import videoApi from 'src/api/video.api'
 import { AppContext } from 'src/context/app.context'
 import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
 
 interface VideoInformationAndCommentProps {
@@ -25,8 +25,9 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isDislike, setIsDislike] = useState<boolean>(false)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
-  const { profile } = useContext(AppContext)
+  const { profile, isVerify } = useContext(AppContext)
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   console.log('Data:', data)
 
@@ -51,6 +52,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   useEffect(() => {
     if (data && data.video.channel?.subscribers) {
       const checkSubscribed = data?.video?.channel?.subscribers?.findIndex((item) => item === profile?._id) || false
+      console.log('checkSubscribed:', checkSubscribed)
       if (checkSubscribed !== -1) {
         setIsSubscribed(true)
       } else {
@@ -160,26 +162,86 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
     }
   })
   const handleLikeVideo = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     likeVideoMutation.mutate()
   }
 
   const handleDislikeVideo = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     dislikeVideoMutation.mutate()
   }
 
   const handleSubscribeChannel = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     subscribeChannelMutation.mutate()
   }
 
   const handleDeleteSubscribeChannel = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     deleteSubscribeChannelMutation.mutate()
   }
 
   const handleAddListFavorite = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     addListFavoriteMutation.mutate()
   }
 
   const handleRemoveListFavorite = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     removeListFavoriteMutation.mutate()
   }
 
@@ -426,7 +488,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             )}
           </div>
         </div>
-        <Comment totalComment={data?.video?.comments?.length as number} />
+        <Comment
+          totalComment={data?.video?.comments?.length as number}
+          avatar={data?.video?.channel?.avatar as string}
+        />
       </div>
     </>
   )
