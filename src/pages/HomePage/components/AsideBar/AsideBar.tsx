@@ -93,8 +93,8 @@ const AsideBar = () => {
             <>
               {' '}
               <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
-              {(profile?.subscribers?.length as number) > 0 &&
-                profile?.subscribers?.map((item, index) => (
+              {(profile?.followings?.length as number) > 0 &&
+                profile?.followings?.map((item, index) => (
                   <NavLink
                     to={`${item.id}/channel`}
                     className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
@@ -106,7 +106,7 @@ const AsideBar = () => {
                     </span>
                   </NavLink>
                 ))}
-              {(profile?.subscribers?.length as number) === 0 && (
+              {(profile?.followings?.length as number) === 0 && (
                 <div className='my-5 flex w-full items-center justify-center'>
                   <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
                 </div>
@@ -200,8 +200,8 @@ const AsideBar = () => {
           <>
             {' '}
             <span className='pl-2 text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
-            {(profile?.subscribers?.length as number) > 0 &&
-              profile?.subscribers?.map((item, index) => (
+            {(profile?.followings?.length as number) > 0 &&
+              profile?.followings?.map((item, index) => (
                 <NavLink
                   to={`${item.id}/channel`}
                   className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
@@ -211,7 +211,7 @@ const AsideBar = () => {
                   <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>{item.fullName}</span>
                 </NavLink>
               ))}
-            {(profile?.subscribers?.length as number) === 0 && (
+            {(profile?.followings?.length as number) === 0 && (
               <div className='my-5 flex w-full items-center justify-center'>
                 <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
               </div>

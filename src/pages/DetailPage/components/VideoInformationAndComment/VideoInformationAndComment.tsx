@@ -15,6 +15,8 @@ import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
 import { NavLink, useNavigate } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
+import { User } from 'src/types/user.type'
+import { setProfileToLocalStorage } from 'src/utils/auth'
 
 interface VideoInformationAndCommentProps {
   data: VideoItem
@@ -25,7 +27,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isDislike, setIsDislike] = useState<boolean>(false)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
-  const { profile, isVerify } = useContext(AppContext)
+  const { profile, isVerify, setProfile } = useContext(AppContext)
   const queryClient = useQueryClient()
   const navigate = useNavigate()
 
@@ -51,8 +53,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   useEffect(() => {
     if (data && data.video.channel?.subscribers) {
-      const checkSubscribed = data?.video?.channel?.subscribers?.findIndex((item) => item === profile?._id) || false
-      console.log('checkSubscribed:', checkSubscribed)
+      const checkSubscribed = data.video.channel.subscribers?.findIndex((item) => item === profile?.id)
       if (checkSubscribed !== -1) {
         setIsSubscribed(true)
       } else {
@@ -117,6 +118,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         autoClose: 2000,
         pauseOnHover: false
       })
+      console.log('dataFolloing:', data.data.data.user)
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      queryClient.invalidateQueries('video')
     }
   })
 
@@ -132,6 +137,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         autoClose: 2000,
         pauseOnHover: false
       })
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
       queryClient.invalidateQueries('video')
     }
   })

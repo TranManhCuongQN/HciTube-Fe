@@ -27,6 +27,8 @@ const AvatarProfile = () => {
     }
   })
 
+  console.log('avatar:', profile)
+
   const handleExit = () => {
     logoutMutation.mutate()
   }

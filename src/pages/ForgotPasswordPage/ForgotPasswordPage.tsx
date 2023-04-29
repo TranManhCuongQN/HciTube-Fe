@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
@@ -25,12 +25,12 @@ const ForgotPasswordPage = () => {
   })
 
   const navigate = useNavigate()
+  const [email, setEmail] = useState<string>('')
 
   const forgotPasswordMutaion = useMutation({
     mutationFn: (email: FormData) => authApi.forgotPassword(email),
     onSuccess: (data) => {
       navigate(path.verifyResetPass)
-      console.log(data)
     },
     onError: (error) => {
       if (isAxiosNotFoundError<ErrorResponse<FormData>>(error)) {
