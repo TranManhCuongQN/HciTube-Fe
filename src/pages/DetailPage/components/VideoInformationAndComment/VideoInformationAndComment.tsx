@@ -30,6 +30,7 @@ import Editor from 'src/components/Editor'
 interface VideoInformationAndCommentProps {
   data: VideoItem
 }
+
 type FormData = Pick<uploadVideoSchemaType, 'description' | 'title'>
 const playListSchema = uploadVideoSchema.pick(['description', 'title'])
 const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) => {
@@ -69,13 +70,41 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
-    queryFn: () => playListAPI.getPlayList()
+    queryFn: () => playListAPI.getPlayListById(profile?.id as string)
   })
 
+  console.log('dataPlayList:', dataPlayList?.data.data)
+
+  const videoToPlayListMutation = useMutation({
+    mutationFn: (data: { action: string; video: string; idPlayList: string }) => playListAPI.VideoToPlayList(data)
+  })
+
+  useEffect(() => {
+    if (data && dataPlayList) {
+      const checkPlayList = dataPlayList.data.data.filter(
+        (item) => item?.videos?.findIndex((video) => video._id === data.video._id) !== -1
+      )
+      if (checkPlayList.length > 0) {
+        setPlayListSelected(checkPlayList.map((item) => item._id))
+      } else {
+        setPlayListSelected([])
+      }
+    }
+  }, [])
   const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
+      videoToPlayListMutation.mutate({
+        action: 'add',
+        video: data.video._id as string,
+        idPlayList: e.target.value
+      })
       setPlayListSelected([...playListSelected, e.target.value])
     } else {
+      videoToPlayListMutation.mutate({
+        action: 'delete',
+        video: data.video._id as string,
+        idPlayList: e.target.value
+      })
       setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
     }
   }
@@ -95,7 +124,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   useEffect(() => {
     if (data && data.video.channel?.subscribers) {
-      const checkSubscribed = data.video.channel.subscribers?.findIndex((item) => item === profile?.id)
+      const checkSubscribed = data.video.channel.subscribers?.findIndex((item) => item._id === profile?.id)
       if (checkSubscribed !== -1) {
         setIsSubscribed(true)
       } else {
@@ -624,15 +653,11 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               )}
 
               <button
-                className='absolute bottom-2 left-2 text-xs font-semibold text-[#1569d6]'
+                className='absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-semibold text-[#1569d6]'
                 type='button'
                 onClick={() => setShowModalAddPlayList(true)}
               >
                 TẠO MỚI
-              </button>
-
-              <button className='absolute bottom-2 right-2 text-xs font-semibold text-[#1569d6]' type='button'>
-                LƯU VÀO
               </button>
             </div>
           </div>

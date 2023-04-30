@@ -90,12 +90,13 @@ export function convertToRelativeTime(timestamp: string): string {
   const now = new Date()
   const datetimeObj = new Date(timestamp)
   const timeDelta = now.getTime() - datetimeObj.getTime()
+
   const secondsPerMinute = 60
-  const secondsPerHour = secondsPerMinute * 60
-  const secondsPerDay = secondsPerHour * 24
-  const secondsPerWeek = secondsPerDay * 7
-  const secondsPerMonth = secondsPerDay * 30
-  const secondsPerYear = secondsPerDay * 365
+  const secondsPerHour = 60 * secondsPerMinute
+  const secondsPerDay = 24 * secondsPerHour
+  const secondsPerWeek = 7 * secondsPerDay
+  const secondsPerMonth = 30 * secondsPerDay
+  const secondsPerYear = 365 * secondsPerDay
 
   if (timeDelta >= secondsPerYear * 1000) {
     const years = Math.floor(timeDelta / (secondsPerYear * 1000))

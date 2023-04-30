@@ -9,8 +9,9 @@ const URL_CHANNEL = '/api/v1/channels'
 
 const playListAPI = {
   getPlayList: () => {
-    return http.get<SuccessResponse<{ _id: string; title: string }[]>>(`${URL_PLAYLIST}`)
+    return http.get<SuccessResponse<playList[]>>(`${URL_PLAYLIST}`)
   },
+
   createPlayList: (data: { title: string; description: string }) => {
     return http.post(`${URL_PLAYLIST}`, data)
   },
@@ -22,6 +23,9 @@ const playListAPI = {
   },
   getChannelById: (channelId: string) => {
     return http.get<SuccessResponse<User>>(`${URL_CHANNEL}/get-channel/${channelId}`)
+  },
+  VideoToPlayList: (data: { action: string; video: string; idPlayList: string }) => {
+    return http.patch(`${URL_PLAYLIST}/${data.idPlayList}`, { action: data.action, video: data.video })
   }
 }
 

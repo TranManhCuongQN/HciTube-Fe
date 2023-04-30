@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import uploadApi, { controllerImage, controllerVideo } from 'src/api/upload.api'
 import DialogCustom from 'src/components/DialogCustome'
 import { useDropzone } from 'react-dropzone'
@@ -21,6 +21,7 @@ import playListAPI from 'src/api/playlist.api'
 import categoryAPI from 'src/api/category.api'
 import { toast } from 'react-toastify'
 import { convertBytesToMB } from 'src/utils/utils'
+import { AppContext } from 'src/context/app.context'
 
 interface FormUploadProps {
   isModalOpen: boolean
@@ -83,10 +84,11 @@ const FormUpload = (props: FormUploadProps) => {
   const [duration, setDuration] = useState<string>('')
   const childRef = React.useRef<HTMLDivElement>(null)
   const [categories, setCategories] = useState<string[]>([])
+  const { profile } = useContext(AppContext)
 
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
-    queryFn: () => playListAPI.getPlayList()
+    queryFn: () => playListAPI.getPlayListById(profile?.id as string)
   })
 
   const { data: dataCategories } = useQuery({

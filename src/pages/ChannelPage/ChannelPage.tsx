@@ -115,7 +115,6 @@ const ChannelPage = () => {
   }, [profileData, profile?.id])
 
   console.log(isBeginning, isEnd)
-  console.log('dataProfile:', profileData?.data.data)
 
   const handleSubscribe = () => {
     if (isVerify !== '2') {
@@ -232,22 +231,23 @@ const ChannelPage = () => {
                   </div>
                 )}
 
-                {profileData.data.data.id !== profile?._id && isSubscribed ? (
-                  <button
-                    className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'
-                    onClick={handleUnSubscribe}
-                  >
-                    <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
-                    Đã đăng ký
-                  </button>
-                ) : (
-                  <button
-                    className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#0f0f0f] py-2 px-4 text-xs font-semibold  text-white dark:bg-[#f1f1f1] dark:text-black max-sm:px-3 max-sm:py-1 md:text-sm'
-                    onClick={handleSubscribe}
-                  >
-                    Đăng ký
-                  </button>
-                )}
+                {profileData?.data.data.id !== profile?.id &&
+                  (isSubscribed ? (
+                    <button
+                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'
+                      onClick={handleUnSubscribe}
+                    >
+                      <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
+                      Đã đăng ký
+                    </button>
+                  ) : (
+                    <button
+                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#0f0f0f] py-2 px-4 text-xs font-semibold  text-white dark:bg-[#f1f1f1] dark:text-black max-sm:px-3 max-sm:py-1 md:text-sm'
+                      onClick={handleSubscribe}
+                    >
+                      Đăng ký
+                    </button>
+                  ))}
               </div>
             </div>
           </div>

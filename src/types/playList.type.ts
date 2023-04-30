@@ -8,4 +8,5 @@ export interface playList {
   createAt?: string
   channel?: User
   videos?: Video[]
+  _id: string
 }
