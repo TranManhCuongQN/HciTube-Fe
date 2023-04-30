@@ -102,6 +102,7 @@ const SignInPage = () => {
         >
           Quên mật khẩu
         </Link>
+
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
           type='submit'
@@ -110,6 +111,7 @@ const SignInPage = () => {
         >
           Đăng nhập
         </Button>
+
         <div className='mt-3 flex items-center justify-center gap-x-1'>
           <span className='text-xs text-black dark:text-white md:text-sm'>Bạn chưa có tài khoản?</span>
           <Link
