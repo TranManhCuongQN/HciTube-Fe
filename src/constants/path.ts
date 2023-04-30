@@ -5,7 +5,7 @@ const path = {
   detail: 'detail/:id',
   verify: '/verify',
   forgotPassword: '/forgot-password',
-  resetPassword: '/reset-password',
+  resetPassword: '/reset-password/:id',
   profile: '/profile',
   upload: '/upload',
   content: '/content',

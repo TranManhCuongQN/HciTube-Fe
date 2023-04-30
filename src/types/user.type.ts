@@ -6,7 +6,7 @@ export interface User {
   avatar: string
   description: string
   thumbnail: string
-  subscribers?: []
+  subscribers?: User[]
   createdAt?: string
   id?: string
   followings?: User[]

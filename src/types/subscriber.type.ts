@@ -1,7 +1,7 @@
 export interface Subscriber {
   _id: string
-  fullName: string
-  avatar: string
-  description: string
+  channel: string
+  createdAt: string
+  subscriber: string
   id: string
 }

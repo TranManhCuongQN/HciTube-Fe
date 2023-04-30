@@ -18,6 +18,11 @@ export function isAxiosNotFoundError<NotFoundError>(error: unknown): error is Ax
   return isAxiosError(error) && error.response?.status === HttpStatusCode.NotFound
 }
 
+// Lỗi 400
+export function isAxiosBadRequestError<BadRequestError>(error: unknown): error is AxiosError<BadRequestError> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.BadRequest
+}
+
 //  Lỗi 401
 export function isAxiosUnauthorizedError<UnauthorizedError>(error: unknown): error is AxiosError<UnauthorizedError> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.Unauthorized
@@ -73,7 +78,8 @@ export const getPublicId = (imageURL: string) => {
 }
 
 export const convertDuration = (duration: number) => {
-  const result = new Date(duration * 1000).toISOString().slice(11, 19)
+  if (!duration) return '00:00'
+  const result = new Date(duration * 1000)?.toISOString()?.slice(11, 19)
   const hour = result.slice(0, 2)
   const minute = result.slice(3, 5)
   const second = result.slice(6, 8)

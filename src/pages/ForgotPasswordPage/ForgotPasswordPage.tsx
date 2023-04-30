@@ -25,7 +25,6 @@ const ForgotPasswordPage = () => {
   })
 
   const navigate = useNavigate()
-  const [email, setEmail] = useState<string>('')
 
   const forgotPasswordMutaion = useMutation({
     mutationFn: (email: FormData) => authApi.forgotPassword(email),
@@ -41,6 +40,7 @@ const ForgotPasswordPage = () => {
   })
 
   const onSubmit = handleSubmit((data) => {
+    localStorage.setItem('email', data.email)
     forgotPasswordMutaion.mutate(data)
   })
   return (

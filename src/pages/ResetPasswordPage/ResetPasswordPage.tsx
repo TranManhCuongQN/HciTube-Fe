@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
@@ -7,10 +7,16 @@ import Input from 'src/components/Input'
 import Button from 'src/components/Button'
 import { resetPasswordSchemaType, schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from 'react-query'
+import authApi from 'src/api/auth.api'
+import { saveAccessTokenToLocalStorage, setProfileToLocalStorage, setRefreshTokenToLocalStorage } from 'src/utils/auth'
+import { AppContext } from 'src/context/app.context'
 
 type FormData = resetPasswordSchemaType
 const resetPasswordSchema = schema.pick(['password', 'passwordConfirm'])
+
 const ResetPasswordPage = () => {
+  const { setProfile, setIsVerify } = useContext(AppContext)
   const {
     register,
     handleSubmit,
@@ -19,8 +25,24 @@ const ResetPasswordPage = () => {
     resolver: yupResolver(resetPasswordSchema)
   })
 
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const resetPasswordMutation = useMutation({
+    mutationFn: (data: FormData) => authApi.resetPassword(data, id as string),
+    onSuccess: (data) => {
+      setRefreshTokenToLocalStorage(data.data.data.refresh_token)
+      saveAccessTokenToLocalStorage(data.data.data.access_token)
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      localStorage.removeItem('email')
+      setIsVerify('2')
+      navigate(path.home)
+    }
+  })
+
   const onSubmit = handleSubmit((data) => {
-    console.log('data', data)
+    resetPasswordMutation.mutate(data)
   })
   return (
     <div className='mx-auto flex min-h-screen w-72 flex-col justify-center gap-y-5 py-5 md:w-[400px]'>

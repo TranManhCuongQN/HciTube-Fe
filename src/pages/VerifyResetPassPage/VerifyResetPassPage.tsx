@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
@@ -11,7 +11,7 @@ import { AppContext } from 'src/context/app.context'
 import { useMutation } from 'react-query'
 import authApi from 'src/api/auth.api'
 import { ErrorResponse } from 'src/types/utils.type'
-import { isAxiosUnauthorizedError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { isAxiosBadRequestError, isAxiosUnauthorizedError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { clearLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 type FormData = verifySchemaType
@@ -26,11 +26,13 @@ const VerifyResetPassPage = () => {
     resolver: yupResolver(verifySchema)
   })
 
-  const { setIsVerify, setProfile } = useContext(AppContext)
+  const { setIsVerify } = useContext(AppContext)
   const [remainingTime, setRemainingTime] = useState<{ minutes: number; seconds: number }>({ minutes: 1, seconds: 0 })
   const intervalRef = useRef<NodeJS.Timer>()
 
   const navigate = useNavigate()
+
+  const email = localStorage.getItem('email')
 
   const verifyMutation = useMutation({
     mutationFn: (body: { encode: string }) => authApi.verifyResetPassPage(body)
@@ -59,57 +61,30 @@ const VerifyResetPassPage = () => {
   }, [remainingTime])
 
   const handleSendCode = () => {
-    const email = getProfileFromLocalStorage()?.email
-    if (!email) {
-      setIsVerify('0')
-      clearLocalStorage()
-    } else {
-      getOTP.mutate(email, {
-        onSuccess: (data) => {
-          setRemainingTime({ minutes: 1, seconds: 0 })
-          console.log('getOTP', data)
-        },
-        onError: (error) => {
-          if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
-            const formError = error.response?.data.data
-            console.log(formError)
-            if (formError) {
-              Object.keys(formError).forEach((key) => {
-                console.log('key', key)
-                console.log('formError[key]', formError[key as keyof FormData])
-              })
-            }
-          }
-        }
-      })
-    }
+    getOTP.mutate(email as string, {
+      onSuccess: (data) => {
+        setRemainingTime({ minutes: 1, seconds: 0 })
+        console.log('getOTP', data)
+      }
+    })
   }
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
-    const email = getProfileFromLocalStorage()?.email
-    if (!email) {
-      setIsVerify('0')
-      clearLocalStorage()
-    } else {
-      const dataRequest = {
-        encode: data.encode
-      }
-      verifyMutation.mutate(dataRequest, {
-        onSuccess: (data) => {
-          console.log('verifyMutation', data)
-          // setIsVerify('2')
-          // navigate('/')
-          // setProfile(data.data.data.user)
-        },
-        onError: (error) => {
-          if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-            const formError = error.response?.data.message
-            setError('encode', { type: 'custom', message: formError })
-          }
-        }
-      })
+    const dataRequest = {
+      encode: data.encode
     }
+    verifyMutation.mutate(dataRequest, {
+      onSuccess: (data) => {
+        console.log('verifyMutation', data.data.hashedToken)
+        navigate(`/reset-password/${data.data.hashedToken}`)
+      },
+      onError: (error) => {
+        if (isAxiosBadRequestError<ErrorResponse<FormData>>(error)) {
+          const formError = error.response?.data.message
+          setError('encode', { type: 'custom', message: formError })
+        }
+      }
+    })
   })
 
   console.log('errors', errors)

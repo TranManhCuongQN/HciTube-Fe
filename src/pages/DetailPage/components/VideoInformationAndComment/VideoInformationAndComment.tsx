@@ -29,6 +29,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const { profile, isVerify, setProfile } = useContext(AppContext)
   const queryClient = useQueryClient()
+
   const navigate = useNavigate()
 
   console.log('Data:', data)
