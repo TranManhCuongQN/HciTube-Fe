@@ -15,7 +15,6 @@ import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
 import { NavLink, useNavigate } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
-import { User } from 'src/types/user.type'
 import { setProfileToLocalStorage } from 'src/utils/auth'
 import DialogCustom from 'src/components/DialogCustome'
 import playListAPI from 'src/api/playlist.api'
@@ -90,7 +89,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         setPlayListSelected([])
       }
     }
-  }, [])
+  }, [dataPlayList, data])
+
   const handleChangeSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       videoToPlayListMutation.mutate({
@@ -98,12 +98,24 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         video: data.video._id as string,
         idPlayList: e.target.value
       })
+      toast.dismiss()
+      toast.success('Thêm vào danh sách phát thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: true
+      })
       setPlayListSelected([...playListSelected, e.target.value])
     } else {
       videoToPlayListMutation.mutate({
-        action: 'delete',
+        action: 'remove',
         video: data.video._id as string,
         idPlayList: e.target.value
+      })
+      toast.dismiss()
+      toast.success('Xóa khỏi danh sách phát thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: true
       })
       setPlayListSelected(playListSelected.filter((item) => item !== e.target.value))
     }

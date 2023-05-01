@@ -71,6 +71,11 @@ class Http {
           this.accessToken = ''
           this.refreshToken = ''
           clearLocalStorage()
+        } else if (url === '/api/v1/channels/resetPassword/:id') {
+          const data = response.data as AuthResponse
+          console.log('dataPassword:', data)
+          this.accessToken = data.data?.access_token
+          this.refreshToken = data.data.refresh_token
         }
 
         return response

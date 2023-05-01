@@ -93,6 +93,7 @@ const ResetPasswordPage = () => {
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
           type='submit'
+          disabled={resetPasswordMutation.isLoading}
         >
           Xác nhận
         </Button>

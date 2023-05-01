@@ -150,6 +150,7 @@ const VerifyPage = () => {
             type='button'
             className='text-xs font-semibold text-black underline dark:text-white md:text-sm'
             onClick={handleSendCode}
+            disabled={getOTPMutation.isLoading}
           >
             Lấy mã mới
           </button>
@@ -157,6 +158,7 @@ const VerifyPage = () => {
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
           type='submit'
+          disabled={verifyMutation.isLoading}
         >
           Xác nhận
         </Button>

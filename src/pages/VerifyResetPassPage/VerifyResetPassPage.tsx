@@ -128,6 +128,7 @@ const VerifyResetPassPage = () => {
           <button
             type='button'
             className='text-xs font-semibold text-black underline dark:text-white md:text-sm'
+            disabled={getOTP.isLoading}
             onClick={handleSendCode}
           >
             Lấy mã mới
@@ -136,6 +137,7 @@ const VerifyResetPassPage = () => {
         <Button
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
           type='submit'
+          disabled={verifyMutation.isLoading}
         >
           Xác nhận
         </Button>

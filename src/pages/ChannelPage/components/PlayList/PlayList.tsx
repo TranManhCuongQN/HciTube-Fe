@@ -83,6 +83,8 @@ const PlayList = () => {
     queryKey: ['channelPlayList', id],
     queryFn: () => playListAPI.getPlayListById(id)
   })
+
+  console.log(dataPlayList)
   return (
     <>
       {isLoading && (
@@ -101,6 +103,7 @@ const PlayList = () => {
       {isSuccess && dataPlayList.data.data.length > 0 && (
         <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 max-lg:grid-cols-2 md:px-20 lg:grid-cols-3 lg:px-40'>
           {dataPlayList?.data.data.map((item) => {
+            if ((item.videos as Video[]).length === 0) return null
             return (
               <div className='flex cursor-pointer flex-col gap-y-2' key={item.id}>
                 <div className='relative h-fit w-full flex-shrink-0 rounded-lg'>
@@ -124,34 +127,6 @@ const PlayList = () => {
               </div>
             )
           })}
-        </div>
-      )}
-      {isSuccess && dataPlayList.data.data.length === 0 && (
-        <div className='flex h-full w-full items-center justify-center'>
-          <div className='flex h-full flex-col items-center justify-center gap-y-3 max-lg:hidden'>
-            <div className='h-48 w-48'>
-              <img
-                src='https://www.gstatic.com/youtube/img/channels/empty_channel_illustration.svg'
-                alt='avatar-home'
-                className='h-full w-full object-cover'
-              />
-            </div>
-            <span className='text-base font-semibold text-black dark:text-white'>Tải một video lên để bắt đầu</span>
-            <span className='text-sm text-gray-500'>
-              Bắt đầu chia sẻ câu chuyện của bạn và kết nối với người xem. Các video mà bạn tải lên sẽ xuất hiện ở đây.
-            </span>
-            <Link
-              to={path.upload}
-              className='rounded-xl bg-blue-700 p-2 text-sm font-semibold text-white dark:bg-blue-400 dark:text-black'
-            >
-              Tải video lên
-            </Link>
-          </div>
-          <div className='flex h-56 w-full flex-col items-center justify-center lg:hidden'>
-            <span className='text-base font-semibold text-black dark:text-white'>
-              Hiện tại chỉ hỗ trợ upload video trên desktop
-            </span>
-          </div>
         </div>
       )}
     </>
