@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
-import { isNull } from 'lodash'
 
 interface VideoProps {
   lastPlayedTime: number
@@ -23,7 +22,6 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
 
   const playVideo = () => {
     videoRef.current?.play()
-    setPlaying(true)
   }
 
   const videoDuration = videoRef.current?.duration || 0

@@ -353,15 +353,15 @@ th {
 .video-animation {
   transition: opacity;
   animation-name: fadeOutVideo;
-  animation-duration: 1.5s;
+  animation-duration: 2s;
   animation-timing-function: ease-in-out;
 }
 
 .video-animation--fast {
   transition: opacity;
   animation-name: fadeOutVideo;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-in;
 }
 
 

@@ -76,7 +76,7 @@ const DetailPage = () => {
           <div
             className={`${
               !isTheaterMode && 'flex flex-col bg-white dark:bg-[#0f0f0f] lg:mx-0'
-            } video-animation  px-0 lg:w-full`}
+            } video-animation--fast  px-0 lg:w-full`}
           >
             <Video handleTheaterMode={handleTheaterMode} urlVideo={data?.data.data.video.video} />
             {!isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}

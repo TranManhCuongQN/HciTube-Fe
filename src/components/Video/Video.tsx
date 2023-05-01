@@ -36,6 +36,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
+  const videoContainerRef = useRef<HTMLDivElement>(null)
   const [videoIndex, setVideoIndex] = useState<number>(0)
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
@@ -166,7 +167,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
     if (document.fullscreenElement) {
       document.exitFullscreen()
     } else {
-      videoRef.current?.requestFullscreen()
+      videoContainerRef.current?.requestFullscreen()
     }
   }, [])
 
@@ -231,11 +232,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
     [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
   )
   useEffect(() => {
-    window.addEventListener('keyup', keyboardShortcuts)
+    document.addEventListener('keyup', keyboardShortcuts)
   }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
 
+
   return (
-    <div className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
+    <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
       <div className={`${zoomOut ? '' : ''} h-full bg-black`}>
         <div
           className={`group relative h-full ${zoomOut ? '' : ''}`}
@@ -250,7 +252,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
             onEnded={movingForwardVideo}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full `}
             id='Video'
-          />
+          >
+  
+          </video>
           {/* Play and Pause on Desktop */}
           <div
             className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
