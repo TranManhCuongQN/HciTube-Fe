@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef, useCallback } from 'react'
-import { MdZoomOutMap, MdZoomInMap } from 'react-icons/md'
+import { MdZoomOutMap, MdZoomInMap, MdReplay } from 'react-icons/md'
 import { BiSkipNext, BiSkipPrevious, BiPlay, BiPause, BiRectangle } from 'react-icons/bi'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { TbRectangle } from 'react-icons/tb'
@@ -45,6 +45,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
+  const [ended, setEnded] = useState<boolean>(false);
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -234,7 +235,8 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
     document.addEventListener('keyup', keyboardShortcuts)
   }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
 
-
+  // Change state when the video ends
+  
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
       <div className={`${zoomOut ? '' : ''} h-full bg-black`}>
@@ -248,7 +250,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
             ref={videoRef}
             onLoadedMetadata={playVideo}
             onTimeUpdate={updateTimeElapsed}
-            onEnded={movingForwardVideo}
+            onEnded={() => {
+              setEnded(true);
+            }}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full `}
             id='Video'
           >
@@ -273,7 +277,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
           </div>
           <div className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'}`}>
             <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
-
+            {/* Mobile & Tablet */}
             <div className='absolute top-0 left-[1.875rem] right-[1.875rem] mx-3 flex h-full items-center justify-center lg:hidden lg:justify-between'>
               <BiSkipPrevious onClick={movingBackwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
               <div className='sm:mx-16'>
@@ -288,7 +292,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
               </div>
               <BiSkipNext onClick={movingForwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
             </div>
-
+            {/* Desktop */}
             <div className=' absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between lg:left-[0.75rem] lg:right-[0.75rem] lg:flex-col-reverse '>
               <div className=' z-20 flex w-full items-center justify-between lg:h-12'>
                 <div className='flex items-center'>
@@ -299,7 +303,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                     />
                     <ToolTip text='Phát video trước' keyname='a' left='0' />
                   </div>
-                  <div className='hidden lg:flex lg:hover:cursor-pointer'>
+                  <div className={`${ended ? '' : 'lg:flex'} hidden  lg:hover:cursor-pointer`}>
                     <div className='tooltip-video flex items-center justify-center'>
                       <BiPlay
                         className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'}
@@ -316,6 +320,19 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                       <ToolTip text='Tạm dừng' keyname='k' />
                     </div>
                   </div>
+
+                  <div className={`${ended ? 'flex' : 'hidden'} tooltip-video items-center justify-center`}>
+                    <MdReplay
+                      className={(playing ? '' : 'hidden') + ' h-8 w-8 px-1 text-white'}
+                      onClick={() => {
+                        setEnded(false);
+                        pauseVideo();
+                        playVideo();
+                      }}
+                    />
+                    <ToolTip text='Phát lại' keyname='k' />
+                  </div>
+
                   <div className='tooltip-video flex items-center justify-center'>
                     <BiSkipNext
                       onClick={movingForwardVideo}
