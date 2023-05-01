@@ -3,21 +3,13 @@ import VideoItem from './components/VideoItem/'
 import Lauv from 'src/assets/Lauv.mp4'
 import {GiSettingsKnobs} from 'react-icons/gi'
 import {BsCheck} from 'react-icons/bs'
-import { RefObject, useEffect, useMemo, useRef } from 'react'
+import { RefObject, useEffect, useState, useRef, useCallback } from 'react'
 import { Ref } from 'react-hook-form'
-
-const uploadDateItems = ['Một giờ qua','Hôm nay','Tuần này','Tháng này','Năm nay']
-const typeItems = ['Video','Kênh','Danh sách phát','Phim']
-const durationItems = ['Dưới 4 phút','4 - 20 phút','Trên 20 phút']
-const orderItems = ['Mức độ liên quan','Ngày tải lên','Lượt xem','Xếp hạng']
-
+import {GrClose} from 'react-icons/gr'
+import Filter from './components/Filter'
 
 const SearchPage = () => {
   const filterRef = useRef<HTMLDivElement>(null);
-  const uploadDateFilterRef = useRef<HTMLDivElement>(null);
-  const typeFilterRef = useRef<HTMLDivElement>(null);
-  const durationFilterRef = useRef<HTMLDivElement>(null);
-  const orderFilterRef = useRef<HTMLDivElement>(null);
 
 
   const handleClickFilterBtn = () => {
@@ -27,156 +19,42 @@ const SearchPage = () => {
     }
   }
 
-  const handleClickFilterNode = (ref :RefObject<HTMLDivElement>, clickedFilterIndex : number) => {
-    if(ref.current) {
-      ref.current.querySelectorAll('button').forEach((element, index) => {
-        if(index !== clickedFilterIndex ) {
-          element.classList.remove('filter--active')
-        }
-        else {
+  const formatTimeDifference = (createdAtInString : string) => {
+    const createdAtInDate = new Date(createdAtInString);
+    const currentDateTime = new Date();
+    const diffInMs = currentDateTime.getTime() - createdAtInDate.getTime();
+    const diffInSecond = Math.floor(diffInMs / 1000);
+    const diffInMinute = Math.floor(diffInMs / 60000);
+    const diffInHours = Math.floor(diffInMs / 3600000);
+    const diffInDay = Math.floor(diffInMs / 86400000);
 
-          ref.current?.children[clickedFilterIndex + 1].classList.add('filter--active');
-        }
-      })
+    let timeDifference = " ";
 
-    }
+    if(diffInDay >= 1) timeDifference = `${diffInDay} ngày trước`;
+    else if(diffInHours >= 1) timeDifference = `${diffInHours} giờ trước`;
+    else if(diffInMinute >= 1) timeDifference = `${diffInMinute} phút trước`;
+    else if(diffInSecond >= 1) timeDifference = `${diffInSecond} giây trước`;
 
+    return timeDifference;
   }
-
-
-  useEffect(() => {
-    if(uploadDateFilterRef.current) {
-      uploadDateFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(uploadDateFilterRef , clickedFilterIndex))
-      })
-    }
-      return () => {
-        if(uploadDateFilterRef.current) {
-          uploadDateFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-            node.removeEventListener('click', () => handleClickFilterNode(uploadDateFilterRef , clickedFilterIndex))
-          })
-        }
-      }
-  }, [])
-
-  useEffect(() => {
-    if(typeFilterRef.current) {
-      typeFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(typeFilterRef , clickedFilterIndex))
-      })
-    }
-      return () => {
-        if(typeFilterRef.current) {
-          typeFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-            node.removeEventListener('click', () => handleClickFilterNode(typeFilterRef , clickedFilterIndex))
-          })
-        }
-      }
-  }, [])
-
-  useEffect(() => {
-    if(durationFilterRef.current) {
-      durationFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(durationFilterRef , clickedFilterIndex))
-      })
-    }
-      return () => {
-        if(durationFilterRef.current) {
-          durationFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-            node.removeEventListener('click', () => handleClickFilterNode(durationFilterRef , clickedFilterIndex))
-          })
-        }
-      }
-  }, [])
-
-  useEffect(() => {
-    if(orderFilterRef.current) {
-      orderFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(orderFilterRef , clickedFilterIndex))
-      })
-    }
-      return () => {
-        if(orderFilterRef.current) {
-          orderFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-            node.removeEventListener('click', () => handleClickFilterNode(orderFilterRef , clickedFilterIndex))
-          })
-        }
-      }
-  }, [])
 
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
       <AsideBar />
       <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
-        <div className="flex flex-col justify-center w-full h-full md:px-3 lg:px-6 lg:py-4">
-          <div className="lg:grid lg:grid-cols-3 w-full max-w-[1280px] h-full">
-            <div className="flex flex-col lg:col-span-2">
+        <div className="flex flex-col items-center justify-center w-full h-full md:px-3 lg:px-6 lg:py-4">
+          <div className="lg:grid lg:grid-cols-1 w-full max-w-[1096px] h-full">
+            <div className="flex flex-col lg:col-span-1">
               <div className="max-lg:ml-3 border-b border-[rgba(0, 0, 0, 0.1)] dark:border-gray-600 py-2">
                 <button onClick={handleClickFilterBtn} className="flex items-center hover:bg-[#f2f2f2] px-4 py-2 rounded-full dark:hover:bg-[#272727]">
                   <GiSettingsKnobs className="text-black dark:text-white rotate-90 mr-2 w-5 h-5"/>
-                  <span className="font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base">Bộ lọc</span>
+                  <span className="font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base">
+                    Bộ lọc
+                  </span>
                 </button>
             
                 <div ref={filterRef} className="hidden grid-cols-1 md:grid-cols-4 pl-4">
-                  <div ref={uploadDateFilterRef} className="flex flex-col col-span-1 mb-8 pr-8 text-[#606060] dark:text-[#aaa]">
-                    <h1 className="text-xs font-bold uppercase text-[#0f0f0f] dark:text-[#f1f1f1] py-4 my-1 border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600">Ngày tải lên</h1>
-                    {
-                      uploadDateItems.map(item => {
-                        return (
-                          <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
-                            <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
-                          </button>
-                        )
-                      })
-                    }
-                  </div>
-
-                  <div ref={typeFilterRef} className="flex flex-col col-span-1 mb-8 pr-8 text-[#606060] dark:text-[#aaa]">
-                    <h1 className="text-xs font-bold uppercase text-[#0f0f0f] dark:text-[#f1f1f1] py-4 my-1 border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600">Loại</h1>
-                    {
-                      typeItems.map(item => {
-                        return (
-                          <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
-                            <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
-                          </button>
-                        )
-                      })
-                    }
-
-
-                  </div>
-
-                    <div ref={durationFilterRef} className="flex flex-col col-span-1 mb-8 pr-8 text-[#606060] dark:text-[#aaa]">
-                      <h1 className="text-xs font-bold uppercase text-[#0f0f0f] dark:text-[#f1f1f1] py-4 my-1 border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600">Thời lượng</h1>
-                      {
-                      durationItems.map(item => {
-                        return (
-                          <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
-                            <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
-                          </button>
-                        )
-                      })
-                    }
-                    </div>
-
-                    <div ref={orderFilterRef} className="flex flex-col col-span-1 mb-8 pr-8 text-[#606060] dark:text-[#aaa]">
-                      <h1 className="text-xs font-bold uppercase text-[#0f0f0f] dark:text-[#f1f1f1] py-4 my-1 border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600">Sắp xếp theo</h1>
-                      {
-                      orderItems.map(item => {
-                        return (
-                          <button className="flex max-md:justify-between pt-4 cursor-pointer text-sm font-semibold ">
-                            <span>{item}</span>
-                            <BsCheck className="filter__check text-xl md:ml-4 transition-all duration-200"/>
-                          </button>
-                        )
-                      })
-                    }
-
-                    </div>
-
+                  <Filter/>
                 </div>
 
               </div>

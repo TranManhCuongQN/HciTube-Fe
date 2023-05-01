@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useState, useEffect } from 'react'
 import { RxDividerHorizontal } from 'react-icons/rx'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import VideoPlayer from 'src/pages/HomePage/components/Video'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
