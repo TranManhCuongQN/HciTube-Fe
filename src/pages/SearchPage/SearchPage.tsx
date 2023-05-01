@@ -19,25 +19,6 @@ const SearchPage = () => {
     }
   }
 
-  const formatTimeDifference = (createdAtInString : string) => {
-    const createdAtInDate = new Date(createdAtInString);
-    const currentDateTime = new Date();
-    const diffInMs = currentDateTime.getTime() - createdAtInDate.getTime();
-    const diffInSecond = Math.floor(diffInMs / 1000);
-    const diffInMinute = Math.floor(diffInMs / 60000);
-    const diffInHours = Math.floor(diffInMs / 3600000);
-    const diffInDay = Math.floor(diffInMs / 86400000);
-
-    let timeDifference = " ";
-
-    if(diffInDay >= 1) timeDifference = `${diffInDay} ngày trước`;
-    else if(diffInHours >= 1) timeDifference = `${diffInHours} giờ trước`;
-    else if(diffInMinute >= 1) timeDifference = `${diffInMinute} phút trước`;
-    else if(diffInSecond >= 1) timeDifference = `${diffInSecond} giây trước`;
-
-    return timeDifference;
-  }
-
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
       <AsideBar />

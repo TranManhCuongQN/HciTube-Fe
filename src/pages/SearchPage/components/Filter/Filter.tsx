@@ -13,14 +13,6 @@ const Filter = () => {
   const durationFilterRef = useRef<HTMLDivElement>(null);
   const orderFilterRef = useRef<HTMLDivElement>(null);
 
-
-
-  // const [updateFilterIndex, setUpdateFilterIndex] = useState<number>(() => {
-  //   const previousValue = localStorage.getItem("update");
-  //   console.log('initial value: ',previousValue)
-  //   return previousValue ? Number(previousValue) : -1;
-  // })
-
   const [updateFilterIndex, setUpdateFilterIndex] = useState<number>(() => {
     localStorage.setItem("update", "-1");
     return -1;
