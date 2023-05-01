@@ -24,7 +24,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
     videoRef.current?.play()
   }
 
-  const videoDuration = videoRef.current?.duration || 0
+  const videoDuration = Math.round(videoRef.current?.duration || 0)
 
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
     const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
@@ -45,13 +45,13 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   // Update time elapsed
   const updateTimeElapsed = () => {
     const time = videoRef.current?.currentTime || 0
-    setTimeElapsed(formatTime(Math.floor(time)))
+    setTimeElapsed(formatTime(Math.round(time)))
   }
 
   // Progress bar
   useEffect(() => {
     const time = videoRef.current?.currentTime || 0
-    const durationPercent = (time / videoDuration) * 100
+    const durationPercent = (Math.round(time) / videoDuration) * 100
     if (progressRef.current) {
       progressRef.current.value = String(durationPercent)
     }

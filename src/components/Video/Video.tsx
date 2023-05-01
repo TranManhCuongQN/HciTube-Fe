@@ -46,7 +46,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
 
-  const videoDuration = videoRef.current?.duration || 0
+  const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
     const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
     if (ref.current) {
@@ -74,13 +74,13 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   // Update time elapsed
   const updateTimeElapsed = () => {
     const time = videoRef.current?.currentTime || 0
-    setTimeElapsed(formatTime(Math.floor(time)))
+    setTimeElapsed(formatTime(Math.round(time)))
   }
 
   // Progress bar
   useEffect(() => {
     const time = videoRef.current?.currentTime || 0
-    const durationPercent = (time / videoDuration) * 100
+    const durationPercent = (Math.round(time) / videoDuration) * 100
     if (progressRef.current) {
       progressRef.current.value = String(durationPercent)
     }
@@ -189,7 +189,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
     }
     return props
   }
-  // console.log(thumbnailProps)
 
   // Handle click next button
   const movingForwardVideo = useCallback(() => {
@@ -404,7 +403,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                   </div>
                 </div>
               </div>
-
               <div className='relative z-30' id='ProgressBar'>
                 {!isUndefined(thumbnailProps) && <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} />}
                 <div className='w-full '>
@@ -417,6 +415,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                       calculateProgressValueWhenMouseMove(e)
                     }}
                     type='range'
+                    defaultValue={0}
                     min={0}
                     max={100}
                     step={0.1}

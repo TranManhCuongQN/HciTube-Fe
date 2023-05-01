@@ -47,7 +47,7 @@ const VideoItem = () => {
   }
 
   useEffect(() => {
-    const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
+    const valPercent = (Math.round((data?.watchTime as number)) / Math.round(Number(data.duration))) * 100
     if (progressRef.current) {
       progressRef.current.style.background = `linear-gradient(to right, red ${valPercent}%, rgba(255, 255, 255, 0.3) ${valPercent}%`
     }
