@@ -9,11 +9,12 @@ import { Comment } from 'src/types/comment.type'
 import { convertToRelativeTime } from 'src/utils/utils'
 import { useMutation, useQueryClient } from 'react-query'
 import { commentApi } from 'src/api/comment.api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react'
 import { BsEmojiLaughing } from 'react-icons/bs'
 import { AppContext } from 'src/context/app.context'
 import { AiOutlineCaretDown } from 'react-icons/ai'
+import { toast } from 'react-toastify'
 
 const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const [isShow, setIsShow] = useState<boolean>(false)
@@ -27,7 +28,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const [isDislike, setIsDislike] = useState<boolean>(false)
   const [isReply, setIsReply] = useState<boolean>(false)
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
-  const { profile } = useContext(AppContext)
+  const { profile, isVerify } = useContext(AppContext)
 
   useOnClickOutSide(editRef, () => {
     setIsShow(false)
@@ -39,6 +40,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
 
   const { id } = useParams()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const replyCommentMutation = useMutation({
     mutationFn: () =>
@@ -124,18 +126,58 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   }
 
   const handleLike = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     handleLikeCommentMutation.mutate()
   }
 
   const handleDislike = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     handleDislikeCommentMutation.mutate()
   }
 
   const handleReply = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     setIsReply(true)
   }
 
   const handleReplyComment = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
     replyCommentMutation.mutate()
   }
 

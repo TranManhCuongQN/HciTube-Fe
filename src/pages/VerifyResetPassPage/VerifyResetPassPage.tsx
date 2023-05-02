@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { BsYoutube } from 'react-icons/bs'
 import { useForm } from 'react-hook-form'
@@ -11,12 +11,12 @@ import { AppContext } from 'src/context/app.context'
 import { useMutation } from 'react-query'
 import authApi from 'src/api/auth.api'
 import { ErrorResponse } from 'src/types/utils.type'
-import { isAxiosUnauthorizedError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
+import { isAxiosBadRequestError, isAxiosUnauthorizedError, isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { clearLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
 type FormData = verifySchemaType
 const verifySchema = schema
-const VerifyPage = () => {
+const VerifyResetPassPage = () => {
   const {
     register,
     handleSubmit,
@@ -26,16 +26,20 @@ const VerifyPage = () => {
     resolver: yupResolver(verifySchema)
   })
 
-  const { setIsVerify, setProfile } = useContext(AppContext)
+  const { setIsVerify } = useContext(AppContext)
   const [remainingTime, setRemainingTime] = useState<{ minutes: number; seconds: number }>({ minutes: 1, seconds: 0 })
   const intervalRef = useRef<NodeJS.Timer>()
 
   const navigate = useNavigate()
+
+  const email = localStorage.getItem('email')
+
   const verifyMutation = useMutation({
-    mutationFn: (body: { email: string; encode: string }) => authApi.verify(body)
+    mutationFn: (body: { encode: string }) => authApi.verifyResetPassPage(body)
   })
-  const getOTPMutation = useMutation({
-    mutationFn: (body: { email: string }) => authApi.getOtp(body)
+
+  const getOTP = useMutation({
+    mutationFn: (email: string) => authApi.forgotPassword({ email })
   })
 
   useEffect(() => {
@@ -53,62 +57,37 @@ const VerifyPage = () => {
   useEffect(() => {
     if (remainingTime.minutes === 0 && remainingTime.seconds === 0) {
       clearInterval(intervalRef.current)
-      console.log('time up')
     }
   }, [remainingTime])
 
   const handleSendCode = () => {
-    const email = getProfileFromLocalStorage()?.email
-    if (!email) {
-      setIsVerify('0')
-      clearLocalStorage()
-    } else {
-      const dataRequest = { email }
-      getOTPMutation.mutate(dataRequest, {
-        onSuccess: () => {
-          setRemainingTime({ minutes: 1, seconds: 0 })
-        },
-        onError: (error) => {
-          if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
-            const formError = error.response?.data.data
-            console.log(formError)
-            if (formError) {
-              Object.keys(formError).forEach((key) => {
-                console.log('key', key)
-                console.log('formError[key]', formError[key as keyof FormData])
-              })
-            }
-          }
-        }
-      })
-    }
+    getOTP.mutate(email as string, {
+      onSuccess: (data) => {
+        setRemainingTime({ minutes: 1, seconds: 0 })
+        console.log('getOTP', data)
+      }
+    })
   }
 
   const onSubmit = handleSubmit((data) => {
-    const email = getProfileFromLocalStorage()?.email
-    if (!email) {
-      setIsVerify('0')
-      clearLocalStorage()
-    } else {
-      const dataRequest = {
-        email,
-        encode: data.encode
-      }
-      verifyMutation.mutate(dataRequest, {
-        onSuccess: (data) => {
-          setIsVerify('2')
-          navigate('/')
-          setProfile(data.data.data.user)
-        },
-        onError: (error) => {
-          if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
-            const formError = error.response?.data.message
-            setError('encode', { type: 'custom', message: formError })
-          }
-        }
-      })
+    const dataRequest = {
+      encode: data.encode
     }
+    verifyMutation.mutate(dataRequest, {
+      onSuccess: (data) => {
+        console.log('verifyMutation', data.data.hashedToken)
+        navigate(`/reset-password/${data.data.hashedToken}`)
+      },
+      onError: (error) => {
+        if (isAxiosBadRequestError<ErrorResponse<FormData>>(error)) {
+          const formError = error.response?.data.message
+          setError('encode', { type: 'custom', message: formError })
+        }
+      }
+    })
   })
+
+  console.log('errors', errors)
 
   return (
     <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>
@@ -149,8 +128,8 @@ const VerifyPage = () => {
           <button
             type='button'
             className='text-xs font-semibold text-black underline dark:text-white md:text-sm'
+            disabled={getOTP.isLoading}
             onClick={handleSendCode}
-            disabled={getOTPMutation.isLoading}
           >
             Lấy mã mới
           </button>
@@ -167,4 +146,4 @@ const VerifyPage = () => {
   )
 }
 
-export default VerifyPage
+export default VerifyResetPassPage

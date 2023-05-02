@@ -7,7 +7,6 @@ import { IoCloseOutline } from 'react-icons/io5'
 import { BsMicFill } from 'react-icons/bs'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import ToolTip from 'src/components/ToolTip'
-import { useTranslation } from 'react-i18next'
 
 interface VoiceProps {
   handleKeyWord: (keyWordVoice: string) => void
@@ -21,7 +20,6 @@ const Voice = (props: VoiceProps) => {
   const audioStartRef = useRef<HTMLAudioElement | null>(null)
   const audioEndRef = useRef<HTMLAudioElement | null>(null)
   const audioCloseRef = useRef<HTMLAudioElement | null>(null)
-  const { t } = useTranslation(['home'])
 
   useEffect(() => {
     setRecord(transcript)
@@ -41,7 +39,7 @@ const Voice = (props: VoiceProps) => {
     return () => {
       clearTimeout(out)
     }
-  }, [listening, record])
+  }, [listening, record, handleKeyWord, isOpen, isProcess])
 
   const handleVoice = () => {
     setIsOpen(true)
@@ -57,7 +55,7 @@ const Voice = (props: VoiceProps) => {
   }
   return (
     <>
-      <ToolTip position='bottom' content={t('side bar.search_with_voice')}>
+      <ToolTip position='bottom' content='Tìm kiếm bằng giọng nói'>
         <button
           className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:bg-[#181818] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 '
           onClick={handleVoice}
@@ -78,15 +76,17 @@ const Voice = (props: VoiceProps) => {
           {transcript === '' ? (
             listening === true ? (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.listening')}</span>
+                <span className='text-xl font-medium text-black dark:text-white'>Đang nghe...</span>
               </>
             ) : isProcess ? (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.listening')}</span>
+                <span className='text-xl font-medium text-black dark:text-white'>Đang nghe...</span>
               </>
             ) : (
               <>
-                <span className='text-xl font-medium text-black dark:text-white'>{t('side bar.didnt her that')}</span>
+                <span className='text-xl font-medium text-black dark:text-white'>
+                  Tôi chưa nghe rõ. Mời bạn nói lại.
+                </span>
               </>
             )
           ) : (
@@ -146,7 +146,7 @@ const Voice = (props: VoiceProps) => {
                     <BsMicFill className='h-7 w-7 text-black' />
                   </button>
                   <span className='text-center text-base font-medium text-black dark:text-white'>
-                    {t('side bar.tap the mic')}
+                    Nhấn vào micro để thử lại
                   </span>
                 </div>
               </div>

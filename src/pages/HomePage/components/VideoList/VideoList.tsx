@@ -20,6 +20,8 @@ const VideoList = () => {
     refetch()
   }
 
+  console.log('VideoList:', VideoList)
+
   return (
     <div
       className={`${isError ? "flex justify-center items-center h-[100vh] " : "grid" } h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}

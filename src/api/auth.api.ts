@@ -24,6 +24,15 @@ const authApi = {
   },
   getOtp(body: { email: string }) {
     return http.post(GET_OTP, body)
+  },
+  forgotPassword(body: { email: string }) {
+    return http.post('/api/v1/channels/forgotPassword', body)
+  },
+  verifyResetPassPage(body: { encode: string }) {
+    return http.post('/api/v1/channels/verifyResetPass', body)
+  },
+  resetPassword(body: { password: string; passwordConfirm: string }, token: string) {
+    return http.patch(`/api/v1/channels/resetPassword/${token}`, body)
   }
 }
 

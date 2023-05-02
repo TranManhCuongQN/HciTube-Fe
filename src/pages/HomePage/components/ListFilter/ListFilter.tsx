@@ -6,15 +6,20 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import classNames from 'classnames'
-import { useTranslation } from 'react-i18next'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
+import { useQuery } from 'react-query'
+import categoryAPI from 'src/api/category.api'
 const ListFilter = () => {
-  const [filter, setFilter] = useState<number>(1)
-  const { t } = useTranslation()
-  const listFilter = t('list filter', { returnObjects: true })
+  const [filter, setFilter] = useState<string>('Tất cả')
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
+
+  const { data: dataCategories } = useQuery({
+    queryKey: 'categories',
+    queryFn: () => categoryAPI.getCategories()
+  })
+
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slidePrev()
@@ -58,14 +63,14 @@ const ListFilter = () => {
             handleSwiper(swiper)
           }}
         >
-          {listFilter.map((item, index) => (
+          {dataCategories?.data.data.map((item, index) => (
             <SwiperSlide key={index}>
               <button
                 className={classNames('mr-3 h-8 whitespace-nowrap rounded-lg px-3 max-[320px]:py-1', {
-                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
-                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
+                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.name,
+                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
                 })}
-                onClick={() => setFilter(item.id)}
+                onClick={() => setFilter(item.name)}
               >
                 <span className='text-sm'>{item.name}</span>
               </button>

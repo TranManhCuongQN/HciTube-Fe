@@ -1,13 +1,13 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { convertNumberToDisplayString } from 'src/utils/utils'
 import AsideBar from '../HomePage/components/AsideBar'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import classNames from 'classnames'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import parse from 'html-react-parser'
 
@@ -15,9 +15,12 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import { AppContext } from 'src/context/app.context'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import playListAPI from 'src/api/playlist.api'
 import Skeleton from 'src/components/Skeleton'
+import { subscriberApi } from 'src/api/subscriber.api'
+import { toast } from 'react-toastify'
+import { setProfileToLocalStorage } from 'src/utils/auth'
 
 const ChannelPage = () => {
   const location = useLocation()
@@ -26,15 +29,56 @@ const ChannelPage = () => {
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
-  const { profile } = useContext(AppContext)
+  const { profile, setProfile, isVerify } = useContext(AppContext)
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
+
+  const navigate = useNavigate()
 
   const {
     data: profileData,
     isLoading,
-    isSuccess
+    isSuccess,
+    refetch
   } = useQuery({
     queryKey: ['channelProfile', id],
     queryFn: () => playListAPI.getChannelById(id)
+  })
+
+  const deleteSubscribeChannelMutation = useMutation({
+    mutationFn: () =>
+      subscriberApi.deleteSubscribeChannel({
+        channel: id
+      }),
+    onSuccess: (data) => {
+      toast.dismiss()
+      toast.success('Hủy đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      refetch()
+    }
+  })
+
+  const subscribeChannelMutation = useMutation({
+    mutationFn: () =>
+      subscriberApi.subscribeChannel({
+        channel: id
+      }),
+    onSuccess: (data) => {
+      toast.dismiss()
+      toast.success('Đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      console.log('dataFolloing:', data.data.data.user)
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      refetch()
+    }
   })
 
   const goPrev = () => {
@@ -59,8 +103,45 @@ const ChannelPage = () => {
     }
   }
 
+  useEffect(() => {
+    if (profileData) {
+      const isSubscribed = profileData.data.data.subscribers?.findIndex((item) => item._id === profile?.id)
+      if (isSubscribed !== -1) {
+        setIsSubscribed(true)
+      } else {
+        setIsSubscribed(false)
+      }
+    }
+  }, [profileData, profile?.id])
+
   console.log(isBeginning, isEnd)
-  console.log('dataProfile:', profileData?.data.data)
+
+  const handleSubscribe = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
+    subscribeChannelMutation.mutate()
+  }
+  const handleUnSubscribe = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
+    deleteSubscribeChannelMutation.mutate()
+  }
 
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
@@ -150,12 +231,23 @@ const ChannelPage = () => {
                   </div>
                 )}
 
-                {profileData?.data?.data?.id !== profile?._id && (
-                  <button className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'>
-                    <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
-                    Đã đăng ký
-                  </button>
-                )}
+                {profileData?.data.data.id !== profile?.id &&
+                  (isSubscribed ? (
+                    <button
+                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'
+                      onClick={handleUnSubscribe}
+                    >
+                      <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
+                      Đã đăng ký
+                    </button>
+                  ) : (
+                    <button
+                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#0f0f0f] py-2 px-4 text-xs font-semibold  text-white dark:bg-[#f1f1f1] dark:text-black max-sm:px-3 max-sm:py-1 md:text-sm'
+                      onClick={handleSubscribe}
+                    >
+                      Đăng ký
+                    </button>
+                  ))}
               </div>
             </div>
           </div>

@@ -5,7 +5,7 @@ const path = {
   detail: 'detail/:id',
   verify: '/verify',
   forgotPassword: '/forgot-password',
-  resetPassword: '/reset-password',
+  resetPassword: '/reset-password/:id',
   profile: '/profile',
   upload: '/upload',
   content: '/content',
@@ -15,6 +15,7 @@ const path = {
   channel: ':id/channel',
   video: ':id/video',
   playList: ':id/playlist',
-  about: ':id/about'
+  about: ':id/about',
+  verifyResetPass: '/verify-reset-password'
 } as const
 export default path

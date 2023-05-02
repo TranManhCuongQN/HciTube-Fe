@@ -13,6 +13,16 @@ export function isAxiosUnprocessableEntityError<FormError>(error: unknown): erro
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
 }
 
+//  Lỗi 404
+export function isAxiosNotFoundError<NotFoundError>(error: unknown): error is AxiosError<NotFoundError> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.NotFound
+}
+
+// Lỗi 400
+export function isAxiosBadRequestError<BadRequestError>(error: unknown): error is AxiosError<BadRequestError> {
+  return isAxiosError(error) && error.response?.status === HttpStatusCode.BadRequest
+}
+
 //  Lỗi 401
 export function isAxiosUnauthorizedError<UnauthorizedError>(error: unknown): error is AxiosError<UnauthorizedError> {
   return isAxiosError(error) && error.response?.status === HttpStatusCode.Unauthorized
@@ -67,54 +77,71 @@ export const getPublicId = (imageURL: string) => {
   return getPublicId
 }
 
-export function convertDuration(duration: string): string {
-  const hours = Math.floor(Number(duration) / 3600)
-  const minutes = Math.floor((Number(duration) % 3600) / 60)
-  const seconds = Math.floor(Number(duration) % 60)
-
-  const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
-    .toString()
-    .padStart(2, '0')}`
-  if (hours === 0) {
-    const minutesString = (Number(duration) % 60).toFixed(0)
-    const secondsString = ((Number(duration) % 1) * 60).toFixed(0)
-    return `${minutesString.toString().padStart(2, '0')}:${secondsString.toString().padStart(2, '0')}`
-  }
-
-  return timeString
+export const convertDuration = (duration: number) => {
+  if (!duration) return '00:00'
+  const result = new Date(duration * 1000)?.toISOString()?.slice(11, 19)
+  const hour = result.slice(0, 2)
+  const minute = result.slice(3, 5)
+  const second = result.slice(6, 8)
+  return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
 }
 
-export function convertToRelativeTime(timestamp: string): string {
-  const now = new Date()
-  const datetimeObj = new Date(timestamp)
-  const timeDelta = now.getTime() - datetimeObj.getTime()
-  const secondsPerMinute = 60
-  const secondsPerHour = secondsPerMinute * 60
-  const secondsPerDay = secondsPerHour * 24
-  const secondsPerWeek = secondsPerDay * 7
-  const secondsPerMonth = secondsPerDay * 30
-  const secondsPerYear = secondsPerDay * 365
+// export function convertToRelativeTime(timestamp: string): string {
+//   const now = new Date()
+//   const datetimeObj = new Date(timestamp)
+//   const timeDelta = now.getTime() - datetimeObj.getTime()
 
-  if (timeDelta >= secondsPerYear * 1000) {
-    const years = Math.floor(timeDelta / (secondsPerYear * 1000))
-    return `${years} năm trước`
-  } else if (timeDelta >= secondsPerMonth * 1000) {
-    const months = Math.floor(timeDelta / (secondsPerMonth * 1000))
-    return `${months} tháng trước`
-  } else if (timeDelta >= secondsPerWeek * 1000) {
-    const weeks = Math.floor(timeDelta / (secondsPerWeek * 1000))
-    return `${weeks} tuần trước`
-  } else if (timeDelta >= secondsPerDay * 1000) {
-    const days = Math.floor(timeDelta / (secondsPerDay * 1000))
-    return `${days} ngày trước`
-  } else if (timeDelta >= secondsPerHour * 1000) {
-    const hours = Math.floor(timeDelta / (secondsPerHour * 1000))
-    return `${hours} giờ trước`
-  } else if (timeDelta >= secondsPerMinute * 1000) {
-    const minutes = Math.floor(timeDelta / (secondsPerMinute * 1000))
-    return `${minutes} phút trước`
-  } else {
-    const seconds = Math.floor(timeDelta / 1000)
-    return `${seconds} giây trước`
+//   const secondsPerMinute = 60
+//   const secondsPerHour = 60 * secondsPerMinute
+//   const secondsPerDay = 24 * secondsPerHour
+//   const secondsPerWeek = 7 * secondsPerDay
+//   const secondsPerMonth = 30 * secondsPerDay
+//   const secondsPerYear = 365 * secondsPerDay
+
+//   if (timeDelta >= secondsPerYear * 1000) {
+//     const years = Math.floor(timeDelta / (secondsPerYear * 1000))
+//     return `${years} năm trước`
+//   } else if (timeDelta >= secondsPerMonth * 1000) {
+//     const months = Math.floor(timeDelta / (secondsPerMonth * 1000))
+//     return `${months} tháng trước`
+//   } else if (timeDelta >= secondsPerWeek * 1000) {
+//     const weeks = Math.floor(timeDelta / (secondsPerWeek * 1000))
+//     return `${weeks} tuần trước`
+//   } else if (timeDelta >= secondsPerDay * 1000) {
+//     const days = Math.floor(timeDelta / (secondsPerDay * 1000))
+//     return `${days} ngày trước`
+//   } else if (timeDelta >= secondsPerHour * 1000) {
+//     const hours = Math.floor(timeDelta / (secondsPerHour * 1000))
+//     return `${hours} giờ trước`
+//   } else if (timeDelta >= secondsPerMinute * 1000) {
+//     const minutes = Math.floor(timeDelta / (secondsPerMinute * 1000))
+//     return `${minutes} phút trước`
+//   } else {
+//     const seconds = Math.floor(timeDelta / 1000)
+//     return `${seconds} giây trước`
+//   }
+// }
+
+export const convertToRelativeTime = (createdAtInString: string) => {
+  const createdAtInDate = new Date(createdAtInString)
+  const currentDateTime = new Date()
+  const diffInMs = currentDateTime.getTime() - createdAtInDate.getTime()
+  const diffInSecond = Math.floor(diffInMs / 1000)
+  const diffInMinute = Math.floor(diffInMs / 60000)
+  const diffInHours = Math.floor(diffInMs / 3600000)
+  const diffInDay = Math.floor(diffInMs / 86400000)
+
+  let timeDifference = ' '
+
+  if (diffInDay >= 1) {
+    timeDifference = `${diffInDay} ngày trước`
+  } else if (diffInHours >= 1) {
+    timeDifference = `${diffInHours} giờ trước`
+  } else if (diffInMinute >= 1) {
+    timeDifference = `${diffInMinute} phút trước`
+  } else if (diffInSecond >= 1) {
+    timeDifference = `${diffInSecond} giây trước`
   }
+
+  return timeDifference
 }

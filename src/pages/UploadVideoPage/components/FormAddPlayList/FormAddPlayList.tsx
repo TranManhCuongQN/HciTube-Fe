@@ -102,7 +102,11 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
                   >
                     Hủy
                   </Button>
-                  <Button className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm' type='submit'>
+                  <Button
+                    className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
+                    type='submit'
+                    disabled={createPlaylistMutation.isLoading}
+                  >
                     Tạo
                   </Button>
                 </div>
