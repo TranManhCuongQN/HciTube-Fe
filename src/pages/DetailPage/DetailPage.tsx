@@ -17,7 +17,8 @@ const DetailPage = () => {
     queryFn: () => videoApi.getVideoById(id as string)
   })
 
-  console.log('data:', data)
+
+  // console.log('data:', data)
 
   const handleTheaterMode = (theaterMode: any) => {
     setIsTheaterMode(theaterMode)
@@ -70,7 +71,7 @@ const DetailPage = () => {
           className={`${
             isTheaterMode
               ? ' min-h-screen lg:mt-0 lg:flex-col lg:px-0'
-              : ' container min-h-screen px-3 pb-5 lg:mt-2 lg:flex lg:items-start lg:gap-x-5 lg:px-24'
+              : ' container min-h-screen pb-5 lg:mt-2 lg:flex lg:items-start lg:gap-x-5 lg:px-24'
           } `}
         >
           <div

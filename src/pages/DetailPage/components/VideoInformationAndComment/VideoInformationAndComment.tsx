@@ -15,6 +15,8 @@ import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
 import { NavLink } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
+import {FacebookShareButton, FacebookIcon} from "react-share";
+
 
 interface VideoInformationAndCommentProps {
   data: VideoItem
@@ -182,11 +184,12 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleRemoveListFavorite = () => {
     removeListFavoriteMutation.mutate()
   }
+  const shareUrl = 'https://www.youtube.com/watch?v=9WzIACv_mxs'
 
   return (
     <>
-      <div className='flex flex-1 flex-col bg-white dark:bg-[#0f0f0f]'>
-        <span className='text-xs font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-base'>
+      <div className='flex flex-1 flex-col px-3 lg:px-0 bg-white dark:bg-[#0f0f0f]'>
+        <span className='text-lg font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-xl'>
           {data?.video?.title}
         </span>
         <div className='mt-2 flex w-full flex-wrap items-center justify-between gap-2'>
@@ -249,8 +252,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               </button>
             ))}
 
-          {/* //* Group */}
-          <div className='flex flex-wrap items-center gap-x-5 gap-y-3 max-md:hidden'>
+          {/* //* Tablet & Desktop Group */}
+          <div className='flex flex-wrap lg:w-full items-center lg:justify-between gap-x-5 gap-y-3 max-md:hidden'>
             <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <button className='flex items-center gap-x-2 ' onClick={handleLikeVideo}>
                 {isLike ? (
@@ -288,44 +291,52 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 )}
               </button>
             </div>
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
-              <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
-            </button>
+            <div className="flex gap-x-3">
+              <FacebookShareButton 
+                  url={shareUrl}
+                >
+                <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
+                  <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
+                  <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
+                </button>
+              </FacebookShareButton>
 
-            {isFavorite && (
-              <button
-                className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
-                onClick={handleRemoveListFavorite}
-              >
-                <AiFillHeart className='text-red-600 md:h-5 md:w-5 ' />
-                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                  Xóa khỏi danh sách yêu thích
-                </span>{' '}
+
+              {isFavorite && (
+                <button
+                  className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
+                  onClick={handleRemoveListFavorite}
+                >
+                  <AiFillHeart className='text-red-600 md:h-5 md:w-5 ' />
+                  <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                    Xóa khỏi danh sách yêu thích
+                  </span>{' '}
+                </button>
+              )}
+
+              {!isFavorite && (
+                <button
+                  className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
+                  onClick={handleAddListFavorite}
+                >
+                  {' '}
+                  <AiOutlineHeart className='text-black dark:text-white md:h-5 md:w-5 ' />
+                  <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
+                    Thêm vào danh sách yêu thích
+                  </span>{' '}
+                </button>
+              )}
+
+              <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
+                <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Thêm vào playlist</span>
               </button>
-            )}
-
-            {!isFavorite && (
-              <button
-                className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
-                onClick={handleAddListFavorite}
-              >
-                {' '}
-                <AiOutlineHeart className='text-black dark:text-white md:h-5 md:w-5 ' />
-                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                  Thêm vào danh sách yêu thích
-                </span>{' '}
-              </button>
-            )}
-
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
-              <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Thêm vào playlist</span>
-            </button>
+            </div>
+            
           </div>
         </div>
 
-        {/* //* Group */}
+        {/* //* Mobile Group */}
         <div className='mt-3 flex flex-wrap items-center gap-x-5 gap-y-3 md:hidden'>
           <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
             <button className='flex items-center gap-x-2 ' onClick={handleLikeVideo}>
@@ -364,10 +375,15 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               )}
             </button>
           </div>
-          <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
-            <TbShare3 className='text-black dark:text-white' />
-            <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
-          </button>
+
+          <FacebookShareButton url={shareUrl}>
+            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
+              <TbShare3 className='text-black dark:text-white' />
+              <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
+            </button>
+          </FacebookShareButton>
+
+          
           {isFavorite && (
             <button
               className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'
