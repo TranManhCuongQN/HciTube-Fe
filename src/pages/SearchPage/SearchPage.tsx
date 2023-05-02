@@ -33,7 +33,6 @@ const uploadDateItems = [
     value: 'thisYear'
   }
 ]
-const typeItems = ['Video', 'Kênh', 'Danh sách phát', 'Phim']
 const durationItems = [
   {
     id: 1,
@@ -91,6 +90,16 @@ const SearchPage = () => {
       search: createSearchParams({
         ...queryConfig,
         timeRange: value
+      }).toString()
+    })
+  }
+
+  const handleClickTypeFilter = (value: string) => {
+    navigate({
+      pathname: path.search,
+      search: createSearchParams({
+        ...queryConfig,
+        category: value
       }).toString()
     })
   }
@@ -317,13 +326,14 @@ const SearchPage = () => {
                     <h1 className='my-1 border-b border-b-[rgba(0,0,0,0.1)] py-4 text-xs font-bold uppercase text-[#0f0f0f] dark:border-b-gray-600 dark:text-[#f1f1f1]'>
                       Thể loại
                     </h1>
-                    {typeItems.map((item, index) => {
+                    {dataCategories?.data.data.map((item, index) => {
                       return (
                         <button
                           className='flex cursor-pointer pt-4 text-sm font-semibold max-md:justify-between '
                           key={index}
+                          onClick={() => handleClickTypeFilter(item._id)}
                         >
-                          <span>{item}</span>
+                          <span>{item.name}</span>
                           <BsCheck className='filter__check text-xl transition-all duration-200 md:ml-4' />
                         </button>
                       )
