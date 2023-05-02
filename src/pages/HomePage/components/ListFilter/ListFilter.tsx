@@ -20,7 +20,6 @@ const ListFilter = () => {
     queryFn: () => categoryAPI.getCategories()
   })
 
-  console.log('dataCategories', dataCategories)
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slidePrev()

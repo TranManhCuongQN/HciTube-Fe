@@ -1,3 +1,4 @@
+import { QueryConfig } from 'src/types/QueryConfig.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import { UploadVideo, Video, VideoItem } from 'src/types/video.type'
 import http from 'src/utils/http'
@@ -26,6 +27,9 @@ const videoApi = {
   },
   setAction: (data: { action: string; video: string }) => {
     return http.patch(`${URL_GET_VIDEO}/action`, data)
+  },
+  searchVideo: (params: QueryConfig) => {
+    return http.get<SuccessResponse<Video[]>>(`${URL_GET_VIDEO}/search-videos`, { params })
   }
 }
 export default videoApi
