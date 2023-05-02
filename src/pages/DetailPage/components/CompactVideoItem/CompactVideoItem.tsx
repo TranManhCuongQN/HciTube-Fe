@@ -10,7 +10,7 @@ const CompactVideoItem = () => {
     queryKey: 'videoList',
     queryFn: () => videoApi.getVideoAll()
   })
-  console.log(data)
+  // console.log(data)
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
       <ListFilter />
