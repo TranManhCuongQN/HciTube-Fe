@@ -14,35 +14,42 @@ const CompactVideoItem = () => {
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
       <ListFilter />
-      <div className='mt-2 max-md:mx-[-12px] flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
+      <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
         {(data?.data.data.length as number) > 0 &&
           data?.data.data.map((item) => (
-            <NavLink to={`/detail/${item._id}`} className='flex flex-col lg:flex-row lg:items-center gap-x-2' key={item._id}>
+            <NavLink
+              to={`/detail/${item._id}`}
+              className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
+              key={item._id}
+            >
               <img
                 src={item?.thumbnail}
                 alt='thumbnail'
-                className='flex-shrink-0 lg:rounded-lg object-cover aspect-video w-full lg:w-40 h-full'
+                className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
               />
 
-              <div className='flex m-3 lg:hidden text-black dark:text-white '>
-                <img src={item?.channel?.avatar} alt="" className="rounded-full aspect-square w-10 h-10 object-cover mt-2"/>
+              <div className='m-3 flex text-black dark:text-white lg:hidden '>
+                <img
+                  src={item?.channel?.avatar}
+                  alt=''
+                  className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                />
 
-                <div className='flex lg:hidden ml-3 mt-2 flex-col flex-wrap text-black dark:text-white '>
-                  <span className=' text-sm font-semibold line-clamp-2 mb-1'>{item?.title}</span>
-                  <div className="flex gap-x-1 items-center">
+                <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
+                  <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
+                  <div className='flex items-center gap-x-1'>
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
                       {`${item?.channel?.fullName} `}
                     </span>
                     <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                      
                       {convertNumberToDisplayString(item?.view as number)} lượt xem
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className='hidden max-sm:px-3 lg:flex h-16 flex-col flex-wrap justify-evenly  text-black dark:text-white md:h-20'>
+              <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
                 <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
                 <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
                   {item?.channel?.fullName}

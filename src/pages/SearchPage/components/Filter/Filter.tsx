@@ -82,14 +82,14 @@ const Filter = () => {
   useEffect(() => {
     if (timeRange) {
       const index = uploadDateItems.findIndex((item) => item.value === timeRange)
-      setUpdateFilterIndex(index)
+      setUpdateFilterIndex(uploadDateItems[index].id)
     }
     if (category) {
       setTypeFilterIndex(category)
     }
     if (sortBy) {
       const index = orderItems.findIndex((item) => item.value === sortBy)
-      setOrderFilterIndex(index)
+      setOrderFilterIndex(orderItems[index].id)
     }
     if (duration_max) {
       if (duration_max === '240') {

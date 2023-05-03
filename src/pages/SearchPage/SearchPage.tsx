@@ -6,12 +6,18 @@ import Filter from './components/Filter'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
+import { BsSearch } from 'react-icons/bs'
+import Skeleton from 'src/components/Skeleton'
 
 const SearchPage = () => {
   const filterRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
 
-  const { data: getVideo } = useQuery({
+  const {
+    data: getVideo,
+    isSuccess,
+    isLoading
+  } = useQuery({
     queryKey: ['getVideo', queryConfig],
     queryFn: () => videoApi.searchVideo(queryConfig)
   })
@@ -65,8 +71,34 @@ const SearchPage = () => {
 
               </div> */}
 
-              {(getVideo?.data.data.length as number) > 0 &&
+              {isLoading &&
+                Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      className='mt-4 flex w-full cursor-pointer flex-col gap-y-5 lg:flex-row lg:gap-x-5'
+                      key={index}
+                    >
+                      <Skeleton className='h-56 w-full flex-shrink-0 md:rounded-xl lg:w-[360px]' />
+                      <div className='flex w-full flex-col gap-y-5'>
+                        <Skeleton className='h-4 w-full rounded-lg' />
+                        <Skeleton className='h-4 w-1/2 rounded-lg' />
+                        <Skeleton className='h-4 w-1/3 rounded-lg' />
+                        <Skeleton className='h-4 w-1/4 rounded-lg' />
+                      </div>
+                    </div>
+                  ))}
+
+              {isSuccess &&
+                (getVideo?.data.data.length as number) > 0 &&
                 getVideo?.data.data.map((item) => <VideoItem key={item._id} data={item} />)}
+
+              {isSuccess && (getVideo.data.data.length as number) === 0 && (
+                <div className='flex h-full w-full items-center justify-center gap-x-8'>
+                  <BsSearch className='text-6xl text-gray-400 dark:text-gray-500' />
+                  <span className='mt-4 text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
