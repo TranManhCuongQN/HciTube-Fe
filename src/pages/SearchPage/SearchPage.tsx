@@ -1,5 +1,17 @@
 import AsideBar from '../HomePage/components/AsideBar'
 import VideoItem from './components/VideoItem/'
+
+import Lauv from 'src/assets/Lauv.mp4'
+import {GiSettingsKnobs} from 'react-icons/gi'
+import {BsCheck} from 'react-icons/bs'
+import { RefObject, useEffect, useState, useRef, useCallback } from 'react'
+import { Ref } from 'react-hook-form'
+import {GrClose} from 'react-icons/gr'
+import Filter from './components/Filter'
+
+const SearchPage = () => {
+  const filterRef = useRef<HTMLDivElement>(null);
+
 import { GiSettingsKnobs } from 'react-icons/gi'
 import { BsCheck } from 'react-icons/bs'
 import { RefObject, useEffect, useRef, useState } from 'react'
@@ -219,70 +231,25 @@ const SearchPage = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (uploadDateFilterRef.current) {
-      uploadDateFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(uploadDateFilterRef, clickedFilterIndex))
-      })
-    }
-    return () => {
-      if (uploadDateFilterRef.current) {
-        uploadDateFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-          node.removeEventListener('click', () => handleClickFilterNode(uploadDateFilterRef, clickedFilterIndex))
-        })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (typeFilterRef.current) {
-      typeFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(typeFilterRef, clickedFilterIndex))
-      })
-    }
-    return () => {
-      if (typeFilterRef.current) {
-        typeFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-          node.removeEventListener('click', () => handleClickFilterNode(typeFilterRef, clickedFilterIndex))
-        })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (durationFilterRef.current) {
-      durationFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(durationFilterRef, clickedFilterIndex))
-      })
-    }
-    return () => {
-      if (durationFilterRef.current) {
-        durationFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-          node.removeEventListener('click', () => handleClickFilterNode(durationFilterRef, clickedFilterIndex))
-        })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    if (orderFilterRef.current) {
-      orderFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-        node.addEventListener('click', () => handleClickFilterNode(orderFilterRef, clickedFilterIndex))
-      })
-    }
-    return () => {
-      if (orderFilterRef.current) {
-        orderFilterRef.current.querySelectorAll('button').forEach((node, clickedFilterIndex) => {
-          node.removeEventListener('click', () => handleClickFilterNode(orderFilterRef, clickedFilterIndex))
-        })
-      }
-    }
-  }, [])
-
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
       <AsideBar />
       <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
+
+        <div className="flex flex-col items-center justify-center w-full h-full md:px-3 lg:px-6 lg:py-4">
+          <div className="lg:grid lg:grid-cols-1 w-full max-w-[1096px] h-full">
+            <div className="flex flex-col lg:col-span-1">
+              <div className="max-lg:ml-3 border-b border-[rgba(0, 0, 0, 0.1)] dark:border-gray-600 py-2">
+                <button onClick={handleClickFilterBtn} className="flex items-center hover:bg-[#f2f2f2] px-4 py-2 rounded-full dark:hover:bg-[#272727]">
+                  <GiSettingsKnobs className="text-black dark:text-white rotate-90 mr-2 w-5 h-5"/>
+                  <span className="font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base">
+                    Bộ lọc
+                  </span>
+                </button>
+            
+                <div ref={filterRef} className="hidden grid-cols-1 md:grid-cols-4 pl-4">
+                  <Filter/>
+
         <div className='flex h-full w-full flex-col justify-center md:px-3 lg:px-6 lg:py-4'>
           <div className='h-full w-full max-w-[1280px] lg:grid lg:grid-cols-3'>
             <div className='flex flex-col lg:col-span-2'>
@@ -381,6 +348,7 @@ const SearchPage = () => {
                       )
                     })}
                   </div>
+
                 </div>
               </div>
 

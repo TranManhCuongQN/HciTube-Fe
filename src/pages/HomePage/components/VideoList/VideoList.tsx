@@ -2,6 +2,7 @@ import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import VideoItem from '../VideoItem/VideoItem'
+import Img404 from 'src/assets/404.svg'
 
 const VideoList = () => {
   const {
@@ -23,7 +24,7 @@ const VideoList = () => {
 
   return (
     <div
-      className={`grid h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
+      className={`${isError ? "flex justify-center items-center h-[100vh] " : "grid" } h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
     >
       {isLoading &&
         Array(6)
@@ -47,13 +48,14 @@ const VideoList = () => {
       {isSuccess && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
 
       {isError && (
-        <div className='flex h-full w-full flex-col items-center justify-center gap-y-3'>
+        <div className='flex h-[100vh] w-full flex-col items-center justify-center gap-y-5'>
+          <img src={Img404} alt="404" className="h-auto w-[20%] "  />
           <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Kết nối Internet</span>
           <span className='text-xs text-black dark:text-white md:text-sm'>
             Không thể kết nối internet. Vui lòng kiểm tra mạng
           </span>
           <button
-            className='rounded border-2 border-blue-700 p-2 text-xs font-semibold uppercase text-blue-700 md:text-sm'
+            className='rounded border-2 border-blue-700 p-2 text-xs font-semibold uppercase text-blue-700 md:text-sm hover:bg-blue-700 hover:text-white'
             onClick={handleGetData}
           >
             Thử lại
