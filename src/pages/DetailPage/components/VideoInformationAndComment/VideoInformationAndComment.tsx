@@ -15,7 +15,7 @@ import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
 import { NavLink, useNavigate } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
-import {FacebookShareButton, FacebookIcon} from "react-share";
+import { FacebookShareButton, FacebookIcon } from 'react-share'
 import { setProfileToLocalStorage } from 'src/utils/auth'
 import DialogCustom from 'src/components/DialogCustome'
 import playListAPI from 'src/api/playlist.api'
@@ -26,7 +26,6 @@ import { uploadVideoSchema, uploadVideoSchemaType } from 'src/utils/rules'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Editor from 'src/components/Editor'
-
 
 interface VideoInformationAndCommentProps {
   data: VideoItem
@@ -374,7 +373,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   return (
     <>
-      <div className='flex flex-1 flex-col px-3 lg:px-0 bg-white dark:bg-[#0f0f0f]'>
+      <div className='flex flex-1 flex-col bg-white px-3 dark:bg-[#0f0f0f] lg:px-0'>
         <span className='text-lg font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-xl'>
           {data?.video?.title}
         </span>
@@ -439,7 +438,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             ))}
 
           {/* //* Tablet & Desktop Group */}
-          <div className='flex flex-wrap lg:w-full items-center lg:justify-between gap-x-5 gap-y-3 max-md:hidden'>
+          <div className='flex flex-wrap items-center gap-x-5 gap-y-3 max-md:hidden lg:w-full lg:justify-between'>
             <div className='flex items-center rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'>
               <button className='flex items-center gap-x-2 ' onClick={handleLikeVideo}>
                 {isLike ? (
@@ -477,16 +476,13 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 )}
               </button>
             </div>
-            <div className="flex gap-x-3">
-              <FacebookShareButton 
-                  url={shareUrl}
-                >
+            <div className='flex gap-x-3'>
+              <FacebookShareButton url={shareUrl}>
                 <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
                   <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
                   <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
                 </button>
               </FacebookShareButton>
-
 
               {isFavorite && (
                 <button
@@ -499,7 +495,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   </span>{' '}
                 </button>
               )}
-
 
               {!isFavorite && (
                 <button
@@ -514,15 +509,14 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 </button>
               )}
 
-
-            <button
-              className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
-              onClick={handleAddPlayList}
-            >
-              <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Thêm vào playlist</span>
-            </button>
-
+              <button
+                className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3'
+                onClick={handleAddPlayList}
+              >
+                <RiMenuAddFill className='text-black dark:text-white md:h-5 md:w-5 ' />
+                <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Thêm vào playlist</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -573,7 +567,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             </button>
           </FacebookShareButton>
 
-          
           {isFavorite && (
             <button
               className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'
@@ -640,6 +633,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
           avatar={data?.video?.channel?.avatar as string}
         />
       </div>
+
       <DialogCustom isOpen={showModal} handleClose={handleCloseModal}>
         <div className='relative z-50 mb-5 overflow-hidden overflow-y-auto bg-white shadow dark:bg-[#282828] max-lg:w-[300px] max-sm:h-96 max-[320px]:h-72 lg:h-[320px] lg:w-[500px]'>
           <div className='flex flex-col px-5'>
