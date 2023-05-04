@@ -5,6 +5,7 @@ import ToolTip from 'src/components/ToolTip'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import useQueryConfig from 'src/hook/useQueryConfig'
+import { omit } from 'lodash'
 
 const Search = () => {
   const [keyword, setKeyword] = useState<string>('')
@@ -16,10 +17,17 @@ const Search = () => {
   const navigate = useNavigate()
   const queryConFig = useQueryConfig()
   const handleClickSearch = () => {
-    const config = { ...queryConFig, keyword: keyword }
     navigate({
       pathname: path.search,
-      search: createSearchParams(config).toString()
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConFig,
+            keyword: keyword
+          },
+          ['category', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+        )
+      ).toString()
     })
   }
   return (

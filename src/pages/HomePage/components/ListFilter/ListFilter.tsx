@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 // eslint-disable-next-line import/no-unresolved
 import 'swiper/css'
@@ -7,19 +7,32 @@ import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import classNames from 'classnames'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
-import { useQuery } from 'react-query'
-import categoryAPI from 'src/api/category.api'
-const ListFilter = () => {
-  const [filter, setFilter] = useState<string>('Tất cả')
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import path from 'src/constants/path'
+import { omit } from 'lodash'
+import useQueryConfig from 'src/hook/useQueryConfig'
+
+interface ListFilterProps {
+  dataCategories: {
+    id: string
+    name: string
+  }[]
+  filter: string
+  setFilter: (id: string) => void
+}
+const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
 
-  const { data: dataCategories } = useQuery({
-    queryKey: 'categories',
-    queryFn: () => categoryAPI.getCategories()
-  })
-
+  useEffect(() => {
+    if (category) {
+      setFilter(category)
+    }
+  }, [category, setFilter])
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
       swiperRef.current.swiper.slidePrev()
@@ -37,6 +50,22 @@ const ListFilter = () => {
     console.log(innerWidth)
 
     setIsEnd(swiper.activeIndex === swiper.slides.length - 5)
+  }
+
+  const handleClick = (item: string) => {
+    setFilter(item)
+    navigate({
+      pathname: path.home,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            category: item
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+        )
+      ).toString()
+    })
   }
   return (
     <>
@@ -63,14 +92,14 @@ const ListFilter = () => {
             handleSwiper(swiper)
           }}
         >
-          {dataCategories?.data.data.map((item, index) => (
+          {dataCategories.map((item, index) => (
             <SwiperSlide key={index}>
               <button
                 className={classNames('mr-3 h-8 whitespace-nowrap rounded-lg px-3 max-[320px]:py-1', {
-                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.name,
-                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.name
+                  'bg-[#f2f2f2]  text-black dark:bg-[#272727]  dark:text-white ': filter !== item.id,
+                  'bg-black text-white dark:bg-[#f1f1f1] dark:text-black': filter === item.id
                 })}
-                onClick={() => setFilter(item.name)}
+                onClick={() => handleClick(item.id)}
               >
                 <span className='text-sm'>{item.name}</span>
               </button>
