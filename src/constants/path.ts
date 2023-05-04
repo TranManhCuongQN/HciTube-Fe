@@ -16,6 +16,9 @@ const path = {
   video: ':id/video',
   playList: ':id/playlist',
   about: ':id/about',
-  verifyResetPass: '/verify-reset-password'
+  verifyResetPass: '/verify-reset-password',
+  library: '/library',
+  history: '/history',
+  likedPlaylist: '/liked-playlist'
 } as const
 export default path

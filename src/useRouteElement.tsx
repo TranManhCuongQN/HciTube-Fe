@@ -24,7 +24,9 @@ import UploadVideoPage from './pages/UploadVideoPage'
 import VerifyPage from './pages/VerifyPage'
 import SearchPage from './pages/SearchPage'
 import VerifyResetPassPage from './pages/VerifyResetPassPage'
-
+import LibraryPage from './pages/LibraryPage/LibraryPage'
+import HistoryPage from './pages/HistoryPage'
+import LikedPlaylistPage from './pages/LikedPlaylistPage'
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
   return isVerify === '2' ? <Outlet /> : <Navigate to='/' />
@@ -132,6 +134,18 @@ const useRouteElement = () => {
             {
               path: path.detail,
               element: <DetailPage />
+            },
+            {
+              path: path.library,
+              element: <LibraryPage />
+            },
+            {
+              path: path.history,
+              element: <HistoryPage />
+            },
+            {
+              path: path.likedPlaylist,
+              element: <LikedPlaylistPage />
             },
             {
               element: <ChannelPage />,

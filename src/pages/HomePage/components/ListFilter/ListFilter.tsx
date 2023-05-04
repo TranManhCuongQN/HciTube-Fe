@@ -69,7 +69,7 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
   }
   return (
     <>
-      <div className='relative flex max-w-full items-center justify-between gap-x-5 py-2 px-3'>
+      <div className='relative flex max-w-full items-center justify-between gap-x-5 py-2 px-3 xl:px-8'>
         <div
           className={`absolute left-0 z-20 h-8 w-8 bg-white dark:bg-[#0f0f0f] md:ml-2 md:w-9 lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
