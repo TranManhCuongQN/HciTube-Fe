@@ -1,17 +1,29 @@
 import AsideBar from '../HomePage/components/AsideBar'
 import VideoItem from './components/VideoItem/'
 import { GiSettingsKnobs } from 'react-icons/gi'
-import { useRef } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import Filter from './components/Filter'
 import useQueryConfig from 'src/hook/useQueryConfig'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import videoApi from 'src/api/video.api'
 import { BsSearch } from 'react-icons/bs'
 import Skeleton from 'src/components/Skeleton'
+import { convertNumberToDisplayString } from 'src/utils/utils'
+import { Link, useNavigate } from 'react-router-dom'
+import { AppContext } from 'src/context/app.context'
+import parse from 'html-react-parser'
+import { IoMdNotificationsOutline } from 'react-icons/io'
+import { subscriberApi } from 'src/api/subscriber.api'
+import { toast } from 'react-toastify'
+import { setProfileToLocalStorage } from 'src/utils/auth'
 
 const SearchPage = () => {
   const filterRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
+  const { profile, setProfile, isVerify } = useContext(AppContext)
+  const [isSubscribed, setIsSubscribed] = useState<[]>([])
+  const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const {
     data: getVideo,
@@ -27,6 +39,78 @@ const SearchPage = () => {
       filterRef.current.classList.toggle('active-grid')
     }
   }
+
+  useEffect(() => {
+    if ((getVideo?.data.data.users.length as number) > 0) {
+      const isSubscribedArr = getVideo?.data.data.users.map((item) => item.subscribers)
+      console.log('isSubscribedArr:', isSubscribedArr)
+      const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item === profile?.id))
+      setIsSubscribed(isSubscribed as [])
+    }
+  }, [getVideo?.data.data.users, profile?.id])
+
+  const subscribeChannelMutation = useMutation({
+    mutationFn: subscriberApi.subscribeChannel,
+    onSuccess: (data) => {
+      toast.dismiss()
+      toast.success('Đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      console.log('dataFolloing:', data.data.data.user)
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      queryClient.invalidateQueries('getVideo')
+    }
+  })
+
+  const deleteSubscribeChannelMutation = useMutation({
+    mutationFn: subscriberApi.deleteSubscribeChannel,
+    onSuccess: (data) => {
+      toast.dismiss()
+      toast.success('Hủy đăng ký kênh thành công', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      setProfile(data.data.data.user)
+      setProfileToLocalStorage(data.data.data.user)
+      queryClient.invalidateQueries('getVideo')
+    }
+  })
+
+  const handleUnSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
+    deleteSubscribeChannelMutation.mutate({ channel: id })
+  }
+
+  const handleSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate('/login')
+      return
+    }
+    subscribeChannelMutation.mutate({ channel: id })
+  }
+
+  console.log('getVideo:', getVideo?.data.data)
 
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
@@ -51,25 +135,54 @@ const SearchPage = () => {
                 </div>
               </div>
 
-              {/* <div className="w-full flex items-center border-b border-[rgba(0, 0, 0, 0.1)] dark:border-gray-600 py-4 cursor-pointer max-lg:px-3">
-                  <div className="w-[120px] md:w-[200px] lg:w-[360px] flex lg:justify-center mr-3 ">
-                    <img 
-                      src="https://yt3.googleusercontent.com/9DTziUXmosxUCZUqErlwiIBfPOCcDSm6sU1scc7rkCWUJW7kvu6rTjOx5SiR3Ze4E2V0oE4OCg=s176-c-k-c0x00ffffff-no-rj-mo" alt="" 
-                      className="w-24 h-24 md:w-[8.5rem] md:h-[8.5rem] rounded-full"
-                    />
-                  </div>
-                  <div className="flex flex-1 flex-row items-center md:flex-col md:items-start gap-y-3 justify-between lg:flex-row lg:items-center">
-                    <div className="flex flex-col">
-                      <span className="text-lg dark:text-[#f1f1f1] font-medium mb-2">Charlie Puth</span>
-                      <span className="hidden md:block text-xs dark:text-[#aaa] font-normal">@charlieputh - 21,9 Tr người đăng ký</span>
-                      <span className="md:hidden text-xs dark:text-[#aaa] font-normal">@charlieputh</span>
-                      <span className="md:hidden text-xs dark:text-[#aaa] font-normal">21,9 Tr người đăng ký</span>
-
+              {isSuccess &&
+                getVideo.data.data.users.length > 0 &&
+                getVideo.data.data.users.map((item, index) => (
+                  <Link
+                    to={`/${item._id}/channel`}
+                    className='border-[rgba(0, 0, 0, 0.1)] relative z-0 flex w-full cursor-pointer items-center border-b py-4 dark:border-gray-600 max-lg:px-3'
+                    key={item._id}
+                  >
+                    <div className='mr-3 flex w-[120px] md:w-[200px] lg:w-[360px] lg:justify-center '>
+                      <img src={item.avatar} alt='' className='h-24 w-24 rounded-full md:h-[8.5rem] md:w-[8.5rem]' />
                     </div>
-                    <button className=" font-bold text-sm px-4 py-2 h-fit rounded-full bg-black text-white hover:bg-[#4d4d4d] dark:hover:bg-[#E5E5E5]  dark:bg-white dark:text-black">Đăng ký</button>
-                  </div>
+                    <div className='flex flex-1 flex-row items-center justify-between gap-y-3 md:flex-col md:items-start lg:flex-row lg:items-center'>
+                      <div className='flex flex-col gap-y-2'>
+                        <span className='text-lg font-medium dark:text-[#f1f1f1]'>{item.fullName}</span>
+                        <span className='hidden text-xs font-normal dark:text-[#aaa] md:block'>
+                          {convertNumberToDisplayString(item.subscribers?.length as number)} người đăng ký
+                        </span>
 
-              </div> */}
+                        <span className='text-xs font-normal dark:text-[#aaa] md:hidden'>
+                          {' '}
+                          {convertNumberToDisplayString(item.subscribers?.length as number)} người đăng ký
+                        </span>
+                        <span
+                          className='hidden text-xs font-normal line-clamp-2 dark:text-[#aaa] md:block'
+                          dangerouslySetInnerHTML={{ __html: String(parse((item.description as string) || '')) }}
+                        ></span>
+                      </div>
+
+                      {item._id !== profile?._id &&
+                        (isSubscribed[index] !== -1 ? (
+                          <button
+                            className=' relative z-10 flex flex-shrink-0 items-center gap-x-2 rounded-full bg-[#f2f2f2] px-4 py-2 text-sm  font-bold text-black hover:bg-[#E5E5E5] dark:bg-[#272727] dark:text-white dark:hover:bg-[#4d4d4d]'
+                            onClick={(e) => handleUnSubscribeChannel(item._id as string, e)}
+                          >
+                            <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
+                            Đã đăng ký
+                          </button>
+                        ) : (
+                          <button
+                            className=' relative z-10 h-fit flex-shrink-0 rounded-full bg-black px-4 py-2 text-sm font-bold  text-white hover:bg-[#4d4d4d] dark:bg-white dark:text-black dark:hover:bg-[#E5E5E5]'
+                            onClick={(e) => handleSubscribeChannel(item._id as string, e)}
+                          >
+                            Đăng ký
+                          </button>
+                        ))}
+                    </div>
+                  </Link>
+                ))}
 
               {isLoading &&
                 Array(3)
@@ -90,15 +203,17 @@ const SearchPage = () => {
                   ))}
 
               {isSuccess &&
-                (getVideo?.data.data.length as number) > 0 &&
-                getVideo?.data.data.map((item) => <VideoItem key={item._id} data={item} />)}
+                (getVideo?.data.data.videos.length as number) > 0 &&
+                getVideo?.data.data.videos.map((item) => <VideoItem key={item._id} data={item} />)}
 
-              {isSuccess && (getVideo.data.data.length as number) === 0 && (
-                <div className='flex h-full w-full items-center justify-center gap-x-8'>
-                  <BsSearch className='text-6xl text-gray-400 dark:text-gray-500' />
-                  <span className='mt-4 text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
-                </div>
-              )}
+              {isSuccess &&
+                (getVideo.data.data.videos.length as number) === 0 &&
+                getVideo.data.data.users.length === 0 && (
+                  <div className='flex h-full w-full items-center justify-center gap-x-8'>
+                    <BsSearch className='text-6xl text-gray-400 dark:text-gray-500' />
+                    <span className='mt-4 text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
+                  </div>
+                )}
             </div>
           </div>
         </div>
