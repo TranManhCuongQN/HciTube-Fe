@@ -373,7 +373,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   }
   return (
     <>
-      <div className="w-full lg:hidden mb-3 md:p-2 md:mb-0  border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600 md:border-none">
+      <div className={`${!hasPlaylist ? 'hidden' : ''} w-full lg:hidden mb-3 md:p-2 md:mb-0  border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600 md:border-none`}>
         <Playlist/>
       </div>
       <div className='flex flex-1 flex-col bg-white px-3 dark:bg-[#0f0f0f] lg:px-0'>

@@ -69,7 +69,7 @@ const CompactVideoItem = () => {
 
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
-      <div className={`hidden lg:flex mt-[-0.5rem]`} style={{height: videoHeight}}>
+      <div className={`${!hasPlaylist ? 'hidden' :  'lg:flex'} mt-[-0.5rem]`} style={{height: videoHeight}}>
         <Playlist/>
       </div>
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
