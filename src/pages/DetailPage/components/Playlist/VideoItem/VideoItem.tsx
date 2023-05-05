@@ -1,21 +1,20 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useEffect } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
-import {BsPlayFill} from 'react-icons/bs'
+import { BsPlayFill } from 'react-icons/bs'
+import useQueryConfig from 'src/hook/useQueryConfig'
 
 interface VideoItemProps {
   data: Video
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
+  const queryConfig = useQueryConfig()
+  const { playList } = queryConfig
 
   const { data } = props
-  console.log(props)
-
-
-  let timeout: NodeJS.Timeout
 
   useEffect(() => {
     const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
@@ -23,7 +22,6 @@ const VideoItem = (props: VideoItemProps) => {
       progressRef.current.style.background = `linear-gradient(to right, red ${valPercent}%, rgba(255, 255, 255, 0.3) ${valPercent}%`
     }
   }, [data.watchTime, data.duration])
-
 
   // Format time
   const formatTime = (duration: number) => {
@@ -37,38 +35,40 @@ const VideoItem = (props: VideoItemProps) => {
     return '00:00'
   }
 
-  const active = false;
+  const active = false
 
   return (
-    <NavLink to={`detail/${data._id}`} 
-      className={`${active ? 'bg-[rgba(0,0,0,0.05)] dark:bg-[#212121]' : ''} p-3  lg:ml-[-8px] flex items-center cursor-pointer gap-y-3 w-full hover:bg-[rgba(0,0,0,0.05)] dark:hover:bg-[#212121]`} 
+    <Link
+      to={`/detail/${data._id}?playList=${playList}`}
+      className={`${
+        active ? 'bg-[rgba(0,0,0,0.05)] dark:bg-[#212121]' : ''
+      } flex  w-full cursor-pointer items-center gap-y-3 p-3 hover:bg-[rgba(0,0,0,0.05)] dark:hover:bg-[#212121] lg:ml-[-8px]`}
       role='presentation'
     >
-      <BsPlayFill className={`${active ? 'hidden md:flex ' : 'hidden'} max-lg:pr-3  items-center text-4xl px-1 text-[#606060] dark:text-[#CCB4A3]`}/>
-      <div className='aspect-video w-40 lg:w-24 h-fit mr-2 rounded-lg'>
-        <div className='w-40 lg:w-24 relative overflow-hidden rounded-xl'>
-            <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-40 lg:w-24 object-cover rounded-md ' />
-            <span className='absolute right-1 bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
-              {formatTime(Number(data.duration))}
-            </span>
-            {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
-          </div>
-      </div>
-
-      <div className='flex md:w-full items-start gap-x-3'>
-        <div className='flex flex-col '>
-          <span className='pr-6 text-sm font-semibold text-black line-clamp-2 dark:text-white '>
-            {data?.title}
+      <BsPlayFill
+        className={`${
+          active ? 'hidden md:flex ' : 'hidden'
+        } items-center  px-1 text-4xl text-[#606060] dark:text-[#CCB4A3] max-lg:pr-3`}
+      />
+      <div className='mr-2 aspect-video h-fit w-40 rounded-lg lg:w-24'>
+        <div className='relative w-40 overflow-hidden rounded-xl lg:w-24'>
+          <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-40 rounded-md object-cover lg:w-24 ' />
+          <span className='absolute right-1 bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+            {formatTime(Number(data.duration))}
           </span>
-          <NavLink
-            to={`${data.channel?._id}/channel`}
-            className='font-normal text-gray-500 dark:text-gray-400 text-xs '
-          >
-            {`${(data?.channel as User).fullName}`}
-          </NavLink>
+          {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
         </div>
       </div>
-    </NavLink>
+
+      <div className='flex items-start gap-x-3 md:w-full'>
+        <div className='flex flex-col '>
+          <span className='pr-6 text-sm font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
+          <div className='text-xs font-normal text-gray-500 dark:text-gray-400 '>
+            {`${(data?.channel as User).fullName}`}
+          </div>
+        </div>
+      </div>
+    </Link>
   )
 }
 

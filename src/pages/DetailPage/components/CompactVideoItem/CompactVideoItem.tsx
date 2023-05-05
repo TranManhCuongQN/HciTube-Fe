@@ -8,7 +8,8 @@ import { useState } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import Skeleton from 'src/components/Skeleton'
 import Playlist from '../Playlist'
-
+import playListAPI from 'src/api/playlist.api'
+import { playList } from 'src/types/playList.type'
 
 const categoryAPI = [
   {
@@ -43,6 +44,7 @@ const categoryAPI = [
 
 const CompactVideoItem = () => {
   const queryConfig = useQueryConfig()
+  const { playList } = queryConfig
   const {
     data,
     isLoading: isLoadingGetAll,
@@ -52,11 +54,8 @@ const CompactVideoItem = () => {
     queryFn: () => videoApi.getVideoAll()
   })
   const [filter, setFilter] = useState<string>('1')
-  
-  const hasPlaylist = true;
-  const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`;
-  
 
+  const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`
 
   const {
     data: getVideo,
@@ -67,11 +66,48 @@ const CompactVideoItem = () => {
     queryFn: () => videoApi.searchVideo(queryConfig)
   })
 
+  const {
+    data: dataPlayList,
+    isSuccess: isSuccessPlayList,
+    isLoading: isLoadingPlayList
+  } = useQuery({
+    queryKey: ['playList', playList],
+    queryFn: () => playListAPI.getPlayListVideoById(playList as string)
+  })
+
+  console.log('dataPlayList:', dataPlayList?.data.data)
+
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
-      <div className={`${!hasPlaylist ? 'hidden' :  'lg:flex'} mt-[-0.5rem]`} style={{height: videoHeight}}>
-        <Playlist/>
-      </div>
+      {playList && isLoadingPlayList && (
+        <div className='w-full md:overflow-hidden md:rounded-2xl md:border md:border-[rgba(0,0,0,0.1)] md:dark:border-gray-600 lg:mt-[-0.5rem] '>
+          <div className='flex flex-col gap-y-5 bg-white pt-3 pr-[0.375rem] pl-4 pb-2 dark:bg-[#212121] md:rounded-t-2xl'>
+            <div className='flex h-full w-full flex-col gap-y-5'>
+              <Skeleton className='h-5 w-full rounded-lg' />
+              <Skeleton className='h-5 w-1/2 rounded-lg' />
+            </div>
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div className='flex h-full w-full flex-col' key={index}>
+                  <div className='flex h-full w-full items-start gap-x-3'>
+                    <Skeleton className='h-14 w-24 rounded' />
+                    <div className='flex h-full w-full flex-col gap-y-3'>
+                      <Skeleton className='h-3 w-full rounded' />
+                      <Skeleton className='h-3 w-1/2 rounded' />
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+      {playList && isSuccessPlayList && (dataPlayList?.data.data.videos?.length as number) > 0 && (
+        <div className='mt-[-0.5rem] lg:flex' style={{ height: videoHeight }}>
+          <Playlist data={dataPlayList?.data?.data as playList} />
+        </div>
+      )}
+
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
       <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
         {isLoadingGetAll && (

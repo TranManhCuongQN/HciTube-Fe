@@ -39,7 +39,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const volumeRef = useRef<HTMLInputElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const replayRef = useRef<HTMLDivElement>(null)
-
+  const [playlistSrc, setPlaylistSrc] = useState<string[]>([Lauv, Evy])
   const [videoIndex, setVideoIndex] = useState<number>(0)
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
@@ -67,7 +67,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
     return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
   }
 
-  const handlePlayAndPause = () => {
+  const handlePlayAndPause = useCallback(() => {
     if (!ended) {
       if (playing == false) {
         playVideo()
@@ -75,7 +75,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
         pauseVideo()
       }
     }
-  }
+  }, [ended, playing])
 
   // Update time elapsed
   const updateTimeElapsed = () => {

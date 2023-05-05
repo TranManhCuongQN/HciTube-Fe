@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import playListAPI from 'src/api/playlist.api'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import Video from 'src/components/Video'
-import useQueryConfig from 'src/hook/useQueryConfig'
 import { VideoItem } from 'src/types/video.type'
 import CompactVideoItem from './components/CompactVideoItem'
 import VideoInformationAndComment from './components/VideoInformationAndComment'
@@ -13,20 +11,11 @@ import VideoInformationAndComment from './components/VideoInformationAndComment'
 const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
   const { id } = useParams()
-  const queryConFig = useQueryConfig()
-  const { playList } = queryConFig
 
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['video', id],
     queryFn: () => videoApi.getVideoById(id as string)
   })
-
-  const { data: dataPlayList, isSuccess: isSuccessPlayList } = useQuery({
-    queryKey: ['playList', playList],
-    queryFn: () => playListAPI.getPlayListVideoById(playList as string)
-  })
-
-  console.log('dataPlayList:', dataPlayList)
 
   // console.log('data:', data)
 

@@ -1,14 +1,19 @@
 import React from 'react'
 import { MdOutlinePlaylistPlay } from 'react-icons/md'
-import { Link, useLocation } from 'react-router-dom'
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import playListAPI from 'src/api/playlist.api'
 import { Video } from 'src/types/video.type'
 import Skeleton from 'src/components/Skeleton'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { omit } from 'lodash'
+import { playList } from 'src/types/playList.type'
 
 const PlayList = () => {
   const location = useLocation()
   const id = location.pathname.split('/')[1]
+  const navigate = useNavigate()
+  const queryConFig = useQueryConfig()
 
   const {
     data: dataPlayList,
@@ -19,7 +24,21 @@ const PlayList = () => {
     queryFn: () => playListAPI.getPlayListById(id)
   })
 
-  console.log(dataPlayList)
+  const handlePlayAll = (item: playList) => {
+    navigate({
+      pathname: `/detail/${(item.videos as Video[])[0]._id}`,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConFig,
+            playList: item.id
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+        )
+      ).toString()
+    })
+  }
+  console.log('dataPlayList:', dataPlayList)
   return (
     <>
       {isLoading && (
@@ -40,7 +59,12 @@ const PlayList = () => {
           {dataPlayList?.data.data.map((item) => {
             if ((item.videos as Video[]).length === 0) return null
             return (
-              <div className='flex cursor-pointer flex-col gap-y-2' key={item.id}>
+              <div
+                className='flex cursor-pointer flex-col gap-y-2'
+                key={item.id}
+                role='presentation'
+                onClick={() => handlePlayAll(item)}
+              >
                 <div className='relative h-fit w-full flex-shrink-0 rounded-lg'>
                   <img
                     src={(item?.videos as Video[])[0]?.thumbnail}
