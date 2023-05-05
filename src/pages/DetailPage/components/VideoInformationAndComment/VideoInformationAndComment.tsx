@@ -26,7 +26,7 @@ import { uploadVideoSchema, uploadVideoSchemaType } from 'src/utils/rules'
 import { FormProvider, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Editor from 'src/components/Editor'
-
+import Playlist from '../Playlist'
 interface VideoInformationAndCommentProps {
   data: VideoItem
 }
@@ -46,6 +46,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [showModalAddPlayList, setShowModalAddPlayList] = useState<boolean>(false)
 
   const navigate = useNavigate()
+  const hasPlaylist = true;
 
   console.log('Data:', data)
 
@@ -370,10 +371,13 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleCloseModal = () => {
     setShowModal(false)
   }
-
   return (
     <>
+      <div className={`${!hasPlaylist ? 'hidden' : ''} w-full lg:hidden mb-3 md:p-2 md:mb-0  border-b border-b-[rgba(0,0,0,0.1)] dark:border-b-gray-600 md:border-none`}>
+        <Playlist/>
+      </div>
       <div className='flex flex-1 flex-col bg-white px-3 dark:bg-[#0f0f0f] lg:px-0'>
+        
         <span className='text-lg font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-xl'>
           {data?.video?.title}
         </span>
