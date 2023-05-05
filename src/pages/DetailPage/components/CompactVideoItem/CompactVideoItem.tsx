@@ -7,6 +7,8 @@ import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/u
 import { useState } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import Skeleton from 'src/components/Skeleton'
+import Playlist from '../Playlist'
+
 
 const categoryAPI = [
   {
@@ -38,6 +40,7 @@ const categoryAPI = [
     name: 'Âm nhạc'
   }
 ]
+
 const CompactVideoItem = () => {
   const queryConfig = useQueryConfig()
   const {
@@ -49,7 +52,11 @@ const CompactVideoItem = () => {
     queryFn: () => videoApi.getVideoAll()
   })
   const [filter, setFilter] = useState<string>('1')
-  // console.log(data)
+  
+  const hasPlaylist = true;
+  const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`;
+  
+
 
   const {
     data: getVideo,
@@ -62,6 +69,9 @@ const CompactVideoItem = () => {
 
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
+      <div className={`hidden lg:flex mt-[-0.5rem]`} style={{height: videoHeight}}>
+        <Playlist/>
+      </div>
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
       <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
         {isLoadingGetAll && (
