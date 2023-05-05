@@ -90,7 +90,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
                   )}
                   onClick={() => setValueArrange('comment')}
                 >
-                  Bình luận hàng đầu
+                  Mới nhất xếp trước
                 </button>
                 <button
                   className={classNames(
@@ -101,7 +101,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
                   )}
                   onClick={() => setValueArrange('new')}
                 >
-                  Mới nhất xếp trước
+                  Bình luận hàng đầu
                 </button>
               </div>
             )}

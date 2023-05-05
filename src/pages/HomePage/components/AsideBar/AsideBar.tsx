@@ -49,7 +49,7 @@ const AsideBar = () => {
 
           {/* //* */}
           <NavLink
-            to=''
+            to={path.library}
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
@@ -80,7 +80,7 @@ const AsideBar = () => {
             <span className='text-sm font-semibold text-black dark:text-white'>Xem sau</span>
           </NavLink>
           <NavLink
-            to=''
+            to={path.likedPlaylist}
             className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
@@ -157,7 +157,7 @@ const AsideBar = () => {
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
         <NavLink
-          to=''
+          to={path.library}
           className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
@@ -188,7 +188,7 @@ const AsideBar = () => {
           <span className='text-sm font-semibold text-black dark:text-white'>Video xem sau</span>
         </NavLink>
         <NavLink
-          to=''
+          to={path.likedPlaylist}
           className='mt-2 flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
         >
           <BiLike className='h-6 w-6 text-black dark:text-white' />

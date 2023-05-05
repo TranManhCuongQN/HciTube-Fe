@@ -22,7 +22,6 @@ const VideoItem = (props: VideoItemProps) => {
     }
   }, [data.watchTime, data.duration])
 
-
   // Format time
   const formatTime = (duration: number) => {
     if (duration) {
@@ -36,32 +35,32 @@ const VideoItem = (props: VideoItemProps) => {
   }
 
   return (
-    <NavLink to={`detail/${data._id}`} className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]' role='presentation'>
-      <div
-        className='aspect-video w-40 md:w-full h-fit md:rounded-xl'
-      >
+    <NavLink
+      to={`/detail/${data._id}`}
+      className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]'
+      role='presentation'
+    >
+      <div className='aspect-video h-fit w-40 md:w-full md:rounded-xl'>
         <div className='relative overflow-hidden rounded-xl'>
-            <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
-            <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
-              {formatTime(Number(data?.duration))}
-            </span>
-            {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
-          </div>
+          <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
+          <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+            {formatTime(Number(data?.duration))}
+          </span>
+          {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
+        </div>
       </div>
 
-      <div className='flex w-40 md:w-full items-start gap-x-3'>
+      <div className='flex w-40 items-start gap-x-3 md:w-full'>
         <div className='flex flex-col text-[13px]'>
-          <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white '>
-            {data?.title}
-          </span>
+          <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
           <NavLink
             to={`${data.channel?._id}/channel`}
-            className='font-normal text-gray-500 dark:text-gray-400 text-[11px]'
+            className='text-[11px] font-normal text-gray-500 dark:text-gray-400'
           >
             {(data?.channel as User).fullName}
           </NavLink>
           <div className='flex flex-wrap items-center gap-x-1'>
-            <span className='font-normal line-clamp-1 text-gray-500 dark:text-gray-400 text-[11px]'>
+            <span className='text-[11px] font-normal text-gray-500 line-clamp-1 dark:text-gray-400'>
               {`${data?.view} lượt xem - ${convertToRelativeTime(data?.createdAt as string)}`}
             </span>
           </div>

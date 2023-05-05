@@ -11,7 +11,6 @@ const playListAPI = {
   getPlayList: () => {
     return http.get<SuccessResponse<playList[]>>(`${URL_PLAYLIST}`)
   },
-
   createPlayList: (data: { title: string; description: string }) => {
     return http.post(`${URL_PLAYLIST}`, data)
   },
@@ -26,6 +25,9 @@ const playListAPI = {
   },
   VideoToPlayList: (data: { action: string; video: string; idPlayList: string }) => {
     return http.patch(`${URL_PLAYLIST}/${data.idPlayList}`, { action: data.action, video: data.video })
+  },
+  getPlayListVideoById: (id: string) => {
+    return http.get<SuccessResponse<playList>>(`${URL_PLAYLIST}/${id}`)
   }
 }
 

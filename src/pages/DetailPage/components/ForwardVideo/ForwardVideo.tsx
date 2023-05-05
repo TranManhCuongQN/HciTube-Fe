@@ -46,11 +46,11 @@ const ForwardVideo = () => {
   const navigate = useNavigate()
 
   const handleClickForwardBtn = () => {
-    window.location.href = `${nextVideo?._id}`
+    navigate(`/detail/${nextVideo?._id}`)
   }
 
   if (count == 0) {
-    window.location.href = `${nextVideo?._id}`
+    navigate(`/detail/${nextVideo?._id}`)
   }
 
   return (

@@ -38,8 +38,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
-  const replayRef = useRef<HTMLDivElement>(null);
-
+  const replayRef = useRef<HTMLDivElement>(null)
 
   const [videoIndex, setVideoIndex] = useState<number>(0)
   const [playing, setPlaying] = useState<boolean>(true)
@@ -49,7 +48,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
-  const [ended, setEnded] = useState<boolean>(false);
+  const [ended, setEnded] = useState<boolean>(false)
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -69,7 +68,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   }
 
   const handlePlayAndPause = () => {
-    if(!ended) {
+    if (!ended) {
       if (playing == false) {
         playVideo()
       } else {
@@ -242,7 +241,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
 
   // Change state when the video ends
-  
+
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
       <div className={`${zoomOut ? '' : ''} h-full bg-black`}>
@@ -251,22 +250,18 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
           onClick={() => setHidden(false)}
           role='presentation'
         >
-          {
-            ended &&  <ForwardVideo/>
-          }
+          {ended && <ForwardVideo />}
           <video
             src={urlVideo}
             ref={videoRef}
             onLoadedMetadata={playVideo}
             onTimeUpdate={updateTimeElapsed}
             onEnded={() => {
-              setEnded(true);
+              setEnded(true)
             }}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full`}
             id='Video'
-          >
-  
-          </video>
+          ></video>
           <div
             className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
             role='presentation'
@@ -298,14 +293,14 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                 />
               </div>
               <div className={`${ended ? 'flex' : 'hidden'} mx-16`}>
-                <MdReplay 
+                <MdReplay
                   className={(playing ? '' : 'hidden') + ' p-2 text-[6rem] text-white'}
                   onClick={() => {
-                    setEnded(false);
-                    pauseVideo();
-                    playVideo();
+                    setEnded(false)
+                    pauseVideo()
+                    playVideo()
                   }}
-                    />
+                />
               </div>
               <BiSkipNext onClick={movingForwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
             </div>
@@ -341,13 +336,18 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                     </div>
                   </div>
                   {/* Replay */}
-                  <div ref={replayRef} className={`${ended ? 'lg:flex' : ''} hidden  tooltip-video items-center justify-center cursor-pointer`}>
-                    <MdReplay 
+                  <div
+                    ref={replayRef}
+                    className={`${
+                      ended ? 'lg:flex' : ''
+                    } tooltip-video  hidden cursor-pointer items-center justify-center`}
+                  >
+                    <MdReplay
                       className={(playing ? '' : 'hidden') + ' h-8 w-8 px-1 text-white'}
                       onClick={() => {
-                        setEnded(false);
-                        pauseVideo();
-                        playVideo();
+                        setEnded(false)
+                        pauseVideo()
+                        playVideo()
                       }}
                     />
                     <ToolTip text='Phát lại' keyname='k' />
@@ -360,7 +360,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                     />
                     <ToolTip text='Phát video tiếp theo' keyname='d' />
                   </div>
-                  
+
                   {/* Volume */}
                   <div className='group mr-2 flex max-w-[100px] items-center' id='Volume'>
                     <div
@@ -378,7 +378,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                         <ToolTip text='Bật âm thanh' keyname='m' />
                       </div>
                     </div>
-                    
+
                     <div className='volume-slider-container flex items-center'>
                       <input
                         type='range'
@@ -443,7 +443,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
                   </div>
                 </div>
               </div>
-              
+
               <div className='relative z-40' id='ProgressBar'>
                 {!isUndefined(thumbnailProps) && <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} />}
                 <div className='w-full '>

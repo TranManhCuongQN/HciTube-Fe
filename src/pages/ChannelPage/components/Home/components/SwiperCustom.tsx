@@ -10,12 +10,18 @@ import 'swiper/css/pagination'
 import { playList } from 'src/types/playList.type'
 import parse from 'html-react-parser'
 import { RxDividerHorizontal } from 'react-icons/rx'
-import { NavLink } from 'react-router-dom'
+import { createSearchParams, NavLink, useNavigate } from 'react-router-dom'
+import path from 'src/constants/path'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { omit } from 'lodash'
+import { Video } from 'src/types/video.type'
 
 const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
   const swiperRef = useRef<SwiperRef>(null)
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
+  const navigate = useNavigate()
+  const queryConFig = useQueryConfig()
 
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -44,6 +50,21 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
       setIsEnd(swiper.activeIndex === swiper.slides.length - 5)
     }
   }
+
+  const handlePlayAll = () => {
+    navigate({
+      pathname: `/detail/${(dataVideo.videos as Video[])[0]._id}`,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConFig,
+            playList: dataVideo.id
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+        )
+      ).toString()
+    })
+  }
   return (
     <>
       {(dataVideo.videos?.length as number) > 0 && (
@@ -54,7 +75,10 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
             <span className='text-sm font-semibold text-black dark:text-white max-lg:px-2 md:text-base '>
               {dataVideo?.title}
             </span>
-            <button className='flex items-end gap-x-1 rounded-xl px-3 py-2 hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-sm:py-1 max-sm:px-2'>
+            <button
+              className='flex items-end gap-x-1 rounded-xl px-3 py-2 hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-sm:py-1 max-sm:px-2'
+              onClick={handlePlayAll}
+            >
               <BsFillPlayFill className='h-6 w-6 text-black dark:text-white' />
               <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Phát tất cả</span>
             </button>

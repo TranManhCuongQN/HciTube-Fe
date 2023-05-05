@@ -25,7 +25,7 @@ const Search = () => {
             ...queryConFig,
             keyword: keyword
           },
-          ['category', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          ['category', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
         )
       ).toString()
     })
