@@ -1,27 +1,82 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import playListAPI from 'src/api/playlist.api'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import Video from 'src/components/Video'
-import { VideoItem } from 'src/types/video.type'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { playList } from 'src/types/playList.type'
+import { Video as VideoType, VideoItem } from 'src/types/video.type'
 import CompactVideoItem from './components/CompactVideoItem'
 import VideoInformationAndComment from './components/VideoInformationAndComment'
 
 const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
   const { id } = useParams()
-
+  const queryConfig = useQueryConfig()
+  const [video, setVideo] = useState<VideoType[]>([])
+  const { playList, category } = queryConfig
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['video', id],
     queryFn: () => videoApi.getVideoById(id as string)
   })
 
+  const {
+    data: dataGetAll,
+    isLoading: isLoadingGetAll,
+    isSuccess: isSuccessGetAll
+  } = useQuery({
+    queryKey: 'videoList',
+    queryFn: () => videoApi.getVideoAll(),
+    enabled: category === '1'
+  })
+
+  const {
+    data: dataGetVideo,
+    isSuccess: isSuccessGetVideo,
+    isLoading: isLoadingGetVideo
+  } = useQuery({
+    queryKey: ['getVideo', queryConfig],
+    queryFn: () => videoApi.searchVideo(queryConfig),
+    enabled: category !== '1'
+  })
+
+  const {
+    data: dataGetPlayList,
+    isSuccess: isSuccessGetPlayList,
+    isLoading: isLoadingGetPlayList
+  } = useQuery({
+    queryKey: ['playList', playList],
+    queryFn: () => playListAPI.getPlayListVideoById(playList as string),
+    enabled: Boolean(playList)
+  })
+
   // console.log('data:', data)
+  // console.log('category:', category)
 
   const handleTheaterMode = (theaterMode: any) => {
     setIsTheaterMode(theaterMode)
   }
+
+  useEffect(() => {
+    if (playList) {
+      setVideo(dataGetPlayList?.data.data.videos as VideoType[])
+      return
+    }
+    if (category === '1') {
+      setVideo(dataGetAll?.data.data as VideoType[])
+      return
+    }
+    if (category !== '1') {
+      setVideo(dataGetVideo?.data.data.videos as VideoType[])
+    }
+  }, [playList, category, dataGetPlayList, dataGetAll, dataGetVideo])
+
+  // console.log(
+  //   'VideoType:',
+  //   video?.map((item) => item.video)
+  // )
 
   return (
     <>
@@ -78,13 +133,23 @@ const DetailPage = () => {
               !isTheaterMode && 'flex flex-col bg-white dark:bg-[#0f0f0f] lg:mx-0'
             } video-animation  px-0 lg:w-full`}
           >
-            <Video handleTheaterMode={handleTheaterMode} urlVideo={data?.data.data.video.video} />
+            <Video handleTheaterMode={handleTheaterMode} urlVideo={data?.data.data.video.video} playList={video} />
             {!isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
           </div>
 
           <div className={`${isTheaterMode && 'flex justify-between bg-white dark:bg-[#0f0f0f] lg:gap-x-5 lg:px-24'}`}>
             {isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
-            <CompactVideoItem />
+            <CompactVideoItem
+              dataGetAll={dataGetAll?.data.data as VideoType[]}
+              dataGetPlayList={dataGetPlayList?.data.data as playList}
+              dataGetVideo={dataGetVideo?.data.data.videos as VideoType[]}
+              isSuccessGetVideo={isSuccessGetVideo}
+              isSuccessGetPlayList={isSuccessGetPlayList}
+              isLoadingGetVideo={isLoadingGetVideo}
+              isLoadingGetPlayList={isLoadingGetPlayList}
+              isLoadingGetAllVideo={isLoadingGetAll}
+              isSuccessGetAllVideo={isSuccessGetAll}
+            />
           </div>
         </div>
       )}

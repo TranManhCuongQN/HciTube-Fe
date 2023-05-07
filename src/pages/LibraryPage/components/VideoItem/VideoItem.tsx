@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useEffect } from 'react'
-import { RxDividerHorizontal } from 'react-icons/rx'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
 import { convertToRelativeTime } from 'src/utils/utils'
@@ -11,9 +11,10 @@ interface VideoItemProps {
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
 
   const { data } = props
-  let timeout: NodeJS.Timeout
 
   useEffect(() => {
     const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
@@ -35,8 +36,8 @@ const VideoItem = (props: VideoItemProps) => {
   }
 
   return (
-    <NavLink
-      to={`/detail/${data._id}`}
+    <Link
+      to={`/detail/${data._id}?category=${category || '1'}`}
       className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]'
       role='presentation'
     >
@@ -53,12 +54,12 @@ const VideoItem = (props: VideoItemProps) => {
       <div className='flex w-40 items-start gap-x-3 md:w-full'>
         <div className='flex flex-col text-[13px]'>
           <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
-          <NavLink
-            to={`${data.channel?._id}/channel`}
+          <Link
+            to={`/${data.channel?._id}/channel`}
             className='text-[11px] font-normal text-gray-500 dark:text-gray-400'
           >
             {(data?.channel as User).fullName}
-          </NavLink>
+          </Link>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='text-[11px] font-normal text-gray-500 line-clamp-1 dark:text-gray-400'>
               {`${data?.view} lượt xem - ${convertToRelativeTime(data?.createdAt as string)}`}
@@ -66,7 +67,7 @@ const VideoItem = (props: VideoItemProps) => {
           </div>
         </div>
       </div>
-    </NavLink>
+    </Link>
   )
 }
 

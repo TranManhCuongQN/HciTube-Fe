@@ -14,6 +14,7 @@ const PlayList = () => {
   const id = location.pathname.split('/')[1]
   const navigate = useNavigate()
   const queryConFig = useQueryConfig()
+  const { category } = queryConFig
 
   const {
     data: dataPlayList,
@@ -31,7 +32,8 @@ const PlayList = () => {
         omit(
           {
             ...queryConFig,
-            playList: item.id
+            playList: item.id,
+            category: category || '1'
           },
           ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
         )

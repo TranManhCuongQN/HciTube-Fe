@@ -7,11 +7,8 @@ import 'swiper/css/pagination'
 import { Pagination } from 'swiper'
 import classNames from 'classnames'
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai'
-import { useQuery } from 'react-query'
-import categoryAPI from 'src/api/category.api'
 import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
-import path from 'src/constants/path'
 import { omit } from 'lodash'
 
 interface ListFilterProps {
@@ -28,7 +25,7 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
   const [isEnd, setIsEnd] = useState<boolean>(false)
   const navigate = useNavigate()
   const queryConfig = useQueryConfig()
-  const { category } = queryConfig
+  const { category, playList } = queryConfig
   const { id } = useParams()
 
   useEffect(() => {
@@ -58,18 +55,34 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
 
   const handleClick = (item: string) => {
     setFilter(item)
-    navigate({
-      pathname: `/detail/${id}`,
-      search: createSearchParams(
-        omit(
-          {
-            ...queryConfig,
-            category: item
-          },
-          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
-        )
-      ).toString()
-    })
+    if (playList) {
+      navigate({
+        pathname: `/detail/${id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: item,
+              playList: playList
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+    } else {
+      navigate({
+        pathname: `/detail/${id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: item
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+          )
+        ).toString()
+      })
+    }
   }
   return (
     <>

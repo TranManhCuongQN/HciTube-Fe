@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useState, useEffect } from 'react'
 import { RxDividerHorizontal } from 'react-icons/rx'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import useQueryConfig from 'src/hook/useQueryConfig'
 import VideoPlayer from 'src/pages/HomePage/components/Video'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
@@ -13,6 +14,8 @@ interface VideoItemProps {
 const VideoItem = (props: VideoItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const progressRef = useRef<HTMLDivElement>(null)
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
 
   const { data } = props
   let timeout: NodeJS.Timeout
@@ -48,7 +51,11 @@ const VideoItem = (props: VideoItemProps) => {
   }
 
   return (
-    <NavLink to={`detail/${data._id}`} className='mb-5 flex cursor-pointer flex-col gap-y-3' role='presentation'>
+    <Link
+      to={`detail/${data._id}?category=${category || '1'}`}
+      className='mb-5 flex cursor-pointer flex-col gap-y-3'
+      role='presentation'
+    >
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -70,19 +77,19 @@ const VideoItem = (props: VideoItemProps) => {
       </div>
 
       <div className='flex items-start gap-x-3 px-3 md:px-0'>
-        <NavLink to={`${data.channel?._id}/channel`} className='relative h-8 w-8 flex-shrink-0 '>
+        <Link to={`${data.channel?._id}/channel`} className='relative h-8 w-8 flex-shrink-0 '>
           <img src={(data?.channel as User).avatar} alt='avartar' className='h-full w-full rounded-full object-cover' />
-        </NavLink>
+        </Link>
         <div className='flex flex-col'>
           <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white sm:text-sm md:font-bold lg:text-base'>
             {data?.title}
           </span>
-          <NavLink
+          <Link
             to={`${data.channel?._id}/channel`}
             className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'
           >
             {(data?.channel as User).fullName}
-          </NavLink>
+          </Link>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='font-normal text-gray-500 dark:text-gray-400 sm:text-xs lg:text-sm'>
               {data?.view} lượt xem
@@ -94,7 +101,7 @@ const VideoItem = (props: VideoItemProps) => {
           </div>
         </div>
       </div>
-    </NavLink>
+    </Link>
   )
 }
 

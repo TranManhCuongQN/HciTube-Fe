@@ -1,15 +1,13 @@
 import { RxDividerHorizontal } from 'react-icons/rx'
 import ListFilter from '../ListFilter'
-import { useQuery } from 'react-query'
-import { NavLink } from 'react-router-dom'
-import videoApi from 'src/api/video.api'
+import { Link, NavLink } from 'react-router-dom'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import { useState } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import Skeleton from 'src/components/Skeleton'
 import Playlist from '../Playlist'
-import playListAPI from 'src/api/playlist.api'
 import { playList } from 'src/types/playList.type'
+import { Video } from 'src/types/video.type'
 
 const categoryAPI = [
   {
@@ -42,44 +40,38 @@ const categoryAPI = [
   }
 ]
 
-const CompactVideoItem = () => {
+interface CompactVideoItemProps {
+  isLoadingGetPlayList: boolean
+  isSuccessGetPlayList: boolean
+  isLoadingGetVideo: boolean
+  isSuccessGetVideo: boolean
+  isLoadingGetAllVideo: boolean
+  dataGetAll: Video[]
+  dataGetVideo: Video[]
+  isSuccessGetAllVideo: boolean
+  dataGetPlayList: playList
+}
+const CompactVideoItem = ({
+  dataGetAll,
+  dataGetPlayList,
+  dataGetVideo,
+  isLoadingGetPlayList,
+  isLoadingGetVideo,
+  isSuccessGetPlayList,
+  isSuccessGetVideo,
+  isLoadingGetAllVideo,
+  isSuccessGetAllVideo
+}: CompactVideoItemProps) => {
   const queryConfig = useQueryConfig()
   const { playList } = queryConfig
-  const {
-    data,
-    isLoading: isLoadingGetAll,
-    isSuccess: isSuccessGetAll
-  } = useQuery({
-    queryKey: 'videoList',
-    queryFn: () => videoApi.getVideoAll()
-  })
   const [filter, setFilter] = useState<string>('1')
+  const { category } = queryConfig
 
   const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`
 
-  const {
-    data: getVideo,
-    isSuccess: isSuccessGetVideo,
-    isLoading: isLoadingGetVideo
-  } = useQuery({
-    queryKey: ['getVideo', queryConfig],
-    queryFn: () => videoApi.searchVideo(queryConfig)
-  })
-
-  const {
-    data: dataPlayList,
-    isSuccess: isSuccessPlayList,
-    isLoading: isLoadingPlayList
-  } = useQuery({
-    queryKey: ['playList', playList],
-    queryFn: () => playListAPI.getPlayListVideoById(playList as string)
-  })
-
-  console.log('dataPlayList:', dataPlayList?.data.data)
-
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
-      {playList && isLoadingPlayList && (
+      {playList && isLoadingGetPlayList && (
         <div className='w-full md:overflow-hidden md:rounded-2xl md:border md:border-[rgba(0,0,0,0.1)] md:dark:border-gray-600 lg:mt-[-0.5rem] '>
           <div className='flex flex-col gap-y-5 bg-white pt-3 pr-[0.375rem] pl-4 pb-2 dark:bg-[#212121] md:rounded-t-2xl'>
             <div className='flex h-full w-full flex-col gap-y-5'>
@@ -102,15 +94,15 @@ const CompactVideoItem = () => {
           </div>
         </div>
       )}
-      {playList && isSuccessPlayList && (dataPlayList?.data.data.videos?.length as number) > 0 && (
+      {playList && isSuccessGetPlayList && (dataGetPlayList.videos?.length as number) > 0 && (
         <div className='mt-[-0.5rem] lg:flex' style={{ height: videoHeight }}>
-          <Playlist data={dataPlayList?.data?.data as playList} />
+          <Playlist data={dataGetPlayList as playList} />
         </div>
       )}
 
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
       <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
-        {isLoadingGetAll && (
+        {isLoadingGetAllVideo && (
           <>
             {' '}
             {Array(10)
@@ -143,12 +135,12 @@ const CompactVideoItem = () => {
               ))}
           </>
         )}
-        {isSuccessGetAll &&
-          (data?.data.data.length as number) > 0 &&
+        {isSuccessGetAllVideo &&
+          (dataGetAll.length as number) > 0 &&
           filter === '1' &&
-          data?.data.data.map((item) => (
-            <NavLink
-              to={`/detail/${item._id}`}
+          dataGetAll.map((item) => (
+            <Link
+              to={`/detail/${item._id}?category=${category || '1'}`}
               className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
               key={item._id}
             >
@@ -195,14 +187,14 @@ const CompactVideoItem = () => {
                   </span>
                 </div>
               </div>
-            </NavLink>
+            </Link>
           ))}
         {isSuccessGetVideo &&
           filter !== '1' &&
-          getVideo?.data.data.videos.length > 0 &&
-          getVideo.data.data.videos.map((item) => (
+          dataGetVideo.length > 0 &&
+          dataGetVideo.map((item) => (
             <NavLink
-              to={`/detail/${item._id}`}
+              to={`/detail/${item._id}?category=${category || '1'}`}
               className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
               key={item._id}
             >

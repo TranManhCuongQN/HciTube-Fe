@@ -12,7 +12,7 @@ interface VideoItemProps {
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
-  const { playList } = queryConfig
+  const { playList, category } = queryConfig
 
   const { data } = props
 
@@ -39,7 +39,7 @@ const VideoItem = (props: VideoItemProps) => {
 
   return (
     <Link
-      to={`/detail/${data._id}?playList=${playList}`}
+      to={`/detail/${data._id}?playList=${playList}&category=${category || '1'}`}
       className={`${
         active ? 'bg-[rgba(0,0,0,0.05)] dark:bg-[#212121]' : ''
       } flex  w-full cursor-pointer items-center gap-y-3 p-3 hover:bg-[rgba(0,0,0,0.05)] dark:hover:bg-[#212121] lg:ml-[-8px]`}

@@ -19,7 +19,8 @@ const VideoList = ({ filter }: VideoListProps) => {
     refetch
   } = useQuery({
     queryKey: 'videoList',
-    queryFn: videoApi.getVideoAll
+    queryFn: videoApi.getVideoAll,
+    enabled: filter === '1'
   })
 
   const {
@@ -28,14 +29,15 @@ const VideoList = ({ filter }: VideoListProps) => {
     isLoading
   } = useQuery({
     queryKey: ['getVideo', queryConfig],
-    queryFn: () => videoApi.searchVideo(queryConfig)
+    queryFn: () => videoApi.searchVideo(queryConfig),
+    enabled: filter !== '1'
   })
 
   const handleGetData = () => {
     refetch()
   }
 
-  console.log('VideoList:', VideoList)
+  // console.log('VideoList:', VideoList)
 
   return (
     <div

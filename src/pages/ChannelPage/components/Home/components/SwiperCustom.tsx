@@ -10,8 +10,7 @@ import 'swiper/css/pagination'
 import { playList } from 'src/types/playList.type'
 import parse from 'html-react-parser'
 import { RxDividerHorizontal } from 'react-icons/rx'
-import { createSearchParams, NavLink, useNavigate } from 'react-router-dom'
-import path from 'src/constants/path'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { omit } from 'lodash'
 import { Video } from 'src/types/video.type'
@@ -22,6 +21,7 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
   const [isEnd, setIsEnd] = useState<boolean>(false)
   const navigate = useNavigate()
   const queryConFig = useQueryConfig()
+  const { category } = queryConFig
 
   const goPrev = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -58,7 +58,8 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
         omit(
           {
             ...queryConFig,
-            playList: dataVideo.id
+            playList: dataVideo.id,
+            category: category || '1'
           },
           ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
         )
@@ -122,8 +123,8 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
               {dataVideo.videos?.map((item, index) => {
                 return (
                   <SwiperSlide key={item._id}>
-                    <NavLink
-                      to={`/detail/${item._id}`}
+                    <Link
+                      to={`/detail/${item._id}?category=${category || '1'}`}
                       className='mr-2 flex w-[220px] cursor-pointer flex-col gap-y-2 max-sm:w-44 max-[320px]:w-36'
                     >
                       <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
@@ -149,7 +150,7 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
                           </span>
                         </div>
                       </div>
-                    </NavLink>
+                    </Link>
                   </SwiperSlide>
                 )
               })}

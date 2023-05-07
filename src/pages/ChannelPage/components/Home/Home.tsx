@@ -10,10 +10,13 @@ import SwiperCustom from './components'
 import parse from 'html-react-parser'
 import Skeleton from 'src/components/Skeleton'
 import path from 'src/constants/path'
+import useQueryConfig from 'src/hook/useQueryConfig'
 
 const Home = () => {
   const location = useLocation()
   const id = location.pathname.split('/')[1]
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
 
   const {
     data: dataPlayList,
@@ -75,12 +78,12 @@ const Home = () => {
                 __html: String(parse((dataVideo?.data?.data[0]?.description as string) || ''))
               }}
             ></span>
-            <NavLink
-              to={`/detail/${dataVideo?.data.data[0]._id}`}
+            <Link
+              to={`/detail/${dataVideo?.data.data[0]._id}?category=${category || '1'}`}
               className='text-xs  font-semibold text-black dark:text-white max-lg:hidden'
             >
               ĐỌC THÊM
-            </NavLink>
+            </Link>
           </div>
         </div>
       )}

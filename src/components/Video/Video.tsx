@@ -6,13 +6,11 @@ import { BiSkipNext, BiSkipPrevious, BiPlay, BiPause, BiRectangle } from 'react-
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
 import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
-import Lauv from 'src/assets/Lauv.mp4'
-import Evy from 'src/assets/EVY.mp4'
 import ToolTip from './ToolTip'
-
 import Thumbnail from './Thumbnail'
 import { isUndefined } from 'lodash'
 import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
+import { Video as VideoType } from 'src/types/video.type'
 
 declare global {
   interface HTMLInputElement {
@@ -29,17 +27,15 @@ interface VideoProps {
   lastPlayedTime?: number
   urlVideo?: string
   handleTheaterMode?: (theaterMode: boolean) => void
+  playList?: VideoType[]
 }
 
-const playlistSrc = [Lauv, Evy]
-
-const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
+const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const replayRef = useRef<HTMLDivElement>(null)
-  const [playlistSrc, setPlaylistSrc] = useState<string[]>([Lauv, Evy])
   const [videoIndex, setVideoIndex] = useState<number>(0)
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
@@ -49,6 +45,8 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
   const [ended, setEnded] = useState<boolean>(false)
+
+  console.log('playList:', playList)
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -198,12 +196,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
 
   // Handle click next button
   const movingForwardVideo = useCallback(() => {
-    if (videoIndex == playlistSrc.length - 1) setVideoIndex(0)
+    if (videoIndex == (playList?.length as number) - 1) setVideoIndex(0)
     else setVideoIndex((prev) => prev + 1)
   }, [videoIndex])
   // Handle click prev button
   const movingBackwardVideo = useCallback(() => {
-    if (videoIndex == 0) setVideoIndex(playlistSrc.length - 1)
+    if (videoIndex == 0) setVideoIndex((playList?.length as number) - 1)
     else setVideoIndex((prev) => prev - 1)
   }, [videoIndex])
 
@@ -250,7 +248,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo }: VideoProps) => {
           onClick={() => setHidden(false)}
           role='presentation'
         >
-          {ended && <ForwardVideo />}
+          {(playList?.length as number) > 0 && ended && (
+            <ForwardVideo data={playList as VideoType[]} setEnded={setEnded} />
+          )}
           <video
             src={urlVideo}
             ref={videoRef}

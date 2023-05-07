@@ -1,5 +1,5 @@
 import { BsCheck } from 'react-icons/bs'
-import { RefObject, useEffect, useState, useRef, useCallback } from 'react'
+import {  useEffect, useState, useRef } from 'react'
 import { useQuery } from 'react-query'
 import categoryAPI from 'src/api/category.api'
 import { createSearchParams, useNavigate } from 'react-router-dom'

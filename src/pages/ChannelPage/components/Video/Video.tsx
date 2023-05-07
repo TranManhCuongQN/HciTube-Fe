@@ -5,10 +5,13 @@ import playListAPI from 'src/api/playlist.api'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import Skeleton from 'src/components/Skeleton'
 import path from 'src/constants/path'
+import useQueryConfig from 'src/hook/useQueryConfig'
 
 const Video = () => {
   const location = useLocation()
   const id = location.pathname.split('/')[1]
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
   const {
     data: dataVideo,
     isSuccess,
@@ -39,7 +42,11 @@ const Video = () => {
           <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 max-lg:grid-cols-2 md:px-20 lg:grid-cols-3 lg:px-40'>
             {(dataVideo?.data.data.length as number) > 0 &&
               dataVideo?.data.data.map((item, index) => (
-                <NavLink to={`/detail/${item._id}`} className='flex cursor-pointer flex-col gap-y-2' key={item._id}>
+                <Link
+                  to={`/detail/${item._id}?category=${category || '1'}`}
+                  className='flex cursor-pointer flex-col gap-y-2'
+                  key={item._id}
+                >
                   <div className='relative w-full flex-shrink-0 rounded-lg'>
                     <img src={item?.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
                     <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
@@ -64,7 +71,7 @@ const Video = () => {
                       </span>
                     </div>
                   </div>
-                </NavLink>
+                </Link>
               ))}
           </div>
         </>

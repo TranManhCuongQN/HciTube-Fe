@@ -1,56 +1,120 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from 'react-query'
-import videoApi from 'src/api/video.api'
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { Video } from 'src/types/video.type'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { omit } from 'lodash'
 
-const ForwardVideo = () => {
+interface ForwardVideoProps {
+  data: Video[]
+  setEnded: React.Dispatch<React.SetStateAction<boolean>>
+}
+const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
   const [count, setCount] = useState<number>(10)
   const [hidden, setHidden] = useState<boolean>(false)
   const nextVideoRef = useRef<HTMLButtonElement>(null)
 
-  const { data } = useQuery({
-    queryKey: 'videoList',
-    queryFn: () => videoApi.getVideoAll()
-  })
-
   const { id } = useParams()
+  const queryConfig = useQueryConfig()
+  const { playList, category } = useQueryConfig()
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (!hidden) setCount(count - 1)
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [count])
-
-  const getNextVideo = useCallback((curentID: string) => {
-    let videoIndex = -1
-    data?.data.data.forEach((item, index) => {
-      if (item._id === id) {
-        videoIndex = index
+      if (!hidden) {
+        setCount((prev) => prev - 1)
       }
-    })
-    if (videoIndex >= 0) return data?.data.data[videoIndex + 1]
-    return {}
-  }, [])
+    }, 1000)
 
-  const nextVideo = getNextVideo(id || '')
+    return () => clearInterval(timer)
+  }, [count, hidden])
+
+  const getNextVideo = (curentID: string) => {
+    const index = data.findIndex((item) => item._id === curentID)
+    console.log('Index', index)
+    console.log('length', data.length)
+    if (index < data.length - 1) {
+      return data[index + 1]
+    }
+    return data[0]
+  }
+
+  const nextVideo = getNextVideo(id as string)
 
   const formatTime = (duration: number) => {
-    const result = new Date(duration * 1000).toISOString().slice(11, 19)
-    const hour = result.slice(0, 2)
-    const minute = result.slice(3, 5)
-    const second = result.slice(6, 8)
+    const result = new Date(duration * 1000)?.toISOString()?.slice(11, 19)
+    const hour = result?.slice(0, 2)
+    const minute = result?.slice(3, 5)
+    const second = result?.slice(6, 8)
     return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
   }
 
   const navigate = useNavigate()
 
-  const handleClickForwardBtn = () => {
-    navigate(`/detail/${nextVideo?._id}`)
+  if (count == 0) {
+    if (playList) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              playList: playList as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    } else {
+      console.log('NextVideo:', nextVideo._id)
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: category as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    }
   }
 
-  if (count == 0) {
-    navigate(`/detail/${nextVideo?._id}`)
+  const handleClickForwardBtn = () => {
+    if (playList) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              playList: playList as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    } else {
+      console.log('NextVideo:', nextVideo)
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: category as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    }
   }
 
   return (
