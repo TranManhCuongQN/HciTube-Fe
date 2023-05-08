@@ -128,7 +128,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleLike = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -142,7 +142,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleDislike = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -156,7 +156,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleReply = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -170,7 +170,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const handleReplyComment = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false

@@ -119,7 +119,7 @@ const ChannelPage = () => {
   const handleSubscribe = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -132,7 +132,7 @@ const ChannelPage = () => {
   const handleUnSubscribe = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false

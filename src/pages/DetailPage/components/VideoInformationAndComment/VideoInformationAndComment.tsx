@@ -269,7 +269,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleLikeVideo = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -283,7 +283,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleAddPlayList = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -297,7 +297,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleDislikeVideo = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -311,7 +311,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleSubscribeChannel = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -325,7 +325,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleDeleteSubscribeChannel = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -339,7 +339,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleAddListFavorite = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false
@@ -353,7 +353,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const handleRemoveListFavorite = () => {
     if (isVerify !== '2') {
       toast.dismiss()
-      toast.error('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
+      toast.info('Bạn cần đăng nhập tài khoản để thực hiện chức năng này', {
         position: 'top-right',
         autoClose: 2000,
         pauseOnHover: false

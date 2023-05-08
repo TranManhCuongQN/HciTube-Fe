@@ -59,9 +59,7 @@ const ControlSection = ({ data }: ControlSectionProps) => {
         <div className='mb-4 flex  flex-col md:ml-6 md:flex-1 lg:ml-0 '>
           <h1 className='mb-4 text-3xl font-extrabold text-white'>Video đã thích</h1>
           <p className='mb-1 text-sm font-bold text-white'>{data[0]?.video?.channel?.fullName as string}</p>
-          <span className='text-xs font-bold text-[#ffffffb3] '>{`${
-            data.length as number
-          } video - Riêng tư - Cập nhật hôm nay`}</span>
+          <span className='text-xs font-bold text-[#ffffffb3] '>{`${data.length as number} video`}</span>
         </div>
       </div>
 

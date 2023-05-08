@@ -31,6 +31,9 @@ const videoApi = {
   },
   searchVideo: (params: QueryConfig) => {
     return http.get<SuccessResponse<{ videos: Video[]; users: User[] }>>(`${URL_GET_VIDEO}/search-videos`, { params })
+  },
+  setWatchVideoTime: (idChannel: string) => {
+    return http.patch(`${URL_GET_VIDEO}/view/${idChannel}`)
   }
 }
 export default videoApi

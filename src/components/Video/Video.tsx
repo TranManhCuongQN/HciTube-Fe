@@ -13,6 +13,8 @@ import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
 import { Video as VideoType } from 'src/types/video.type'
 import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
+import { useMutation } from 'react-query'
+import videoApi from 'src/api/video.api'
 
 declare global {
   interface HTMLInputElement {
@@ -51,6 +53,10 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const { id } = useParams()
   const navigate = useNavigate()
   console.log('playList:', playListVideo)
+
+  // const setWatchVideoTimeMutation = useMutation({
+  //   mutationFn: ()=> videoApi.setWatchVideoTime({videoId: id, time: videoRef.current?.currentTime || 0}),
+  // })
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -344,8 +350,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   useEffect(() => {
     document.addEventListener('keyup', keyboardShortcuts)
   }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
-
-  // Change state when the video ends
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
