@@ -5,6 +5,7 @@ import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 import favoriteApi from 'src/api/favorite.api'
 import Skeleton from 'src/components/Skeleton'
+import ControlSection from './ControlSection'
 
 const LikedPlaylistPage = () => {
   const { profile } = useContext(AppContext)
@@ -24,8 +25,9 @@ const LikedPlaylistPage = () => {
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 
-        <div className={`mb-16 flex h-full w-full flex-col justify-center px-3 2xl:ml-64`}>
-          <div className='mt-6 pb-6'>
+        <div className={`mt-6 mb-16 flex h-full w-full flex-col justify-center md:px-3 2xl:ml-64 lg:flex-row`}>
+          <ControlSection/>
+          <div className=' pb-6'>
             <div className='flex h-full w-full flex-col'>
               {isLoading &&
                 Array(3)
@@ -48,7 +50,7 @@ const LikedPlaylistPage = () => {
                 (VideoList.data.data.length as number) > 0 &&
                 VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item.video} />)}
               {isSuccess && (VideoList.data.data.length as number) === 0 && (
-                <div className='flex h-full w-full flex-col items-center justify-center'>
+                <div className='flex h-[100vh] w-full flex-col items-center justify-center'>
                   <span className='text-xl font-bold text-black dark:text-white'>Không có video nào</span>
                 </div>
               )}
