@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useContext } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
@@ -8,12 +9,14 @@ import { convertToRelativeTime } from 'src/utils/utils'
 
 interface VideoItemProps {
   data: Video
+  index: number
 }
 const VideoItem = (props: VideoItemProps) => {
   const queryConfig = useQueryConfig()
   const { category } = queryConfig
+  const { profile } = useContext(AppContext)
   const progressRef = useRef<HTMLDivElement>(null)
-  const { data } = props
+  const { data, index } = props
 
   let timeout: NodeJS.Timeout
 
@@ -38,11 +41,11 @@ const VideoItem = (props: VideoItemProps) => {
 
   return (
     <Link
-      to={`/detail/${data._id}?category=${category || '1'}`}
+      to={`/detail/${data._id}?category=${category || '1'}&favorite=${profile?._id}`}
       className=' ml-[-8px] flex  w-full cursor-pointer gap-y-3 rounded-lg p-2 hover:bg-[rgba(0,0,0,0.05)] lg:p-3'
       role='presentation'
     >
-      <span className='flex items-center pr-2 text-sm font-semibold text-[#606060] lg:p-3 '>1</span>
+      <span className='flex items-center pr-2 text-sm font-semibold text-[#606060] lg:p-3 '>{index + 1}</span>
       <div className='mr-2 aspect-video h-fit w-40 rounded-lg lg:w-64'>
         <div className='relative w-40 overflow-hidden rounded-xl lg:w-64'>
           <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-40 object-cover md:rounded-xl lg:w-64' />

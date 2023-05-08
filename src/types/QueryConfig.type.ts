@@ -6,4 +6,5 @@ export interface QueryConfig {
   timeRange?: 'today' | 'thisWeek' | 'thisMonth' | 'thisYear'
   sortBy?: 'createdAt' | 'view'
   playList?: string
+  favorite?: string
 }

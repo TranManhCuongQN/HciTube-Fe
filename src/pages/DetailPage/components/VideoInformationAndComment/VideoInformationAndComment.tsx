@@ -48,8 +48,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const navigate = useNavigate()
   const hasPlaylist = true
 
-  // console.log('Data:', data)
-
   const createPlaylistMutation = useMutation({
     mutationFn: (data: FormData) => playListAPI.createPlayList(data)
   })
@@ -57,9 +55,9 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
     resolver: yupResolver(playListSchema)
   })
 
-  const { data: dataFavorite } = useQuery({
-    queryKey: ['favorite'],
-    queryFn: () => favoriteApi.getFavoriteVideos()
+  const { data: VideoListFavorite, refetch } = useQuery({
+    queryKey: ['videoListFavorite', profile?._id],
+    queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
   })
 
   const {
@@ -157,15 +155,16 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   }, [data, profile])
 
   useEffect(() => {
-    if (dataFavorite) {
-      const checkFavoriteVideo = dataFavorite.data.data.findIndex((item) => item?.video._id === data.video._id) || false
+    if (VideoListFavorite) {
+      const checkFavoriteVideo =
+        VideoListFavorite.data.data.findIndex((item) => item?.video._id === data.video._id) || false
       if (checkFavoriteVideo !== -1) {
         setIsFavorite(true)
       } else {
         setIsFavorite(false)
       }
     }
-  }, [dataFavorite, data])
+  }, [VideoListFavorite, data])
 
   const likeVideoMutation = useMutation({
     mutationFn: () =>
@@ -235,7 +234,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         autoClose: 2000,
         pauseOnHover: false
       })
-      queryClient.invalidateQueries('favorite')
+      refetch()
     }
   })
 
@@ -248,7 +247,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         autoClose: 2000,
         pauseOnHover: false
       })
-      queryClient.invalidateQueries('favorite')
+      refetch()
     }
   })
 

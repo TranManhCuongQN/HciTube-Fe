@@ -5,7 +5,8 @@ import http from 'src/utils/http'
 
 const ClOUD_NAME = 'dw254eqyp'
 const PRESENT_NAME = 'video_upload'
-const FOLDER_NAME = 'youtube-clone/video'
+const FOLDER_NAME_VIDEO = 'youtube-clone/video'
+const FOLDER_NAME_IMAGE = 'youtube-clone/image'
 const URL_API = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/video/upload`
 const URL_API_IMAGE = `https://api.cloudinary.com/v1_1/${ClOUD_NAME}/image/upload`
 const apiSecret = 'aBCAtSqVQHtNrpNKdIJHaMyEiJU'
@@ -19,7 +20,7 @@ const uploadApi = {
     const formData = new FormData()
     formData.append('file', data)
     formData.append('upload_preset', PRESENT_NAME)
-    formData.append('folder', FOLDER_NAME)
+    formData.append('folder', FOLDER_NAME_VIDEO)
     return axios.post(URL_API, formData, {
       ...options,
       signal: controllerVideo.signal
@@ -30,7 +31,7 @@ const uploadApi = {
     const formData = new FormData()
     formData.append('file', data)
     formData.append('upload_preset', PRESENT_NAME)
-    formData.append('folder', FOLDER_NAME)
+    formData.append('folder', FOLDER_NAME_IMAGE)
     return axios.post(URL_API_IMAGE, formData, {
       ...options,
       signal: controllerImage.signal

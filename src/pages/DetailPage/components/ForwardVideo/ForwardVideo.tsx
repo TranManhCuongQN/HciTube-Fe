@@ -29,8 +29,6 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
 
   const getNextVideo = (curentID: string) => {
     const index = data.findIndex((item) => item._id === curentID)
-    console.log('Index', index)
-    console.log('length', data.length)
     if (index < data.length - 1) {
       return data[index + 1]
     }
