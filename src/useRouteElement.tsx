@@ -27,6 +27,7 @@ import VerifyResetPassPage from './pages/VerifyResetPassPage'
 import LibraryPage from './pages/LibraryPage/LibraryPage'
 import HistoryPage from './pages/HistoryPage'
 import LikedPlaylistPage from './pages/LikedPlaylistPage'
+import SubscriptionsPage from './pages/SubscriptionsPage'
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
   return isVerify === '2' ? <Outlet /> : <Navigate to='/' />
@@ -146,6 +147,10 @@ const useRouteElement = () => {
             {
               path: path.likedPlaylist,
               element: <LikedPlaylistPage />
+            },
+            {
+              path: path.subscriptions,
+              element: <SubscriptionsPage />
             },
             {
               element: <ChannelPage />,
