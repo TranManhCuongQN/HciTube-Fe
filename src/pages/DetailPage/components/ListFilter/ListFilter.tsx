@@ -78,7 +78,7 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
               ...queryConfig,
               category: item
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList', 'favorite']
           )
         ).toString()
       })

@@ -1,44 +1,75 @@
+import { omit } from 'lodash'
+import { useContext } from 'react'
+import { BiPlay } from 'react-icons/bi'
+import { RxShuffle } from 'react-icons/rx'
+import { createSearchParams, useNavigate } from 'react-router-dom'
+import path from 'src/constants/path'
+import { AppContext } from 'src/context/app.context'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { favorite } from 'src/types/favorite.type'
 
-import { BiPlay } from "react-icons/bi";
-import {RxShuffle} from "react-icons/rx"
+interface ControlSectionProps {
+  data: favorite[]
+}
+const ControlSection = ({ data }: ControlSectionProps) => {
+  const navigate = useNavigate()
+  const queryConfig = useQueryConfig()
+  const { profile } = useContext(AppContext)
+  const { category } = queryConfig
 
-const ControlSection = () => {
+  const handlePlayAll = () => {
+    navigate({
+      pathname: `/detail/${data[0].video._id}`,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            favorite: profile?._id as string,
+            category: category || ('1' as string)
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+        )
+      ).toString()
+    })
+  }
   return (
-    <div className="relative flex w-full lg:w-fit flex-col bg-transparent overflow-hidden lg:rounded-lg ">
-      <div className="flex w-full justify-center flex-col md:flex-row lg:flex-col md:items-center lg:items-start p-3 lg:p-6  z-20">
-        <img 
-          className="aspect-video w-full h-fit md:max-w-[336px] lg:w-[312px] rounded-lg mb-4"
-          src="https://i.ytimg.com/vi/JVzb3elJteM/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDCgZ_F_WCmYGUVVJl_xLP14GoZxw" 
-          alt="" 
+    <div className='relative flex w-full flex-col overflow-hidden bg-transparent lg:w-fit lg:rounded-lg '>
+      <div className='z-20 flex w-full flex-col justify-center p-3 md:flex-row md:items-center lg:flex-col lg:items-start  lg:p-6'>
+        <img
+          className='mb-4 aspect-video h-fit w-full rounded-lg md:max-w-[336px] lg:w-[312px]'
+          src={data[0]?.video?.thumbnail as string}
+          alt=''
         />
-        <div className="flex flex-col  mb-4 md:flex-1 md:ml-6 lg:ml-0 ">
-            <h1 className="text-white text-3xl font-extrabold mb-4">Video đã thích</h1>
-            <p className="text-white text-sm font-bold mb-1">hồng vũ khánh nguyễn</p>
-            <span className="text-[#ffffffb3] text-xs font-bold ">{`${45} video - Riêng tư - Cập nhật hôm nay`}</span>
+        <div className='mb-4 flex  flex-col md:ml-6 md:flex-1 lg:ml-0 '>
+          <h1 className='mb-4 text-3xl font-extrabold text-white'>Video đã thích</h1>
+          <p className='mb-1 text-sm font-bold text-white'>{data[0]?.video?.channel?.fullName as string}</p>
+          <span className='text-xs font-bold text-[#ffffffb3] '>{`${
+            data.length as number
+          } video - Riêng tư - Cập nhật hôm nay`}</span>
         </div>
       </div>
 
-      <div className="flex gap-3 p-2 lg:p-6 z-20">
-        <button className="flex items-center justify-center w-full text-base font-bold rounded-full text-black bg-white py-1 hover:bg-[#E6E6E6]">
-          <BiPlay className="w-8 h-8"/>
-          <span>Phát tất cả</span> 
+      <div className='z-20 flex gap-3 p-2 lg:p-6'>
+        <button className='flex w-full items-center justify-center rounded-full bg-white py-1 text-base font-bold text-black hover:bg-[#E6E6E6]'>
+          <BiPlay className='h-8 w-8' onClick={handlePlayAll} />
+          <span>Phát tất cả</span>
         </button>
-        <button className="flex items-center justify-center w-full text-base font-bold rounded-full text-white bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] py-1">
-          <RxShuffle className="w-6 h-6 mr-2"/>
-          <span>Trộn bài</span> 
+        <button className='flex w-full items-center justify-center rounded-full bg-[rgba(255,255,255,0.1)] py-1 text-base font-bold text-white hover:bg-[rgba(255,255,255,0.2)]'>
+          <RxShuffle className='mr-2 h-6 w-6' />
+          <span>Trộn bài</span>
         </button>
       </div>
 
-      <div className="absolute w-full h-full ">
+      <div className='absolute h-full w-full '>
         <img
-          className="w-[200%] translate-x-[-25%] opacity-70 blur-[30px] " 
-          src="https://i.ytimg.com/vi/JVzb3elJteM/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDCgZ_F_WCmYGUVVJl_xLP14GoZxw" 
-          alt="" 
+          className='w-[200%] translate-x-[-25%] opacity-70 blur-[30px] '
+          src='https://i.ytimg.com/vi/JVzb3elJteM/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLDCgZ_F_WCmYGUVVJl_xLP14GoZxw'
+          alt=''
         />
       </div>
-      <div className="absolute w-full h-full bg-gradient-to-b  from-[rgba(76,89,65,0.800)] 0% via-[rgba(76,89,65,0.298)] 33.000001% to-[rgba(15,15,15,1.000)] 100%)"></div>
+      <div className='0% 33.000001% 100%) absolute  h-full w-full bg-gradient-to-b from-[rgba(76,89,65,0.800)] via-[rgba(76,89,65,0.298)] to-[rgba(15,15,15,1.000)]'></div>
     </div>
   )
 }
 
-export default ControlSection;
+export default ControlSection

@@ -6,6 +6,7 @@ import { AppContext } from 'src/context/app.context'
 import favoriteApi from 'src/api/favorite.api'
 import Skeleton from 'src/components/Skeleton'
 import ControlSection from './ControlSection'
+import { favorite } from 'src/types/favorite.type'
 
 const LikedPlaylistPage = () => {
   const { profile } = useContext(AppContext)
@@ -24,9 +25,9 @@ const LikedPlaylistPage = () => {
     <>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
+        <div className={`mt-6 mb-16 flex h-full w-full flex-col justify-center md:px-3 lg:flex-row 2xl:ml-64`}>
+          {isSuccess && VideoList.data.data.length > 0 && <ControlSection data={VideoList?.data.data as favorite[]} />}
 
-        <div className={`mt-6 mb-16 flex h-full w-full flex-col justify-center md:px-3 2xl:ml-64 lg:flex-row`}>
-          <ControlSection/>
           <div className=' pb-6'>
             <div className='flex h-full w-full flex-col'>
               {isLoading &&
@@ -48,7 +49,7 @@ const LikedPlaylistPage = () => {
                   ))}
               {isSuccess &&
                 (VideoList.data.data.length as number) > 0 &&
-                VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item.video} />)}
+                VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item.video} index={index} />)}
               {isSuccess && (VideoList.data.data.length as number) === 0 && (
                 <div className='flex h-[100vh] w-full flex-col items-center justify-center'>
                   <span className='text-xl font-bold text-black dark:text-white'>Không có video nào</span>
