@@ -27,11 +27,7 @@ const LikedPlaylistPage = () => {
         <AsideBar />
         <div className={`mt-6 mb-16 flex h-full w-full flex-col justify-center md:px-3 lg:flex-row 2xl:ml-64`}>
           {isSuccess && VideoList.data.data.length > 0 && <ControlSection data={VideoList?.data.data as favorite[]} />}
-        <div className={`mt-6 mb-16 flex h-full w-full flex-col justify-center md:px-3 2xl:ml-64 lg:flex-row`}>
-          {
-            (VideoList?.data.data.length && VideoList?.data.data.length > 0) && <ControlSection/>
-          }
-          
+
           <div className=' pb-6'>
             <div className='flex h-full w-full flex-col'>
               {isLoading &&

@@ -8,9 +8,11 @@ import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
 import ToolTip from './ToolTip'
 import Thumbnail from './Thumbnail'
-import { isUndefined } from 'lodash'
+import { isUndefined, omit } from 'lodash'
 import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
 import { Video as VideoType } from 'src/types/video.type'
+import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
+import useQueryConfig from 'src/hook/useQueryConfig'
 
 declare global {
   interface HTMLInputElement {
@@ -30,13 +32,14 @@ interface VideoProps {
   playList?: VideoType[]
 }
 
-const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList }: VideoProps) => {
+const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playListVideo }: VideoProps) => {
+  const queryConfig = useQueryConfig()
+  const { category, playList, favorite } = queryConfig
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const replayRef = useRef<HTMLDivElement>(null)
-  const [videoIndex, setVideoIndex] = useState<number>(0)
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
@@ -45,8 +48,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList }: VideoP
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
   const [ended, setEnded] = useState<boolean>(false)
-
-  console.log('playList:', playList)
+  const { id } = useParams()
+  const navigate = useNavigate()
+  console.log('playList:', playListVideo)
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -194,16 +198,119 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList }: VideoP
     return props
   }
 
+  const getNextVideo = (curentID: string) => {
+    if (playListVideo) {
+      const index = playListVideo.findIndex((item) => item._id === curentID)
+      if (index < playListVideo.length - 1) {
+        return playListVideo[index + 1]
+      }
+      return playListVideo[0]
+    }
+  }
+
+  const getPrevVideo = (curentID: string) => {
+    if (playListVideo) {
+      const index = playListVideo.findIndex((item) => item._id === curentID)
+      if (index > 0) {
+        return playListVideo[index - 1]
+      }
+      return playListVideo[playListVideo.length - 1]
+    }
+  }
+
+  const nextVideo = getNextVideo(id as string)
+  const prevVideo = getPrevVideo(id as string)
   // Handle click next button
-  const movingForwardVideo = useCallback(() => {
-    if (videoIndex == (playList?.length as number) - 1) setVideoIndex(0)
-    else setVideoIndex((prev) => prev + 1)
-  }, [videoIndex])
-  // Handle click prev button
   const movingBackwardVideo = useCallback(() => {
-    if (videoIndex == 0) setVideoIndex((playList?.length as number) - 1)
-    else setVideoIndex((prev) => prev - 1)
-  }, [videoIndex])
+    if (playList) {
+      navigate({
+        pathname: `/detail/${prevVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              playList: playList as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+          )
+        ).toString()
+      })
+    } else if (favorite) {
+      navigate({
+        pathname: `/detail/${prevVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              favorite: favorite as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+          )
+        ).toString()
+      })
+    } else {
+      navigate({
+        pathname: `/detail/${prevVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: category as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+    }
+  }, [category, favorite, playList, navigate, prevVideo, queryConfig])
+
+  // Handle click prev button
+  const movingForwardVideo = useCallback(() => {
+    if (playList) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              playList: playList as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+          )
+        ).toString()
+      })
+    } else if (favorite) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              favorite: favorite as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+          )
+        ).toString()
+      })
+    } else {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: category as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          )
+        ).toString()
+      })
+    }
+  }, [category, favorite, playList, navigate, nextVideo, queryConfig])
 
   // Handle keyboard shortcuts
   const keyboardShortcuts = useCallback(
@@ -248,8 +355,8 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList }: VideoP
           onClick={() => setHidden(false)}
           role='presentation'
         >
-          {(playList?.length as number) > 0 && ended && (
-            <ForwardVideo data={playList as VideoType[]} setEnded={setEnded} />
+          {(playListVideo?.length as number) > 0 && ended && (
+            <ForwardVideo data={playListVideo as VideoType[]} setEnded={setEnded} />
           )}
           <video
             src={urlVideo}

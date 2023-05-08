@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import favoriteApi from 'src/api/favorite.api'
 import playListAPI from 'src/api/playlist.api'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import Video from 'src/components/Video'
+import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { playList } from 'src/types/playList.type'
 import { Video as VideoType, VideoItem } from 'src/types/video.type'
@@ -13,10 +15,11 @@ import VideoInformationAndComment from './components/VideoInformationAndComment'
 
 const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
+  const { profile } = useContext(AppContext)
   const { id } = useParams()
   const queryConfig = useQueryConfig()
   const [video, setVideo] = useState<VideoType[]>([])
-  const { playList, category } = queryConfig
+  const { playList, category, favorite } = queryConfig
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['video', id],
     queryFn: () => videoApi.getVideoById(id as string)
@@ -52,6 +55,16 @@ const DetailPage = () => {
     enabled: Boolean(playList)
   })
 
+  const {
+    data: dataGetVideoFavorite,
+    isSuccess: isSuccessGetVideoFavorite,
+    isLoading: isLoadingGetVideoFavorite
+  } = useQuery({
+    queryKey: ['videoListFavorite', profile?._id],
+    queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string),
+    enabled: Boolean(favorite)
+  })
+
   // console.log('data:', data)
   // console.log('category:', category)
 
@@ -64,6 +77,10 @@ const DetailPage = () => {
       setVideo(dataGetPlayList?.data.data.videos as VideoType[])
       return
     }
+    if (favorite) {
+      setVideo(dataGetVideoFavorite?.data.data.map((item) => item.video) as VideoType[])
+      return
+    }
     if (category === '1') {
       setVideo(dataGetAll?.data.data as VideoType[])
       return
@@ -71,7 +88,7 @@ const DetailPage = () => {
     if (category !== '1') {
       setVideo(dataGetVideo?.data.data.videos as VideoType[])
     }
-  }, [playList, category, dataGetPlayList, dataGetAll, dataGetVideo])
+  }, [playList, category, dataGetPlayList, dataGetAll, dataGetVideo, dataGetVideoFavorite, favorite])
 
   // console.log(
   //   'VideoType:',
@@ -149,6 +166,9 @@ const DetailPage = () => {
               isLoadingGetPlayList={isLoadingGetPlayList}
               isLoadingGetAllVideo={isLoadingGetAll}
               isSuccessGetAllVideo={isSuccessGetAll}
+              isLoadingGetFavorite={isLoadingGetVideoFavorite}
+              isSuccessGetFavorite={isSuccessGetVideoFavorite}
+              dataGetFavorite={dataGetVideoFavorite?.data.data.map((item) => item.video) as VideoType[]}
             />
           </div>
         </div>

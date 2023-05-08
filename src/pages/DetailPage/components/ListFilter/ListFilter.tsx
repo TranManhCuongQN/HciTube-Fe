@@ -25,7 +25,7 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
   const [isEnd, setIsEnd] = useState<boolean>(false)
   const navigate = useNavigate()
   const queryConfig = useQueryConfig()
-  const { category, playList } = queryConfig
+  const { category, playList, favorite } = queryConfig
   const { id } = useParams()
 
   useEffect(() => {
@@ -63,9 +63,23 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
             {
               ...queryConfig,
               category: item,
-              playList: playList
+              playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+          )
+        ).toString()
+      })
+    } else if (favorite) {
+      navigate({
+        pathname: `/detail/${id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: item,
+              favorite: favorite as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
           )
         ).toString()
       })

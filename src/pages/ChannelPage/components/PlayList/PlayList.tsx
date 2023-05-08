@@ -35,7 +35,7 @@ const PlayList = () => {
             playList: item.id,
             category: category || '1'
           },
-          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
         )
       ).toString()
     })

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+import { omit } from 'lodash'
 import { useRef, useEffect, useContext } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { Link, useNavigate, createSearchParams } from 'react-router-dom'
 import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
@@ -17,6 +18,23 @@ const VideoItem = (props: VideoItemProps) => {
   const { profile } = useContext(AppContext)
   const progressRef = useRef<HTMLDivElement>(null)
   const { data, index } = props
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate({
+      pathname: `/detail/${data._id}`,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConfig,
+            favorite: profile?._id as string,
+            category: category || ('1' as string)
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+        )
+      ).toString()
+    })
+  }
 
   let timeout: NodeJS.Timeout
 
@@ -40,8 +58,8 @@ const VideoItem = (props: VideoItemProps) => {
   }
 
   return (
-    <Link
-      to={`/detail/${data._id}?category=${category || '1'}&favorite=${profile?._id}`}
+    <div
+      onClick={handleClick}
       className=' ml-[-8px] flex  w-full cursor-pointer gap-y-3 rounded-lg p-2 hover:bg-[rgba(0,0,0,0.05)] lg:p-3'
       role='presentation'
     >
@@ -82,7 +100,7 @@ const VideoItem = (props: VideoItemProps) => {
           </div> */}
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 

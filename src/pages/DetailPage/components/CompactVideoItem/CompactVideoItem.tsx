@@ -8,6 +8,7 @@ import Skeleton from 'src/components/Skeleton'
 import Playlist from '../Playlist'
 import { playList } from 'src/types/playList.type'
 import { Video } from 'src/types/video.type'
+import PLayLIstFavorite from '../PlayListFavorite'
 
 const categoryAPI = [
   {
@@ -50,6 +51,9 @@ interface CompactVideoItemProps {
   dataGetVideo: Video[]
   isSuccessGetAllVideo: boolean
   dataGetPlayList: playList
+  isLoadingGetFavorite: boolean
+  isSuccessGetFavorite: boolean
+  dataGetFavorite: Video[]
 }
 const CompactVideoItem = ({
   dataGetAll,
@@ -60,17 +64,47 @@ const CompactVideoItem = ({
   isSuccessGetPlayList,
   isSuccessGetVideo,
   isLoadingGetAllVideo,
-  isSuccessGetAllVideo
+  isSuccessGetAllVideo,
+  isLoadingGetFavorite,
+  isSuccessGetFavorite,
+  dataGetFavorite
 }: CompactVideoItemProps) => {
   const queryConfig = useQueryConfig()
-  const { playList } = queryConfig
+  const { playList, category, favorite } = queryConfig
   const [filter, setFilter] = useState<string>('1')
-  const { category } = queryConfig
 
   const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`
 
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
+      {favorite && isLoadingGetFavorite && (
+        <div className='w-full md:overflow-hidden md:rounded-2xl md:border md:border-[rgba(0,0,0,0.1)] md:dark:border-gray-600 lg:mt-[-0.5rem] '>
+          <div className='flex flex-col gap-y-5 bg-white pt-3 pr-[0.375rem] pl-4 pb-2 dark:bg-[#212121] md:rounded-t-2xl'>
+            <div className='flex h-full w-full flex-col gap-y-5'>
+              <Skeleton className='h-5 w-full rounded-lg' />
+              <Skeleton className='h-5 w-1/2 rounded-lg' />
+            </div>
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div className='flex h-full w-full flex-col' key={index}>
+                  <div className='flex h-full w-full items-start gap-x-3'>
+                    <Skeleton className='h-14 w-24 rounded' />
+                    <div className='flex h-full w-full flex-col gap-y-3'>
+                      <Skeleton className='h-3 w-full rounded' />
+                      <Skeleton className='h-3 w-1/2 rounded' />
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+      {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
+        <div className='mt-[-0.5rem] lg:flex' style={{ height: videoHeight }}>
+          <PLayLIstFavorite data={dataGetFavorite} />
+        </div>
+      )}
       {playList && isLoadingGetPlayList && (
         <div className='w-full md:overflow-hidden md:rounded-2xl md:border md:border-[rgba(0,0,0,0.1)] md:dark:border-gray-600 lg:mt-[-0.5rem] '>
           <div className='flex flex-col gap-y-5 bg-white pt-3 pr-[0.375rem] pl-4 pb-2 dark:bg-[#212121] md:rounded-t-2xl'>

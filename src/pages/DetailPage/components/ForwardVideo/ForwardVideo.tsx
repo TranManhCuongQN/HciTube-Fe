@@ -15,7 +15,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
 
   const { id } = useParams()
   const queryConfig = useQueryConfig()
-  const { playList, category } = useQueryConfig()
+  const { playList, category, favorite } = useQueryConfig()
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -58,13 +58,27 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    } else if (favorite) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              favorite: favorite as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
           )
         ).toString()
       })
       setEnded(false)
     } else {
-      console.log('NextVideo:', nextVideo._id)
       navigate({
         pathname: `/detail/${nextVideo?._id}`,
         search: createSearchParams(
@@ -92,13 +106,27 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+          )
+        ).toString()
+      })
+      setEnded(false)
+    } else if (favorite) {
+      navigate({
+        pathname: `/detail/${nextVideo?._id}`,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              category: (category as string) || '1',
+              favorite: favorite as string
+            },
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
           )
         ).toString()
       })
       setEnded(false)
     } else {
-      console.log('NextVideo:', nextVideo)
       navigate({
         pathname: `/detail/${nextVideo?._id}`,
         search: createSearchParams(

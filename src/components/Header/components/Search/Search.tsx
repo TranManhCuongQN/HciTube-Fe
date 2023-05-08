@@ -12,6 +12,18 @@ const Search = () => {
 
   const handleKeyWord = (keyWordVoice: string) => {
     setKeyword(keyWordVoice)
+    navigate({
+      pathname: path.search,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConFig,
+            keyword: keyWordVoice
+          },
+          ['category', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+        )
+      ).toString()
+    })
   }
 
   const navigate = useNavigate()
