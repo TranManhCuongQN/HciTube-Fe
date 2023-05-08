@@ -19,6 +19,7 @@ const path = {
   verifyResetPass: '/verify-reset-password',
   library: '/library',
   history: '/history',
-  likedPlaylist: '/liked-playlist'
+  likedPlaylist: '/liked-playlist',
+  subscriptions: '/subscriptions'
 } as const
 export default path

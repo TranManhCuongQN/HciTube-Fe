@@ -3,8 +3,7 @@ import VideoItem from './VideoItem'
 import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
-
-const HistoryPage = () => {
+const SubscriptionsPage = () => {
   const {
     data: VideoList,
     isSuccess,
@@ -52,6 +51,7 @@ const HistoryPage = () => {
       </div>
     </>
   )
+
 }
 
-export default HistoryPage
+export default SubscriptionsPage;
