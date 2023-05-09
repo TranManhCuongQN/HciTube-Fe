@@ -54,7 +54,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [idView, setIdView] = useState<string>('')
   const { id } = useParams()
   const navigate = useNavigate()
-  console.log('playList:', playListVideo)
 
   const increseViewMutation = useMutation({
     mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
