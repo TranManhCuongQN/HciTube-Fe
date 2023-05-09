@@ -76,6 +76,10 @@ const CompactVideoItem = ({
   const [filter, setFilter] = useState<string>('1')
   const playListRef = useRef<HTMLDivElement>(null);
 
+  console.log('isSuccessGetFavorite', isSuccessGetFavorite)
+  console.log('isSuccessGetPlayList', isSuccessGetPlayList)
+
+
   if(isSuccessLoadVideo && window.innerWidth >= 1024 && playListRef.current) {
     playListRef.current.style.height = `${document.querySelector('#Video')?.clientHeight}px`
   } 
@@ -130,7 +134,7 @@ const CompactVideoItem = ({
         </div>
       )}
 
-      {(isSuccessGetFavorite || isSuccessGetPlayList) && (
+      {(favorite || playList) && (
         <div className='max-lg:mt-2 md:px-3 lg:px-0 lg:flex' ref={playListRef}>
           {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
             <PLayLIstFavorite data={dataGetFavorite} />

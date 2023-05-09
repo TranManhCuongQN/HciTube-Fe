@@ -52,7 +52,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [ended, setEnded] = useState<boolean>(false)
   const { id } = useParams()
   const navigate = useNavigate()
-  console.log('playList:', playListVideo)
 
   // const setWatchVideoTimeMutation = useMutation({
   //   mutationFn: ()=> videoApi.setWatchVideoTime({videoId: id, time: videoRef.current?.currentTime || 0}),
