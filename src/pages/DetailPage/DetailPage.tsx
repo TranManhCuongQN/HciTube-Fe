@@ -157,6 +157,7 @@ const DetailPage = () => {
           <div className={`${isTheaterMode && 'flex justify-between bg-white dark:bg-[#0f0f0f] lg:gap-x-5 lg:px-24'}`}>
             {isTheaterMode && <VideoInformationAndComment data={data?.data.data as VideoItem} />}
             <CompactVideoItem
+              isSuccessLoadVideo={isSuccess}
               dataGetAll={dataGetAll?.data.data as VideoType[]}
               dataGetPlayList={dataGetPlayList?.data.data as playList}
               dataGetVideo={dataGetVideo?.data.data.videos as VideoType[]}

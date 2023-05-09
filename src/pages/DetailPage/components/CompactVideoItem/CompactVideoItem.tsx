@@ -2,7 +2,7 @@ import { RxDividerHorizontal } from 'react-icons/rx'
 import ListFilter from '../ListFilter'
 import { Link, NavLink } from 'react-router-dom'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import Skeleton from 'src/components/Skeleton'
 import Playlist from '../Playlist'
@@ -42,6 +42,7 @@ const categoryAPI = [
 ]
 
 interface CompactVideoItemProps {
+  isSuccessLoadVideo: boolean
   isLoadingGetPlayList: boolean
   isSuccessGetPlayList: boolean
   isLoadingGetVideo: boolean
@@ -56,6 +57,7 @@ interface CompactVideoItemProps {
   dataGetFavorite: Video[]
 }
 const CompactVideoItem = ({
+  isSuccessLoadVideo,
   dataGetAll,
   dataGetPlayList,
   dataGetVideo,
@@ -72,8 +74,12 @@ const CompactVideoItem = ({
   const queryConfig = useQueryConfig()
   const { playList, category, favorite } = queryConfig
   const [filter, setFilter] = useState<string>('1')
+  const playListRef = useRef<HTMLDivElement>(null);
 
-  const videoHeight = `${document.querySelector('#Video')?.clientHeight}px`
+  if(isSuccessLoadVideo && window.innerWidth >= 1024 && playListRef.current) {
+    playListRef.current.style.height = `${document.querySelector('#Video')?.clientHeight}px`
+  } 
+
 
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
@@ -100,11 +106,6 @@ const CompactVideoItem = ({
           </div>
         </div>
       )}
-      {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
-        <div className='mt-[-0.5rem] lg:flex' style={{ height: videoHeight }}>
-          <PLayLIstFavorite data={dataGetFavorite} />
-        </div>
-      )}
       {playList && isLoadingGetPlayList && (
         <div className='w-full md:overflow-hidden md:rounded-2xl md:border md:border-[rgba(0,0,0,0.1)] md:dark:border-gray-600 lg:mt-[-0.5rem] '>
           <div className='flex flex-col gap-y-5 bg-white pt-3 pr-[0.375rem] pl-4 pb-2 dark:bg-[#212121] md:rounded-t-2xl'>
@@ -128,11 +129,20 @@ const CompactVideoItem = ({
           </div>
         </div>
       )}
-      {playList && isSuccessGetPlayList && (dataGetPlayList.videos?.length as number) > 0 && (
-        <div className='mt-[-0.5rem] lg:flex' style={{ height: videoHeight }}>
-          <Playlist data={dataGetPlayList as playList} />
+
+      {(isSuccessGetFavorite || isSuccessGetPlayList) && (
+        <div className='max-lg:mt-2 md:px-3 lg:px-0 lg:flex' ref={playListRef}>
+          {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
+            <PLayLIstFavorite data={dataGetFavorite} />
+          )}
+
+          {playList && isSuccessGetPlayList && (dataGetPlayList.videos?.length as number) > 0 && (
+            <Playlist data={dataGetPlayList as playList} />
+          )}
         </div>
       )}
+
+      
 
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
       <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>

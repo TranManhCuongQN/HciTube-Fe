@@ -378,7 +378,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         {/* <Playlist/> */}
       </div>
       <div className='flex flex-1 flex-col bg-white px-3 dark:bg-[#0f0f0f] lg:px-0'>
-        <span className='text-lg font-bold leading-4 text-black line-clamp-2 dark:text-white md:text-xl'>
+        <span className='text-lg font-bold text-black line-clamp-2 dark:text-white md:text-xl'>
           {data?.video?.title}
         </span>
         <div className='mt-2 flex w-full flex-wrap items-center justify-between gap-2'>

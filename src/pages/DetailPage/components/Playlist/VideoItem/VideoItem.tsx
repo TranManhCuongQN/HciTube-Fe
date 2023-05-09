@@ -42,7 +42,7 @@ const VideoItem = (props: VideoItemProps) => {
       to={`/detail/${data._id}?playList=${playList}&category=${category || '1'}`}
       className={`${
         active ? 'bg-[rgba(0,0,0,0.05)] dark:bg-[#212121]' : ''
-      } flex  w-full cursor-pointer items-center gap-y-3 p-3 hover:bg-[rgba(0,0,0,0.05)] dark:hover:bg-[#212121] lg:ml-[-8px]`}
+      } flex  w-full cursor-pointer items-center gap-y-3 p-3 hover:bg-[rgba(0,0,0,0.05)] dark:hover:bg-[#212121]`}
       role='presentation'
     >
       <BsPlayFill
