@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useEffect } from 'react'
-import { RxDividerHorizontal } from 'react-icons/rx'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
 import { convertToRelativeTime } from 'src/utils/utils'
@@ -11,11 +11,10 @@ interface VideoItemProps {
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
+  const queryConfig = useQueryConfig()
+  const { category } = queryConfig
 
   const { data } = props
-  console.log(data.description)
-
-  let timeout: NodeJS.Timeout
 
   useEffect(() => {
     const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
@@ -37,14 +36,14 @@ const VideoItem = (props: VideoItemProps) => {
   }
 
   return (
-    <NavLink
-      to={`/detail/${data._id}`}
-      className=' ml-[-8px] flex  w-full cursor-pointer gap-y-3 rounded-lg p-2 hover:bg-[rgba(0,0,0,0.05)] lg:p-3'
+    <Link
+      to={`/detail/${data._id}?category=${category || '1'}`}
+      className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]'
       role='presentation'
     >
-      <div className='mr-2 aspect-video h-fit w-40 rounded-lg lg:w-64'>
-        <div className='relative w-40 overflow-hidden rounded-xl lg:w-64'>
-          <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-40 object-cover md:rounded-xl lg:w-64' />
+      <div className='aspect-video h-fit w-40 md:w-full md:rounded-xl'>
+        <div className='relative overflow-hidden rounded-xl'>
+          <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
           <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
             {formatTime(Number(data?.duration))}
           </span>
@@ -53,30 +52,22 @@ const VideoItem = (props: VideoItemProps) => {
       </div>
 
       <div className='flex w-40 items-start gap-x-3 md:w-full'>
-        <div className='flex flex-col'>
-          <span className='pr-6 text-base font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
-
-          <NavLink
-            to={`${data.channel?._id}/channel`}
-            className='text-xs font-normal text-gray-500 dark:text-gray-400 lg:hidden '
+        <div className='flex flex-col text-[13px]'>
+          <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
+          <Link
+            to={`/${data.channel?._id}/channel`}
+            className='text-[11px] font-normal text-gray-500 dark:text-gray-400'
           >
-            {`${(data?.channel as User).fullName}`}
-          </NavLink>
-          <span className='text-xs font-normal text-gray-500 dark:text-gray-400 lg:hidden'>{`${data?.view} lượt xem`}</span>
-
-          <NavLink
-            to={`${data.channel?._id}/channel`}
-            className='hidden text-xs font-normal text-gray-500 dark:text-gray-400 lg:flex '
-          >
-            {`${(data?.channel as User).fullName} - ${data?.view} lượt xem`}
-          </NavLink>
-
-          <span className='hidden text-xs font-normal text-gray-500 line-clamp-2 dark:text-gray-400 lg:flex'>
-            {data?.description}
-          </span>
+            {(data?.channel as User).fullName}
+          </Link>
+          <div className='flex flex-wrap items-center gap-x-1'>
+            <span className='text-[11px] font-normal text-gray-500 line-clamp-1 dark:text-gray-400'>
+              {`${data?.view} lượt xem - ${convertToRelativeTime(data?.createdAt as string)}`}
+            </span>
+          </div>
         </div>
       </div>
-    </NavLink>
+    </Link>
   )
 }
 
