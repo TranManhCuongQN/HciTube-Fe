@@ -38,7 +38,8 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
   const nextVideo = getNextVideo(id as string)
 
   const formatTime = (duration: number) => {
-    const result = new Date(duration * 1000)?.toISOString()?.slice(11, 19)
+    let result = new Date(0 * 1000).toISOString().slice(11, 19)
+    if(duration) result = new Date(duration * 1000).toISOString().slice(11, 19)
     const hour = result?.slice(0, 2)
     const minute = result?.slice(3, 5)
     const second = result?.slice(6, 8)
