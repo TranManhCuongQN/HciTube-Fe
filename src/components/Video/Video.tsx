@@ -389,6 +389,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             ref={videoRef}
             onLoadedMetadata={playVideo}
             onTimeUpdate={updateTimeElapsed}
+            preload='auto'
             onEnded={() => {
               setEnded(true)
             }}
