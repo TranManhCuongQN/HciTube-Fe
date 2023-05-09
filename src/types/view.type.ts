@@ -1,6 +1,6 @@
 export interface View {
   createdAt: string
-  videoId: string
+  video: string
   watchedTime: number
   _id: string
 }

@@ -3,6 +3,7 @@ import { QueryConfig } from 'src/types/QueryConfig.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import { UploadVideo, Video, VideoItem } from 'src/types/video.type'
 import http from 'src/utils/http'
+import { View } from 'src/types/view.type'
 
 export const URL_GET_VIDEO = '/api/v1/videos'
 export const URL_GET_VIDEO_CHANNEL = `/api/v1/channels/`
@@ -32,8 +33,13 @@ const videoApi = {
   searchVideo: (params: QueryConfig) => {
     return http.get<SuccessResponse<{ videos: Video[]; users: User[] }>>(`${URL_GET_VIDEO}/search-videos`, { params })
   },
-  setWatchVideoTime: (idChannel: string) => {
-    return http.patch(`${URL_GET_VIDEO}/view/${idChannel}`)
+  setWatchVideoTime: (data: { idView: string; watchedTime: number }) => {
+    return http.patch(`${URL_GET_VIDEO}/view/${data.idView}`, {
+      watchedTime: data.watchedTime
+    })
+  },
+  increaseView: (data: { video: string; watchedTime: number }) => {
+    return http.post<SuccessResponse<View>>(`${URL_GET_VIDEO}/view`, data)
   }
 }
 export default videoApi

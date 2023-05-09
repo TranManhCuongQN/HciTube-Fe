@@ -1,18 +1,25 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { IoMdHome } from 'react-icons/io'
 import { MdOutlineVideoLibrary, MdOutlineVideoStable } from 'react-icons/md'
 import { RxCounterClockwiseClock } from 'react-icons/rx'
 import { RiVideoLine } from 'react-icons/ri'
 import { BiLike } from 'react-icons/bi'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AppContext } from 'src/context/app.context'
 import path from 'src/constants/path'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { toast } from 'react-toastify'
+import classNames from 'classnames'
 
 const AsideBar = () => {
   const { showSideBar, setShowSideBar, isVerify, profile } = useContext(AppContext)
   const navigate = useNavigate()
+  const location = useLocation()
+  console.log('location', location.pathname)
+  const url = location.pathname.split('/')[1]
+  console.log('url', url)
+  const [isCheck, setIsCheck] = useState<string>(url)
+  console.log('isCheck', isCheck)
 
   const handleClickSubscribe = () => {
     if (isVerify !== '2') {
@@ -25,6 +32,7 @@ const AsideBar = () => {
       navigate(path.login)
       return
     }
+    setIsCheck(url)
     navigate(path.subscriptions)
   }
 
@@ -39,6 +47,7 @@ const AsideBar = () => {
       navigate(path.login)
       return
     }
+    setIsCheck(url)
     navigate(path.library)
   }
 
@@ -67,6 +76,7 @@ const AsideBar = () => {
       navigate(path.login)
       return
     }
+    setIsCheck(url)
     navigate(path.likedPlaylist)
   }
 
@@ -87,16 +97,26 @@ const AsideBar = () => {
               : ' w-0 overflow-hidden pl-0 pr-0'
           } relative z-50 duration-200 ease-in-out`}
         >
-          <NavLink
-            to={path.home}
-            className='mt-16 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727] md:mt-20'
+          <button
+            onClick={() => navigate('/')}
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              {
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === '/'
+              }
+            )}
           >
             <IoMdHome className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-semibold text-black dark:text-white'>Trang chủ</span>
-          </NavLink>
+          </button>
 
           <button
-            className=' flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              {
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'subscriptions'
+              }
+            )}
             onClick={handleClickSubscribe}
           >
             <MdOutlineVideoStable className='h-6 w-6 text-black dark:text-white' />
@@ -107,7 +127,12 @@ const AsideBar = () => {
 
           {/* //* */}
           <button
-            className=' flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              {
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'library'
+              }
+            )}
             onClick={handleClickLibrary}
           >
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
@@ -123,7 +148,9 @@ const AsideBar = () => {
 
           <button
             onClick={handleClickVideoManager}
-            className=' flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            )}
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-semibold text-black dark:text-white'>Video của bạn</span>
@@ -131,7 +158,12 @@ const AsideBar = () => {
 
           <button
             onClick={handleClickVideoFavorite}
-            className=' flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              {
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'liked-playlist'
+              }
+            )}
           >
             <BiLike className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-semibold text-black dark:text-white'>Video đã thích</span>
@@ -190,16 +222,26 @@ const AsideBar = () => {
       )}
 
       <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto p-3 transition-all duration-1000 ease-linear max-2xl:hidden'>
-        <NavLink
-          to={path.home}
-          className=' flex items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        <button
+          onClick={() => navigate('/')}
+          className={classNames(
+            'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+            {
+              'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === ''
+            }
+          )}
         >
           <IoMdHome className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Trang chủ</span>
-        </NavLink>
+        </button>
         <button
           onClick={handleClickSubscribe}
-          className='mt-2 flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          className={classNames(
+            'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+            {
+              'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'subscriptions'
+            }
+          )}
         >
           <MdOutlineVideoStable className='mr- h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
@@ -207,8 +249,13 @@ const AsideBar = () => {
         <div className='my-4 mx-2 border-t border-t-gray-600' />
 
         <button
-          onClick={handleClickVideoManager}
-          className='mt-2 flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          onClick={handleClickLibrary}
+          className={classNames(
+            'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+            {
+              'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'library'
+            }
+          )}
         >
           <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Thư viện</span>
@@ -231,7 +278,12 @@ const AsideBar = () => {
 
         <button
           onClick={handleClickVideoFavorite}
-          className='mt-2 flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          className={classNames(
+            'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+            {
+              'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'liked-playlist'
+            }
+          )}
         >
           <BiLike className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Video đã thích</span>

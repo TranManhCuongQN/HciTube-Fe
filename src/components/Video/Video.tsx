@@ -45,18 +45,31 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
+  const [watchTime, setWatchTime] = useState<number>(0)
   const [zoomOut, setZoomOut] = useState<boolean>(false)
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
   const [ended, setEnded] = useState<boolean>(false)
+  const [idView, setIdView] = useState<string>('')
   const { id } = useParams()
   const navigate = useNavigate()
   console.log('playList:', playListVideo)
 
-  // const setWatchVideoTimeMutation = useMutation({
-  //   mutationFn: ()=> videoApi.setWatchVideoTime({videoId: id, time: videoRef.current?.currentTime || 0}),
-  // })
+  const increseViewMutation = useMutation({
+    mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
+    onSuccess: (data) => {
+      console.log('dataIncreaseView:', data.data.data._id)
+      setIdView(data.data.data._id)
+    }
+  })
+
+  const setWatchVideoTimeMutation = useMutation({
+    mutationFn: () => videoApi.setWatchVideoTime({ idView: idView as string, watchedTime: watchTime as number }),
+    onSuccess: (data) => {
+      console.log('dataSetWatchVideoTime:', data)
+    }
+  })
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -89,7 +102,15 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const updateTimeElapsed = () => {
     const time = videoRef.current?.currentTime || 0
     setTimeElapsed(formatTime(Math.round(time)))
+    setWatchTime(Math.round(time))
   }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      increseViewMutation.mutate()
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [id])
 
   // Progress bar
   useEffect(() => {
@@ -135,6 +156,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const pauseVideo = () => {
     videoRef.current?.pause()
     setPlaying(false)
+    setWatchVideoTimeMutation.mutate()
   }
 
   // Change Volume

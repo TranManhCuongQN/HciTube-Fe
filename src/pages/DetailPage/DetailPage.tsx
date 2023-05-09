@@ -65,8 +65,11 @@ const DetailPage = () => {
     enabled: Boolean(favorite)
   })
 
-  // console.log('data:', data)
-  // console.log('category:', category)
+  console.log('dataGetVideoFavorite:', dataGetVideoFavorite)
+  console.log('dataGetVideo:', dataGetVideo)
+  console.log('dataGetPlayList:', dataGetPlayList)
+  console.log('dataGetAll:', dataGetAll)
+  console.log('data:', data)
 
   const handleTheaterMode = (theaterMode: any) => {
     setIsTheaterMode(theaterMode)

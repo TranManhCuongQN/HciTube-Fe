@@ -278,9 +278,9 @@ const CompactVideoItem = ({
             </NavLink>
           ))}
 
-        <button className='w-full rounded-2xl border border-gray-600 p-1 text-xs font-semibold text-blue-400 hover:bg-blue-50 hover:text-blue-600 md:text-sm lg:hidden'>
+        {/* <button className='w-full rounded-2xl border border-gray-600 p-1 text-xs font-semibold text-blue-400 hover:bg-blue-50 hover:text-blue-600 md:text-sm lg:hidden'>
           Hiện thêm
-        </button>
+        </button> */}
       </div>
     </div>
   )
