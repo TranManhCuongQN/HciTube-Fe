@@ -130,7 +130,7 @@ const CompactVideoItem = ({
         </div>
       )}
 
-      {(isSuccessGetFavorite || isSuccessGetPlayList) && (
+      {(favorite || playList) && (
         <div className='max-lg:mt-2 md:px-3 lg:px-0 lg:flex' ref={playListRef}>
           {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
             <PLayLIstFavorite data={dataGetFavorite} />
