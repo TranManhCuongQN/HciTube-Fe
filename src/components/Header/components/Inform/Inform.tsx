@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { IoNotificationsOutline, IoNotifications } from 'react-icons/io5'
 import { BsBell } from 'react-icons/bs'
 import ToolTip from 'src/components/ToolTip'
 import useOnClickOutside from 'src/hook/useOnClickOutSide'
+import socket from 'src/api/socket'
+import { AppContext } from 'src/context/app.context'
 
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
+  const { isVerify } = useContext(AppContext)
   const informRef = React.useRef<HTMLButtonElement>(null)
   useOnClickOutside(informRef, () => setIsShow(false))
+  const [isConnected, setIsConnected] = useState(socket.connected)
+  const [events, setEvents] = useState([])
 
   return (
     <>

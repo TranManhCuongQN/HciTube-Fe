@@ -155,7 +155,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const pauseVideo = () => {
     videoRef.current?.pause()
     setPlaying(false)
-    setWatchVideoTimeMutation.mutate()
   }
 
   // Change Volume

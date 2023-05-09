@@ -15,11 +15,8 @@ const AsideBar = () => {
   const { showSideBar, setShowSideBar, isVerify, profile } = useContext(AppContext)
   const navigate = useNavigate()
   const location = useLocation()
-  console.log('location', location.pathname)
   const url = location.pathname.split('/')[1]
-  console.log('url', url)
   const [isCheck, setIsCheck] = useState<string>(url)
-  console.log('isCheck', isCheck)
 
   const handleClickSubscribe = () => {
     if (isVerify !== '2') {
@@ -49,6 +46,21 @@ const AsideBar = () => {
     }
     setIsCheck(url)
     navigate(path.library)
+  }
+
+  const handleClickHistory = () => {
+    if (isVerify !== '2') {
+      toast.dismiss()
+      toast.info('Bạn cần đăng nhập tài khoản để sử dụng trang này', {
+        position: 'top-right',
+        autoClose: 2000,
+        pauseOnHover: false
+      })
+      navigate(path.login)
+      return
+    }
+    setIsCheck(url)
+    navigate(path.history)
   }
 
   const handleClickVideoManager = () => {
@@ -138,13 +150,18 @@ const AsideBar = () => {
             <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-semibold text-black dark:text-white'> Thư viện</span>
           </button>
-          <NavLink
-            to=''
-            className=' flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+          <button
+            onClick={handleClickHistory}
+            className={classNames(
+              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              {
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'history'
+              }
+            )}
           >
             <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
             <span className='text-sm font-semibold text-black dark:text-white'>Video đã xem</span>
-          </NavLink>
+          </button>
 
           <button
             onClick={handleClickVideoManager}
@@ -260,13 +277,18 @@ const AsideBar = () => {
           <MdOutlineVideoLibrary className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Thư viện</span>
         </button>
-        <NavLink
-          to=''
-          className='mt-2 flex  w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+        <button
+          onClick={handleClickHistory}
+          className={classNames(
+            'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+            {
+              'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'history'
+            }
+          )}
         >
           <RxCounterClockwiseClock className='h-6 w-6 text-black dark:text-white' />
           <span className='text-sm font-semibold text-black dark:text-white'>Video đã xem</span>
-        </NavLink>
+        </button>
 
         <button
           onClick={handleClickVideoManager}

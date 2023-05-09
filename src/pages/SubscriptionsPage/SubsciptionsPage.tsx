@@ -5,15 +5,15 @@ import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 const SubscriptionsPage = () => {
   const {
-    data: VideoList,
-    isSuccess,
+    data: getVideoFollowing,
     isLoading,
-    isError,
-    refetch
+    isSuccess
   } = useQuery({
-    queryKey: 'videoList',
-    queryFn: videoApi.getVideoAll
+    queryKey: 'getVideoFollowing',
+    queryFn: () => videoApi.getVideoFollowing()
   })
+
+  console.log('dataFollowing:', getVideoFollowing?.data.data.older)
 
   return (
     <>
@@ -47,7 +47,7 @@ const SubscriptionsPage = () => {
               </div>
             </div>
           )}
-          {isSuccess && (VideoList?.data.data.length as number) > 0 && (
+          {isSuccess && (getVideoFollowing?.data.data.today.length as number) > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -56,11 +56,12 @@ const SubscriptionsPage = () => {
               </div>
 
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {isSuccess && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess &&
+                  (getVideoFollowing?.data.data.today.length as number) > 0 &&
+                  getVideoFollowing?.data.data.today?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
             </div>
           )}
-
 
           {isLoading && (
             <div className='mt-6 w-full lg:max-w-[1096px]'>
@@ -88,19 +89,17 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (VideoList?.data.data.length as number) > 0 && (
+          {isSuccess && (getVideoFollowing?.data.data.yesterday.length as number) > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <span className='text-lg font-bold'>Hôm qua</span>
                 </div>
-
-        
               </div>
 
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
-                  VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
+                  getVideoFollowing?.data.data.yesterday?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
             </div>
           )}
@@ -131,19 +130,47 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (VideoList?.data.data.length as number) > 0 && (
+          {isSuccess && (getVideoFollowing?.data.data.thisWeek.length as number) > 0 && (
             <div className='mt-6 w-full lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <span className='text-lg font-bold'>Tuần này</span>
                 </div>
-
-        
               </div>
 
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
-                  VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
+                  getVideoFollowing?.data.data.thisWeek?.map((item, index) => <VideoItem key={index} data={item} />)}
+              </div>
+            </div>
+          )}
+
+          {isSuccess && (getVideoFollowing?.data.data.thisMonth.length as number) > 0 && (
+            <div className='mt-6 w-full lg:max-w-[1096px]'>
+              <div className='flex items-center justify-between pb-3'>
+                <div className='flex items-center text-black dark:text-white'>
+                  <span className='text-lg font-bold'>Tháng này</span>
+                </div>
+              </div>
+
+              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                {isSuccess &&
+                  getVideoFollowing?.data.data.thisMonth?.map((item, index) => <VideoItem key={index} data={item} />)}
+              </div>
+            </div>
+          )}
+
+          {isSuccess && (getVideoFollowing?.data.data.older.length as number) > 0 && (
+            <div className='mt-6 w-full lg:max-w-[1096px]'>
+              <div className='flex items-center justify-between pb-3'>
+                <div className='flex items-center text-black dark:text-white'>
+                  <span className='text-lg font-bold'>Năm này</span>
+                </div>
+              </div>
+
+              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                {isSuccess &&
+                  getVideoFollowing?.data.data.older?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
             </div>
           )}
@@ -153,4 +180,4 @@ const SubscriptionsPage = () => {
   )
 }
 
-export default SubscriptionsPage;
+export default SubscriptionsPage

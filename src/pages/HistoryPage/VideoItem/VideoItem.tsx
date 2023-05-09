@@ -11,9 +11,7 @@ interface VideoItemProps {
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
-
   const { data } = props
-  console.log(data.description)
 
   let timeout: NodeJS.Timeout
 

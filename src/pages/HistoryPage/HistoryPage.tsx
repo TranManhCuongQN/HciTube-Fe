@@ -16,6 +16,13 @@ const HistoryPage = () => {
     queryFn: videoApi.getVideoAll
   })
 
+  const { data: getVideoHistory } = useQuery({
+    queryKey: 'getVideoHistory',
+    queryFn: videoApi.getVideoWatchTime
+  })
+
+  console.log('getVideoHistory:', getVideoHistory)
+
   return (
     <>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
