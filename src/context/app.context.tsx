@@ -1,5 +1,3 @@
-import { profile } from 'console'
-import { userInfo } from 'os'
 import React, { createContext, ReactNode, useEffect, useState } from 'react'
 import { User } from 'src/types/user.type'
 import { ExtendedVideo } from 'src/types/video.type'
@@ -20,6 +18,8 @@ interface AppContextInterface {
   setThumbnail: React.Dispatch<React.SetStateAction<string[]>>
   profile: User | null
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
+  keyword: string
+  setKeyword: React.Dispatch<React.SetStateAction<string>>
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -35,7 +35,9 @@ const initialAppContext: AppContextInterface = {
   thumbnail: [],
   setThumbnail: () => null,
   profile: getProfileFromLocalStorage(),
-  setProfile: () => null
+  setProfile: () => null,
+  keyword: '',
+  setKeyword: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -43,6 +45,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [showSearchMobie, setShowSearchMobie] = useState<boolean>(initialAppContext.showSearchMobie)
   const [showSideBar, setShowSideBar] = React.useState<boolean>(initialAppContext.showSideBar)
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
+  const [keyword, setKeyword] = useState<string>(initialAppContext.keyword)
 
   const [theme, setTheme] = React.useState<string>(initialAppContext.theme)
   const element = document.documentElement
@@ -85,7 +88,9 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         thumbnail,
         setThumbnail,
         profile,
-        setProfile
+        setProfile,
+        keyword,
+        setKeyword
       }}
     >
       {children}

@@ -1,7 +1,9 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosInstance } from 'axios'
+import { useContext } from 'react'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER, URL_VERIFY_EMAIL } from 'src/api/auth.api'
 import config from 'src/constants/config'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
+import { AppContext } from 'src/context/app.context'
 import { AuthResponse, RefreshTokenReponse } from 'src/types/auth.type'
 import { ErrorResponse } from 'src/types/utils.type'
 import {
@@ -105,6 +107,8 @@ class Http {
             })
           }
 
+          const { setIsVerify } = useContext(AppContext)
+          setIsVerify('0')
           clearLocalStorage()
           this.accessToken = ''
           this.refreshToken = ''
@@ -128,9 +132,11 @@ class Http {
         return access_token
       })
       .catch((error) => {
+        const { setIsVerify } = useContext(AppContext)
         clearLocalStorage()
         this.accessToken = ''
         this.refreshToken = ''
+        setIsVerify('0')
         throw error
       })
   }

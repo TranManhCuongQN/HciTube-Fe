@@ -1,3 +1,4 @@
+import { omit } from 'lodash'
 import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -15,7 +16,7 @@ import VideoInformationAndComment from './components/VideoInformationAndComment'
 
 const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
-  const { profile } = useContext(AppContext)
+  const { profile, setKeyword } = useContext(AppContext)
   const { id } = useParams()
   const queryConfig = useQueryConfig()
   const [video, setVideo] = useState<VideoType[]>([])
@@ -24,6 +25,10 @@ const DetailPage = () => {
     queryKey: ['video', id],
     queryFn: () => videoApi.getVideoById(id as string)
   })
+
+  useEffect(() => {
+    setKeyword('')
+  }, [])
 
   const {
     data: dataGetAll,
@@ -40,8 +45,24 @@ const DetailPage = () => {
     isSuccess: isSuccessGetVideo,
     isLoading: isLoadingGetVideo
   } = useQuery({
-    queryKey: ['getVideo', queryConfig],
-    queryFn: () => videoApi.searchVideo(queryConfig),
+    queryKey: [
+      'getVideo',
+      omit(
+        {
+          ...queryConfig
+        },
+        ['keyword']
+      )
+    ],
+    queryFn: () =>
+      videoApi.searchVideo(
+        omit(
+          {
+            ...queryConfig
+          },
+          ['keyword']
+        )
+      ),
     enabled: category !== '1'
   })
 
@@ -92,11 +113,6 @@ const DetailPage = () => {
       setVideo(dataGetVideo?.data.data.videos as VideoType[])
     }
   }, [playList, category, dataGetPlayList, dataGetAll, dataGetVideo, dataGetVideoFavorite, favorite])
-
-  // console.log(
-  //   'VideoType:',
-  //   video?.map((item) => item.video)
-  // )
 
   return (
     <>

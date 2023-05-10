@@ -20,10 +20,14 @@ import { setProfileToLocalStorage } from 'src/utils/auth'
 const SearchPage = () => {
   const filterRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
-  const { profile, setProfile, isVerify } = useContext(AppContext)
+  const { profile, setProfile, isVerify, keyword, setKeyword } = useContext(AppContext)
   const [isSubscribed, setIsSubscribed] = useState<[]>([])
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    setKeyword('')
+  }, [])
 
   const {
     data: getVideo,
@@ -58,7 +62,6 @@ const SearchPage = () => {
         autoClose: 2000,
         pauseOnHover: false
       })
-      console.log('dataFolloing:', data.data.data.user)
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
       queryClient.invalidateQueries('getVideo')
@@ -109,8 +112,6 @@ const SearchPage = () => {
     }
     subscribeChannelMutation.mutate({ channel: id })
   }
-
-  console.log('getVideo:', getVideo?.data.data)
 
   return (
     <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>

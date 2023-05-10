@@ -33,6 +33,7 @@ const videoApi = {
     return http.patch(`${URL_GET_VIDEO}/action`, data)
   },
   searchVideo: (params: QueryConfig) => {
+    console.log('params:', params)
     return http.get<SuccessResponse<{ videos: Video[]; users: User[] }>>(`${URL_GET_VIDEO}/search-videos`, { params })
   },
   setWatchVideoTime: (data: { idView: string; watchedTime: number }) => {
@@ -46,8 +47,9 @@ const videoApi = {
   increaseView: (data: { video: string; watchedTime: number }) => {
     return http.post<SuccessResponse<View>>(`${URL_GET_VIDEO}/view`, data)
   },
-  getVideoWatchTime: () => {
-    return http.get(`${URL_GET_VIDEO_HISTORY}`)
+  getVideoWatchTime: (idChannel: string) => {
+    return http.get(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/watchHistories
+    `)
   }
 }
 export default videoApi

@@ -3,6 +3,8 @@ import VideoItem from './VideoItem'
 import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
+import { useContext } from 'react'
+import { AppContext } from 'src/context/app.context'
 
 const HistoryPage = () => {
   const {
@@ -16,9 +18,11 @@ const HistoryPage = () => {
     queryFn: videoApi.getVideoAll
   })
 
+  const { profile } = useContext(AppContext)
+
   const { data: getVideoHistory } = useQuery({
     queryKey: 'getVideoHistory',
-    queryFn: videoApi.getVideoWatchTime
+    queryFn: () => videoApi.getVideoWatchTime(profile?._id as string)
   })
 
   console.log('getVideoHistory:', getVideoHistory)

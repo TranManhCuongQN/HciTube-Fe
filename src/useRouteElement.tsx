@@ -89,6 +89,34 @@ const useRouteElement = () => {
       children: [
         {
           path: '',
+          element: <MainLayout />,
+          children: [
+            {
+              path: path.library,
+              element: <LibraryPage />
+            },
+            {
+              path: path.history,
+              element: <HistoryPage />
+            },
+            {
+              path: path.likedPlaylist,
+              element: <LikedPlaylistPage />
+            },
+            {
+              path: path.subscriptions,
+              element: <SubscriptionsPage />
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectedRoute />,
+      children: [
+        {
+          path: '',
           element: <ManageVideoLayout />,
           children: [
             {
@@ -136,22 +164,7 @@ const useRouteElement = () => {
               path: path.detail,
               element: <DetailPage />
             },
-            {
-              path: path.library,
-              element: <LibraryPage />
-            },
-            {
-              path: path.history,
-              element: <HistoryPage />
-            },
-            {
-              path: path.likedPlaylist,
-              element: <LikedPlaylistPage />
-            },
-            {
-              path: path.subscriptions,
-              element: <SubscriptionsPage />
-            },
+
             {
               element: <ChannelPage />,
               children: [

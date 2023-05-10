@@ -1,6 +1,6 @@
 import { RxDividerHorizontal } from 'react-icons/rx'
 import ListFilter from '../ListFilter'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useParams } from 'react-router-dom'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import { useState, useEffect, useRef } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
@@ -74,13 +74,12 @@ const CompactVideoItem = ({
   const queryConfig = useQueryConfig()
   const { playList, category, favorite } = queryConfig
   const [filter, setFilter] = useState<string>('1')
-  const playListRef = useRef<HTMLDivElement>(null);
+  const playListRef = useRef<HTMLDivElement>(null)
+  const { id } = useParams()
 
-
-  if(isSuccessLoadVideo && window.innerWidth >= 1024 && playListRef.current) {
+  if (isSuccessLoadVideo && window.innerWidth >= 1024 && playListRef.current) {
     playListRef.current.style.height = `${document.querySelector('#Video')?.clientHeight}px`
-  } 
-
+  }
 
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
@@ -132,9 +131,9 @@ const CompactVideoItem = ({
       )}
 
       {(favorite || playList) && (
-        <div className='max-lg:mt-2 md:px-3 lg:px-0 lg:flex' ref={playListRef}>
+        <div className='max-lg:mt-2 md:px-3 lg:flex lg:px-0' ref={playListRef}>
           {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
-            <PLayLIstFavorite data={dataGetFavorite} />
+            <PLayLIstFavorite data={dataGetFavorite.filter((item) => item._id !== id)} />
           )}
 
           {playList && isSuccessGetPlayList && (dataGetPlayList.videos?.length as number) > 0 && (
@@ -142,8 +141,6 @@ const CompactVideoItem = ({
           )}
         </div>
       )}
-
-      
 
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
       <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
@@ -183,111 +180,115 @@ const CompactVideoItem = ({
         {isSuccessGetAllVideo &&
           (dataGetAll.length as number) > 0 &&
           filter === '1' &&
-          dataGetAll.map((item) => (
-            <Link
-              to={`/detail/${item._id}?category=${category || '1'}`}
-              className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
-              key={item._id}
-            >
-              <img
-                src={item?.thumbnail}
-                alt='thumbnail'
-                className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
-              />
-
-              <div className='m-3 flex text-black dark:text-white lg:hidden '>
+          dataGetAll
+            .filter((item) => item._id !== id)
+            .map((item) => (
+              <Link
+                to={`/detail/${item._id}?category=${category || '1'}`}
+                className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
+                key={item._id}
+              >
                 <img
-                  src={item?.channel?.avatar}
-                  alt=''
-                  className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                  src={item?.thumbnail}
+                  alt='thumbnail'
+                  className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
                 />
 
-                <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
-                  <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
+                <div className='m-3 flex text-black dark:text-white lg:hidden '>
+                  <img
+                    src={item?.channel?.avatar}
+                    alt=''
+                    className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                  />
+
+                  <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
+                    <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
+                    <div className='flex items-center gap-x-1'>
+                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                        {`${item?.channel?.fullName} `}
+                      </span>
+                      <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
+                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                        {convertNumberToDisplayString(item?.view as number)} lượt xem
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
+                  <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
+                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                    {item?.channel?.fullName}
+                  </span>
                   <div className='flex items-center gap-x-1'>
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                      {`${item?.channel?.fullName} `}
+                      {' '}
+                      {convertNumberToDisplayString(item?.view as number)} lượt xem
                     </span>
                     <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                      {convertNumberToDisplayString(item?.view as number)} lượt xem
+                      {convertToRelativeTime(item.createdAt as string)}
                     </span>
                   </div>
                 </div>
-              </div>
-
-              <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
-                <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
-                <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                  {item?.channel?.fullName}
-                </span>
-                <div className='flex items-center gap-x-1'>
-                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                    {' '}
-                    {convertNumberToDisplayString(item?.view as number)} lượt xem
-                  </span>
-                  <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                    {convertToRelativeTime(item.createdAt as string)}
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
         {isSuccessGetVideo &&
           filter !== '1' &&
           dataGetVideo.length > 0 &&
-          dataGetVideo.map((item) => (
-            <NavLink
-              to={`/detail/${item._id}?category=${category || '1'}`}
-              className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
-              key={item._id}
-            >
-              <img
-                src={item?.thumbnail}
-                alt='thumbnail'
-                className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
-              />
-
-              <div className='m-3 flex text-black dark:text-white lg:hidden '>
+          dataGetVideo
+            .filter((item) => item._id !== id)
+            .map((item) => (
+              <NavLink
+                to={`/detail/${item._id}?category=${category || '1'}`}
+                className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
+                key={item._id}
+              >
                 <img
-                  src={item?.channel?.avatar}
-                  alt=''
-                  className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                  src={item?.thumbnail}
+                  alt='thumbnail'
+                  className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
                 />
 
-                <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
-                  <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
+                <div className='m-3 flex text-black dark:text-white lg:hidden '>
+                  <img
+                    src={item?.channel?.avatar}
+                    alt=''
+                    className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                  />
+
+                  <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
+                    <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
+                    <div className='flex items-center gap-x-1'>
+                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                        {`${item?.channel?.fullName} `}
+                      </span>
+                      <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
+                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                        {convertNumberToDisplayString(item?.view as number)} lượt xem
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
+                  <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
+                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                    {item?.channel?.fullName}
+                  </span>
                   <div className='flex items-center gap-x-1'>
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                      {`${item?.channel?.fullName} `}
+                      {' '}
+                      {convertNumberToDisplayString(item?.view as number)} lượt xem
                     </span>
                     <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
                     <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                      {convertNumberToDisplayString(item?.view as number)} lượt xem
+                      {convertToRelativeTime(item.createdAt as string)}
                     </span>
                   </div>
                 </div>
-              </div>
-
-              <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
-                <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
-                <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                  {item?.channel?.fullName}
-                </span>
-                <div className='flex items-center gap-x-1'>
-                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                    {' '}
-                    {convertNumberToDisplayString(item?.view as number)} lượt xem
-                  </span>
-                  <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-                  <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
-                    {convertToRelativeTime(item.createdAt as string)}
-                  </span>
-                </div>
-              </div>
-            </NavLink>
-          ))}
+              </NavLink>
+            ))}
 
         {/* <button className='w-full rounded-2xl border border-gray-600 p-1 text-xs font-semibold text-blue-400 hover:bg-blue-50 hover:text-blue-600 md:text-sm lg:hidden'>
           Hiện thêm

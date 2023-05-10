@@ -22,6 +22,7 @@ const Voice = (props: VoiceProps) => {
   const audioCloseRef = useRef<HTMLAudioElement | null>(null)
 
   console.log('isOpenVoice:', isOpen)
+  console.log('record', record)
 
   useEffect(() => {
     setRecord(transcript)
@@ -37,6 +38,7 @@ const Voice = (props: VoiceProps) => {
       setIsOpen(false)
       handleKeyWord(record)
       audioEndRef.current?.play()
+      setRecord('')
     }
     return () => {
       clearTimeout(out)
