@@ -31,7 +31,7 @@ const LibraryPage = () => {
     queryKey: ['videoListFavorite', profile?._id],
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
   })
-
+ 
   return (
     <>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
