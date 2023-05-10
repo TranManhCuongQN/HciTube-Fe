@@ -58,7 +58,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const increseViewMutation = useMutation({
     mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
     onSuccess: (data) => {
-      console.log('dataIncreaseView:', data.data.data._id)
+      // console.log('dataIncreaseView:', data.data.data._id)
       setIdView(data.data.data._id)
     }
   })
@@ -66,7 +66,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const setWatchVideoTimeMutation = useMutation({
     mutationFn: () => videoApi.setWatchVideoTime({ idView: idView as string, watchedTime: watchTime as number }),
     onSuccess: (data) => {
-      console.log('dataSetWatchVideoTime:', data)
+      // console.log('dataSetWatchVideoTime:', data)
     }
   })
 

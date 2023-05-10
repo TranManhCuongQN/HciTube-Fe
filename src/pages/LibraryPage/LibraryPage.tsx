@@ -11,6 +11,15 @@ import favoriteApi from 'src/api/favorite.api'
 import { useNavigate } from 'react-router-dom'
 import PlayList from './components/PlayList'
 
+import playListAPI from 'src/api/playlist.api'
+import { MdOutlinePlaylistPlay } from 'react-icons/md'
+import { Video } from 'src/types/video.type'
+import { playList } from 'src/types/playList.type'
+import useQueryConfig from 'src/hook/useQueryConfig'
+import { omit } from 'lodash'
+import { createSearchParams } from 'react-router-dom'
+
+
 const LibraryPage = () => {
   const { profile } = useContext(AppContext)
   const navigate = useNavigate()
@@ -32,6 +41,34 @@ const LibraryPage = () => {
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
   })
 
+
+  const queryConFig = useQueryConfig()
+  const { category } = queryConFig
+  const id = '644012d8a0eb696fa6610fbd'
+  const {
+    data: dataPlayList,
+    isSuccess,
+    isLoading
+  } = useQuery({
+    queryKey: ['channelPlayList', id],
+    queryFn: () => playListAPI.getPlayListById(id)
+  })
+  const handlePlayAll = (item: playList) => {
+    navigate({
+      pathname: `/detail/${(item.videos as Video[])[0]._id}`,
+      search: createSearchParams(
+        omit(
+          {
+            ...queryConFig,
+            playList: item.id,
+            category: category || '1'
+          },
+          ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+        )
+      ).toString()
+    })
+  }
+ 
   return (
     <>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
@@ -39,6 +76,7 @@ const LibraryPage = () => {
         <div
           className={`mb-16 flex h-full w-full flex-col items-center px-3 md:mx-auto md:w-[760px] md:px-0 lg:mx-0 lg:w-full 2xl:ml-64`}
         >
+          {/* Watched video */}
           {isLoadingVideoList && (
             <div className='mt-6 w-full lg:max-w-[1096px]'>
               <div className='flex h-full w-full flex-col gap-y-5'>
@@ -83,16 +121,7 @@ const LibraryPage = () => {
             </div>
           )}
 
-          <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
-            <div className='flex items-center justify-between pb-3'>
-              <div className='flex items-center text-black dark:text-white'>
-                <RiHistoryLine className='mr-3 h-6 w-6' />
-                <span className='text-lg font-bold'>Danh sách phát</span>
-              </div>
-            </div>
-            <PlayList />
-          </div>
-
+          {/* Liked video */}
           {isLoadingFavorite && (
             <div className='mt-6 w-full lg:max-w-[1096px]'>
               <div className='flex h-full w-full flex-col gap-y-5'>
@@ -120,7 +149,7 @@ const LibraryPage = () => {
           )}
 
           {isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0 && (
-            <div className='mt-6 w-full lg:max-w-[1096px]'>
+            <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <AiOutlineLike className='mr-3 h-6 w-6' />
@@ -141,6 +170,57 @@ const LibraryPage = () => {
               </div>
             </div>
           )}
+
+          {/* Playlist */}
+          <div className='mt-6 w-full lg:max-w-[1096px]'>
+            <div className='flex items-center justify-between pb-3'>
+              <div className='flex items-center text-black dark:text-white'>
+                <RiHistoryLine className='mr-3 h-6 w-6' />
+                <span className='text-lg font-bold'>Danh sách phát</span>
+              </div>
+            </div>
+            {isLoading && (
+              <div className='mt-6 grid max-w-full gap-x-5 gap-y-10 max-lg:grid-cols-2 max-[320px]:grid-cols-1 md:px-20 lg:grid-cols-3 lg:px-40'>
+                {Array(6)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div className='flex flex-col gap-y-3' key={index}>
+                      <Skeleton className='h-[130px] w-[220px] rounded-lg max-md:w-[170px]' />
+                      <Skeleton className='h-5 w-56 rounded-md max-md:w-40' />
+                      <Skeleton className='h-5 w-32 rounded-md max-md:w-20' />
+                    </div>
+                  ))}
+              </div>
+            )}
+
+            {isSuccess && dataPlayList.data.data.length > 0 && (
+              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:grid md:max-w-full md:gap-x-3 md:gap-y-3 max-lg:grid-cols-3 lg:grid-cols-4'>
+                {dataPlayList?.data.data.map((item) => {
+                  if ((item.videos as Video[]).length === 0) return null
+                  return (
+                    <div
+                      className='flex cursor-pointer flex-col gap-y-2'
+                      key={item.id}
+                      role='presentation'
+                      onClick={() => handlePlayAll(item)}
+                    >
+                      <div className='relative aspect-video w-40 md:w-full h-fit flex-shrink-0 rounded-lg'>
+                        <img
+                          src={(item?.videos as Video[])[0]?.thumbnail}
+                          alt='avatar'
+                          className='aspect-video w-full rounded-lg object-cover'
+                        />
+                        <div className='absolute bottom-0 right-0 top-0 flex h-full w-2/5 flex-col items-center justify-center gap-y-2 rounded bg-[#1a1315c0] shadow'>
+                          <span className='text-base font-medium text-white'>{item.videos?.length}</span>
+                          <MdOutlinePlaylistPlay className='h-8 w-8 text-center text-white' />
+                        </div>
+                      </div>                    
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
