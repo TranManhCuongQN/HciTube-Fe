@@ -16,6 +16,7 @@ const PlayList = () => {
   const queryConFig = useQueryConfig()
   const { category } = queryConFig
 
+  console.log(id)
   const {
     data: dataPlayList,
     isSuccess,
