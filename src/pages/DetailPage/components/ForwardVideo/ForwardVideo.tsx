@@ -39,7 +39,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
 
   const formatTime = (duration: number) => {
     let result = new Date(0 * 1000).toISOString().slice(11, 19)
-    if(duration) result = new Date(duration * 1000).toISOString().slice(11, 19)
+    if (duration) result = new Date(duration * 1000).toISOString().slice(11, 19)
     const hour = result?.slice(0, 2)
     const minute = result?.slice(3, 5)
     const second = result?.slice(6, 8)
@@ -59,7 +59,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite', 'watchTime']
           )
         ).toString()
       })
@@ -74,7 +74,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               favorite: favorite as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList', 'watchTime']
           )
         ).toString()
       })
@@ -88,7 +88,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               ...queryConfig,
               category: category as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'watchTime']
           )
         ).toString()
       })
@@ -107,7 +107,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite', 'watchTime']
           )
         ).toString()
       })
@@ -122,7 +122,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               category: (category as string) || '1',
               favorite: favorite as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList', 'watchTime']
           )
         ).toString()
       })
@@ -136,7 +136,7 @@ const ForwardVideo = ({ data, setEnded }: ForwardVideoProps) => {
               ...queryConfig,
               category: category as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'watchTime']
           )
         ).toString()
       })

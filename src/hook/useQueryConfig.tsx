@@ -14,7 +14,8 @@ const useQueryConfig = () => {
       timeRange: queryParams.timeRange,
       sortBy: queryParams.sortBy,
       playList: queryParams.playList,
-      favorite: queryParams.favorite
+      favorite: queryParams.favorite,
+      watchTime: queryParams.watchTime
     },
     isUndefined
   )

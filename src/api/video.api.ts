@@ -45,10 +45,10 @@ const videoApi = {
     return http.get<SuccessResponse<following>>(`${URL_GET_VIDEO}/following-videos`)
   },
   increaseView: (data: { video: string; watchedTime: number }) => {
-    return http.post<SuccessResponse<View>>(`${URL_GET_VIDEO}/view`, data)
+    return http.post(`${URL_GET_VIDEO}/view`, data)
   },
   getVideoWatchTime: (idChannel: string) => {
-    return http.get(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/watchHistories
+    return http.get<SuccessResponse<View[]>>(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/watchHistories
     `)
   }
 }

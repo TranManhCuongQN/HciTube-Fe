@@ -7,25 +7,14 @@ import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 
 const HistoryPage = () => {
-  const {
-    data: VideoList,
-    isSuccess,
-    isLoading,
-    isError,
-    refetch
-  } = useQuery({
-    queryKey: 'videoList',
-    queryFn: videoApi.getVideoAll
-  })
-
   const { profile } = useContext(AppContext)
 
-  const { data: getVideoHistory } = useQuery({
+  const { data: getVideoHistory, isSuccess } = useQuery({
     queryKey: 'getVideoHistory',
     queryFn: () => videoApi.getVideoWatchTime(profile?._id as string)
   })
 
-  console.log('getVideoHistory:', getVideoHistory)
+  console.log(getVideoHistory)
 
   return (
     <>
@@ -34,15 +23,18 @@ const HistoryPage = () => {
 
         <div className={`mb-16 flex h-full w-full flex-col justify-center  px-3 2xl:ml-64`}>
           <div className='pt-3 lg:max-w-[1096px]'>
-            <h1 className='mb-3 text-lg font-extrabold text-black dark:text-white md:text-xl lg:mb-0 lg:pt-2 lg:pb-6'>
+            {/* <h1 className='mb-3 text-lg font-extrabold text-black dark:text-white md:text-xl lg:mb-0 lg:pt-2 lg:pb-6'>
               Hôm nay
-            </h1>
+            </h1> */}
             <div className='flex h-full w-full flex-col'>
-              {isSuccess && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
+              {isSuccess &&
+                getVideoHistory.data.data?.map((item, index) => (
+                  <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
+                ))}
             </div>
           </div>
 
-          <div className='pt-3 lg:max-w-[1096px]'>
+          {/* <div className='pt-3 lg:max-w-[1096px]'>
             <h1 className='mb-3 text-lg font-extrabold text-black dark:text-white md:text-xl lg:mb-0 lg:pt-2 lg:pb-6'>
               Hôm qua
             </h1>
@@ -58,7 +50,7 @@ const HistoryPage = () => {
             <div className='flex h-full w-full flex-col'>
               {isSuccess && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

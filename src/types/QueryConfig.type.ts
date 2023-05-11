@@ -7,4 +7,5 @@ export interface QueryConfig {
   sortBy?: 'createdAt' | 'view'
   playList?: string
   favorite?: string
+  watchTime?: string
 }

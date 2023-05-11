@@ -36,7 +36,7 @@ interface VideoProps {
 
 const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playListVideo }: VideoProps) => {
   const queryConfig = useQueryConfig()
-  const { category, playList, favorite } = queryConfig
+  const { category, playList, favorite, watchTime } = queryConfig
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
   const volumeRef = useRef<HTMLInputElement>(null)
@@ -45,7 +45,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [playing, setPlaying] = useState<boolean>(true)
   const [hidden, setHidden] = useState<boolean>(true)
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
-  const [watchTime, setWatchTime] = useState<number>(0)
   const [zoomOut, setZoomOut] = useState<boolean>(false)
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
@@ -55,20 +54,19 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const { id } = useParams()
   const navigate = useNavigate()
 
-  // const increseViewMutation = useMutation({
-  //   mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
-  //   onSuccess: (data) => {
-  //     // console.log('dataIncreaseView:', data.data.data._id)
-  //     setIdView(data.data.data._id)
-  //   }
-  // })
+  const increseViewMutation = useMutation({
+    mutationFn: videoApi.increaseView,
+    onSuccess: (data) => {
+      setIdView(data?.data?.data?.view?._id)
+    }
+  })
 
-  // const setWatchVideoTimeMutation = useMutation({
-  //   mutationFn: () => videoApi.setWatchVideoTime({ idView: idView as string, watchedTime: watchTime as number }),
-  //   onSuccess: (data) => {
-  //     // console.log('dataSetWatchVideoTime:', data)
-  //   }
-  // })
+  const setWatchVideoTimeMutation = useMutation({
+    mutationFn: videoApi.setWatchVideoTime,
+    onSuccess: (data) => {
+      // console.log('dataSetWatchVideoTime:', data)
+    }
+  })
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -101,15 +99,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const updateTimeElapsed = () => {
     const time = videoRef.current?.currentTime || 0
     setTimeElapsed(formatTime(Math.round(time)))
-    setWatchTime(Math.round(time))
   }
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     increseViewMutation.mutate()
-  //   }, 5000)
-  //   return () => clearTimeout(timer)
-  // }, [id])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      increseViewMutation.mutate({
+        video: id as string,
+        watchedTime: videoRef.current?.currentTime as number
+      })
+    }, 5000)
+    return () => clearTimeout(timer)
+  }, [id])
 
   // Progress bar
   useEffect(() => {
@@ -249,6 +249,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   // Handle click next button
   const movingBackwardVideo = useCallback(() => {
     if (playList) {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${prevVideo?._id}`,
         search: createSearchParams(
@@ -258,11 +264,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite', 'watchTime']
           )
         ).toString()
       })
     } else if (favorite) {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${prevVideo?._id}`,
         search: createSearchParams(
@@ -272,11 +284,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               category: (category as string) || '1',
               favorite: favorite as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList', 'watchTime']
           )
         ).toString()
       })
     } else {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${prevVideo?._id}`,
         search: createSearchParams(
@@ -285,7 +303,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               ...queryConfig,
               category: category as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'watchTime']
           )
         ).toString()
       })
@@ -295,6 +313,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   // Handle click prev button
   const movingForwardVideo = useCallback(() => {
     if (playList) {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${nextVideo?._id}`,
         search: createSearchParams(
@@ -304,11 +328,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               category: (category as string) || '1',
               playList: playList as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'favorite', 'watchTime']
           )
         ).toString()
       })
     } else if (favorite) {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${nextVideo?._id}`,
         search: createSearchParams(
@@ -318,11 +348,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               category: (category as string) || '1',
               favorite: favorite as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'playList', 'watchTime']
           )
         ).toString()
       })
     } else {
+      if (idView) {
+        setWatchVideoTimeMutation.mutate({
+          idView: idView as string,
+          watchedTime: videoRef.current?.currentTime as number
+        })
+      }
       navigate({
         pathname: `/detail/${nextVideo?._id}`,
         search: createSearchParams(
@@ -331,7 +367,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               ...queryConfig,
               category: category as string
             },
-            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy']
+            ['keyword', 'duration_min', 'duration_max', 'timeRange', 'sortBy', 'watchTime']
           )
         ).toString()
       })
@@ -339,46 +375,54 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   }, [category, favorite, playList, navigate, nextVideo, queryConfig])
 
   // Handle keyboard shortcuts
-  const keyboardShortcuts = useCallback(
-    (event: KeyboardEvent) => {
-      const { key } = event
-      switch (key) {
-        case 'a':
-          movingBackwardVideo()
-          break
-        case 'k':
-          handlePlayAndPause()
-          break
-        case 'd':
-          movingForwardVideo()
-          break
-        case 'm':
-          toggleMute()
-          break
-        case 't':
-          handleClickTheaterMode()
-          break
-        case 'f':
-          toggleFullScreen()
-          break
-        default:
-          break
-      }
-    },
-    [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
-  )
-  useEffect(() => {
-    document.addEventListener('keyup', keyboardShortcuts)
-  }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
+  // const keyboardShortcuts = useCallback(
+  //   (event: KeyboardEvent) => {
+  //     const { key } = event
+  //     switch (key) {
+  //       case 'a':
+  //         movingBackwardVideo()
+  //         break
+  //       case 'k':
+  //         handlePlayAndPause()
+  //         break
+  //       case 'd':
+  //         movingForwardVideo()
+  //         break
+  //       case 'm':
+  //         toggleMute()
+  //         break
+  //       case 't':
+  //         handleClickTheaterMode()
+  //         break
+  //       case 'f':
+  //         toggleFullScreen()
+  //         break
+  //       default:
+  //         break
+  //     }
+  //   },
+  //   [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
+  // )
+  // useEffect(() => {
+  //   document.addEventListener('keyup', keyboardShortcuts)
+  // }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
 
-  useEffect(() => {
-    const videoElement = videoRef.current
+  // useEffect(() => {
+  //   const videoElement = videoRef.current
 
-    return () => {
-      // Handle save the current time into the database
-      console.log('videoElement', videoElement?.currentTime)
-    }
-  }, [])
+  //   return () => {
+  //     // Handle save the current time into the database
+  //     console.log('videoElement', videoElement?.currentTime)
+  //     if (idView) {
+  //       setWatchVideoTimeMutation.mutate({
+  //         idView: idView as string,
+  //         watchedTime: videoRef.current?.currentTime as number
+  //       })
+  //     }
+  //   }
+  // }, [])
+
+  console.log('idView:', idView)
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
@@ -399,6 +443,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             preload='auto'
             onEnded={() => {
               setEnded(true)
+              if (idView) {
+                setWatchVideoTimeMutation.mutate({
+                  idView: idView as string,
+                  watchedTime: videoRef.current?.currentTime as number
+                })
+              }
             }}
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full`}
             id='Video'

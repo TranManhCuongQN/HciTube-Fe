@@ -73,7 +73,7 @@ const DetailPage = () => {
   } = useQuery({
     queryKey: ['playList', playList],
     queryFn: () => playListAPI.getPlayListVideoById(playList as string),
-    enabled: Boolean(playList)
+    enabled: Boolean(playList) === true
   })
 
   const {
@@ -83,8 +83,11 @@ const DetailPage = () => {
   } = useQuery({
     queryKey: ['videoListFavorite', profile?._id],
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string),
-    enabled: Boolean(favorite)
+    enabled: Boolean(favorite) === true
   })
+
+  console.log('favorite:', Boolean(favorite))
+  console.log('playList:', Boolean(playList))
 
   // console.log('dataGetVideoFavorite:', dataGetVideoFavorite)
   // console.log('dataGetVideo:', dataGetVideo)
