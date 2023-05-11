@@ -65,7 +65,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
 
   return (
     <>
-      <div className='my-3 flex flex-col '>
+      <div className='my-3 flex flex-col min-h-[500px] '>
         <div className='flex items-center gap-x-5'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>{totalComment} bình luận</span>
           <div
@@ -117,10 +117,11 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
             />
             <div className='flex flex-grow flex-col gap-y-3'>
               <textarea
-                className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
+                className='comment-box h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
                 placeholder='Viết bình luận ...'
                 value={comment}
                 onClick={() => setIsShow(true)}
+                onKeyUp={(event) => event.stopPropagation()}
                 onChange={(e) => setComment(e.target.value)}
               ></textarea>
               {isShow && (
@@ -133,7 +134,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
                     <div className='absolute top-10 left-0'>
                       {isShowEmoji && (
                         <>
-                          <EmojiPicker height='260px' width='235px' onEmojiClick={onClick} />
+                          <EmojiPicker height='300px' width='fit' onEmojiClick={onClick} />
                         </>
                       )}
                     </div>
@@ -166,10 +167,16 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
           </div>
         )}
 
-        {(data?.data.data.length as number) > 0 &&
+        {(data?.data.data.length as number) > 0 ?
           data?.data.data.map((item, index) => {
             return <CommentItem key={item._id} dataComment={item} />
-          })}
+          })
+          : (
+            <div className="flex justify-center items-center w-full h-80  ">
+              <span className="text-base font-bold text-black dark:text-white">Chưa có bình luận nào</span>
+            </div>
+          )
+        }
 
         {isVerify !== '2' && (
           <div className='mt-3 flex w-full items-center justify-center gap-x-2'>
