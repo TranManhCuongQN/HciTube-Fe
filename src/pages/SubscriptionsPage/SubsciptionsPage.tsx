@@ -14,6 +14,8 @@ const SubscriptionsPage = () => {
   })
 
   console.log('dataFollowing:', getVideoFollowing?.data.data.older)
+  const subscriptionVideoCount = document.querySelectorAll('.subscriptions').length;
+  console.log('count', subscriptionVideoCount) 
 
   return (
     <>
@@ -55,7 +57,7 @@ const SubscriptionsPage = () => {
                 </div>
               </div>
 
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+              <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
                   (getVideoFollowing?.data.data.today.length as number) > 0 &&
                   getVideoFollowing?.data.data.today?.map((item, index) => <VideoItem key={index} data={item} />)}
@@ -97,7 +99,7 @@ const SubscriptionsPage = () => {
                 </div>
               </div>
 
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+              <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
                   getVideoFollowing?.data.data.yesterday?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
@@ -138,7 +140,7 @@ const SubscriptionsPage = () => {
                 </div>
               </div>
 
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+              <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
                   getVideoFollowing?.data.data.thisWeek?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
@@ -153,7 +155,7 @@ const SubscriptionsPage = () => {
                 </div>
               </div>
 
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+              <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
                   getVideoFollowing?.data.data.thisMonth?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
@@ -168,12 +170,21 @@ const SubscriptionsPage = () => {
                 </div>
               </div>
 
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+              <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
                   getVideoFollowing?.data.data.older?.map((item, index) => <VideoItem key={index} data={item} />)}
               </div>
             </div>
           )}
+
+          {
+            subscriptionVideoCount == 0 && 
+            (
+            <div className="flex justify-center items-center w-full h-[80vh]   ">
+              <span className="text-2xl font-bold text-black dark:text-white">Không tìm thấy video nào</span>
+            </div>
+            )
+          }
         </div>
       </div>
     </>

@@ -102,24 +102,34 @@ const LibraryPage = () => {
               </div>
             </div>
           )}
-          {isSuccessVideoList && (VideoList?.data.data.length as number) > 0 && (
+          {isSuccessVideoList && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <RiHistoryLine className='mr-3 h-6 w-6' />
                   <span className='text-lg font-bold'>Video đã xem</span>
                 </div>
-
-                <button className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'>
-                  Phát tất cả
-                </button>
+                {
+                  (VideoList?.data.data.length as number) > 0 && (
+                    <button className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'>
+                      Xem tất cả
+                    </button>
+                  )                  
+                }                
               </div>
-
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {isSuccessVideoList && VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {(isSuccessVideoList && (VideoList?.data.data.length as number) > 0) ?
+                  VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)
+                : (
+                  <div className="flex justify-center items-center w-full h-20   ">
+                    <span className="text-lg font-bold text-black dark:text-white">Bạn chưa xem video nào</span>
+                  </div>
+                )
+              }
               </div>
             </div>
-          )}
+          )
+        }
 
           {/* Liked video */}
           {isLoadingFavorite && (
@@ -148,28 +158,40 @@ const LibraryPage = () => {
             </div>
           )}
 
-          {isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0 && (
+          {isSuccessFavorite && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <AiOutlineLike className='mr-3 h-6 w-6' />
                   <span className='text-lg font-bold'>Video đã thích</span>
                 </div>
+                {
+                  (VideoListFavorite?.data.data.length as number) > 0 && (
+                    <button
+                      className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
+                      onClick={() => navigate('/liked-playlist')}
+                    >
+                      Xem tất cả
+                    </button>
+                  )
+                }
 
-                <button
-                  className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
-                  onClick={() => navigate('/liked-playlist')}
-                >
-                  Xem tất cả
-                </button>
+                
               </div>
 
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {isSuccessFavorite &&
-                  VideoListFavorite.data.data?.map((item, index) => <VideoItem key={index} data={item.video} />)}
+                {(isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0) ?
+                  VideoListFavorite.data.data?.map((item, index) => <VideoItem key={index} data={item.video} />)
+                : (
+                  <div className="flex justify-center items-center w-full h-20   ">
+                    <span className="text-lg font-bold text-black dark:text-white">Bạn chưa thích video nào</span>
+                  </div>
+                )
+                }
               </div>
             </div>
-          )}
+          )
+        }
 
           {/* Playlist */}
           <div className='mt-6 w-full lg:max-w-[1096px]'>
@@ -193,7 +215,7 @@ const LibraryPage = () => {
               </div>
             )}
 
-            {isSuccess && dataPlayList.data.data.length > 0 && (
+            {isSuccess && dataPlayList.data.data.length > 0 ? (
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:grid md:max-w-full md:gap-x-3 md:gap-y-3 max-lg:grid-cols-3 lg:grid-cols-4'>
                 {dataPlayList?.data.data.map((item) => {
                   if ((item.videos as Video[]).length === 0) return null
@@ -219,7 +241,12 @@ const LibraryPage = () => {
                   )
                 })}
               </div>
-            )}
+            ) : (
+              <div className="flex justify-center items-center w-full h-20   ">
+                <span className="text-lg font-bold text-black dark:text-white">Bạn chưa có danh sách phát nào</span>
+              </div>
+            )
+          }
           </div>
         </div>
       </div>
