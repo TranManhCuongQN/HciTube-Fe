@@ -34,6 +34,14 @@ const VideoItem = (props: VideoItemProps) => {
     return '00:00'
   }
 
+  useEffect(() => {
+    const valPercent = (Math.round(data?.watchTime as number) / Math.round(Number(data.duration))) * 100
+    if (progressRef.current) {
+      progressRef.current.style.background = `linear-gradient(to right, red ${valPercent}%, rgba(255, 255, 255, 0.3) ${valPercent}%`
+    }
+  }, [])
+
+
   return (
     <NavLink
       to={`/detail/${data._id}`}
