@@ -339,37 +339,38 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   }, [category, favorite, playList, navigate, nextVideo, queryConfig])
 
   // Handle keyboard shortcuts
-  // const keyboardShortcuts = useCallback(
-  //   (event: KeyboardEvent) => {
-  //     const { key } = event
-  //     switch (key) {
-  //       case 'a':
-  //         movingBackwardVideo()
-  //         break
-  //       case 'k':
-  //         handlePlayAndPause()
-  //         break
-  //       case 'd':
-  //         movingForwardVideo()
-  //         break
-  //       case 'm':
-  //         toggleMute()
-  //         break
-  //       case 't':
-  //         handleClickTheaterMode()
-  //         break
-  //       case 'f':
-  //         toggleFullScreen()
-  //         break
-  //       default:
-  //         break
-  //     }
-  //   },
-  //   [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
-  // )
-  // useEffect(() => {
-  //   document.addEventListener('keyup', keyboardShortcuts)
-  // }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
+  const keyboardShortcuts = useCallback(
+    (event: KeyboardEvent) => {
+      const { key } = event
+      switch (key) {
+        case 'a':
+          movingBackwardVideo()
+          break
+        case 'k':
+          handlePlayAndPause()
+          break
+        case 'd':
+          movingForwardVideo()
+          break
+        case 'm':
+          toggleMute()
+          break
+        case 't':
+          handleClickTheaterMode()
+          break
+        case 'f':
+          toggleFullScreen()
+          break
+        default:
+          break
+      }
+    },
+    [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
+  )
+  useEffect(() => {
+    document.addEventListener('keyup', keyboardShortcuts)
+  }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
+  
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>

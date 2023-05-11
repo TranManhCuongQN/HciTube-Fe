@@ -117,10 +117,11 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
             />
             <div className='flex flex-grow flex-col gap-y-3'>
               <textarea
-                className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
+                className='comment-box h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
                 placeholder='Viết bình luận ...'
                 value={comment}
                 onClick={() => setIsShow(true)}
+                onKeyUp={(event) => event.stopPropagation()}
                 onChange={(e) => setComment(e.target.value)}
               ></textarea>
               {isShow && (
@@ -171,7 +172,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
             return <CommentItem key={item._id} dataComment={item} />
           })
           : (
-            <div className="flex justify-center items-center w-full h-full  ">
+            <div className="flex justify-center items-center w-full h-80  ">
               <span className="text-base font-bold text-black dark:text-white">Chưa có bình luận nào</span>
             </div>
           )
