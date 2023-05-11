@@ -31,11 +31,9 @@ const Playlist = ({ data }: PlayListProps) => {
         </div>
       </div>
       <div className={`${isOpening ? 'flex' : 'hidden'} h-full w-full flex-col overflow-scroll lg:pb-12  `}>
-        {data?.videos
-          ?.filter((item) => item._id !== id)
-          ?.map((item, index) => (
-            <VideoItem key={index} data={item} />
-          ))}
+        {data?.videos?.map((item, index) => (
+          <VideoItem key={index} data={item} />
+        ))}
       </div>
     </div>
   )

@@ -7,15 +7,12 @@ const SubscriptionsPage = () => {
   const {
     data: getVideoFollowing,
     isLoading,
-    isSuccess
+    isSuccess,
+    isError
   } = useQuery({
     queryKey: 'getVideoFollowing',
     queryFn: () => videoApi.getVideoFollowing()
   })
-
-  console.log('dataFollowing:', getVideoFollowing?.data.data.older)
-  const subscriptionVideoCount = document.querySelectorAll('.subscriptions').length;
-  console.log('count', subscriptionVideoCount) 
 
   return (
     <>
@@ -49,7 +46,8 @@ const SubscriptionsPage = () => {
               </div>
             </div>
           )}
-          {isSuccess && (getVideoFollowing?.data.data.today.length as number) > 0 && (
+
+          {isSuccess && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -61,6 +59,13 @@ const SubscriptionsPage = () => {
                 {isSuccess &&
                   (getVideoFollowing?.data.data.today.length as number) > 0 &&
                   getVideoFollowing?.data.data.today?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess && (getVideoFollowing?.data.data.today.length as number) === 0 && (
+                  <div className='flex  h-full w-full items-center justify-center   '>
+                    <span className='text-2xl font-bold text-black dark:text-white'>
+                      Không tìm thấy video nào được đăng tải
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -91,7 +96,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (getVideoFollowing?.data.data.yesterday.length as number) > 0 && (
+          {isSuccess && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -101,7 +106,15 @@ const SubscriptionsPage = () => {
 
               <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
+                  getVideoFollowing.data.data.yesterday.length > 0 &&
                   getVideoFollowing?.data.data.yesterday?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess && getVideoFollowing.data.data.yesterday.length === 0 && (
+                  <div className='flex  w-full items-center justify-center'>
+                    <span className='text-2xl font-bold text-black dark:text-white'>
+                      Không tìm thấy video nào được đăng tải
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -132,8 +145,8 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (getVideoFollowing?.data.data.thisWeek.length as number) > 0 && (
-            <div className='mt-6 w-full lg:max-w-[1096px]'>
+          {isSuccess && (
+            <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <span className='text-lg font-bold'>Tuần này</span>
@@ -142,13 +155,21 @@ const SubscriptionsPage = () => {
 
               <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
+                  getVideoFollowing.data.data.thisWeek.length > 0 &&
                   getVideoFollowing?.data.data.thisWeek?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess && getVideoFollowing.data.data.thisWeek.length === 0 && (
+                  <div className='flex  h-full w-full items-center justify-center   '>
+                    <span className='text-2xl font-bold text-black dark:text-white'>
+                      Không tìm thấy video nào được đăng tải
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {isSuccess && (getVideoFollowing?.data.data.thisMonth.length as number) > 0 && (
-            <div className='mt-6 w-full lg:max-w-[1096px]'>
+          {isSuccess && (
+            <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <span className='text-lg font-bold'>Tháng này</span>
@@ -157,34 +178,46 @@ const SubscriptionsPage = () => {
 
               <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
+                  getVideoFollowing.data.data.thisMonth.length > 0 &&
                   getVideoFollowing?.data.data.thisMonth?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess && getVideoFollowing.data.data.thisMonth.length === 0 && (
+                  <div className='flex  h-full w-full items-center justify-center   '>
+                    <span className='text-2xl font-bold text-black dark:text-white'>
+                      Không tìm thấy video nào được đăng tải
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {isSuccess && (getVideoFollowing?.data.data.older.length as number) > 0 && (
-            <div className='mt-6 w-full lg:max-w-[1096px]'>
+          {isSuccess && (
+            <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <span className='text-lg font-bold'>Năm này</span>
                 </div>
               </div>
-
               <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
                 {isSuccess &&
+                  getVideoFollowing.data.data.older.length > 0 &&
                   getVideoFollowing?.data.data.older?.map((item, index) => <VideoItem key={index} data={item} />)}
+                {isSuccess && getVideoFollowing.data.data.older.length === 0 && (
+                  <div className='flex  h-full w-full items-center justify-center   '>
+                    <span className='text-2xl font-bold text-black dark:text-white'>
+                      Không tìm thấy video nào được đăng tải
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {
-            subscriptionVideoCount == 0 && 
-            (
-            <div className="flex justify-center items-center w-full h-[80vh]   ">
-              <span className="text-2xl font-bold text-black dark:text-white">Không tìm thấy video nào</span>
+          {isError && (
+            <div className='flex h-[80vh] w-full items-center justify-center'>
+              <span className='text-2xl font-bold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
             </div>
-            )
-          }
+          )}
         </div>
       </div>
     </>

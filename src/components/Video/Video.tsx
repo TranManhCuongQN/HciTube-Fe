@@ -55,20 +55,20 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const increseViewMutation = useMutation({
-    mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
-    onSuccess: (data) => {
-      // console.log('dataIncreaseView:', data.data.data._id)
-      setIdView(data.data.data._id)
-    }
-  })
+  // const increseViewMutation = useMutation({
+  //   mutationFn: () => videoApi.increaseView({ video: id as string, watchedTime: watchTime as number }),
+  //   onSuccess: (data) => {
+  //     // console.log('dataIncreaseView:', data.data.data._id)
+  //     setIdView(data.data.data._id)
+  //   }
+  // })
 
-  const setWatchVideoTimeMutation = useMutation({
-    mutationFn: () => videoApi.setWatchVideoTime({ idView: idView as string, watchedTime: watchTime as number }),
-    onSuccess: (data) => {
-      // console.log('dataSetWatchVideoTime:', data)
-    }
-  })
+  // const setWatchVideoTimeMutation = useMutation({
+  //   mutationFn: () => videoApi.setWatchVideoTime({ idView: idView as string, watchedTime: watchTime as number }),
+  //   onSuccess: (data) => {
+  //     // console.log('dataSetWatchVideoTime:', data)
+  //   }
+  // })
 
   const videoDuration = Math.round(videoRef.current?.duration || 0)
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
@@ -104,12 +104,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     setWatchTime(Math.round(time))
   }
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      increseViewMutation.mutate()
-    }, 5000)
-    return () => clearTimeout(timer)
-  }, [id])
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     increseViewMutation.mutate()
+  //   }, 5000)
+  //   return () => clearTimeout(timer)
+  // }, [id])
 
   // Progress bar
   useEffect(() => {
@@ -370,20 +370,15 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   useEffect(() => {
     document.addEventListener('keyup', keyboardShortcuts)
   }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
-  
-  useEffect(() => {
-    const videoElement = videoRef.current;
 
-  
+  useEffect(() => {
+    const videoElement = videoRef.current
+
     return () => {
       // Handle save the current time into the database
-      console.log('videoElement',videoElement?.currentTime)
+      console.log('videoElement', videoElement?.currentTime)
     }
-
   }, [])
-
-
-
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
@@ -397,7 +392,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             <ForwardVideo data={playListVideo as VideoType[]} setEnded={setEnded} />
           )}
           <video
-          
             src={urlVideo}
             ref={videoRef}
             onLoadedMetadata={playVideo}

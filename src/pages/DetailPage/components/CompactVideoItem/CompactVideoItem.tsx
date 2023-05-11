@@ -133,7 +133,7 @@ const CompactVideoItem = ({
       {(favorite || playList) && (
         <div className='max-lg:mt-2 md:px-3 lg:flex lg:px-0' ref={playListRef}>
           {favorite && isSuccessGetFavorite && (dataGetFavorite.length as number) > 0 && (
-            <PLayLIstFavorite data={dataGetFavorite.filter((item) => item._id !== id)} />
+            <PLayLIstFavorite data={dataGetFavorite} />
           )}
 
           {playList && isSuccessGetPlayList && (dataGetPlayList.videos?.length as number) > 0 && (

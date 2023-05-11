@@ -195,9 +195,9 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
     }
   }, [isShowEdit, dataComment.comment])
 
-  // const nestedComments = (dataComment?.children || []).map((item, index) => {
-  //   return <CommentItem dataComment={item} key={index} />
-  // })
+  const nestedComments = (dataComment?.children || []).map((item, index) => {
+    return <CommentItem dataComment={item} key={index} />
+  })
 
   return (
     <>
@@ -212,9 +212,8 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
             {isShowEdit ? (
               <div className='flex flex-grow flex-col gap-y-3'>
                 <textarea
-                  className='comment-box h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
+                  className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
                   value={comment}
-                  onKeyUp={(event) => event.stopPropagation()}
                   onChange={(e) => setComment(e.target.value)}
                 ></textarea>
 
@@ -376,10 +375,9 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
           />
           <div className='flex flex-grow flex-col gap-y-3'>
             <textarea
-              className='comment-box h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
+              className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
               placeholder='Phản hồi...'
               value={comment}
-              onKeyUp={(event) => event.stopPropagation()}
               onChange={(e) => setComment(e.target.value)}
             ></textarea>
             {isReply && (
@@ -442,7 +440,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
           )}
         </button>
       )}
-      {/* {isShowComment && <div className='ml-12 transition-all '>{nestedComments}</div>} */}
+      {isShowComment && <div className='ml-12 transition-all '>{nestedComments}</div>}
 
       <DialogCustom
         isOpen={isShowModal}

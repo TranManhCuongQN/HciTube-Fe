@@ -99,7 +99,7 @@ const AsideBar = () => {
           showSideBar
             ? 'w-full overflow-y-auto overflow-x-hidden bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]'
             : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
-        } overflow-x-hidden transition-all duration-300 ease-linear 2xl:hidden`}
+        } overflow-x-hidden transition-all duration-700 ease-linear 2xl:hidden`}
         role='presentation'
       >
         <div
@@ -194,8 +194,8 @@ const AsideBar = () => {
               <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
               {(profile?.followings?.length as number) > 0 &&
                 profile?.followings?.map((item, index) => (
-                  <NavLink
-                    to={`${item.id}/channel`}
+                  <Link
+                    to={`/${item.id}/channel`}
                     className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
                     key={item._id}
                   >
@@ -203,7 +203,7 @@ const AsideBar = () => {
                     <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>
                       {item.fullName}
                     </span>
-                  </NavLink>
+                  </Link>
                 ))}
               {(profile?.followings?.length as number) === 0 && (
                 <div className='my-5 flex w-full items-center justify-center'>
@@ -318,14 +318,14 @@ const AsideBar = () => {
             <span className='pl-2 text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
             {(profile?.followings?.length as number) > 0 &&
               profile?.followings?.map((item, index) => (
-                <NavLink
-                  to={`${item.id}/channel`}
+                <Link
+                  to={`/${item.id}/channel`}
                   className='mt-2 flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
                   key={item.id}
                 >
                   <img src={item.avatar} alt='avatar' className='h-6 w-6 rounded-full' />
                   <span className='text-sm font-semibold text-black line-clamp-1 dark:text-white'>{item.fullName}</span>
-                </NavLink>
+                </Link>
               ))}
             {(profile?.followings?.length as number) === 0 && (
               <div className='my-5 flex w-full items-center justify-center'>
