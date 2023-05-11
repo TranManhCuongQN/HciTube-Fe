@@ -195,9 +195,9 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
     }
   }, [isShowEdit, dataComment.comment])
 
-  const nestedComments = (dataComment?.children || []).map((item, index) => {
-    return <CommentItem dataComment={item} key={index} />
-  })
+  // const nestedComments = (dataComment?.children || []).map((item, index) => {
+  //   return <CommentItem dataComment={item} key={index} />
+  // })
 
   return (
     <>
@@ -440,7 +440,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
           )}
         </button>
       )}
-      {isShowComment && <div className='ml-12 transition-all '>{nestedComments}</div>}
+      {/* {isShowComment && <div className='ml-12 transition-all '>{nestedComments}</div>} */}
 
       <DialogCustom
         isOpen={isShowModal}
