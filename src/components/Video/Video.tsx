@@ -402,6 +402,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
           break
         case 'f':
           toggleFullScreen()
+          setZoomOut(!zoomOut)
           break
         default:
           break
