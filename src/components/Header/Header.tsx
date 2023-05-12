@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch, AiOutlineUpload } from 'react-icons/ai'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { AppContext } from 'src/context/app.context'
 import { HiOutlineUserCircle } from 'react-icons/hi'
 import { HiOutlineBars3 } from 'react-icons/hi2'
@@ -16,6 +16,7 @@ import AvatarProfile from './components/AvatarProfile'
 
 const Header = () => {
   const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify, theme } = useContext(AppContext)
+  const location = useLocation()
 
   const handleClick = () => {
     setShowSideBar(!showSideBar)
@@ -25,11 +26,18 @@ const Header = () => {
     setShowSearchMobie(true)
   }
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }, [location.pathname])
+
   return (
     <>
       {!showSearchMobie && (
         <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white px-3 shadow-sm dark:bg-[#0f0f0f] md:h-16 xl:px-8'>
-          <div className='flex items-center gap-x-1 ml-[-6px]'>
+          <div className='ml-[-6px] flex items-center gap-x-1'>
             <button
               className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 2xl:hidden '
               onClick={handleClick}

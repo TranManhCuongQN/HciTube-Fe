@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
+import {ImSpinner8} from 'react-icons/im'
 
 interface VideoProps {
   lastPlayedTime: number
@@ -9,7 +10,7 @@ interface VideoProps {
 const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const progressRef = useRef<HTMLInputElement>(null)
-  const [playing, setPlaying] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
 
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
@@ -19,6 +20,10 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
       videoRef.current.currentTime = lastPlayedTime
     }
   }, [lastPlayedTime])
+
+  useEffect(() => {
+    playVideo();
+  }, [isLoading])
 
   const playVideo = () => {
     videoRef.current?.play()
@@ -67,29 +72,36 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   }
 
   return (
-    <div className={`max-w-full`}>
-      <div className={`h-full bg-black`}>
+    <div className={`max-w-full aspect-video w-full`}>
+      <div className={`h-full bg-black aspect-video w-full`}>
         <div className={`group relative h-full`} role='presentation'>
           <video
             src={urlVideo}
             ref={videoRef}
-            onLoadedMetadata={playVideo}
+            onCanPlay={() => setIsLoading(false)}
             onTimeUpdate={updateTimeElapsed}
-            className={`aspect-video h-full `}
+            className={`aspect-video h-full w-full`}
             id='Video'
           />
+          {
+            isLoading &&
+            <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center`}>
+              <ImSpinner8 className='absolute h-[20%] w-[20%] text-white animate-spin'/>
+            </div>
+          }
 
           <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>
             <div className='z-20 font-semibold ml-3 text-xs text-[#DDD]'>
-              <span>{timeElapsed}</span>
-              <span className='opacity-70 lg:opacity-100'> / </span>
-              <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
+              <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+                {formatTime(videoDuration)}
+              </span>
             </div>
 
             <div className='z-30 mb-[-5px] w-full'>
               <input
                 ref={progressRef}
                 onInput={handleClickProgress}
+                onClick={event => event.preventDefault()}
                 type='range'
                 min={0}
                 max={100}
@@ -98,7 +110,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
               />
             </div>
 
-            <div className='from-0% via-20% to-90% absolute bottom-0 left-0 right-0 hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:block'></div>
+            <div className='from-0% via-70% to-90% absolute bottom-0 left-0 right-0 block h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)]'></div>
           </div>
         </div>
       </div>

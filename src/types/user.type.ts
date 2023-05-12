@@ -11,6 +11,13 @@ export interface User {
   id?: string
   followings?: User[]
   favoriteVideos?: []
+  notification?: {
+    channel: { avatar: string; id: string }
+    createdAt: string
+    seen: boolean
+    _id: string
+    video: { id: string; thumbnail: string; title: string }
+  }[]
 }
 
 export interface UserProfile<User> {

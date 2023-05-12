@@ -6,3 +6,11 @@ export interface View {
   watchedTime: number
   _id: string
 }
+
+export interface FilterView {
+  older: View[]
+  thisMonth: View[]
+  thisWeek: View[]
+  today: View[]
+  yesterday: View[]
+}

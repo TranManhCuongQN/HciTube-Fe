@@ -117,19 +117,24 @@ const SearchMobie = () => {
 
           {/* //* Input search */}
           <div className=' flex h-8 w-full items-center'>
-            <div className=''>
-              <input
+            <input
                 onClick={() => setFocusingOnInput(true)}
                 type='text'
                 className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
                 placeholder='Tìm kiếm'
                 value={keyword}
+                onKeyUp={(e) => {
+                    e.stopPropagation()
+                    if(!!keyword && e.key === "Enter") {
+                      handleClickSearch();
+                    }
+                  }
+                }
                 onChange={(e) => setKeyword(e.target.value)}
               />
-            </div>
             <ToolTip position='bottom' content='Tìm kiếm'>
               <button
-                className='ml-[1px] flex h-8 cursor-pointer items-center justify-center rounded-r-full bg-[#f8f8f8] px-4  py-1 dark:bg-[#222222] md:border-y md:border-r md:border-[#d8d8d8]'
+                className='ml-[1px] flex h-8 cursor-pointer items-center justify-center rounded-r-full bg-[#f8f8f8] px-4  py-1 dark:bg-[#222222] border-y border-r border-[#d8d8d8] dark:border-[#1e1e1e]'
                 onClick={handleClickSearch}
               >
                 <AiOutlineSearch className='h-8 w-8 text-black dark:text-white' />
@@ -140,8 +145,8 @@ const SearchMobie = () => {
           <div
             className={`${
               (focusingOnInput && historySearch.length > 0) ||
-              (focusingOnInput && (getVideo?.data.data.users.length as number)) > 0 ||
-              (focusingOnInput && (getVideo?.data.data.videos.length as number)) > 0
+              (focusingOnInput && (getVideo?.data.data.users.length as number) > 0) ||
+              (focusingOnInput && (getVideo?.data.data.videos.length as number) > 0)
                 ? 'block'
                 : 'hidden'
             } absolute right-0 left-0 top-[100%] h-fit bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}

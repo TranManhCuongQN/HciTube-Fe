@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 /* eslint-disable import/no-named-as-default-member */
 import axios from 'axios'
+import * as dateFns from 'date-fns'
 
 import { ErrorResponse } from 'src/types/utils.type'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
@@ -144,4 +145,56 @@ export const convertToRelativeTime = (createdAtInString: string) => {
   }
 
   return timeDifference
+}
+
+export const getSevenDaysAgo = (): string[] => {
+  const now = new Date()
+  const days = [] as string[]
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date(now)
+    day.setDate(day.getDate() - i)
+    days.push(dateFns.format(day, 'yyyy-MM-dd'))
+  }
+  return days
+}
+
+export const get28DaysAgo = (): string[] => {
+  const now = new Date()
+  const days = [] as string[]
+  for (let i = 27; i >= 0; i--) {
+    const day = new Date(now)
+    day.setDate(day.getDate() - i)
+    days.push(dateFns.format(day, 'yyyy-MM-dd'))
+  }
+  return days
+}
+
+export const get90DaysAgo = (): string[] => {
+  const now = new Date()
+  const days = [] as string[]
+  for (let i = 89; i >= 0; i--) {
+    const day = new Date(now)
+    day.setDate(day.getDate() - i)
+    days.push(dateFns.format(day, 'yyyy-MM-dd'))
+  }
+  return days
+}
+
+export const get365DaysAgo = (): string[] => {
+  const now = new Date()
+  const days = [] as string[]
+  for (let i = 364; i >= 0; i--) {
+    const day = new Date(now)
+    day.setDate(day.getDate() - i)
+    days.push(dateFns.format(day, 'yyyy-MM-dd'))
+  }
+  return days
+}
+
+export const formatHours = (milliseconds: number) => {
+  const hours = Math.floor(milliseconds / 3600000)
+  const minutes = Math.floor((milliseconds % 3600000) / 60000)
+
+  const formattedTime = hours.toLocaleString() + ',' + minutes.toLocaleString()
+  return formattedTime
 }

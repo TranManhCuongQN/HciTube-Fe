@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { MdZoomOutMap, MdZoomInMap, MdReplay } from 'react-icons/md'
 import { BiSkipNext, BiSkipPrevious, BiPlay, BiPause, BiRectangle } from 'react-icons/bi'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
+import { ImSpinner8 } from 'react-icons/im'
 import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
 import ToolTip from './ToolTip'
@@ -52,6 +53,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [ended, setEnded] = useState<boolean>(false)
   const [idView, setIdView] = useState<string>('')
   const [count, setCount] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -158,6 +160,10 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     videoRef.current?.play()
     setPlaying(true)
   }
+
+  useEffect(() => {
+    playVideo()
+  }, [isLoading])
 
   const pauseVideo = () => {
     videoRef.current?.pause()
@@ -346,37 +352,38 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   }, [category, favorite, playList, navigate, nextVideo, queryConfig])
 
   // Handle keyboard shortcuts
-  // const keyboardShortcuts = useCallback(
-  //   (event: KeyboardEvent) => {
-  //     const { key } = event
-  //     switch (key) {
-  //       case 'a':
-  //         movingBackwardVideo()
-  //         break
-  //       case 'k':
-  //         handlePlayAndPause()
-  //         break
-  //       case 'd':
-  //         movingForwardVideo()
-  //         break
-  //       case 'm':
-  //         toggleMute()
-  //         break
-  //       case 't':
-  //         handleClickTheaterMode()
-  //         break
-  //       case 'f':
-  //         toggleFullScreen()
-  //         break
-  //       default:
-  //         break
-  //     }
-  //   },
-  //   [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
-  // )
-  // useEffect(() => {
-  //   document.addEventListener('keyup', keyboardShortcuts)
-  // }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
+  const keyboardShortcuts = useCallback(
+    (event: KeyboardEvent) => {
+      const { key } = event
+      switch (key) {
+        case 'a':
+          movingBackwardVideo()
+          break
+        case 'k':
+          handlePlayAndPause()
+          break
+        case 'd':
+          movingForwardVideo()
+          break
+        case 'm':
+          toggleMute()
+          break
+        case 't':
+          handleClickTheaterMode()
+          break
+        case 'f':
+          toggleFullScreen()
+          setZoomOut(!zoomOut)
+          break
+        default:
+          break
+      }
+    },
+    [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
+  )
+  useEffect(() => {
+    document.addEventListener('keyup', keyboardShortcuts)
+  }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
 
   useEffect(() => {
     const videoElement = videoRef.current
@@ -393,44 +400,51 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   console.log('idView:', idView)
 
   return (
-    <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 max-w-full`}>
-      <div className={`${zoomOut ? '' : ''} h-full bg-black`}>
-        <div
-          className={`group relative h-full ${zoomOut ? '' : ''}`}
-          onClick={() => setHidden(false)}
-          role='presentation'
-        >
+    <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
+      <div className={` h-full bg-black`}>
+        <div className={`group relative h-full w-full`} onClick={() => setHidden(false)} role='presentation'>
           {(playListVideo?.length as number) > 0 && ended && (
             <ForwardVideo data={playListVideo as VideoType[]} setEnded={setEnded} />
           )}
           <video
             src={urlVideo}
             ref={videoRef}
-            onLoadedMetadata={playVideo}
+            onCanPlay={() => setIsLoading(false)}
             onTimeUpdate={updateTimeElapsed}
             preload='auto'
             onEnded={() => {
               setEnded(true)
             }}
-            className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full`}
+            className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full w-full object-contain`}
             id='Video'
           ></video>
-          <div
-            className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
-            role='presentation'
-            onClick={handlePlayAndPause}
-          >
-            <BiPlay
-              className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
-              id='DesktopPlayBtn'
-              onClick={playVideo}
-            />
-            <BiPause
-              className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
-              id='DesktopPauseBtn'
-              onClick={pauseVideo}
-            />
-          </div>
+          {isLoading ? (
+            <div
+              className={`${
+                zoomOut ? 'lg:w-full' : 'mx-auto'
+              } absolute top-0 flex aspect-video h-full w-full items-center justify-center object-contain`}
+            >
+              <ImSpinner8 className='absolute h-[10%] w-[10%] animate-spin text-white' />
+            </div>
+          ) : (
+            <div
+              className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
+              role='presentation'
+              onClick={handlePlayAndPause}
+            >
+              <BiPlay
+                className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
+                id='DesktopPlayBtn'
+                onClick={playVideo}
+              />
+              <BiPause
+                className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
+                id='DesktopPauseBtn'
+                onClick={pauseVideo}
+              />
+            </div>
+          )}
+
           <div className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'}`}>
             <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
             <div className='absolute top-0 left-[1.875rem] right-[1.875rem] mx-3 flex h-full items-center justify-center lg:hidden lg:justify-between'>

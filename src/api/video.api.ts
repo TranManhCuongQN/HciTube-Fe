@@ -3,7 +3,7 @@ import { QueryConfig } from 'src/types/QueryConfig.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import { UploadVideo, Video, VideoItem } from 'src/types/video.type'
 import http from 'src/utils/http'
-import { View } from 'src/types/view.type'
+import { FilterView, View } from 'src/types/view.type'
 import { following } from 'src/types/following.type'
 
 export const URL_GET_VIDEO = '/api/v1/videos'
@@ -48,8 +48,11 @@ const videoApi = {
     return http.post(`${URL_GET_VIDEO}/view`, data)
   },
   getVideoWatchTime: (idChannel: string) => {
-    return http.get<SuccessResponse<View[]>>(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/watchHistories
+    return http.get<SuccessResponse<FilterView>>(`${URL_GET_VIDEO_CHANNEL}/${idChannel}/watchHistories
     `)
+  },
+  getAnalysisVideo: (params: { date: string; option: string }) => {
+    return http.get<SuccessResponse<{ date: string; count: number }[]>>(`${URL_GET_VIDEO_CHANNEL}analysis`, { params })
   }
 }
 export default videoApi

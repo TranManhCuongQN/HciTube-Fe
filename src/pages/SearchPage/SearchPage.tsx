@@ -48,7 +48,7 @@ const SearchPage = () => {
     if ((getVideo?.data.data.users.length as number) > 0) {
       const isSubscribedArr = getVideo?.data.data.users.map((item) => item.subscribers)
       console.log('isSubscribedArr:', isSubscribedArr)
-      const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item === profile?.id))
+      const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item._id === profile?.id))
       setIsSubscribed(isSubscribed as [])
     }
   }, [getVideo?.data.data.users, profile?.id])
@@ -118,8 +118,8 @@ const SearchPage = () => {
       <AsideBar />
       <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
         <div className='flex h-full w-full flex-col items-center justify-center md:px-3 lg:px-6 lg:py-4'>
-          <div className='h-full w-full max-w-[1096px] lg:grid lg:grid-cols-1'>
-            <div className='flex flex-col lg:col-span-1'>
+          <div className='relative h-full w-full max-w-[1096px] lg:grid lg:grid-cols-1'>
+            <div className=' flex flex-col lg:col-span-1'>
               <div className='border-[rgba(0, 0, 0, 0.1)] border-b py-2 dark:border-gray-600 max-lg:ml-3'>
                 <button
                   onClick={handleClickFilterBtn}
@@ -210,9 +210,9 @@ const SearchPage = () => {
               {isSuccess &&
                 (getVideo.data.data.videos.length as number) === 0 &&
                 getVideo.data.data.users.length === 0 && (
-                  <div className='flex h-full w-full items-center justify-center gap-x-8'>
-                    <BsSearch className='text-6xl text-gray-400 dark:text-gray-500' />
-                    <span className='mt-4 text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
+                  <div className='flex absolute h-full w-full items-center justify-center gap-x-8'>
+                    <BsSearch className='text-2xl md:text-3xl text-gray-400 dark:text-gray-500' />
+                    <span className='text-xl md:text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
                   </div>
                 )}
             </div>

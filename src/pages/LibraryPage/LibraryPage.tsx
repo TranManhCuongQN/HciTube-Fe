@@ -104,7 +104,8 @@ const LibraryPage = () => {
                   <RiHistoryLine className='mr-3 h-6 w-6' />
                   <span className='text-lg font-bold'>Video đã xem</span>
                 </div>
-                {(getVideoHistory?.data.data.length as number) > 0 && (
+
+                {(getVideoHistory?.data.data.today.length as number) > 0 && (
                   <button
                     className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
                     onClick={() => navigate('/history')}
@@ -114,15 +115,11 @@ const LibraryPage = () => {
                 )}
               </div>
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {isSuccessHistory && (getVideoHistory?.data.data.length as number) > 0 ? (
-                  getVideoHistory.data.data?.map((item, index) => (
+                {isSuccessHistory &&
+                  (getVideoHistory?.data.data.today.length as number) > 0 &&
+                  getVideoHistory.data.data.today?.map((item, index) => (
                     <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
-                  ))
-                ) : (
-                  <div className='flex h-20 w-full items-center justify-center   '>
-                    <span className='text-lg font-bold text-black dark:text-white'>Bạn chưa xem video nào</span>
-                  </div>
-                )}
+                  ))}
               </div>
             </div>
           )}
