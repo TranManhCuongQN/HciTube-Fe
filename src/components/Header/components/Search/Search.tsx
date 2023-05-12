@@ -122,13 +122,14 @@ const Search = () => {
             className=' h-full w-full rounded-l-full border border-[#d8d8d8] px-4 text-base text-black outline-none placeholder:text-base dark:border-[#303030] dark:bg-[rgba(0,0,0,0)] dark:text-white'
             placeholder='Tìm kiếm'
             value={keyword}
+            onKeyUp={(event) => event.stopPropagation()}
             onChange={(e) => setKeyword(e.target.value)}
           />
           <div
             className={`${
               (focusingOnInput && historySearch.length > 0) ||
-              (focusingOnInput && (getVideo?.data.data.users.length as number)) > 0 ||
-              (focusingOnInput && (getVideo?.data.data.videos.length as number)) > 0
+              (focusingOnInput && (getVideo?.data.data.users.length as number) > 0) ||
+              (focusingOnInput && (getVideo?.data.data.videos.length as number) > 0)
                 ? 'block'
                 : 'hidden'
             } absolute top-[110%] h-fit w-full rounded-xl bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}
