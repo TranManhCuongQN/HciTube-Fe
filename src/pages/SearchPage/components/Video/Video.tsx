@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import {ImSpinner8} from 'react-icons/im'
+
 
 interface VideoProps {
   lastPlayedTime: number
@@ -8,6 +10,16 @@ interface VideoProps {
 }
 const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+
+  useEffect(() => {
+    playVideo();
+  }, [isLoading])
+
+  const playVideo = () => {
+    videoRef.current?.play()
+  }
 
   useEffect(() => {
     if (videoRef.current) {
@@ -16,11 +28,26 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
     }
   })
 
+
+
+
   return (
-    <div className={`max-w-full`}>
-      <div className={`h-full bg-black`}>
+    <div className={`max-w-full aspect-video w-full`}>
+      <div className={`h-full bg-black aspect-video w-full`}>
         <div className={`group relative h-full`} role='presentation'>
-          <video src={urlVideo} ref={videoRef} className={`aspect-video h-full `} id='Video' />
+          <video 
+            src={urlVideo}  
+            ref={videoRef} 
+            onCanPlay={() => setIsLoading(false)}
+            className={`aspect-video h-full w-full`} 
+            id='Video' 
+          />
+          {
+            isLoading &&
+            <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center`}>
+              <ImSpinner8 className='absolute h-[20%] w-[20%] text-white animate-spin'/>
+            </div>
+          }
         </div>
       </div>
     </div>
