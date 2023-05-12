@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
@@ -8,20 +8,22 @@ import { convertToRelativeTime } from 'src/utils/utils'
 
 interface VideoItemProps {
   data: Video
+  watchTime?: number
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
   const { category } = queryConfig
+  const navigate = useNavigate()
 
-  const { data } = props
+  const { data, watchTime } = props
 
   useEffect(() => {
-    const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
+    const valPercent = ((watchTime as number) / Number(data.duration)) * 100
     if (progressRef.current) {
       progressRef.current.style.background = `linear-gradient(to right, red ${valPercent}%, rgba(255, 255, 255, 0.3) ${valPercent}%`
     }
-  }, [data.watchTime, data.duration])
+  }, [watchTime, data.duration])
 
   // Format time
   const formatTime = (duration: number) => {
@@ -35,9 +37,17 @@ const VideoItem = (props: VideoItemProps) => {
     return '00:00'
   }
 
+  const handleClick = () => {
+    if (watchTime) {
+      navigate(`/detail/${data._id}?category=${category || '1'}&watchTime=${watchTime}`)
+    } else {
+      navigate(`/detail/${data._id}?category=${category || '1'}`)
+    }
+  }
+
   return (
-    <Link
-      to={`/detail/${data._id}?category=${category || '1'}`}
+    <div
+      onClick={handleClick}
       className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]'
       role='presentation'
     >
@@ -67,7 +77,7 @@ const VideoItem = (props: VideoItemProps) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 

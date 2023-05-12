@@ -47,7 +47,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (
+          {isSuccess && getVideoFollowing.data.data.today.length > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -96,7 +96,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (
+          {isSuccess && getVideoFollowing.data.data.yesterday.length > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -145,7 +145,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (
+          {isSuccess && getVideoFollowing.data.data.thisWeek.length > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -168,7 +168,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (
+          {isSuccess && getVideoFollowing.data.data.thisMonth.length > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
@@ -191,7 +191,7 @@ const SubscriptionsPage = () => {
             </div>
           )}
 
-          {isSuccess && (
+          {isSuccess && getVideoFollowing.data.data.older.length > 0 && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>

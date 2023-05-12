@@ -9,12 +9,16 @@ import { AppContext } from 'src/context/app.context'
 const HistoryPage = () => {
   const { profile } = useContext(AppContext)
 
-  const { data: getVideoHistory, isSuccess } = useQuery({
+  const {
+    data: getVideoHistory,
+    isSuccess,
+    isLoading
+  } = useQuery({
     queryKey: 'getVideoHistory',
     queryFn: () => videoApi.getVideoWatchTime(profile?._id as string)
   })
 
-  console.log(getVideoHistory)
+  console.log('getHistory', getVideoHistory)
 
   return (
     <>
@@ -27,6 +31,23 @@ const HistoryPage = () => {
               Hôm nay
             </h1> */}
             <div className='flex h-full w-full flex-col'>
+              {isLoading &&
+                Array(3)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      className='mt-4 flex w-full cursor-pointer flex-col gap-y-5 lg:flex-row lg:gap-x-5'
+                      key={index}
+                    >
+                      <Skeleton className='h-56 w-full flex-shrink-0 md:rounded-xl lg:w-[360px]' />
+                      <div className='flex w-full flex-col gap-y-5'>
+                        <Skeleton className='h-4 w-full rounded-lg' />
+                        <Skeleton className='h-4 w-1/2 rounded-lg' />
+                        <Skeleton className='h-4 w-1/3 rounded-lg' />
+                        <Skeleton className='h-4 w-1/4 rounded-lg' />
+                      </div>
+                    </div>
+                  ))}
               {isSuccess &&
                 getVideoHistory.data.data?.map((item, index) => (
                   <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />

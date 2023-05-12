@@ -9,8 +9,6 @@ import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
 import favoriteApi from 'src/api/favorite.api'
 import { useNavigate } from 'react-router-dom'
-import PlayList from './components/PlayList'
-
 import playListAPI from 'src/api/playlist.api'
 import { MdOutlinePlaylistPlay } from 'react-icons/md'
 import { Video } from 'src/types/video.type'
@@ -19,17 +17,16 @@ import useQueryConfig from 'src/hook/useQueryConfig'
 import { omit } from 'lodash'
 import { createSearchParams } from 'react-router-dom'
 
-
 const LibraryPage = () => {
   const { profile } = useContext(AppContext)
   const navigate = useNavigate()
   const {
-    data: VideoList,
-    isSuccess: isSuccessVideoList,
-    isLoading: isLoadingVideoList
+    data: getVideoHistory,
+    isSuccess: isSuccessHistory,
+    isLoading: isLoadingHistory
   } = useQuery({
-    queryKey: 'videoList',
-    queryFn: videoApi.getVideoAll
+    queryKey: 'getVideoHistory',
+    queryFn: () => videoApi.getVideoWatchTime(profile?._id as string)
   })
 
   const {
@@ -41,17 +38,15 @@ const LibraryPage = () => {
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
   })
 
-
   const queryConFig = useQueryConfig()
   const { category } = queryConFig
-  const id = '644012d8a0eb696fa6610fbd'
   const {
     data: dataPlayList,
     isSuccess,
     isLoading
   } = useQuery({
-    queryKey: ['channelPlayList', id],
-    queryFn: () => playListAPI.getPlayListById(id)
+    queryKey: ['channelPlayList', profile?._id],
+    queryFn: () => playListAPI.getPlayListById(profile?._id as string)
   })
   const handlePlayAll = (item: playList) => {
     navigate({
@@ -68,7 +63,7 @@ const LibraryPage = () => {
       ).toString()
     })
   }
- 
+
   return (
     <>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
@@ -77,7 +72,7 @@ const LibraryPage = () => {
           className={`mb-16 flex h-full w-full flex-col items-center px-3 md:mx-auto md:w-[760px] md:px-0 lg:mx-0 lg:w-full 2xl:ml-64`}
         >
           {/* Watched video */}
-          {isLoadingVideoList && (
+          {isLoadingHistory && (
             <div className='mt-6 w-full lg:max-w-[1096px]'>
               <div className='flex h-full w-full flex-col gap-y-5'>
                 <div className='flex items-center justify-between'>
@@ -102,34 +97,35 @@ const LibraryPage = () => {
               </div>
             </div>
           )}
-          {isSuccessVideoList && (
+          {isSuccessHistory && (
             <div className='mt-6 w-full border-b border-b-[rgba(0,0,0,0.1)] pb-6 dark:border-b-gray-600 lg:max-w-[1096px]'>
               <div className='flex items-center justify-between pb-3'>
                 <div className='flex items-center text-black dark:text-white'>
                   <RiHistoryLine className='mr-3 h-6 w-6' />
                   <span className='text-lg font-bold'>Video đã xem</span>
                 </div>
-                {
-                  (VideoList?.data.data.length as number) > 0 && (
-                    <button className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'>
-                      Xem tất cả
-                    </button>
-                  )                  
-                }                
+                {(getVideoHistory?.data.data.length as number) > 0 && (
+                  <button
+                    className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
+                    onClick={() => navigate('/history')}
+                  >
+                    Xem tất cả
+                  </button>
+                )}
               </div>
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {(isSuccessVideoList && (VideoList?.data.data.length as number) > 0) ?
-                  VideoList.data.data?.map((item, index) => <VideoItem key={index} data={item} />)
-                : (
-                  <div className="flex justify-center items-center w-full h-20   ">
-                    <span className="text-lg font-bold text-black dark:text-white">Bạn chưa xem video nào</span>
+                {isSuccessHistory && (getVideoHistory?.data.data.length as number) > 0 ? (
+                  getVideoHistory.data.data?.map((item, index) => (
+                    <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
+                  ))
+                ) : (
+                  <div className='flex h-20 w-full items-center justify-center   '>
+                    <span className='text-lg font-bold text-black dark:text-white'>Bạn chưa xem video nào</span>
                   </div>
-                )
-              }
+                )}
               </div>
             </div>
-          )
-        }
+          )}
 
           {/* Liked video */}
           {isLoadingFavorite && (
@@ -165,33 +161,27 @@ const LibraryPage = () => {
                   <AiOutlineLike className='mr-3 h-6 w-6' />
                   <span className='text-lg font-bold'>Video đã thích</span>
                 </div>
-                {
-                  (VideoListFavorite?.data.data.length as number) > 0 && (
-                    <button
-                      className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
-                      onClick={() => navigate('/liked-playlist')}
-                    >
-                      Xem tất cả
-                    </button>
-                  )
-                }
-
-                
+                {(VideoListFavorite?.data.data.length as number) > 0 && (
+                  <button
+                    className='rounded-full px-4 py-2 text-sm font-semibold text-blue-500 hover:cursor-pointer hover:bg-blue-100'
+                    onClick={() => navigate('/liked-playlist')}
+                  >
+                    Xem tất cả
+                  </button>
+                )}
               </div>
 
               <div className='flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
-                {(isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0) ?
+                {isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0 ? (
                   VideoListFavorite.data.data?.map((item, index) => <VideoItem key={index} data={item.video} />)
-                : (
-                  <div className="flex justify-center items-center w-full h-20   ">
-                    <span className="text-lg font-bold text-black dark:text-white">Bạn chưa thích video nào</span>
+                ) : (
+                  <div className='flex h-20 w-full items-center justify-center   '>
+                    <span className='text-lg font-bold text-black dark:text-white'>Bạn chưa thích video nào</span>
                   </div>
-                )
-                }
+                )}
               </div>
             </div>
-          )
-        }
+          )}
 
           {/* Playlist */}
           <div className='mt-6 w-full lg:max-w-[1096px]'>
@@ -216,7 +206,7 @@ const LibraryPage = () => {
             )}
 
             {isSuccess && dataPlayList.data.data.length > 0 ? (
-              <div className='flex h-full w-full gap-x-5 overflow-x-auto md:grid md:max-w-full md:gap-x-3 md:gap-y-3 max-lg:grid-cols-3 lg:grid-cols-4'>
+              <div className='flex h-full w-full gap-x-5 overflow-x-auto max-lg:grid-cols-3 md:grid md:max-w-full md:gap-x-3 md:gap-y-3 lg:grid-cols-4'>
                 {dataPlayList?.data.data.map((item) => {
                   if ((item.videos as Video[]).length === 0) return null
                   return (
@@ -226,7 +216,7 @@ const LibraryPage = () => {
                       role='presentation'
                       onClick={() => handlePlayAll(item)}
                     >
-                      <div className='relative aspect-video w-40 md:w-full h-fit flex-shrink-0 rounded-lg'>
+                      <div className='relative aspect-video h-fit w-40 flex-shrink-0 rounded-lg md:w-full'>
                         <img
                           src={(item?.videos as Video[])[0]?.thumbnail}
                           alt='avatar'
@@ -236,17 +226,16 @@ const LibraryPage = () => {
                           <span className='text-base font-medium text-white'>{item.videos?.length}</span>
                           <MdOutlinePlaylistPlay className='h-8 w-8 text-center text-white' />
                         </div>
-                      </div>                    
+                      </div>
                     </div>
                   )
                 })}
               </div>
             ) : (
-              <div className="flex justify-center items-center w-full h-20   ">
-                <span className="text-lg font-bold text-black dark:text-white">Bạn chưa có danh sách phát nào</span>
+              <div className='flex h-20 w-full items-center justify-center   '>
+                <span className='text-lg font-bold text-black dark:text-white'>Bạn chưa có danh sách phát nào</span>
               </div>
-            )
-          }
+            )}
           </div>
         </div>
       </div>

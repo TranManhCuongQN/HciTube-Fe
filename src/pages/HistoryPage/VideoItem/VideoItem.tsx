@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import { useRef, useEffect } from 'react'
-import { RxDividerHorizontal } from 'react-icons/rx'
 import { Link } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
-import { convertToRelativeTime } from 'src/utils/utils'
+import parse from 'html-react-parser'
 
 interface VideoItemProps {
   data: Video
@@ -73,9 +72,10 @@ const VideoItem = (props: VideoItemProps) => {
             {`${(data?.channel as User).fullName} - ${data?.view} lượt xem`}
           </Link>
 
-          {/* <span className='hidden text-xs font-normal text-gray-500 line-clamp-2 dark:text-gray-400 lg:flex'>
-            {data?.description}
-          </span> */}
+          <span
+            className='hidden text-xs font-normal text-gray-500 line-clamp-2 dark:text-gray-400 lg:flex'
+            dangerouslySetInnerHTML={{ __html: String(parse((data.description as string) || '')) }}
+          ></span>
         </div>
       </div>
     </Link>
