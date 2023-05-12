@@ -122,7 +122,13 @@ const Search = () => {
             className=' h-full w-full rounded-l-full border border-[#d8d8d8] px-4 text-base text-black outline-none placeholder:text-base dark:border-[#303030] dark:bg-[rgba(0,0,0,0)] dark:text-white'
             placeholder='Tìm kiếm'
             value={keyword}
-            onKeyUp={(event) => event.stopPropagation()}
+            onKeyUp={(e) => {
+              e.stopPropagation()
+              if(!!keyword && e.key === "Enter") {
+                handleClickSearch();
+              }
+            }
+          }
             onChange={(e) => setKeyword(e.target.value)}
           />
           <div
