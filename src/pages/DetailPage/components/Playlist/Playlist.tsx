@@ -1,4 +1,4 @@
-import { GrClose } from 'react-icons/gr'
+import { IoClose } from 'react-icons/io5'
 import { HiChevronDown, HiChevronUp } from 'react-icons/hi'
 import { useState } from 'react'
 import VideoItem from './VideoItem'
@@ -22,7 +22,7 @@ const Playlist = ({ data }: PlayListProps) => {
 
         <div className='flex h-10 w-10 items-center justify-center rounded-full hover:bg-[#f1f1f1] dark:hover:bg-[#272727]'>
           <button className='hidden text-xl lg:flex '>
-            <GrClose className='text-gray-600 dark:text-gray-200' />
+            <IoClose className='text-gray-600 dark:text-gray-200' />
           </button>
           <button className='text-2xl text-gray-600 dark:text-gray-200 lg:hidden'>
             <HiChevronUp className={`${isOpening ? 'block' : 'hidden'}`} onClick={() => setIsOpening(false)} />

@@ -27,10 +27,16 @@ const HistoryPage = () => {
               Hôm nay
             </h1> */}
             <div className='flex h-full w-full flex-col'>
-              {isSuccess &&
+              {isSuccess && getVideoHistory.data.data.length > 0 ?
                 getVideoHistory.data.data?.map((item, index) => (
                   <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
-                ))}
+                )) :
+                (
+                  <div className="flex justify-center items-center absolute right-0 left-0 h-full  ">
+                    <span className="text-xl lg:text-2xl font-bold text-black dark:text-white">Bạn chưa xem video nào</span>
+                  </div>
+                )
+              }
             </div>
           </div>
 

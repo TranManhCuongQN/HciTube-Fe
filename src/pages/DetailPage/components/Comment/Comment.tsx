@@ -65,7 +65,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
 
   return (
     <>
-      <div className='my-3 flex min-h-[500px] flex-col '>
+      <div className='my-3 flex lg:min-h-[500px] flex-col '>
         <div className='flex items-center gap-x-5'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>{totalComment} bình luận</span>
           <div
@@ -131,7 +131,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
                     ref={emojiRef}
                   >
                     <BsEmojiLaughing className='h-5 w-5 text-black dark:text-white' onClick={handlwShowEmoji} />
-                    <div className='absolute top-10 left-0'>
+                    <div className='absolute top-10 left-0 z-10'>
                       {isShowEmoji && (
                         <>
                           <EmojiPicker height='300px' width='fit' onEmojiClick={onClick} />
