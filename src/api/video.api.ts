@@ -1,4 +1,4 @@
-import { User } from './../types/user.type'
+import { User, UserOther } from './../types/user.type'
 import { QueryConfig } from 'src/types/QueryConfig.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import { UploadVideo, Video, VideoItem } from 'src/types/video.type'
@@ -34,7 +34,9 @@ const videoApi = {
   },
   searchVideo: (params: QueryConfig) => {
     console.log('params:', params)
-    return http.get<SuccessResponse<{ videos: Video[]; users: User[] }>>(`${URL_GET_VIDEO}/search-videos`, { params })
+    return http.get<SuccessResponse<{ videos: Video[]; users: UserOther[] }>>(`${URL_GET_VIDEO}/search-videos`, {
+      params
+    })
   },
   setWatchVideoTime: (data: { idView: string; watchedTime: number }) => {
     return http.patch(`${URL_GET_VIDEO}/view/${data.idView}`, {

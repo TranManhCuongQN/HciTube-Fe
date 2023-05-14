@@ -42,7 +42,6 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (getVideo?.data.data.users) {
-      console.log('datagetVideo', getVideo?.data.data.users)
       const isSubscribedArr = getVideo?.data.data.users.map((item) => item.subscribers)
       console.log('isSubscribedArr', isSubscribedArr)
       const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item === profile?.id))
