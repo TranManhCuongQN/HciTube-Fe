@@ -105,7 +105,7 @@ const AsideBar = () => {
         <div
           className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff]  transition-all dark:bg-[#0f0f0f] ${
             showSideBar
-              ? 'w-44 overflow-y-auto overflow-x-hidden pl-2 pr-2 min-[375px]:w-52 md:w-64'
+              ? 'w-44 overflow-y-auto overflow-x-hidden pl-2 pr-2 min-[375px]:w-52 md:w-64 mt-14 md:mt-16'
               : ' w-0 overflow-hidden pl-0 pr-0'
           } relative z-50 duration-200 ease-in-out`}
         >
