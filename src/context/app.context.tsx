@@ -20,6 +20,7 @@ interface AppContextInterface {
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
   keyword: string
   setKeyword: React.Dispatch<React.SetStateAction<string>>
+  reset: () => void
 }
 const initialAppContext: AppContextInterface = {
   showSideBar: false,
@@ -37,7 +38,8 @@ const initialAppContext: AppContextInterface = {
   profile: getProfileFromLocalStorage(),
   setProfile: () => null,
   keyword: '',
-  setKeyword: () => null
+  setKeyword: () => null,
+  reset: () => null
 }
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
@@ -55,6 +57,11 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [extendedVideos, setExtendedVideos] = useState<ExtendedVideo[]>(initialAppContext.extendedVideos)
 
   const [thumbnail, setThumbnail] = useState<string[]>(initialAppContext.thumbnail)
+
+  const reset = () => {
+    setIsVerify('0')
+    setProfile(null)
+  }
 
   useEffect(() => {
     switch (theme) {
@@ -90,7 +97,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
         profile,
         setProfile,
         keyword,
-        setKeyword
+        setKeyword,
+        reset
       }}
     >
       {children}

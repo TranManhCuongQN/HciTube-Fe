@@ -1,9 +1,16 @@
 import React from 'react'
+import { useQuery } from 'react-query'
+import videoApi from 'src/api/video.api'
 
 interface MainProps {
   openModal: () => void
 }
 const MainComponent = (props: MainProps) => {
+  const { data } = useQuery({
+    queryKey: 'overview',
+    queryFn: () => videoApi.getOverviewVideo()
+  })
+
   const { openModal } = props
   return (
     <div className='flex flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
@@ -34,17 +41,23 @@ const MainComponent = (props: MainProps) => {
           </span>
           <div className='flex flex-col border-b border-b-gray-300 py-2'>
             <span className='text-xs text-black dark:text-white md:text-sm'>Số người đăng ký hiện tại</span>
-            <span className='text-base font-semibold text-black dark:text-white md:text-lg'>0</span>
+            <span className='text-base font-semibold text-black dark:text-white md:text-lg'>
+              {data?.data.data.totalSub}
+            </span>
           </div>
           <div className='flex w-full flex-col gap-y-2'>
             <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Tóm tắt</span>
             <div className='flex items-center justify-between'>
               <span className='text-xs text-black dark:text-white md:text-sm'>Số lượt xem</span>
-              <span className='text-sm font-bold text-black dark:text-white md:text-base'>0</span>
+              <span className='text-sm font-bold text-black dark:text-white md:text-base'>
+                {data?.data.data.totalViews}
+              </span>
             </div>
             <div className='flex w-full items-center justify-between'>
               <span className='text-xs text-black dark:text-white md:text-sm'>Thời gian xem</span>
-              <span className='text-sm font-bold text-black dark:text-white md:text-base'>0</span>
+              <span className='text-sm font-bold text-black dark:text-white md:text-base'>
+                {data?.data.data.totalTime}
+              </span>
             </div>
           </div>
         </div>

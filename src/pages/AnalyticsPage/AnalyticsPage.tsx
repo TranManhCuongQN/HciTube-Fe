@@ -107,7 +107,7 @@ const AnalyticsPage = () => {
             >
               <span className='text-xs text-black dark:text-white md:text-sm'>Thời gian xem (giờ)</span>
               <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
-                {option === 'time' && data?.data.data.reduce((sum, item) => sum + formatHours(item.count), 0)}
+                {option === 'time' && formatHours(data?.data.data.reduce((sum, item) => sum + item.count, 0) as number)}
               </span>
             </button>
             <button
