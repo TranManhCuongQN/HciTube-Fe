@@ -210,7 +210,7 @@ const SearchPage = () => {
               {isSuccess &&
                 (getVideo.data.data.videos.length as number) === 0 &&
                 getVideo.data.data.users.length === 0 && (
-                  <div className='flex absolute h-full w-full items-center justify-center gap-x-8'>
+                  <div className='flex mt-40 w-full items-center justify-center gap-x-8'>
                     <BsSearch className='text-2xl md:text-3xl text-gray-400 dark:text-gray-500' />
                     <span className='text-xl md:text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
                   </div>

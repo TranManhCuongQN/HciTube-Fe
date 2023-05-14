@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import { MdZoomOutMap, MdZoomInMap, MdReplay } from 'react-icons/md'
 import { BiSkipNext, BiSkipPrevious, BiPlay, BiPause, BiRectangle } from 'react-icons/bi'
 import { HiVolumeUp, HiVolumeOff } from 'react-icons/hi'
-import { ImSpinner8 } from 'react-icons/im'
+import { AiOutlineLoading } from 'react-icons/ai'
 import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
 import ToolTip from './ToolTip'
@@ -161,9 +161,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     setPlaying(true)
   }
 
-  useEffect(() => {
-    playVideo()
-  }, [isLoading])
 
   const pauseVideo = () => {
     videoRef.current?.pause()
@@ -409,7 +406,10 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
           <video
             src={urlVideo}
             ref={videoRef}
-            onCanPlay={() => setIsLoading(false)}
+            onCanPlay={() => {
+              setIsLoading(false)
+              playVideo()
+            }}
             onTimeUpdate={updateTimeElapsed}
             preload='auto'
             onEnded={() => {
@@ -424,7 +424,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
                 zoomOut ? 'lg:w-full' : 'mx-auto'
               } absolute top-0 flex aspect-video h-full w-full items-center justify-center object-contain`}
             >
-              <ImSpinner8 className='absolute h-[10%] w-[10%] animate-spin text-white' />
+              <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
             </div>
           ) : (
             <div
