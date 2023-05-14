@@ -45,7 +45,6 @@ const Inform = () => {
     })
     navigate(`/detail/${item.id}?category=1`)
   }
-  console.log('isShow', isShow)
 
   return (
     <>
@@ -56,29 +55,33 @@ const Inform = () => {
         >
           {isShow ? (
             <>
-              <IoNotifications  className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+              <IoNotifications className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
             </>
           ) : (
             <>
               <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
             </>
           )}
-          {totalInForm > 0 && <span className='absolute top-2 right-1 font-bold text-[11px] text-white w-3 h-3 rounded-xl bg-red-600'>{totalInForm}</span>}
+          {totalInForm > 0 && (
+            <span className='absolute top-2 right-1 h-3 w-3 rounded-xl bg-red-600 text-[11px] font-bold text-white'>
+              {totalInForm}
+            </span>
+          )}
         </button>
         {isShow && (
           <div
             className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'
             ref={informRef}
           >
-            <span className='text-left text-base text-black dark:text-white p-4'>Thông báo</span>
-            <div className='w-full border-b dark:border-[rgba(255,255,255,0.2)] border-[rgba(0,0,0,0.1)]'></div>
+            <span className='p-4 text-left text-base text-black dark:text-white'>Thông báo</span>
+            <div className='w-full border-b border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.2)]'></div>
             {profile?.notification?.length === 0 && (
               <div className='flex h-full w-full flex-col items-center justify-center gap-y-5'>
                 <BsBell className='h-28 w-28 text-[#909090] dark:text-[#717171] ' />
                 <span className='text-base font-semibold text-[#6a6a6a]'>Thông báo hiển thị ở đây</span>
               </div>
             )}
-            <div className="overflow-y-scroll">
+            <div className='overflow-y-scroll'>
               {profile?.notification?.map((item, index) => (
                 <div
                   className=' flex items-start justify-between p-4 pr-10 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]'
