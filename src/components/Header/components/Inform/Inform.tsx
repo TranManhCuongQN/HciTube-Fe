@@ -62,7 +62,7 @@ const Inform = () => {
               <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
             </>
           )}
-          {totalInForm > 0 && <span className='absolute top-1 right-0 font-bold text-red-600'>{totalInForm}</span>}
+          {totalInForm > 0 && <span className='absolute top-2 right-1 font-bold text-[11px] text-white w-3 h-3 rounded-xl bg-red-600'>{totalInForm}</span>}
         </button>
         {isShow && (
           <div
