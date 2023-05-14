@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
-import {ImSpinner8} from 'react-icons/im'
+import {AiOutlineLoading} from 'react-icons/ai'
 
 interface VideoProps {
   lastPlayedTime: number
@@ -86,7 +86,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
           {
             isLoading &&
             <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center`}>
-              <ImSpinner8 className='absolute h-[20%] w-[20%] text-white animate-spin'/>
+              <AiOutlineLoading className='absolute h-[20%] w-[20%] text-white animate-spin'/>
             </div>
           }
 
