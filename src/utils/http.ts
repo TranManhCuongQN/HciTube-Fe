@@ -1,5 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig, type AxiosInstance } from 'axios'
 import { URL_LOGIN, URL_LOGOUT, URL_REFRESH_TOKEN, URL_REGISTER, URL_VERIFY_EMAIL } from 'src/api/auth.api'
+import { URL_CHANGE_PASSWORD } from 'src/api/profile.api'
 import config from 'src/constants/config'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 import { AuthResponse, RefreshTokenReponse } from 'src/types/auth.type'
@@ -61,6 +62,13 @@ class Http {
           const data = response.data
           setProfileToLocalStorage(data.data.user)
         } else if (url === URL_VERIFY_EMAIL) {
+          const data = response.data as AuthResponse
+          this.accessToken = data.data?.access_token
+          this.refreshToken = data.data.refresh_token
+          saveAccessTokenToLocalStorage(this.accessToken)
+          setRefreshTokenToLocalStorage(this.refreshToken)
+          setProfileToLocalStorage(data.data.user)
+        } else if (url === URL_CHANGE_PASSWORD) {
           const data = response.data as AuthResponse
           this.accessToken = data.data?.access_token
           this.refreshToken = data.data.refresh_token

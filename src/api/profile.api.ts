@@ -4,7 +4,7 @@ import http from 'src/utils/http'
 
 const URL_GET_PROFILE = 'api/v1/channels/me'
 const URL_UPDATE_PROFILE = 'api/v1/channels/updateMe'
-const URL_CHANGE_PASSWORD = 'api/v1/channels/updateMyPassword'
+export const URL_CHANGE_PASSWORD = 'api/v1/channels/updateMyPassword'
 const profileApi = {
   getProfile: () => {
     return http.get<SuccessResponse<User>>(`${URL_GET_PROFILE}`)
