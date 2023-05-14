@@ -12,7 +12,7 @@ import Thumbnail from './Thumbnail'
 import { isUndefined, omit } from 'lodash'
 import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
 import { Video as VideoType } from 'src/types/video.type'
-import { createSearchParams, useNavigate, useParams } from 'react-router-dom'
+import { createSearchParams, useNavigate, useParams, useLocation } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useMutation } from 'react-query'
 import videoApi from 'src/api/video.api'
@@ -56,6 +56,14 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation();
+
+  
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const watchedTime = Number(searchParams.get('watchTime')) || 0;
+    if(videoRef.current) videoRef.current.currentTime = watchedTime;
+  }, [])
 
   const increseViewMutation = useMutation({
     mutationFn: videoApi.increaseView,
@@ -395,6 +403,8 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   }, [idView])
 
   console.log('idView:', idView)
+
+
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
