@@ -25,7 +25,9 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   const [isShowEdit, setIsShowEdit] = useState<boolean>(false)
   const emojiRef = useRef<HTMLDivElement>(null)
   const [isLike, setIsLike] = useState<boolean>(false)
+  const [totalLike, setTotalLike] = useState<number>(0)
   const [isDislike, setIsDislike] = useState<boolean>(false)
+  const [totalDislike, setTotalDislike] = useState<number>(0)
   const [isReply, setIsReply] = useState<boolean>(false)
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
   const { profile, isVerify } = useContext(AppContext)
@@ -72,23 +74,17 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
   })
 
   const handleLikeCommentMutation = useMutation({
-    mutationFn: () => commentApi.setAction({ action: 'like', comment: dataComment._id as string }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['comment', id])
-    }
+    mutationFn: () => commentApi.setAction({ action: 'like', comment: dataComment._id as string })
   })
 
   const handleDislikeCommentMutation = useMutation({
-    mutationFn: () => commentApi.setAction({ action: 'dislike', comment: dataComment._id as string }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['comment', id])
-    }
+    mutationFn: () => commentApi.setAction({ action: 'dislike', comment: dataComment._id as string })
   })
 
   useEffect(() => {
     if (dataComment.dislike) {
+      setTotalDislike(dataComment.dislike.length)
       const checkDisLikeVideo = dataComment?.dislike?.findIndex((item) => item === profile?._id) || false
-
       if (checkDisLikeVideo !== -1) {
         setIsDislike(true)
       } else {
@@ -99,6 +95,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
 
   useEffect(() => {
     if (dataComment.like) {
+      setTotalLike(dataComment.like.length)
       const checkLikeVideo = dataComment?.like?.findIndex((item) => item === profile?._id) || false
 
       if (checkLikeVideo !== -1) {
@@ -136,7 +133,23 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
       navigate('/login')
       return
     }
-    handleLikeCommentMutation.mutate()
+    if (isLike === false) {
+      setIsLike(true)
+      setTotalLike((prev) => prev + 1)
+      if (isDislike) {
+        setIsDislike(false)
+        setTotalDislike((prev) => prev - 1)
+      }
+      handleLikeCommentMutation.mutate()
+    } else {
+      setIsLike(false)
+      setTotalLike((prev) => prev - 1)
+      if (isDislike) {
+        setIsDislike(false)
+        setTotalDislike((prev) => prev - 1)
+      }
+      handleLikeCommentMutation.mutate()
+    }
   }
 
   const handleDislike = () => {
@@ -150,7 +163,23 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
       navigate('/login')
       return
     }
-    handleDislikeCommentMutation.mutate()
+    if (isDislike === false) {
+      setIsDislike(true)
+      setTotalDislike((prev) => prev + 1)
+      if (isLike) {
+        setIsLike(false)
+        setTotalLike((prev) => prev - 1)
+      }
+      handleDislikeCommentMutation.mutate()
+    } else {
+      setIsDislike(false)
+      setTotalDislike((prev) => prev - 1)
+      if (isLike) {
+        setIsLike(false)
+        setTotalLike((prev) => prev - 1)
+      }
+      handleDislikeCommentMutation.mutate()
+    }
   }
 
   const handleReply = () => {
@@ -331,11 +360,8 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
                 </>
               )}
             </button>
-            {(dataComment.like?.length as number) > 0 && (
-              <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>
-                {dataComment.like?.length}
-              </span>
-            )}
+
+            <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
           </div>
           <div className='flex items-center'>
             <button
@@ -352,11 +378,8 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
                 </>
               )}
             </button>
-            {(dataComment.dislike?.length as number) > 0 && (
-              <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                {dataComment.dislike?.length}
-              </span>
-            )}
+
+            <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDislike}</span>
           </div>
           <button
             className='rounded-2xl px-4 py-2 text-xs font-semibold text-black hover:bg-[#f2f2f2] dark:text-white dark:hover:bg-[#272727] md:text-sm'

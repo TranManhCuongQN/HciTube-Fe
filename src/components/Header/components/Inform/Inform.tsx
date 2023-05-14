@@ -6,18 +6,43 @@ import useOnClickOutside from 'src/hook/useOnClickOutSide'
 import { AppContext } from 'src/context/app.context'
 import { convertToRelativeTime } from 'src/utils/utils'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import videoApi from 'src/api/video.api'
+import { setProfileToLocalStorage } from 'src/utils/auth'
 
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
-  const { profile } = useContext(AppContext)
+  const { profile, setProfile } = useContext(AppContext)
   const informRef = React.useRef<HTMLDivElement>(null)
+  const [totalInForm, setTotalInForm] = useState<number>(0)
   useOnClickOutside(informRef, () => setIsShow(false))
   const navigate = useNavigate()
 
-  console.log(profile?.notification)
+  const updateSeenNotificationMutation = useMutation({
+    mutationFn: videoApi.updateSeenNotificationMutation,
+    onSuccess: (data) => {
+      setProfileToLocalStorage(data.data.data)
+      setProfile(data.data.data)
+    }
+  })
+
+  useEffect(() => {
+    if (profile?.notification) {
+      const total = profile?.notification?.reduce((total, item) => {
+        if (item.seen === false) {
+          return total + 1
+        }
+        return total
+      }, 0)
+      setTotalInForm(total)
+    }
+  }, [profile?.notification])
 
   const handleClick = (item: any) => {
     setIsShow(false)
+    updateSeenNotificationMutation.mutate({
+      video: item?.id
+    })
     navigate(`/detail/${item.id}?category=1`)
   }
 
@@ -26,13 +51,18 @@ const Inform = () => {
       <ToolTip position='bottom' content={'Thông báo'}>
         <button
           className='relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
-          onClick={() => setIsShow(!isShow)}
+          onClick={() => setIsShow(true)}
         >
           {isShow ? (
-            <IoNotifications className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+            <>
+              <IoNotifications className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+            </>
           ) : (
-            <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
+            <>
+              <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
+            </>
           )}
+          {totalInForm > 0 && <span className='absolute top-1 right-0 font-bold text-red-600'>{totalInForm}</span>}
         </button>
         {isShow && (
           <div

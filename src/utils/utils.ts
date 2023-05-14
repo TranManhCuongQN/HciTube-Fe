@@ -192,9 +192,5 @@ export const get365DaysAgo = (): string[] => {
 }
 
 export const formatHours = (milliseconds: number) => {
-  const hours = Math.floor(milliseconds / 3600000)
-  const minutes = Math.floor((milliseconds % 3600000) / 60000)
-
-  const formattedTime = hours.toLocaleString() + ',' + minutes.toLocaleString()
-  return formattedTime
+  return Number((milliseconds / 3600).toFixed(1))
 }

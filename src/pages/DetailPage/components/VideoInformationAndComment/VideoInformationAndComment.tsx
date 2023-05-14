@@ -36,7 +36,9 @@ const playListSchema = uploadVideoSchema.pick(['description', 'title'])
 const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false)
   const [isLike, setIsLike] = useState<boolean>(false)
+  const [totalLike, setTotalLike] = useState<number>(0)
   const [isDislike, setIsDislike] = useState<boolean>(false)
+  const [totalDislike, setTotalDisLike] = useState<number>(0)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const { profile, isVerify, setProfile } = useContext(AppContext)
@@ -71,8 +73,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
     queryKey: 'playList',
     queryFn: () => playListAPI.getPlayListById(profile?.id as string)
   })
-
-  // console.log('dataPlayList:', dataPlayList?.data.data)
 
   const videoToPlayListMutation = useMutation({
     mutationFn: (data: { action: string; video: string; idPlayList: string }) => playListAPI.VideoToPlayList(data)
@@ -123,6 +123,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   useEffect(() => {
     if (data && data.video.like) {
+      setTotalLike(data.video.like.length)
       const checkLikeVideo = data?.video?.like?.findIndex((item) => item === profile?._id) || false
       if (checkLikeVideo !== -1) {
         setIsLike(true)
@@ -145,6 +146,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   useEffect(() => {
     if (data && data.video.dislike) {
+      setTotalDisLike(data.video.dislike.length)
       const checkDisLikeVideo = data?.video?.dislike?.findIndex((item) => item === profile?._id) || false
       if (checkDisLikeVideo !== -1) {
         setIsDislike(true)
@@ -171,10 +173,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       videoApi.setAction({
         action: 'like',
         video: data.video._id as string
-      }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries('video')
-    }
+      })
   })
 
   const dislikeVideoMutation = useMutation({
@@ -182,10 +181,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       videoApi.setAction({
         action: 'dislike',
         video: data.video._id as string
-      }),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries('video')
-    }
+      })
   })
 
   const subscribeChannelMutation = useMutation({
@@ -194,16 +190,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         channel: data.video.channel?._id as string
       }),
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
-      console.log('dataFolloing:', data.data.data.user)
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      queryClient.invalidateQueries('video')
     }
   })
 
@@ -213,42 +201,17 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         channel: data.video.channel?._id as string
       }),
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Hủy đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      queryClient.invalidateQueries('video')
     }
   })
 
   const addListFavoriteMutation = useMutation({
-    mutationFn: () => favoriteApi.addFovoriteVideo(data.video._id as string),
-    onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Thêm vào danh sách yêu thích thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
-      refetch()
-    }
+    mutationFn: () => favoriteApi.addFovoriteVideo(data.video._id as string)
   })
 
   const removeListFavoriteMutation = useMutation({
-    mutationFn: () => favoriteApi.removeFovoriteVideo(data.video._id as string),
-    onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Xóa khỏi danh sách yêu thích thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
-      refetch()
-    }
+    mutationFn: () => favoriteApi.removeFovoriteVideo(data.video._id as string)
   })
 
   const onSubmit = handleSubmit((data) => {
@@ -277,7 +240,23 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    likeVideoMutation.mutate()
+    if (isLike === false) {
+      setIsLike(true)
+      setTotalLike((prev) => prev + 1)
+      if (isDislike) {
+        setIsDislike(false)
+        setTotalDisLike((prev) => prev - 1)
+      }
+      likeVideoMutation.mutate()
+    } else {
+      setIsLike(false)
+      setTotalLike((prev) => prev - 1)
+      if (isDislike) {
+        setIsDislike(false)
+        setTotalDisLike((prev) => prev - 1)
+      }
+      likeVideoMutation.mutate()
+    }
   }
 
   const handleAddPlayList = () => {
@@ -305,7 +284,23 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    dislikeVideoMutation.mutate()
+    if (isDislike === false) {
+      setIsDislike(true)
+      setTotalDisLike((prev) => prev + 1)
+      if (isLike) {
+        setIsLike(false)
+        setTotalLike((prev) => prev - 1)
+      }
+      dislikeVideoMutation.mutate()
+    } else {
+      setIsDislike(false)
+      setTotalDisLike((prev) => prev - 1)
+      if (isLike) {
+        setIsLike(false)
+        setTotalLike((prev) => prev - 1)
+      }
+      dislikeVideoMutation.mutate()
+    }
   }
 
   const handleSubscribeChannel = () => {
@@ -319,7 +314,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    subscribeChannelMutation.mutate()
+    if (isSubscribed === false) {
+      setIsSubscribed(true)
+      subscribeChannelMutation.mutate()
+    }
   }
 
   const handleDeleteSubscribeChannel = () => {
@@ -333,7 +331,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    deleteSubscribeChannelMutation.mutate()
+    if (isSubscribed === true) {
+      setIsSubscribed(false)
+      deleteSubscribeChannelMutation.mutate()
+    }
   }
 
   const handleAddListFavorite = () => {
@@ -347,7 +348,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    addListFavoriteMutation.mutate()
+    if (isFavorite === false) {
+      setIsFavorite(true)
+      addListFavoriteMutation.mutate()
+    }
   }
 
   const handleRemoveListFavorite = () => {
@@ -361,7 +365,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       navigate('/login')
       return
     }
-    removeListFavoriteMutation.mutate()
+    if (isFavorite === true) {
+      setIsFavorite(false)
+      removeListFavoriteMutation.mutate()
+    }
   }
   const shareUrl = 'https://www.youtube.com/watch?v=9WzIACv_mxs'
 
@@ -449,15 +456,13 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   <>
                     <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
                     <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                      {data?.video?.like?.length}
+                      {totalLike}
                     </span>{' '}
                   </>
                 ) : (
                   <>
                     <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                      {data?.video?.like?.length}
-                    </span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
                   </>
                 )}
               </button>
@@ -466,16 +471,12 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 {isDislike ? (
                   <>
                     <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                      {data?.video?.dislike?.length}
-                    </span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDislike}</span>
                   </>
                 ) : (
                   <>
                     <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                      {data?.video?.dislike?.length}
-                    </span>
+                    <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDislike}</span>
                   </>
                 )}
               </button>
@@ -531,16 +532,12 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               {isLike ? (
                 <>
                   <AiFillLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                    {data?.video?.like?.length}
-                  </span>{' '}
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>{' '}
                 </>
               ) : (
                 <>
                   <AiOutlineLike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                    {data?.video?.like?.length}
-                  </span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalLike}</span>
                 </>
               )}
             </button>
@@ -549,16 +546,12 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               {isDislike ? (
                 <>
                   <AiFillDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                    {data?.video?.dislike?.length}
-                  </span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDislike}</span>
                 </>
               ) : (
                 <>
                   <AiOutlineDislike className='text-black dark:text-white xl:h-5 xl:w-5' />
-                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>
-                    {data?.video?.dislike?.length}
-                  </span>
+                  <span className='text-xs  font-semibold text-black dark:text-white md:text-sm'>{totalDislike}</span>
                 </>
               )}
             </button>

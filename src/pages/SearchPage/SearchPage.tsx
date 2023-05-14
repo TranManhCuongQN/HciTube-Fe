@@ -4,7 +4,7 @@ import { GiSettingsKnobs } from 'react-icons/gi'
 import { useContext, useEffect, useRef, useState } from 'react'
 import Filter from './components/Filter'
 import useQueryConfig from 'src/hook/useQueryConfig'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import { BsSearch } from 'react-icons/bs'
 import Skeleton from 'src/components/Skeleton'
@@ -20,19 +20,15 @@ import { setProfileToLocalStorage } from 'src/utils/auth'
 const SearchPage = () => {
   const filterRef = useRef<HTMLDivElement>(null)
   const queryConfig = useQueryConfig()
-  const { profile, setProfile, isVerify, keyword, setKeyword } = useContext(AppContext)
-  const [isSubscribed, setIsSubscribed] = useState<[]>([])
-  const queryClient = useQueryClient()
+  const { profile, setProfile, isVerify } = useContext(AppContext)
+  const [isSubscribed, setIsSubscribed] = useState<number[]>([])
   const navigate = useNavigate()
-
-  useEffect(() => {
-    setKeyword('')
-  }, [])
 
   const {
     data: getVideo,
     isSuccess,
-    isLoading
+    isLoading,
+    refetch
   } = useQuery({
     queryKey: ['getVideo', queryConfig],
     queryFn: () => videoApi.searchVideo(queryConfig)
@@ -45,45 +41,34 @@ const SearchPage = () => {
   }
 
   useEffect(() => {
-    if ((getVideo?.data.data.users.length as number) > 0) {
+    if (getVideo?.data.data.users) {
+      console.log('datagetVideo', getVideo?.data.data.users)
       const isSubscribedArr = getVideo?.data.data.users.map((item) => item.subscribers)
-      console.log('isSubscribedArr:', isSubscribedArr)
-      const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item._id === profile?.id))
-      setIsSubscribed(isSubscribed as [])
+      console.log('isSubscribedArr', isSubscribedArr)
+      const isSubscribed = isSubscribedArr?.map((item) => item?.findIndex((item) => item === profile?.id))
+      setIsSubscribed(isSubscribed as number[])
     }
   }, [getVideo?.data.data.users, profile?.id])
 
   const subscribeChannelMutation = useMutation({
     mutationFn: subscriberApi.subscribeChannel,
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      queryClient.invalidateQueries('getVideo')
+      refetch()
     }
   })
 
   const deleteSubscribeChannelMutation = useMutation({
     mutationFn: subscriberApi.deleteSubscribeChannel,
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Hủy đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      queryClient.invalidateQueries('getVideo')
+      refetch()
     }
   })
 
-  const handleUnSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleUnSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     e.preventDefault()
     if (isVerify !== '2') {
       toast.dismiss()
@@ -95,10 +80,14 @@ const SearchPage = () => {
       navigate('/login')
       return
     }
+    setIsSubscribed((prev) => {
+      prev[index] = -1
+      return [...prev]
+    })
     deleteSubscribeChannelMutation.mutate({ channel: id })
   }
 
-  const handleSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubscribeChannel = (id: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number) => {
     e.preventDefault()
     if (isVerify !== '2') {
       toast.dismiss()
@@ -110,6 +99,10 @@ const SearchPage = () => {
       navigate('/login')
       return
     }
+    setIsSubscribed((prev) => {
+      prev[index] = 1
+      return [...prev]
+    })
     subscribeChannelMutation.mutate({ channel: id })
   }
 
@@ -168,7 +161,7 @@ const SearchPage = () => {
                         (isSubscribed[index] !== -1 ? (
                           <button
                             className=' relative z-10 flex flex-shrink-0 items-center gap-x-2 rounded-full bg-[#f2f2f2] px-4 py-2 text-sm  font-bold text-black hover:bg-[#E5E5E5] dark:bg-[#272727] dark:text-white dark:hover:bg-[#4d4d4d]'
-                            onClick={(e) => handleUnSubscribeChannel(item._id as string, e)}
+                            onClick={(e) => handleUnSubscribeChannel(item._id as string, e, index)}
                           >
                             <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
                             Đã đăng ký
@@ -176,7 +169,7 @@ const SearchPage = () => {
                         ) : (
                           <button
                             className=' relative z-10 h-fit flex-shrink-0 rounded-full bg-black px-4 py-2 text-sm font-bold  text-white hover:bg-[#4d4d4d] dark:bg-white dark:text-black dark:hover:bg-[#E5E5E5]'
-                            onClick={(e) => handleSubscribeChannel(item._id as string, e)}
+                            onClick={(e) => handleSubscribeChannel(item._id as string, e, index)}
                           >
                             Đăng ký
                           </button>
@@ -210,9 +203,11 @@ const SearchPage = () => {
               {isSuccess &&
                 (getVideo.data.data.videos.length as number) === 0 &&
                 getVideo.data.data.users.length === 0 && (
-                  <div className='flex mt-40 w-full items-center justify-center gap-x-8'>
-                    <BsSearch className='text-2xl md:text-3xl text-gray-400 dark:text-gray-500' />
-                    <span className='text-xl md:text-2xl font-bold text-black dark:text-white'>Không tìm thấy kết quả</span>
+                  <div className='mt-40 flex w-full items-center justify-center gap-x-8'>
+                    <BsSearch className='text-2xl text-gray-400 dark:text-gray-500 md:text-3xl' />
+                    <span className='text-xl font-bold text-black dark:text-white md:text-2xl'>
+                      Không tìm thấy kết quả
+                    </span>
                   </div>
                 )}
             </div>

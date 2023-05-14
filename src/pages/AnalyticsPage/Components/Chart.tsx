@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
-import { get28DaysAgo, get365DaysAgo, get90DaysAgo, getSevenDaysAgo } from 'src/utils/utils'
+import { formatHours, get28DaysAgo, get365DaysAgo, get90DaysAgo, getSevenDaysAgo } from 'src/utils/utils'
 
 const chartOptions = {
   chart: {
@@ -19,7 +19,7 @@ const chartOptions = {
   }
 }
 
-const Chart = ({ data, slot }: { slot: string; data: { date: string; count: number }[] }) => {
+const Chart = ({ data, slot, role }: { slot: string; data: { date: string; count: number }[]; role: string }) => {
   const [options, setOptions] = useState<ApexCharts.ApexOptions>(chartOptions)
   const [series7Days, setSeries7Days] = useState<number[]>([])
   const [series28Days, setSeries28Days] = useState<number[]>([])
@@ -41,12 +41,16 @@ const Chart = ({ data, slot }: { slot: string; data: { date: string; count: numb
       }
 
       for (const key in data) {
-        sevenDaysObj[data[key].date] = data[key].count
+        if (role === 'time') {
+          sevenDaysObj[data[key].date] = formatHours(data[key].count)
+        } else {
+          sevenDaysObj[data[key].date] = data[key].count
+        }
       }
 
       return sevenDaysObj
     }
-  }, [data, slot])
+  }, [data, slot, role])
 
   const twentyEightDays = useMemo(() => {
     if (slot === '28days') {
@@ -58,12 +62,16 @@ const Chart = ({ data, slot }: { slot: string; data: { date: string; count: numb
       }
 
       for (const key in data) {
-        twentyEightDaysObj[data[key].date] = data[key].count
+        if (role === 'time') {
+          twentyEightDaysObj[data[key].date] = formatHours(data[key].count)
+        } else {
+          twentyEightDaysObj[data[key].date] = data[key].count
+        }
       }
 
       return twentyEightDaysObj
     }
-  }, [data, slot])
+  }, [data, slot, role])
 
   const ninetyDays = useMemo(() => {
     if (slot === '90days') {
@@ -75,12 +83,16 @@ const Chart = ({ data, slot }: { slot: string; data: { date: string; count: numb
       }
 
       for (const key in data) {
-        ninetyDaysObj[data[key].date] = data[key].count
+        if (role === 'time') {
+          ninetyDaysObj[data[key].date] = formatHours(data[key].count)
+        } else {
+          ninetyDaysObj[data[key].date] = data[key].count
+        }
       }
 
       return ninetyDaysObj
     }
-  }, [data, slot])
+  }, [data, slot, role])
 
   const threeSixtyFiveDays = useMemo(() => {
     if (slot === '365days') {
@@ -92,12 +104,16 @@ const Chart = ({ data, slot }: { slot: string; data: { date: string; count: numb
       }
 
       for (const key in data) {
-        threeSixtyFiveDaysObj[data[key].date] = data[key].count
+        if (role === 'time') {
+          threeSixtyFiveDaysObj[data[key].date] = formatHours(data[key].count)
+        } else {
+          threeSixtyFiveDaysObj[data[key].date] = data[key].count
+        }
       }
 
       return threeSixtyFiveDaysObj
     }
-  }, [data, slot])
+  }, [data, slot, role])
 
   useEffect(() => {
     if (slot === '7days') {
@@ -165,15 +181,15 @@ const Chart = ({ data, slot }: { slot: string; data: { date: string; count: numb
 
   useEffect(() => {
     if (slot === '7days') {
-      setSeries([{ name: 'Views', data: series7Days }])
+      setSeries([{ name: `${role}`, data: series7Days }])
     } else if (slot === '28days') {
-      setSeries([{ name: 'Views', data: series28Days }])
+      setSeries([{ name: `${role}`, data: series28Days }])
     } else if (slot === '90days') {
-      setSeries([{ name: 'Views', data: series90Days }])
+      setSeries([{ name: `${role}`, data: series90Days }])
     } else if (slot === '365days') {
-      setSeries([{ name: 'Views', data: series365Days }])
+      setSeries([{ name: `${role}`, data: series365Days }])
     }
-  }, [series7Days, slot, series28Days, series90Days, series365Days])
+  }, [series7Days, slot, series28Days, series90Days, series365Days, role])
 
   return <ReactApexChart options={options} series={series} height={450} type='area' />
 }

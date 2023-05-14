@@ -50,15 +50,8 @@ const ChannelPage = () => {
         channel: id
       }),
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Hủy đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      refetch()
     }
   })
 
@@ -68,16 +61,8 @@ const ChannelPage = () => {
         channel: id
       }),
     onSuccess: (data) => {
-      toast.dismiss()
-      toast.success('Đăng ký kênh thành công', {
-        position: 'top-right',
-        autoClose: 2000,
-        pauseOnHover: false
-      })
-      console.log('dataFolloing:', data.data.data.user)
       setProfile(data.data.data.user)
       setProfileToLocalStorage(data.data.data.user)
-      refetch()
     }
   })
 
@@ -127,7 +112,10 @@ const ChannelPage = () => {
       navigate('/login')
       return
     }
-    subscribeChannelMutation.mutate()
+    if (isSubscribed === false) {
+      setIsSubscribed(true)
+      subscribeChannelMutation.mutate()
+    }
   }
   const handleUnSubscribe = () => {
     if (isVerify !== '2') {
@@ -140,7 +128,10 @@ const ChannelPage = () => {
       navigate('/login')
       return
     }
-    deleteSubscribeChannelMutation.mutate()
+    if (isSubscribed === true) {
+      setIsSubscribed(false)
+      deleteSubscribeChannelMutation.mutate()
+    }
   }
 
   return (

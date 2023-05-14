@@ -53,6 +53,9 @@ const videoApi = {
   },
   getAnalysisVideo: (params: { date: string; option: string }) => {
     return http.get<SuccessResponse<{ date: string; count: number }[]>>(`${URL_GET_VIDEO_CHANNEL}analysis`, { params })
+  },
+  updateSeenNotificationMutation: (data: { video: string }) => {
+    return http.patch<SuccessResponse<User>>(`${URL_GET_VIDEO_CHANNEL}/seen-notification`, data)
   }
 }
 export default videoApi

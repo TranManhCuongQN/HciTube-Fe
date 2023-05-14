@@ -1,9 +1,10 @@
 import classNames from 'classnames'
 import React, { useRef, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Dropdown from 'src/components/Dropdown'
-import useQueryConfig from 'src/hook/useQueryConfig'
+import { formatHours } from 'src/utils/utils'
+
 import Chart from './Components'
 const AnalyticsPage = () => {
   const [option, setOption] = useState<string>('view')
@@ -73,7 +74,10 @@ const AnalyticsPage = () => {
               </div>
             }
           >
-            {date}
+            {date === '7days' && <span className='text-xs text-black dark:text-white md:text-sm'>7 ngày qua</span>}
+            {date === '28days' && <span className='text-xs text-black dark:text-white md:text-sm'>28 ngày qua</span>}
+            {date === '90days' && <span className='text-xs text-black dark:text-white md:text-sm'>90 ngày qua</span>}
+            {date === '365days' && <span className='text-xs text-black dark:text-white md:text-sm'>365 ngày qua</span>}
           </Dropdown>
         </div>
 
@@ -103,7 +107,7 @@ const AnalyticsPage = () => {
             >
               <span className='text-xs text-black dark:text-white md:text-sm'>Thời gian xem (giờ)</span>
               <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
-                {(option === 'time' && data?.data.data.reduce((sum, item) => sum + item.count, 0), 0)}
+                {option === 'time' && data?.data.data.reduce((sum, item) => sum + formatHours(item.count), 0)}
               </span>
             </button>
             <button
@@ -120,7 +124,7 @@ const AnalyticsPage = () => {
               </span>
             </button>
           </div>{' '}
-          <Chart data={data?.data?.data as { date: string; count: number }[]} slot={date} />
+          <Chart data={data?.data?.data as { date: string; count: number }[]} slot={date} role={option} />
         </div>
       </div>
     </>
