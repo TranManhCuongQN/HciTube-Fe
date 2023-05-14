@@ -161,6 +161,7 @@ const DetailPage = () => {
       )}
       {isSuccess && (
         <div
+          id="DetailPage"
           className={`${
             isTheaterMode
               ? ' min-h-screen lg:mt-0 lg:flex-col lg:px-0'

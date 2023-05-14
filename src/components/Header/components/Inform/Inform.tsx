@@ -45,6 +45,7 @@ const Inform = () => {
     })
     navigate(`/detail/${item.id}?category=1`)
   }
+  console.log('isShow', isShow)
 
   return (
     <>
@@ -55,7 +56,7 @@ const Inform = () => {
         >
           {isShow ? (
             <>
-              <IoNotifications className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+              <IoNotifications  className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
             </>
           ) : (
             <>
@@ -66,40 +67,42 @@ const Inform = () => {
         </button>
         {isShow && (
           <div
-            className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white p-4 shadow transition-all ease-linear dark:bg-[#282828]'
+            className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'
             ref={informRef}
           >
-            <span className='text-left text-base text-black dark:text-white'>Thông báo</span>
-            <div className='w-full border-b border-b-gray-400 pt-2'></div>
+            <span className='text-left text-base text-black dark:text-white p-4'>Thông báo</span>
+            <div className='w-full border-b dark:border-[rgba(255,255,255,0.2)] border-[rgba(0,0,0,0.1)]'></div>
             {profile?.notification?.length === 0 && (
               <div className='flex h-full w-full flex-col items-center justify-center gap-y-5'>
                 <BsBell className='h-28 w-28 text-[#909090] dark:text-[#717171] ' />
                 <span className='text-base font-semibold text-[#6a6a6a]'>Thông báo hiển thị ở đây</span>
               </div>
             )}
-            {profile?.notification?.map((item, index) => (
-              <div
-                className='my-5 flex items-start justify-between px-2 py-3'
-                key={index}
-                role='presentation'
-                onClick={() => handleClick(item.video)}
-              >
-                <img
-                  src={item.channel.avatar}
-                  alt='avatar'
-                  className='h-12 w-12 flex-shrink-0 rounded-full object-cover'
-                />
-                <div className='flex flex-col items-start'>
-                  <span className='w-32 break-words text-xs font-semibold text-black dark:text-white md:text-sm'>
-                    {item.video.title}
-                  </span>
-                  <span className='text-xs text-[#909090] dark:text-[#717171] '>
-                    {convertToRelativeTime(item.createdAt)}
-                  </span>
+            <div className="overflow-y-scroll">
+              {profile?.notification?.map((item, index) => (
+                <div
+                  className=' flex items-start justify-between p-4 pr-10 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]'
+                  key={index}
+                  role='presentation'
+                  onClick={() => handleClick(item.video)}
+                >
+                  <img
+                    src={item.channel.avatar}
+                    alt='avatar'
+                    className='h-12 w-12 flex-shrink-0 rounded-full object-cover'
+                  />
+                  <div className='flex flex-col items-start'>
+                    <span className='w-32 break-words text-xs font-semibold text-black dark:text-white md:text-sm'>
+                      {item.video.title}
+                    </span>
+                    <span className='text-xs text-[#606060] dark:text-[#aaa] '>
+                      {convertToRelativeTime(item.createdAt)}
+                    </span>
+                  </div>
+                  <img src={item.video.thumbnail} alt='thumbnail' className='h-14 w-24 flex-shrink-0 rounded-lg' />
                 </div>
-                <img src={item.video.thumbnail} alt='thumbnail' className='h-14 w-24 flex-shrink-0 rounded-lg' />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
       </ToolTip>
