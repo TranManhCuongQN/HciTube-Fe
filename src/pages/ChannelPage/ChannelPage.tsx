@@ -30,6 +30,7 @@ const ChannelPage = () => {
   const [isBeginning, setIsBeginning] = useState<boolean>(true)
   const [isEnd, setIsEnd] = useState<boolean>(false)
   const { profile, setProfile, isVerify } = useContext(AppContext)
+  const [totalSubscribers, setTotalSubscribers] = useState<number>(0)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
 
   const navigate = useNavigate()
@@ -37,8 +38,7 @@ const ChannelPage = () => {
   const {
     data: profileData,
     isLoading,
-    isSuccess,
-    refetch
+    isSuccess
   } = useQuery({
     queryKey: ['channelProfile', id],
     queryFn: () => playListAPI.getChannelById(id)
@@ -90,6 +90,7 @@ const ChannelPage = () => {
 
   useEffect(() => {
     if (profileData) {
+      setTotalSubscribers(profileData.data.data.subscribers?.length as number)
       const isSubscribed = profileData.data.data.subscribers?.findIndex((item) => item._id === profile?.id)
       if (isSubscribed !== -1) {
         setIsSubscribed(true)
@@ -97,7 +98,7 @@ const ChannelPage = () => {
         setIsSubscribed(false)
       }
     }
-  }, [profileData, profile?.id])
+  }, [profileData])
 
   console.log(isBeginning, isEnd)
 
@@ -113,6 +114,7 @@ const ChannelPage = () => {
       return
     }
     if (isSubscribed === false) {
+      setTotalSubscribers((prev) => prev + 1)
       setIsSubscribed(true)
       subscribeChannelMutation.mutate()
     }
@@ -129,6 +131,7 @@ const ChannelPage = () => {
       return
     }
     if (isSubscribed === true) {
+      setTotalSubscribers((prev) => prev - 1)
       setIsSubscribed(false)
       deleteSubscribeChannelMutation.mutate()
     }
@@ -184,8 +187,7 @@ const ChannelPage = () => {
                   </span>
                   <div className='flex items-center gap-x-4'>
                     <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
-                      {convertNumberToDisplayString(profileData?.data?.data.subscribers?.length as number)} người đăng
-                      ký
+                      {convertNumberToDisplayString(totalSubscribers)} người đăng ký
                     </span>
                     {/* <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
                       {convertNumberToDisplayString(254)} video

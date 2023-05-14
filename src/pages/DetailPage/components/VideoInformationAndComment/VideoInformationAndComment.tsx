@@ -43,6 +43,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
   const { profile, isVerify, setProfile } = useContext(AppContext)
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [totalSubscriber, setTotalSubscriber] = useState<number>(0)
   const queryClient = useQueryClient()
   const [playListSelected, setPlayListSelected] = useState<string[]>([])
   const [showModalAddPlayList, setShowModalAddPlayList] = useState<boolean>(false)
@@ -57,7 +58,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
     resolver: yupResolver(playListSchema)
   })
 
-  const { data: VideoListFavorite, refetch } = useQuery({
+  const { data: VideoListFavorite } = useQuery({
     queryKey: ['videoListFavorite', profile?._id],
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
   })
@@ -135,6 +136,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   useEffect(() => {
     if (data && data.video.channel?.subscribers) {
+      setTotalSubscriber(data.video.channel.subscribers.length)
       const checkSubscribed = data.video.channel.subscribers?.findIndex((item) => item._id === profile?.id)
       if (checkSubscribed !== -1) {
         setIsSubscribed(true)
@@ -142,7 +144,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
         setIsSubscribed(false)
       }
     }
-  }, [data, profile])
+  }, [data])
 
   useEffect(() => {
     if (data && data.video.dislike) {
@@ -315,6 +317,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       return
     }
     if (isSubscribed === false) {
+      setTotalSubscriber((prev) => prev + 1)
       setIsSubscribed(true)
       subscribeChannelMutation.mutate()
     }
@@ -332,6 +335,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       return
     }
     if (isSubscribed === true) {
+      setTotalSubscriber((prev) => prev - 1)
       setIsSubscribed(false)
       deleteSubscribeChannelMutation.mutate()
     }
@@ -405,7 +409,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 {data?.video?.channel?.fullName}
               </NavLink>
               <span className='text-xs font-medium text-[#666d74] dark:text-gray-400 '>
-                {data.video.channel?.subscribers?.length} người đăng ký
+                {totalSubscriber} người đăng ký
               </span>
             </div>
 
