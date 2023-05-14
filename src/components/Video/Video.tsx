@@ -386,9 +386,14 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     },
     [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
   )
+
+
   useEffect(() => {
     document.addEventListener('keyup', keyboardShortcuts)
-  }, [playing, zoomOut, theaterMode, muted, keyboardShortcuts])
+    return () => {
+    document.removeEventListener('keyup', keyboardShortcuts)
+    }
+  }, [playing, zoomOut, theaterMode, muted])
 
   useEffect(() => {
     const videoElement = videoRef.current
