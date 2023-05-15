@@ -52,8 +52,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
   const hasPlaylist = true
   const sharedLink = window.location.href
 
-
-
   const createPlaylistMutation = useMutation({
     mutationFn: (data: FormData) => playListAPI.createPlayList(data)
   })
@@ -63,7 +61,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const { data: VideoListFavorite } = useQuery({
     queryKey: ['videoListFavorite', profile?._id],
-    queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string)
+    queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string),
+    enabled: Boolean(profile?._id)
   })
 
   const {
@@ -75,7 +74,8 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
-    queryFn: () => playListAPI.getPlayListById(profile?.id as string)
+    queryFn: () => playListAPI.getPlayListById(profile?.id as string),
+    enabled: Boolean(profile?.id)
   })
 
   const videoToPlayListMutation = useMutation({
