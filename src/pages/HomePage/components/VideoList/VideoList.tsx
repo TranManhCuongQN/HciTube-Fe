@@ -4,6 +4,8 @@ import Skeleton from 'src/components/Skeleton'
 import VideoItem from '../VideoItem/VideoItem'
 import Img404 from 'src/assets/404.svg'
 import useQueryConfig from 'src/hook/useQueryConfig'
+import { Navigate } from 'react-router-dom'
+import path from 'src/constants/path'
 
 interface VideoListProps {
   filter?: string
@@ -26,7 +28,8 @@ const VideoList = ({ filter }: VideoListProps) => {
   const {
     data: getVideo,
     isSuccess,
-    isLoading
+    isLoading,
+    isError: isErrorGetVideoCategory
   } = useQuery({
     queryKey: ['getVideo', queryConfig],
     queryFn: () => videoApi.searchVideo(queryConfig),
@@ -100,21 +103,8 @@ const VideoList = ({ filter }: VideoListProps) => {
         </div>
       )}
 
-      {isError && (
-        <div className='flex h-[100vh] w-full flex-col items-center justify-center gap-y-5'>
-          <img src={Img404} alt='404' className='h-auto w-[20%] ' />
-          <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Kết nối Internet</span>
-          <span className='text-xs text-black dark:text-white md:text-sm'>
-            Không thể kết nối internet. Vui lòng kiểm tra mạng
-          </span>
-          <button
-            className='rounded border-2 border-blue-700 p-2 text-xs font-semibold uppercase text-blue-700 hover:bg-blue-700 hover:text-white md:text-sm'
-            onClick={handleGetData}
-          >
-            Thử lại
-          </button>
-        </div>
-      )}
+      {isError && <Navigate to={path.notfound} />}
+      {isErrorGetVideoCategory && <Navigate to={path.notfound} />}
     </div>
   )
 }

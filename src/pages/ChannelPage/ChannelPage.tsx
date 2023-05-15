@@ -1,6 +1,6 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/no-unresolved */
-import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import { convertNumberToDisplayString } from 'src/utils/utils'
 import AsideBar from '../HomePage/components/AsideBar'
@@ -38,7 +38,8 @@ const ChannelPage = () => {
   const {
     data: profileData,
     isLoading,
-    isSuccess
+    isSuccess,
+    isError: isErrorGetProfile
   } = useQuery({
     queryKey: ['channelProfile', id],
     queryFn: () => playListAPI.getChannelById(id)
@@ -353,6 +354,7 @@ const ChannelPage = () => {
           <Outlet />
         </div>
       )}
+      {isErrorGetProfile && <Navigate to={path.notfound} />}
     </div>
   )
 }

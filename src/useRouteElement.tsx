@@ -108,10 +108,6 @@ const useRouteElement = () => {
             {
               path: path.subscriptions,
               element: <SubscriptionsPage />
-            },
-            {
-              path: path.notfound,
-              element: <NotFoundPage/>
             }
           ]
         }
@@ -192,6 +188,10 @@ const useRouteElement = () => {
                   element: <About />
                 }
               ]
+            },
+            {
+              path: path.notfound,
+              element: <NotFoundPage />
             }
           ]
         }

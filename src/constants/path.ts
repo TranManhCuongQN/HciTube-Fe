@@ -21,6 +21,6 @@ const path = {
   history: '/history',
   likedPlaylist: '/liked-playlist',
   subscriptions: '/subscriptions',
-  notfound: '/notFound'
+  notfound: '/*'
 } as const
 export default path

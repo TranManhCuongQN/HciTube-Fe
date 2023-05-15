@@ -60,7 +60,7 @@ const SignInPage = () => {
         <div className='flex items-end gap-x-1'>
           <span className='text-lg font-semibold text-black dark:text-white md:text-2xl'>Chào mừng bạn đến</span>
           <span className='dynamic text-lg font-semibold text-red-600 after:bg-white dark:after:bg-[#0f0f0f] md:text-2xl'>
-            HCITube
+            HciTube
           </span>
         </div>
       </Link>
