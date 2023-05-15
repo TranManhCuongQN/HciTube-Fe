@@ -28,6 +28,8 @@ import LibraryPage from './pages/LibraryPage/LibraryPage'
 import HistoryPage from './pages/HistoryPage'
 import LikedPlaylistPage from './pages/LikedPlaylistPage'
 import SubscriptionsPage from './pages/SubscriptionsPage'
+import NotFoundPage from './pages/NotFoundPage'
+
 function ProtectedRoute() {
   const { isVerify } = useContext(AppContext)
   return isVerify === '2' ? <Outlet /> : <Navigate to='/' />
@@ -106,6 +108,10 @@ const useRouteElement = () => {
             {
               path: path.subscriptions,
               element: <SubscriptionsPage />
+            },
+            {
+              path: path.notfound,
+              element: <NotFoundPage/>
             }
           ]
         }

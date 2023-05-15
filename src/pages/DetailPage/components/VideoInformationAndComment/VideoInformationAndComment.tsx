@@ -50,6 +50,9 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
 
   const navigate = useNavigate()
   const hasPlaylist = true
+  const sharedLink = window.location.href
+
+
 
   const createPlaylistMutation = useMutation({
     mutationFn: (data: FormData) => playListAPI.createPlayList(data)
@@ -374,7 +377,6 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       removeListFavoriteMutation.mutate()
     }
   }
-  const shareUrl = 'https://www.youtube.com/watch?v=9WzIACv_mxs'
 
   const handleCloseModal = () => {
     setShowModal(false)
@@ -486,7 +488,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               </button>
             </div>
             <div className='flex gap-x-3'>
-              <FacebookShareButton url={shareUrl}>
+              <FacebookShareButton url={sharedLink}>
                 <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
                   <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
                   <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
@@ -561,7 +563,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             </button>
           </div>
 
-          <FacebookShareButton url={shareUrl}>
+          <FacebookShareButton url={sharedLink}>
             <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
               <TbShare3 className='text-black dark:text-white' />
               <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
