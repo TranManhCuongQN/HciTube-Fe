@@ -20,6 +20,7 @@ const path = {
   library: '/library',
   history: '/history',
   likedPlaylist: '/liked-playlist',
-  subscriptions: '/subscriptions'
+  subscriptions: '/subscriptions',
+  notfound: '/notFound'
 } as const
 export default path

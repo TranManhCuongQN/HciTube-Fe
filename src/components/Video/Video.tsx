@@ -590,20 +590,25 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
                     <ToolTip text='Cài đặt' keyname='s' />
                   </div>
                   {/* Theater Mode */}
-                  <div
-                    className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
-                    onClick={handleClickTheaterMode}
-                    role='presentation'
-                  >
-                    <div className='tooltip-video'>
-                      <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
-                      <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
-                    </div>
-                    <div className='tooltip-video'>
-                      <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
-                      <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
-                    </div>
-                  </div>
+                  {
+                    !zoomOut && (
+                      <div
+                      className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
+                      onClick={handleClickTheaterMode}
+                      role='presentation'
+                      >
+                        <div className='tooltip-video'>
+                          <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
+                          <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
+                        </div>
+                        <div className='tooltip-video'>
+                          <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
+                          <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
+                        </div>
+                      </div>
+                    )
+                  }
+                  
                   {/* Full-sreen */}
                   <div
                     className='ml-3 flex items-center hover:cursor-pointer lg:ml-0 lg:h-12'
