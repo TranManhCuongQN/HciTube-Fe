@@ -12,6 +12,7 @@ import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { playList } from 'src/types/playList.type'
 import { Video as VideoType, VideoItem } from 'src/types/video.type'
+import AsideBar from './components/AsideBar.tsx'
 import CompactVideoItem from './components/CompactVideoItem'
 import VideoInformationAndComment from './components/VideoInformationAndComment'
 
@@ -125,6 +126,7 @@ const DetailPage = () => {
 
   return (
     <>
+      <AsideBar />
       {isLoading && (
         <div className='container min-h-screen px-3 pb-5 lg:mt-2 lg:flex lg:items-start lg:gap-x-5 lg:px-24 '>
           <div className='flex flex-col bg-white px-0 dark:bg-[#0f0f0f] lg:mx-0  lg:w-full'>
