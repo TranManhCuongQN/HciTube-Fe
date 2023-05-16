@@ -114,7 +114,7 @@ const AsideBar = () => {
             className={classNames(
               'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
-                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === '/'
+                'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === ''
               }
             )}
           >
