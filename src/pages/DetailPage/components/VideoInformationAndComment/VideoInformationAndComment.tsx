@@ -638,7 +638,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       </div>
 
       <DialogCustom isOpen={showModal} handleClose={handleCloseModal}>
-        <div className='relative z-50 mb-5 overflow-hidden overflow-y-auto bg-white shadow dark:bg-[#282828] max-lg:w-[300px] max-sm:h-96 max-[320px]:h-72 lg:h-[320px] lg:w-[500px]'>
+        <div className='  bg-white shadow dark:bg-[#282828] max-lg:w-[300px] lg:w-[500px]'>
           <div className='flex flex-col px-5'>
             <div className='flex items-center justify-between'>
               <span className='py-5 text-sm font-semibold dark:text-white  md:text-base'>Lưu vào</span>
@@ -652,11 +652,11 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               </button>
             </div>
             <div className='w-full border border-gray-500'></div>
-            <div className='relative h-full w-full pb-6'>
+            <div className=' h-full w-full py-4 overflow-y-scroll max-sm:h-60 max-[320px]:h-52 md:h-[280px] lg:h-[300px] '>
               {dataPlayList &&
                 dataPlayList.data.data.map((item) => (
                   <div
-                    className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    className='flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
                     key={item._id}
                   >
                     <input
@@ -678,24 +678,25 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 </div>
               )}
 
-              <button
-                className='absolute bottom-2 left-1/2 -translate-x-1/2 text-xs font-semibold text-[#1569d6]'
-                type='button'
-                onClick={() => setShowModalAddPlayList(true)}
-              >
-                TẠO MỚI
-              </button>
             </div>
+            <button
+              className='py-4 text-xs lg:text-sm font-semibold text-[#1569d6] bg-white dark:bg-[#282828]'
+              type='button'
+              onClick={() => setShowModalAddPlayList(true)}
+            >
+              TẠO MỚI
+            </button>
           </div>
         </div>
       </DialogCustom>
+      {/* <div className={`${showModalAddPlayList ? 'block' : 'hidden'} relative w-full h-full bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)] z-[100]`}></div> */}
       <DialogCustom isOpen={showModalAddPlayList} handleClose={() => setShowModalAddPlayList(false)}>
-        <div className='relative z-50 mb-5 overflow-hidden overflow-y-auto bg-white shadow dark:bg-[#282828] max-sm:h-96 max-[320px]:h-72 lg:h-[520px] lg:w-[500px]'>
+        <div className=' bg-white drop-shadow-lg dark:bg-[#282828] '>
           <div className='flex flex-col px-5'>
             <span className='py-5 text-sm font-semibold dark:text-white  md:text-base'>Tạo danh sách phát mới</span>
             <div className='w-full border border-gray-500'></div>
             <FormProvider {...form}>
-              <form className='my-5 flex flex-col' onSubmit={onSubmit}>
+              <form className='my-5 flex flex-col overflow-y-scroll max-sm:h-72 max-[320px]:h-64 lg:h-[320px]' onSubmit={onSubmit}>
                 <div className='flex flex-col gap-y-1'>
                   <label
                     htmlFor='title'
@@ -720,16 +721,17 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   </span>
                 </div>
                 <div className='flex w-full items-start justify-end gap-x-2'>
+                  <Button className='rounded-lg py-2 px-4 text-xs lg:text-base font-semibold text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white  md:text-sm' type='submit'>
+                    Tạo
+                  </Button>
                   <Button
-                    className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
+                    className='rounded-lg p-2 text-xs lg:text-base font-semibold text-blue-600  md:text-sm'
                     type='button'
                     onClick={() => setShowModalAddPlayList(false)}
                   >
                     Hủy
                   </Button>
-                  <Button className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm' type='submit'>
-                    Tạo
-                  </Button>
+                  
                 </div>
               </form>
             </FormProvider>

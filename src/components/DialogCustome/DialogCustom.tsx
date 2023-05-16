@@ -28,8 +28,8 @@ const DialogCustom = (props: DialogCustomProps) => {
             <div className={`fixed inset-0 ${classNameOverlay} bg-opacity-10`} />
           </Transition.Child>
 
-          <div className='fixed inset-0 overflow-y-auto'>
-            <div className='flex min-h-full items-center justify-center p-4 text-center'>
+          <div className='fixed inset-0 overflow-y-auto z-[999]'>
+            <div className='flex min-h-full items-center justify-center p-4 text-center bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)]'>
               <Transition.Child
                 as={Fragment}
                 enter='ease-out duration-300'
@@ -40,7 +40,7 @@ const DialogCustom = (props: DialogCustomProps) => {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel
-                  className={`transform rounded p-6 text-left align-middle shadow transition-all ${className}`}
+                  className={`transform rounded p-6 text-left align-middle transition-all ${className}`}
                 >
                   {children}
                 </Dialog.Panel>
