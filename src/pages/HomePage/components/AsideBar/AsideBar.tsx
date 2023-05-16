@@ -91,28 +91,28 @@ const AsideBar = () => {
     setIsCheck(url)
     navigate(path.likedPlaylist)
   }
-
+  // bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-30 h-full lg:left-6   ${
+        className={`fixed top-0 left-0 z-30  h-full drop-shadow-md  ${
           showSideBar
-            ? 'w-full overflow-y-auto overflow-x-hidden bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]'
-            : 'w-0 overflow-hidden bg-[#ffffff] dark:bg-[#0f0f0f]'
-        } overflow-x-hidden transition-all duration-700 ease-linear 2xl:hidden`}
+            ? 'w-full overflow-y-auto overflow-x-hidden '
+            : 'w-0 overflow-hidden'
+        } overflow-x-hidden transition-all duration-200 ease-linear 2xl:hidden`}
         role='presentation'
       >
         <div
-          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff]  transition-all dark:bg-[#0f0f0f] ${
+          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff] lg:px-5 py-2 transition-all dark:bg-[#0f0f0f] ${
             showSideBar
-              ? 'w-44 overflow-y-auto overflow-x-hidden pl-2 pr-2 min-[375px]:w-52 md:w-64 mt-14 md:mt-16'
+              ? 'w-44 overflow-y-auto overflow-x-hidden min-[375px]:w-52 md:w-64 mt-14 md:mt-16'
               : ' w-0 overflow-hidden pl-0 pr-0'
           } relative z-50 duration-200 ease-in-out`}
         >
           <button
             onClick={() => navigate('/')}
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
                 'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === '/'
               }
@@ -124,7 +124,7 @@ const AsideBar = () => {
 
           <button
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
                 'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'subscriptions'
               }
@@ -140,7 +140,7 @@ const AsideBar = () => {
           {/* //* */}
           <button
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
                 'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'library'
               }
@@ -153,7 +153,7 @@ const AsideBar = () => {
           <button
             onClick={handleClickHistory}
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
                 'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'history'
               }
@@ -166,7 +166,7 @@ const AsideBar = () => {
           <button
             onClick={handleClickVideoManager}
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
             )}
           >
             <RiVideoLine className='h-6 w-6 text-black dark:text-white' />
@@ -176,7 +176,7 @@ const AsideBar = () => {
           <button
             onClick={handleClickVideoFavorite}
             className={classNames(
-              'flex w-full items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
+              'flex w-full items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]',
               {
                 'bg-[#f2f2f2] dark:bg-[#272727]': isCheck === 'liked-playlist'
               }
@@ -191,12 +191,12 @@ const AsideBar = () => {
           {isVerify === '2' && (
             <>
               {' '}
-              <span className='text-sm font-semibold text-black dark:text-white'>Kênh đăng ký</span>
+              <span className='px-3 text-sm font-bold text-black dark:text-white'>Kênh đăng ký</span>
               {(profile?.followings?.length as number) > 0 &&
                 profile?.followings?.map((item, index) => (
                   <Link
                     to={`/${item.id}/channel`}
-                    className=' flex  items-end gap-x-6 rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
+                    className=' flex  items-end gap-x-6 lg:rounded-xl px-3 py-2 hover:bg-[#f2f2f2] dark:hover:bg-[#272727]'
                     key={item._id}
                   >
                     <img src={item.avatar} alt='avatar' className='h-6 w-6 rounded-full text-black dark:text-white' />
@@ -220,7 +220,7 @@ const AsideBar = () => {
               </span>
               <Link
                 to={path.login}
-                className='flex flex-shrink-0 items-center justify-between gap-x-2 rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
+                className='flex flex-shrink-0 items-center justify-between gap-x-2 lg:rounded-xl border border-[#2c2c2c] py-1 px-2 transition-all  ease-linear hover:bg-blue-100 '
               >
                 <HiOutlineUserCircle className='h-5 w-5 text-[#4b91df]  lg:h-6 lg:w-6' />
                 <span className='text-xs font-medium text-[#4b91df] md:text-sm'>Đăng nhập</span>
@@ -229,6 +229,13 @@ const AsideBar = () => {
           )}
         </div>
       </div>
+      
+      {
+        showSideBar && (
+          <div className="absolute top-0 bottom-0 right-0 left-0 bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)] z-20"></div>
+        )
+      }
+
 
       {showSideBar && (
         <div
@@ -238,7 +245,7 @@ const AsideBar = () => {
         ></div>
       )}
 
-      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto p-3 transition-all duration-1000 ease-linear max-2xl:hidden'>
+      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto py-4 px-6 transition-all duration-1000 ease-linear max-2xl:hidden'>
         <button
           onClick={() => navigate('/')}
           className={classNames(
