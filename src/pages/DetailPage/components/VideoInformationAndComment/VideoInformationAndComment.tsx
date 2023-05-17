@@ -489,10 +489,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             </div>
             <div className='flex gap-x-3'>
               <FacebookShareButton url={sharedLink}>
-                <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
+                <div className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727] md:px-3 '>
                   <TbShare3 className='text-black dark:text-white xl:h-5 xl:w-5' />
                   <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>Chia sẻ</span>
-                </button>
+                </div>
               </FacebookShareButton>
 
               {isFavorite && (
@@ -564,10 +564,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
           </div>
 
           <FacebookShareButton url={sharedLink}>
-            <button className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
+            <div className='flex items-center gap-x-2 rounded-2xl bg-[#f2f2f2] p-2 dark:bg-[#272727]'>
               <TbShare3 className='text-black dark:text-white' />
               <span className='text-xs font-semibold text-black dark:text-white'>Chia sẻ</span>
-            </button>
+            </div>
           </FacebookShareButton>
 
           {isFavorite && (

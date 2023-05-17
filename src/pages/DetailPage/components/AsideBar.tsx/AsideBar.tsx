@@ -18,7 +18,7 @@ const AsideBar = () => {
   const location = useLocation()
   const url = location.pathname.split('/')[1]
   const [isCheck, setIsCheck] = useState<string>(url)
-
+  
   const handleClickSubscribe = () => {
     if (isVerify !== '2') {
       toast.dismiss()
@@ -95,7 +95,7 @@ const AsideBar = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-30  h-full drop-shadow-md  ${
+        className={`fixed top-0 left-0 z-[100]  h-full drop-shadow-md  ${
           showSideBar ? 'w-full overflow-y-auto overflow-x-hidden ' : 'w-0 overflow-hidden'
         } overflow-x-hidden transition-all duration-200 ease-linear 2xl:hidden`}
         role='presentation'
@@ -204,16 +204,16 @@ const AsideBar = () => {
                   </Link>
                 ))}
               {(profile?.followings?.length as number) === 0 && (
-                <div className='my-5 flex w-full items-center justify-center'>
-                  <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
+                <div className='my-5 flex w-full items-center justify-center px-3 py-2'>
+                  <span className='text-sm font-semibold text-black dark:text-white text-center'>Bạn chưa đăng ký kênh nào</span>
                 </div>
               )}
             </>
           )}
 
           {isVerify !== '2' && (
-            <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5'>
-              <span className='text-sm font-semibold text-black dark:text-white'>
+            <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5 px-3 py-2'>
+              <span className='text-sm font-semibold text-black dark:text-white text-center'>
                 Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
               </span>
               <Link
@@ -228,7 +228,7 @@ const AsideBar = () => {
         </div>
       </div>
       {showSideBar && (
-        <div className='absolute top-0 bottom-0 right-0 left-0 z-20 bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)]'></div>
+        <div className='fixed overflow-y-hidden top-0 bottom-0 right-0 left-0 z-20 bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)]'></div>
       )}
 
       {showSideBar && (

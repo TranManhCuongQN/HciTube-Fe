@@ -38,7 +38,7 @@ const Header = () => {
   return (
     <>
       {!showSearchMobie && (
-        <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-50 flex h-14 w-full items-center justify-between bg-white px-3 shadow-sm dark:bg-[#0f0f0f] md:h-16 xl:px-8'>
+        <div className='color-[#0f0f0f] container sticky top-0 left-0 right-0 z-[500] flex h-14 w-full items-center justify-between bg-white px-3 shadow-sm dark:bg-[#0f0f0f] md:h-16 xl:px-8'>
           <div className='ml-[-6px] flex items-center gap-x-1'>
             <button
               className='flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] lg:h-10 lg:w-10 2xl:hidden '
