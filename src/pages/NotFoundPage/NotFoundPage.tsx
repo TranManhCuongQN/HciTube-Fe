@@ -25,7 +25,6 @@ const NotFoundPage = () => {
   useEffect(() => {
     if (remainingTime.minutes === 0 && remainingTime.seconds === 0) {
       clearInterval(intervalRef.current)
-      console.log('time up')
       navigate(`/?category=${category || '1'}`)
     }
   }, [remainingTime, navigate, category])

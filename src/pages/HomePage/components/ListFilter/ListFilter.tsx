@@ -47,7 +47,6 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
 
   const handleSwiper = (swiper: any) => {
     setIsBeginning(swiper.activeIndex === 0)
-    console.log(innerWidth)
 
     setIsEnd(swiper.activeIndex === swiper.slides.length - 5)
   }

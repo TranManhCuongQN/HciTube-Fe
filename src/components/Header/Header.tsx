@@ -18,8 +18,6 @@ const Header = () => {
   const { setShowSideBar, showSideBar, setShowSearchMobie, showSearchMobie, isVerify, theme } = useContext(AppContext)
   const location = useLocation()
 
-  console.log('Header:', showSideBar)
-
   const handleClick = () => {
     setShowSideBar(!showSideBar)
   }

@@ -126,7 +126,7 @@ const FormEditContent = (props: FormEditContentProps) => {
     }
     try {
       const res = await uploadApi.uploadImage(fileImage as File, options)
-      console.log('Image:', res.data.url)
+
       setUrlImage(res.data.url)
       setIdImage(res.data.public_id)
       setValue('thumbnail', res.data.url)
@@ -169,7 +169,7 @@ const FormEditContent = (props: FormEditContentProps) => {
       ...value,
       playList: playListSelected
     }
-    console.log('dataEdit', dataEdit)
+
     editVideoMutation.mutate(dataEdit)
   })
 
@@ -208,9 +208,6 @@ const FormEditContent = (props: FormEditContentProps) => {
       setIdImage('')
     }
   }
-
-  console.log('errors:', errors)
-  console.log('idImage:', idImage)
 
   return (
     <DialogCustom

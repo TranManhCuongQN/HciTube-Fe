@@ -18,11 +18,9 @@ const HistoryPage = () => {
     queryFn: () => videoApi.getVideoWatchTime(profile?._id as string)
   })
 
-  console.log('getHistory', getVideoHistory)
-
   return (
     <>
-      <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f] overflow-y-scroll'>
+      <div className='container flex min-h-screen gap-x-20 overflow-y-scroll bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 
         <div className={`mb-16 flex h-full w-full flex-col justify-center  px-3 2xl:ml-64`}>

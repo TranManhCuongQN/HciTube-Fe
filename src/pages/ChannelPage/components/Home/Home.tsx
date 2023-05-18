@@ -36,8 +36,6 @@ const Home = () => {
     queryFn: () => playListAPI.getVideoById(id)
   })
 
-  console.log(dataVideo)
-
   return (
     <div className='flex flex-col md:px-20 lg:px-40'>
       {isLoadingVideo && (

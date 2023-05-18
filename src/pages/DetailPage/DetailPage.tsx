@@ -1,13 +1,12 @@
 import { omit } from 'lodash'
 import { useContext, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { Navigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
 import playListAPI from 'src/api/playlist.api'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import Video from 'src/components/Video'
-import path from 'src/constants/path'
 import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { playList } from 'src/types/playList.type'
@@ -18,24 +17,15 @@ import VideoInformationAndComment from './components/VideoInformationAndComment'
 
 const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
-  const { profile, setKeyword } = useContext(AppContext)
+  const { profile } = useContext(AppContext)
   const { id } = useParams()
   const queryConfig = useQueryConfig()
   const [video, setVideo] = useState<VideoType[]>([])
   const { playList, category, favorite } = queryConfig
-  const {
-    data,
-    isSuccess,
-    isLoading,
-    isError: isErrorGetVideo
-  } = useQuery({
+  const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['video', id],
     queryFn: () => videoApi.getVideoById(id as string)
   })
-
-  useEffect(() => {
-    setKeyword('')
-  }, [])
 
   const {
     data: dataGetAll,
@@ -50,8 +40,7 @@ const DetailPage = () => {
   const {
     data: dataGetVideo,
     isSuccess: isSuccessGetVideo,
-    isLoading: isLoadingGetVideo,
-    isError: isErrorGetVideoCategory
+    isLoading: isLoadingGetVideo
   } = useQuery({
     queryKey: [
       'getVideo',
@@ -77,8 +66,7 @@ const DetailPage = () => {
   const {
     data: dataGetPlayList,
     isSuccess: isSuccessGetPlayList,
-    isLoading: isLoadingGetPlayList,
-    isError: isErrorGetPlayList
+    isLoading: isLoadingGetPlayList
   } = useQuery({
     queryKey: ['playList', playList],
     queryFn: () => playListAPI.getPlayListVideoById(playList as string),
@@ -88,19 +76,12 @@ const DetailPage = () => {
   const {
     data: dataGetVideoFavorite,
     isSuccess: isSuccessGetVideoFavorite,
-    isLoading: isLoadingGetVideoFavorite,
-    isError: isErrorGetVideoFavorite
+    isLoading: isLoadingGetVideoFavorite
   } = useQuery({
     queryKey: ['videoListFavorite', profile?._id],
     queryFn: () => favoriteApi.getVideoFavoriteByChannel(profile?._id as string),
     enabled: Boolean(favorite) === true
   })
-
-  // console.log('dataGetVideoFavorite:', dataGetVideoFavorite)
-  // console.log('dataGetVideo:', dataGetVideo)
-  // console.log('dataGetPlayList:', dataGetPlayList)
-  // console.log('dataGetAll:', dataGetAll)
-  // console.log('data:', data)
 
   const handleTheaterMode = (theaterMode: any) => {
     setIsTheaterMode(theaterMode)
@@ -205,10 +186,6 @@ const DetailPage = () => {
           </div>
         </div>
       )}
-      {isErrorGetVideo && <Navigate to={path.notfound} />}
-      {isErrorGetPlayList && <Navigate to={path.notfound} />}
-      {isErrorGetVideoCategory && <Navigate to={path.notfound} />}
-      {isErrorGetVideoFavorite && <Navigate to={path.notfound} />}
     </>
   )
 }

@@ -17,8 +17,6 @@ const AnalyticsPage = () => {
     queryFn: () => videoApi.getAnalysisVideo({ date, option })
   })
 
-  console.log('analyticsData', data)
-
   const handleCloseDropDown = () => {
     setIsOpenDropDown(false)
   }

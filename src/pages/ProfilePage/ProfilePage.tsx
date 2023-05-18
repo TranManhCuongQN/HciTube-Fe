@@ -82,7 +82,7 @@ const ProfilePage = () => {
     }
     try {
       const res = await uploadApi.uploadImage(fileImage as File, options)
-      console.log('Image:', res.data)
+
       setValue('avatar', res.data.url)
       setUrlImage(res.data.url)
       setIdImage(res.data.public_id)
@@ -102,7 +102,7 @@ const ProfilePage = () => {
     }
     try {
       const res = await uploadApi.uploadImage(fileThumbnail as File, options)
-      console.log('Thumbnail:', res.data)
+
       setValue('thumbnail', res.data.url)
       setUrlThumbnail(res.data.url)
       setIdThumbnail(res.data.public_id)
@@ -160,9 +160,7 @@ const ProfilePage = () => {
     const files = e.target.files
     if (files?.length === 1) {
       setFileThumbnail(files[0])
-      console.log('idThumbnail:', idThumbnail)
       if (idThumbnail) {
-        console.log('delate')
         handleDeleteImage(idThumbnail)
         setUrlThumbnail('')
         setValue('thumbnail', '')
@@ -182,7 +180,6 @@ const ProfilePage = () => {
     mutationFn: (data: Omit<User, '_id' | 'subscribers'>) => profileApi.updateProfle(data)
   })
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
     updateProfileMutation.mutate(data, {
       onSuccess: (res) => {
         setProfile(res.data.data.user)

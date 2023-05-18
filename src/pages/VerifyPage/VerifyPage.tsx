@@ -53,7 +53,6 @@ const VerifyPage = () => {
   useEffect(() => {
     if (remainingTime.minutes === 0 && remainingTime.seconds === 0) {
       clearInterval(intervalRef.current)
-      console.log('time up')
     }
   }, [remainingTime])
 
@@ -71,7 +70,6 @@ const VerifyPage = () => {
         onError: (error) => {
           if (isAxiosUnauthorizedError<ErrorResponse<FormData>>(error)) {
             const formError = error.response?.data.data
-            console.log(formError)
             if (formError) {
               Object.keys(formError).forEach((key) => {
                 console.log('key', key)

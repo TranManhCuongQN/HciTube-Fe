@@ -39,7 +39,6 @@ const ManageContentPage = () => {
   })
 
   const data = dataVideo?.data.data
-  console.log('data:', data)
 
   const deleteVideoMutation = useMutation({
     mutationFn: (id: string) => videoApi.deleteVideo(id)
@@ -180,12 +179,10 @@ const ManageContentPage = () => {
     if (checkedVideosCount > 0 && videoEdit.length > 0) {
       setIsOpenModal(true)
       setDataEdit(videoEdit[0])
-      console.log('video:', videoEdit[0])
     }
     if (checkedVideosCount === 0) {
       setIsOpenModal(true)
       setDataEdit(videoItem[0])
-      console.log('video:', videoItem[0])
     }
   }
 

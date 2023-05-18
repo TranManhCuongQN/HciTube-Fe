@@ -33,7 +33,6 @@ const videoApi = {
     return http.patch(`${URL_GET_VIDEO}/action`, data)
   },
   searchVideo: (params: QueryConfig) => {
-    console.log('params:', params)
     return http.get<SuccessResponse<{ videos: Video[]; users: UserOther[] }>>(`${URL_GET_VIDEO}/search-videos`, {
       params
     })

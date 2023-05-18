@@ -38,8 +38,7 @@ const ChannelPage = () => {
   const {
     data: profileData,
     isLoading,
-    isSuccess,
-    isError: isErrorGetProfile
+    isSuccess
   } = useQuery({
     queryKey: ['channelProfile', id],
     queryFn: () => playListAPI.getChannelById(id)
@@ -100,8 +99,6 @@ const ChannelPage = () => {
       }
     }
   }, [profileData])
-
-  console.log(isBeginning, isEnd)
 
   const handleSubscribe = () => {
     if (isVerify !== '2') {
@@ -354,7 +351,6 @@ const ChannelPage = () => {
           <Outlet />
         </div>
       )}
-      {isErrorGetProfile && <Navigate to={path.notfound} />}
     </div>
   )
 }

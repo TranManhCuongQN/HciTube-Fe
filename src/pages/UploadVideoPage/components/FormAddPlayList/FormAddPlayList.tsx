@@ -44,7 +44,6 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
   }, [showModal, reset])
 
   const onSubmit = handleSubmit((data) => {
-    console.log('data PlayList:', data)
     createPlaylistMutation.mutate(data, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['playList'], exact: true })
@@ -59,8 +58,6 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
       }
     })
   })
-
-  console.log(errors)
 
   return (
     <>

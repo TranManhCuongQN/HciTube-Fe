@@ -56,13 +56,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const { id } = useParams()
   const navigate = useNavigate()
-  const location = useLocation();
+  const location = useLocation()
 
-  
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const watchedTime = Number(searchParams.get('watchTime')) || 0;
-    if(videoRef.current) videoRef.current.currentTime = watchedTime;
+    const searchParams = new URLSearchParams(location.search)
+    const watchedTime = Number(searchParams.get('watchTime')) || 0
+    if (videoRef.current) videoRef.current.currentTime = watchedTime
   }, [])
 
   const increseViewMutation = useMutation({
@@ -115,8 +114,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   useEffect(() => {
     if (videoRef.current) {
       if (videoRef.current?.currentTime > videoRef.current.duration / 5) {
-        console.log('currentTime:', videoRef.current?.currentTime)
-        console.log('duration:', videoRef.current.duration / 5)
         if (count === 0) {
           increseViewMutation.mutate({
             video: id as string,
@@ -168,7 +165,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     videoRef.current?.play()
     setPlaying(true)
   }
-
 
   const pauseVideo = () => {
     videoRef.current?.pause()
@@ -387,11 +383,10 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     [handleClickTheaterMode, handlePlayAndPause, movingBackwardVideo, movingForwardVideo, toggleFullScreen, toggleMute]
   )
 
-
   useEffect(() => {
     document.addEventListener('keyup', keyboardShortcuts)
     return () => {
-    document.removeEventListener('keyup', keyboardShortcuts)
+      document.removeEventListener('keyup', keyboardShortcuts)
     }
   }, [playing, zoomOut, theaterMode, muted])
 
@@ -399,17 +394,15 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     const videoElement = videoRef.current
     return () => {
       if (idView) {
+        videoRef.current?.pause()
         setWatchVideoTimeMutation.mutate({
           idView: idView as string,
           watchedTime: videoElement?.currentTime as number
         })
+        setCount(0)
       }
     }
   }, [idView])
-
-  console.log('idView:', idView)
-
- 
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
@@ -590,25 +583,23 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
                     <ToolTip text='Cài đặt' keyname='s' />
                   </div>
                   {/* Theater Mode */}
-                  {
-                    !zoomOut && (
-                      <div
+                  {!zoomOut && (
+                    <div
                       className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
                       onClick={handleClickTheaterMode}
                       role='presentation'
-                      >
-                        <div className='tooltip-video'>
-                          <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
-                          <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
-                        </div>
-                        <div className='tooltip-video'>
-                          <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
-                          <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
-                        </div>
+                    >
+                      <div className='tooltip-video'>
+                        <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
+                        <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
                       </div>
-                    )
-                  }
-                  
+                      <div className='tooltip-video'>
+                        <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
+                        <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
+                      </div>
+                    </div>
+                  )}
+
                   {/* Full-sreen */}
                   <div
                     className='ml-3 flex items-center hover:cursor-pointer lg:ml-0 lg:h-12'

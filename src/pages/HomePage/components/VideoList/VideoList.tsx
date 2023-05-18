@@ -2,10 +2,7 @@ import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import VideoItem from '../VideoItem/VideoItem'
-import Img404 from 'src/assets/404.svg'
 import useQueryConfig from 'src/hook/useQueryConfig'
-import { Navigate } from 'react-router-dom'
-import path from 'src/constants/path'
 
 interface VideoListProps {
   filter?: string
@@ -17,8 +14,7 @@ const VideoList = ({ filter }: VideoListProps) => {
     data: VideoList,
     isSuccess: isSuccessVideoList,
     isLoading: isLoadingVideoList,
-    isError,
-    refetch
+    isError
   } = useQuery({
     queryKey: 'videoList',
     queryFn: videoApi.getVideoAll,
@@ -28,19 +24,12 @@ const VideoList = ({ filter }: VideoListProps) => {
   const {
     data: getVideo,
     isSuccess,
-    isLoading,
-    isError: isErrorGetVideoCategory
+    isLoading
   } = useQuery({
     queryKey: ['getVideo', queryConfig],
     queryFn: () => videoApi.searchVideo(queryConfig),
     enabled: filter !== '1'
   })
-
-  const handleGetData = () => {
-    refetch()
-  }
-
-  // console.log('VideoList:', VideoList)
 
   return (
     <div
@@ -102,9 +91,6 @@ const VideoList = ({ filter }: VideoListProps) => {
           <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Không tìm thấy video</span>
         </div>
       )}
-
-      {isError && <Navigate to={path.notfound} />}
-      {isErrorGetVideoCategory && <Navigate to={path.notfound} />}
     </div>
   )
 }

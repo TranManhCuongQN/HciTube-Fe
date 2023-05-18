@@ -64,7 +64,6 @@ const VerifyResetPassPage = () => {
     getOTP.mutate(email as string, {
       onSuccess: (data) => {
         setRemainingTime({ minutes: 1, seconds: 0 })
-        console.log('getOTP', data)
       }
     })
   }
@@ -75,7 +74,6 @@ const VerifyResetPassPage = () => {
     }
     verifyMutation.mutate(dataRequest, {
       onSuccess: (data) => {
-        console.log('verifyMutation', data.data.hashedToken)
         navigate(`/reset-password/${data.data.hashedToken}`)
       },
       onError: (error) => {
@@ -86,8 +84,6 @@ const VerifyResetPassPage = () => {
       }
     })
   })
-
-  console.log('errors', errors)
 
   return (
     <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>

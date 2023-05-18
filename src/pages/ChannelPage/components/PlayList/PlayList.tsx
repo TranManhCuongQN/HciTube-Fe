@@ -16,7 +16,6 @@ const PlayList = () => {
   const queryConFig = useQueryConfig()
   const { category } = queryConFig
 
-  console.log(id)
   const {
     data: dataPlayList,
     isSuccess,
@@ -41,7 +40,7 @@ const PlayList = () => {
       ).toString()
     })
   }
-  console.log('dataPlayList:', dataPlayList)
+
   return (
     <>
       {isLoading && (

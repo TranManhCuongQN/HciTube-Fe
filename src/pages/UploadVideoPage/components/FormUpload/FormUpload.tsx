@@ -150,7 +150,7 @@ const FormUpload = (props: FormUploadProps) => {
     }
     try {
       const res = await uploadApi.uploadVideo(fileVideo as File, options)
-      console.log('Video:', res.data)
+
       setUrlVideo(res.data.url)
       setValue('video', res.data.url)
       setIdVideo(res.data.public_id)
@@ -171,7 +171,7 @@ const FormUpload = (props: FormUploadProps) => {
     }
     try {
       const res = await uploadApi.uploadImage(fileImage as File, options)
-      console.log('Image:', res.data)
+
       setValue('thumbnail', res.data.url)
       setUrlImage(res.data.url)
       setIdImage(res.data.public_id)
@@ -300,7 +300,6 @@ const FormUpload = (props: FormUploadProps) => {
       playList: playListSelected
     }
     createVideoMutation.mutate(dataUpload)
-    console.log(dataUpload)
   })
 
   return (

@@ -21,7 +21,6 @@ const Video = () => {
     queryFn: () => playListAPI.getVideoById(id)
   })
 
-  console.log('dataVideo:', dataVideo)
   return (
     <>
       {isLoading && (
