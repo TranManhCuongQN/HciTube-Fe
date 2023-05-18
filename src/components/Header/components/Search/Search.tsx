@@ -20,7 +20,9 @@ const Search = () => {
   const [focusingOnInput, setFocusingOnInput] = useState<boolean>(false)
   const { keyword, setKeyword } = useContext(AppContext)
   const historySearchArray = JSON.parse(localStorage.getItem('historySearch') as string)
-  const [historySearch, setHistorySearch] = useState<{ id: number; keyword: string }[]>(historySearchArray || [])
+  const [historySearch, setHistorySearch] = useState<{ id: number; keyword: string; createdAt: number }[]>(
+    historySearchArray || []
+  )
   const inputRef = React.useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const queryConFig = useQueryConfig()
@@ -45,7 +47,7 @@ const Search = () => {
 
   const handleKeyWord = (keyWordVoice: string) => {
     setKeyword(keyWordVoice)
-    setHistorySearch((prev) => [...prev, { id: Date.now(), keyword: keyWordVoice }])
+    setHistorySearch((prev) => [...prev, { id: Date.now(), keyword: keyWordVoice, createdAt: new Date().getTime() }])
     localStorage.setItem('historySearch', JSON.stringify(historySearch))
     navigate({
       pathname: path.search,
@@ -62,7 +64,8 @@ const Search = () => {
   }
 
   const handleClickSearch = () => {
-    setHistorySearch((prev) => [...prev, { id: Date.now(), keyword: keyword }])
+    if (keyword === '') return
+    setHistorySearch((prev) => [...prev, { id: Date.now(), keyword: keyword, createdAt: new Date().getTime() }])
     localStorage.setItem('historySearch', JSON.stringify(historySearch))
     navigate({
       pathname: path.search,
@@ -112,6 +115,7 @@ const Search = () => {
     setHistorySearch(deleteKeyword)
     localStorage.setItem('historySearch', JSON.stringify(historySearch))
   }
+
   return (
     <div className=' flex flex-grow items-center justify-center gap-x-3 max-sm:hidden'>
       <div className=' flex h-8 items-center md:w-[70%]  lg:h-10 2xl:w-[60%] '>
@@ -124,11 +128,10 @@ const Search = () => {
             value={keyword}
             onKeyUp={(e) => {
               e.stopPropagation()
-              if(!!keyword && e.key === "Enter") {
-                handleClickSearch();
+              if (!!keyword && e.key === 'Enter') {
+                handleClickSearch()
               }
-            }
-          }
+            }}
             onChange={(e) => setKeyword(e.target.value)}
           />
           <div
@@ -143,23 +146,26 @@ const Search = () => {
           >
             <div className='text-base font-bold text-white'>
               {historySearch.length > 0 &&
-                historySearch.slice(0, 9).map((item, index) => (
-                  <div
-                    key={index}
-                    className='flex cursor-pointer items-center justify-between px-4 py-1 lowercase text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D]'
-                    role='presentation'
-                    onClick={() => handleSearch(item.keyword)}
-                  >
-                    <div className='flex items-center'>
-                      <MdHistory className='mr-4 h-5  w-5' />
-                      {item.keyword}
+                historySearch
+                  .sort((a, b) => b?.createdAt - a?.createdAt)
+                  .slice(0, 9)
+                  .map((item, index) => (
+                    <div
+                      key={index}
+                      className='flex cursor-pointer items-center justify-between px-4 py-1 lowercase text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D]'
+                      role='presentation'
+                      onClick={() => handleSearch(item.keyword)}
+                    >
+                      <div className='flex items-center'>
+                        <MdHistory className='mr-4 h-5  w-5' />
+                        {item.keyword}
+                      </div>
+                      <IoCloseOutline
+                        className='relative z-20 h-5 w-5'
+                        onClick={(e) => handleDeleteKeyword(item.id, e)}
+                      />
                     </div>
-                    <IoCloseOutline
-                      className='relative z-20 h-5 w-5'
-                      onClick={(e) => handleDeleteKeyword(item.id, e)}
-                    />
-                  </div>
-                ))}
+                  ))}
               {(getVideo?.data.data.users.length as number) > 0 &&
                 getVideo?.data.data.users.map((item) => (
                   <div
