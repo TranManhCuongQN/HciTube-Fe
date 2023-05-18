@@ -20,7 +20,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
   const [isShowEmoji, setIsShowEmoji] = useState<boolean>(false)
   const [valueArrange, setValueArrange] = useState<string>('comment')
   const arrangeRef = useRef<HTMLDivElement | null>(null)
-  const { isVerify } = useContext(AppContext)
+  const { isVerify, profile } = useContext(AppContext)
   const { id } = useParams()
   const queryClient = useQueryClient()
 
@@ -65,7 +65,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
 
   return (
     <>
-      <div className='my-3 flex lg:min-h-[500px] flex-col '>
+      <div className='my-3 flex flex-col lg:min-h-[500px] '>
         <div className='flex items-center gap-x-5'>
           <span className='text-xs font-semibold text-black dark:text-white md:text-sm'>{totalComment} bình luận</span>
           <div
@@ -111,7 +111,7 @@ const Comment = ({ totalComment, avatar }: { totalComment: number; avatar: strin
         {isVerify === '2' && (
           <div className='mt-5 flex items-center gap-x-2'>
             <img
-              src={avatar}
+              src={profile?.avatar}
               alt='avatar'
               className='h-8 w-8 flex-shrink-0 rounded-full object-cover  md:h-10 md:w-10'
             />
