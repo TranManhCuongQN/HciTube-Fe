@@ -409,7 +409,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
 
   console.log('idView:', idView)
 
-
+ 
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>

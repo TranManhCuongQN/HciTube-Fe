@@ -71,12 +71,12 @@ const ListFilter = ({ dataCategories, filter, setFilter }: ListFilterProps) => {
     <>
       <div className='relative flex max-w-full items-center justify-between gap-x-5 py-2 px-3 xl:px-8'>
         <div
-          className={`absolute left-0 z-20 h-8 w-8 bg-white dark:bg-[#0f0f0f] md:ml-2 md:w-9 lg:h-10 lg:w-10 ${
+          className={`absolute left-0 z-10 h-8 w-8 bg-white dark:bg-[#0f0f0f] md:ml-2 md:w-9 lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           }`}
         ></div>
         <button
-          className={`absolute left-0 z-30 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs hover:border-0 hover:bg-[#E5E5E5] hover:outline-none dark:bg-black dark:hover:bg-[#3F3F3F] md:ml-3 lg:hidden lg:h-10 lg:w-10 ${
+          className={`absolute left-0 z-20 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-xs hover:border-0 hover:bg-[#E5E5E5] hover:outline-none dark:bg-black dark:hover:bg-[#3F3F3F] md:ml-3 lg:hidden lg:h-10 lg:w-10 ${
             isBeginning ? 'invisible' : 'visible'
           } `}
           onClick={goPrev}

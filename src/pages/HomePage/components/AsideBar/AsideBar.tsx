@@ -91,21 +91,20 @@ const AsideBar = () => {
     setIsCheck(url)
     navigate(path.likedPlaylist)
   }
-  // bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(7,7,7,0.2)]
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-30  h-full drop-shadow-md  ${
+        className={`fixed top-0 left-0 z-[100]  h-full drop-shadow-md  ${
           showSideBar ? 'w-full overflow-y-auto overflow-x-hidden ' : 'w-0 overflow-hidden'
         } overflow-x-hidden transition-all duration-200 ease-linear 2xl:hidden`}
-        role='presentation'
+        role='presentation' id="SideBar"
       >
         <div
-          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff] py-2 transition-all dark:bg-[#0f0f0f] lg:px-5 ${
+          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff] py-2 z-[100] transition-all dark:bg-[#0f0f0f] lg:px-5 ${
             showSideBar
               ? 'mt-14 w-44 overflow-y-auto overflow-x-hidden min-[375px]:w-52 md:mt-16 md:w-64'
               : ' w-0 overflow-hidden pl-0 pr-0'
-          } relative z-50 duration-200 ease-in-out`}
+          } relative  duration-200 ease-in-out`}
         >
           <button
             onClick={() => navigate('/')}
@@ -204,16 +203,16 @@ const AsideBar = () => {
                   </Link>
                 ))}
               {(profile?.followings?.length as number) === 0 && (
-                <div className='my-5 flex w-full items-center justify-center'>
-                  <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
+                <div className='my-5 flex w-full items-center justify-center px-3 py-2'>
+                  <span className='text-sm font-semibold text-black dark:text-white text-center'>Bạn chưa đăng ký kênh nào</span>
                 </div>
               )}
             </>
           )}
 
           {isVerify !== '2' && (
-            <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5'>
-              <span className='text-sm font-semibold text-black dark:text-white'>
+            <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5 px-3 py-2'>
+              <span className='text-sm font-semibold text-black dark:text-white text-center'>
                 Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
               </span>
               <Link
@@ -234,7 +233,7 @@ const AsideBar = () => {
 
       {showSideBar && (
         <div
-          className='sidebar-overlay fixed top-14 right-0 z-40 h-full bg-transparent '
+          className='sidebar-overlay fixed top-14 right-0 z-[100] h-full bg-transparent '
           onClick={() => setShowSideBar(false)}
           role='presentation'
         ></div>
@@ -330,15 +329,15 @@ const AsideBar = () => {
                 </Link>
               ))}
             {(profile?.followings?.length as number) === 0 && (
-              <div className='my-5 flex w-full items-center justify-center'>
-                <span className='text-sm font-semibold text-black dark:text-white'>Bạn chưa đăng ký kênh nào</span>
+              <div className='my-5 flex w-full items-center justify-center px-3 py-20'>
+                <span className='text-sm font-semibold text-black dark:text-white text-center'>Bạn chưa đăng ký kênh nào</span>
               </div>
             )}
           </>
         )}
         {isVerify !== '2' && (
-          <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5'>
-            <span className='text-sm font-semibold text-black dark:text-white'>
+          <div className='my-5 flex w-full flex-col items-center justify-center gap-y-5 px-3 py-2'>
+            <span className='text-sm font-semibold text-black dark:text-white px-4 text-center'>
               Hãy đăng nhập để thích video, bình luận và đăng ký kênh.
             </span>
             <Link

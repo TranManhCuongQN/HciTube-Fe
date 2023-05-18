@@ -103,7 +103,7 @@ const SearchMobie = () => {
       {showSearchMobie && (
         <div
           role='presentation'
-          className='color-[#0f0f0f] container sticky top-0 left-0 z-40 flex h-14 items-center justify-between gap-x-2 bg-[#ffffff] pl-2 pr-2 shadow drop-shadow dark:bg-[#0f0f0f] md:hidden'
+          className='color-[#0f0f0f] container sticky top-0 left-0 z-[500] flex h-14 items-center justify-between gap-x-2 bg-[#ffffff] pl-2 pr-2 shadow drop-shadow dark:bg-[#0f0f0f] md:hidden'
         >
           <ToolTip position='bottom' content='Quay lại'>
             {' '}
