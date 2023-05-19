@@ -61,10 +61,9 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     const watchedTime = Number(searchParams.get('watchTime')) || 0
-    let duration = videoRef.current?.duration;
+    const duration = videoRef.current?.duration
     if (videoRef.current) {
-
-      videoRef.current.currentTime = (watchedTime == duration) ? 0 : watchedTime;
+      videoRef.current.currentTime = watchedTime == duration ? 0 : watchedTime
     }
   }, [videoRef.current?.duration])
 
