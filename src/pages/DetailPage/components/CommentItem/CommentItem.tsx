@@ -244,6 +244,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
                   className='h-8 w-full border-b border-b-black bg-transparent p-2 text-xs text-black outline-none placeholder:text-xs placeholder:font-semibold placeholder:text-gray-400 dark:border-b-white dark:text-white md:h-10 md:text-sm md:placeholder:text-sm'
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
+                  onKeyUp={(event) => event.stopPropagation()}
                 ></textarea>
 
                 <div className='flex items-center justify-between '>
@@ -402,6 +403,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
               placeholder='Phản hồi...'
               value={comment}
               onChange={(e) => setComment(e.target.value)}
+              onKeyUp={(event) => event.stopPropagation()}
             ></textarea>
             {isReply && (
               <div className='flex items-center justify-between '>
