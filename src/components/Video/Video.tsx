@@ -49,11 +49,14 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [zoomOut, setZoomOut] = useState<boolean>(false)
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
-  const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>()
+  const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>({})
+
   const [ended, setEnded] = useState<boolean>(false)
   const [idView, setIdView] = useState<string>('')
   const [count, setCount] = useState<number>(0)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const [isLoadedThumbnail, setIsLoadedThumbnail] = useState<boolean>(false);
+
   const { id } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
@@ -403,9 +406,23 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
           watchedTime: videoElement?.currentTime as number
         })
         setCount(0)
+        setIdView('')
       }
     }
-  }, [idView])
+  }, [idView, id])
+
+  useEffect(() => {
+    if(isLoaded && isLoadedThumbnail) {
+      playVideo()
+    }
+  }, [isLoaded, isLoadedThumbnail])
+
+  useEffect(() => {
+    return () => {
+      setIsLoaded(false);
+      setIsLoadedThumbnail(false)
+    }
+  },[id])
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
@@ -418,8 +435,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             src={urlVideo}
             ref={videoRef}
             onCanPlay={() => {
-              setIsLoading(false)
-              playVideo()
+              setIsLoaded(true)
             }}
             onTimeUpdate={updateTimeElapsed}
             preload='auto'
@@ -429,30 +445,30 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full w-full object-contain`}
             id='Video'
           ></video>
-          {isLoading ? (
+          {isLoaded && isLoadedThumbnail ? (
             <div
-              className={`${
-                zoomOut ? 'lg:w-full' : 'mx-auto'
-              } absolute top-0 flex aspect-video h-full w-full items-center justify-center object-contain`}
+            className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
+            role='presentation'
+            onClick={handlePlayAndPause}
             >
-              <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
+            <BiPlay
+              className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
+              id='DesktopPlayBtn'
+              onClick={playVideo}
+            />
+            <BiPause
+              className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
+              id='DesktopPauseBtn'
+              onClick={pauseVideo}
+            />
             </div>
           ) : (
             <div
-              className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
-              role='presentation'
-              onClick={handlePlayAndPause}
+              className={`${
+                zoomOut ? 'lg:w-full' : 'mx-auto'
+              } absolute top-0 flex aspect-video h-full w-full items-center justify-center object-contain bg-black`}
             >
-              <BiPlay
-                className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
-                id='DesktopPlayBtn'
-                onClick={playVideo}
-              />
-              <BiPause
-                className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
-                id='DesktopPauseBtn'
-                onClick={pauseVideo}
-              />
+              <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
             </div>
           )}
 
@@ -626,7 +642,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               </div>
 
               <div className='relative z-40' id='ProgressBar'>
-                {!isUndefined(thumbnailProps) && <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} />}
+                <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} setIsLoadedThumbnail={setIsLoadedThumbnail} />
                 <div className='w-full '>
                   <input
                     ref={progressRef}

@@ -49,7 +49,7 @@ const ControlSection = ({ data }: ControlSectionProps) => {
     })
   }
   return (
-    <div className='relative flex w-full flex-col overflow-hidden bg-transparent lg:w-fit lg:rounded-lg '>
+    <div className='relative flex w-full flex-col overflow-hidden bg-transparent lg:w-fit lg:rounded-lg max-h-[40rem]'>
       <div className='z-20 flex w-full flex-col justify-center p-3 md:flex-row md:items-center lg:flex-col lg:items-start lg:p-6'>
         
         <img
