@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation } from 'react-query'
 import videoApi from 'src/api/video.api'
 import { setProfileToLocalStorage } from 'src/utils/auth'
+import classNames from 'classnames'
 
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
@@ -16,6 +17,7 @@ const Inform = () => {
   const informRef = React.useRef<HTMLDivElement>(null)
   const [totalInForm, setTotalInForm] = useState<number>(0)
   useOnClickOutside(informRef, () => setIsShow(false))
+
   const navigate = useNavigate()
 
   const updateSeenNotificationMutation = useMutation({
@@ -84,7 +86,12 @@ const Inform = () => {
             <div className='overflow-y-scroll'>
               {profile?.notification?.map((item, index) => (
                 <div
-                  className=' flex items-start justify-between p-4 pr-10 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]'
+                  className={classNames(
+                    'flex items-start justify-between p-4 pr-10 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]',
+                    {
+                      'bg-[#F2F2F2] dark:bg-[#3E3E3E]': item.seen === false
+                    }
+                  )}
                   key={index}
                   role='presentation'
                   onClick={() => handleClick(item.video)}
