@@ -61,8 +61,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search)
     const watchedTime = Number(searchParams.get('watchTime')) || 0
-    if (videoRef.current) videoRef.current.currentTime = watchedTime
-  }, [])
+    let duration = videoRef.current?.duration;
+    if (videoRef.current) {
+
+      videoRef.current.currentTime = (watchedTime == duration) ? 0 : watchedTime;
+    }
+  }, [videoRef.current?.duration])
 
   const increseViewMutation = useMutation({
     mutationFn: videoApi.increaseView,
