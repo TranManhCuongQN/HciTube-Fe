@@ -87,21 +87,21 @@ const Inform = () => {
               {profile?.notification?.map((item, index) => (
                 <div
                   className={classNames(
-                    'flex items-start justify-between p-4 pr-10 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]',
-                    {
-                      'bg-[#F2F2F2] dark:bg-[#3E3E3E]': item.seen === false
-                    }
+                    'flex items-center py-4 pr-4 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]'
                   )}
                   key={index}
                   role='presentation'
                   onClick={() => handleClick(item.video)}
                 >
+                  <div className="w-12 h-full flex justify-center">
+                    <div className={`${item.seen == true ? 'opacity-0' : 'opacity-1'} w-[0.3rem] h-[0.3rem]  bg-blue-600 dark:bg-blue-400 rounded-full`}></div>
+                  </div>
                   <img
                     src={item.channel.avatar}
                     alt='avatar'
-                    className='h-12 w-12 flex-shrink-0 rounded-full object-cover'
+                    className='h-12 w-12 flex-shrink-0 rounded-full object-cover mr-4'
                   />
-                  <div className='flex flex-col items-start'>
+                  <div className='flex flex-col items-start w-full'>
                     <span className='w-32 break-words text-xs font-semibold text-black dark:text-white md:text-sm'>
                       {item.video.title}
                     </span>
@@ -109,7 +109,7 @@ const Inform = () => {
                       {convertToRelativeTime(item.createdAt)}
                     </span>
                   </div>
-                  <img src={item.video.thumbnail} alt='thumbnail' className='h-14 w-24 flex-shrink-0 rounded-lg' />
+                  <img src={item.video.thumbnail} alt='thumbnail' className='h-14 w-24 flex-shrink-0 rounded-lg mx-4' />
                 </div>
               ))}
             </div>
