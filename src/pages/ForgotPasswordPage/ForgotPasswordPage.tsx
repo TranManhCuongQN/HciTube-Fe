@@ -77,6 +77,7 @@ const ForgotPasswordPage = () => {
             className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
             type='submit'
             disabled={forgotPasswordMutaion.isLoading}
+            isLoading={forgotPasswordMutaion.isLoading}
           >
             Xác nhận
           </Button>

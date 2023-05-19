@@ -157,6 +157,7 @@ const VerifyPage = () => {
           className='mt-3 w-full rounded-lg bg-blue-600 p-2 text-xs font-semibold text-white md:text-sm'
           type='submit'
           disabled={verifyMutation.isLoading}
+          isLoading={verifyMutation.isLoading}
         >
           Xác nhận
         </Button>

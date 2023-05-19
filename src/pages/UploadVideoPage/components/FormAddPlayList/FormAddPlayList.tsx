@@ -103,6 +103,7 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
                     className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
                     type='submit'
                     disabled={createPlaylistMutation.isLoading}
+                    isLoading={createPlaylistMutation.isLoading}
                   >
                     Tạo
                   </Button>

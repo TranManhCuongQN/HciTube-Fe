@@ -3,11 +3,11 @@ import { QueryConfig } from 'src/types/QueryConfig.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import { UploadVideo, Video, VideoItem } from 'src/types/video.type'
 import http from 'src/utils/http'
-import { FilterView, View } from 'src/types/view.type'
+import { FilterView } from 'src/types/view.type'
 import { following } from 'src/types/following.type'
 
 export const URL_GET_VIDEO = '/api/v1/videos'
-export const URL_GET_VIDEO_CHANNEL = `/api/v1/channels/`
+export const URL_GET_VIDEO_CHANNEL = `/api/v1/channels`
 export const URL_GET_VIDEO_HISTORY = `/api/v1/watchHistories`
 
 const videoApi = {
@@ -53,7 +53,7 @@ const videoApi = {
     `)
   },
   getAnalysisVideo: (params: { date: string; option: string }) => {
-    return http.get<SuccessResponse<{ date: string; count: number }[]>>(`${URL_GET_VIDEO_CHANNEL}analysis`, { params })
+    return http.get<SuccessResponse<{ date: string; count: number }[]>>(`${URL_GET_VIDEO_CHANNEL}/analysis`, { params })
   },
   updateSeenNotificationMutation: (data: { video: string }) => {
     return http.patch<SuccessResponse<User>>(`${URL_GET_VIDEO_CHANNEL}/seen-notification`, data)

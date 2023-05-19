@@ -642,6 +642,7 @@ const FormUpload = (props: FormUploadProps) => {
                   className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
                   type='submit'
                   disabled={isSubmitting}
+                  isLoading={isSubmitting}
                 >
                   Upload
                 </Button>

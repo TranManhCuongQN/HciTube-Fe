@@ -197,6 +197,7 @@ const ChannelPage = () => {
                     onClick={() => setChoose('about')}
                   >
                     <span
+                      className='w-96 line-clamp-2'
                       dangerouslySetInnerHTML={{
                         __html: String(parse((profileData?.data?.data?.description as string) || ''))
                       }}

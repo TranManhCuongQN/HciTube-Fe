@@ -652,7 +652,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
               </button>
             </div>
             <div className='w-full border border-gray-500'></div>
-            <div className=' h-full w-full py-4 overflow-y-scroll max-sm:h-60 max-[320px]:h-52 md:h-[280px] lg:h-[300px] '>
+            <div className=' h-full w-full overflow-y-scroll py-4 max-sm:h-60 max-[320px]:h-52 md:h-[280px] lg:h-[300px] '>
               {dataPlayList &&
                 dataPlayList.data.data.map((item) => (
                   <div
@@ -677,10 +677,9 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   <span className='text-xs font-semibold text-black dark:text-white'>Bạn chưa có playlist nào</span>
                 </div>
               )}
-
             </div>
             <button
-              className='py-4 text-xs lg:text-sm font-semibold text-[#1569d6] bg-white dark:bg-[#282828]'
+              className='bg-white py-4 text-xs font-semibold text-[#1569d6] dark:bg-[#282828] lg:text-sm'
               type='button'
               onClick={() => setShowModalAddPlayList(true)}
             >
@@ -696,7 +695,10 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
             <span className='py-5 text-sm font-semibold dark:text-white  md:text-base'>Tạo danh sách phát mới</span>
             <div className='w-full border border-gray-500'></div>
             <FormProvider {...form}>
-              <form className='my-5 flex flex-col overflow-y-scroll max-sm:h-72 max-[320px]:h-64 lg:h-[320px]' onSubmit={onSubmit}>
+              <form
+                className='my-5 flex flex-col overflow-y-scroll max-sm:h-72 max-[320px]:h-64 lg:h-[320px]'
+                onSubmit={onSubmit}
+              >
                 <div className='flex flex-col gap-y-1'>
                   <label
                     htmlFor='title'
@@ -721,17 +723,19 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                   </span>
                 </div>
                 <div className='flex w-full items-start justify-end gap-x-2'>
-                  <Button className='rounded-lg py-2 px-4 text-xs lg:text-base font-semibold text-blue-600 border border-blue-600 hover:bg-blue-600 hover:text-white  md:text-sm' type='submit'>
+                  <Button
+                    className='rounded-lg border border-blue-600 py-2 px-4 text-xs font-semibold text-blue-600 hover:bg-blue-600 hover:text-white md:text-sm  lg:text-base'
+                    type='submit'
+                  >
                     Tạo
                   </Button>
                   <Button
-                    className='rounded-lg p-2 text-xs lg:text-base font-semibold text-blue-600  md:text-sm'
+                    className='rounded-lg p-2 text-xs font-semibold text-blue-600 md:text-sm  lg:text-base'
                     type='button'
                     onClick={() => setShowModalAddPlayList(false)}
                   >
                     Hủy
                   </Button>
-                  
                 </div>
               </form>
             </FormProvider>
