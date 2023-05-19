@@ -201,7 +201,7 @@ const ChannelPage = () => {
                       dangerouslySetInnerHTML={{
                         __html: String(parse((profileData?.data?.data?.description as string) || ''))
                       }}
-                    ></span>
+                     className="whitespace-normal md:max-w-[320px] lg:max-w-[400px]"></span>
                     <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
                   </NavLink>
                 </div>
