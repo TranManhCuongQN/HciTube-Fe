@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { IoArrowBackOutline, IoCloseOutline } from 'react-icons/io5'
 import { AiOutlineSearch } from 'react-icons/ai'
+import {TfiClose} from 'react-icons/tfi'
 import { AppContext } from 'src/context/app.context'
 import ToolTip from 'src/components/ToolTip'
 import { useQuery } from 'react-query'
@@ -116,7 +117,7 @@ const SearchMobie = () => {
           </ToolTip>
 
           {/* //* Input search */}
-          <div className=' flex h-8 w-full items-center'>
+          <div className=' flex h-8 w-full items-center relative'>
             <input
                 onClick={() => setFocusingOnInput(true)}
                 type='text'
@@ -132,6 +133,9 @@ const SearchMobie = () => {
                 }
                 onChange={(e) => setKeyword(e.target.value)}
               />
+            {focusingOnInput &&
+              <TfiClose className="absolute right-14 w-8 h-8 text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D] p-2 rounded-full"/>
+            }
             <ToolTip position='bottom' content='Tìm kiếm'>
               <button
                 className='ml-[1px] flex h-8 cursor-pointer items-center justify-center rounded-r-full bg-[#f8f8f8] px-4  py-1 dark:bg-[#222222] border-y border-r border-[#d8d8d8] dark:border-[#1e1e1e]'

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoCloseOutline } from 'react-icons/io5'
+import {TfiClose} from 'react-icons/tfi'
 import { MdHistory } from 'react-icons/md'
 import Voice from '../Voice'
 import ToolTip from 'src/components/ToolTip'
@@ -119,7 +120,7 @@ const Search = () => {
   return (
     <div className=' flex flex-grow items-center justify-center gap-x-3 max-sm:hidden'>
       <div className=' flex h-8 items-center md:w-[70%]  lg:h-10 2xl:w-[60%] '>
-        <div className='relative h-full w-full'>
+        <div className='relative h-full w-full flex items-center'>
           <input
             onClick={() => setFocusingOnInput(true)}
             type='text'
@@ -134,6 +135,10 @@ const Search = () => {
             }}
             onChange={(e) => setKeyword(e.target.value)}
           />
+          {
+            focusingOnInput &&
+            <TfiClose className="absolute right-1 w-9 h-9 text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D] p-2 rounded-full cursor-pointer"/>
+          }
           <div
             className={`${
               (focusingOnInput && historySearch.length > 0) ||
