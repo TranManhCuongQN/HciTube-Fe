@@ -20,6 +20,7 @@ import { toast } from 'react-toastify'
 import { setProfileToLocalStorage } from 'src/utils/auth'
 import parse from 'html-react-parser'
 import { getPublicId } from 'src/utils/utils'
+import { Helmet } from 'react-helmet-async'
 
 type FormData = profileSchemaType
 const ProfilePage = () => {
@@ -195,176 +196,186 @@ const ProfilePage = () => {
   })
 
   return (
-    <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
-      <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Hồ sơ cá nhân</span>
+    <>
+      <Helmet>
+        <title>Trang hồ sơ kênh - HciTube</title>
+        <meta name='description' content='Trang hồ sơ kênh - HciTube' />
+      </Helmet>
+      <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
+        <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Hồ sơ cá nhân</span>
 
-      <FormProvider {...form}>
-        <form className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg  p-5 ' onSubmit={onSubmit}>
-          {isLoading && (
-            <>
-              <div className='flex flex-col gap-y-2'>
-                <Skeleton className='h-5 w-32 rounded-xl' />
-                <Skeleton className='mx-auto h-52 w-52 rounded-full' />
-              </div>
-              <div className='mt-10 flex flex-col gap-y-2'>
-                <Skeleton className='h-5 w-32 rounded-xl' />
-                <Skeleton className='h-10 w-full rounded-lg p-3' />
-              </div>
-              <div className='mt-10 flex flex-col gap-y-2'>
-                <Skeleton className='h-5 w-32 rounded-xl' />
-                <Skeleton className='h-52 w-full rounded-lg p-3' />
-              </div>
-              <div className='mt-10 flex flex-col gap-y-2'>
-                <Skeleton className='h-5 w-32 rounded-xl' />
-                <Skeleton className='h-52 w-full rounded-lg p-3' />
-              </div>
-              <Skeleton className='mt-10 h-10 w-full rounded-xl' />
-            </>
-          )}
-          {isSuccess && (
-            <>
-              <div className='flex flex-col gap-y-2'>
-                <label
-                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-                  htmlFor='avatar'
-                >
-                  Avatar
-                </label>
-                <input type='file' accept='image/*' className='hidden' ref={imageRef} onChange={handleChangeImage} />
-                {progressImage > 0 && progressImage <= 100 && (
-                  <div
-                    className={`relative mx-auto flex h-44 w-44 items-center justify-center rounded-full border border-dashed border-gray-50
+        <FormProvider {...form}>
+          <form className='my-5 mx-auto flex w-11/12 flex-col gap-y-2 rounded-lg  p-5 ' onSubmit={onSubmit}>
+            {isLoading && (
+              <>
+                <div className='flex flex-col gap-y-2'>
+                  <Skeleton className='h-5 w-32 rounded-xl' />
+                  <Skeleton className='mx-auto h-52 w-52 rounded-full' />
+                </div>
+                <div className='mt-10 flex flex-col gap-y-2'>
+                  <Skeleton className='h-5 w-32 rounded-xl' />
+                  <Skeleton className='h-10 w-full rounded-lg p-3' />
+                </div>
+                <div className='mt-10 flex flex-col gap-y-2'>
+                  <Skeleton className='h-5 w-32 rounded-xl' />
+                  <Skeleton className='h-52 w-full rounded-lg p-3' />
+                </div>
+                <div className='mt-10 flex flex-col gap-y-2'>
+                  <Skeleton className='h-5 w-32 rounded-xl' />
+                  <Skeleton className='h-52 w-full rounded-lg p-3' />
+                </div>
+                <Skeleton className='mt-10 h-10 w-full rounded-xl' />
+              </>
+            )}
+            {isSuccess && (
+              <>
+                <div className='flex flex-col gap-y-2'>
+                  <label
+                    className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                    htmlFor='avatar'
+                  >
+                    Avatar
+                  </label>
+                  <input type='file' accept='image/*' className='hidden' ref={imageRef} onChange={handleChangeImage} />
+                  {progressImage > 0 && progressImage <= 100 && (
+                    <div
+                      className={`relative mx-auto flex h-44 w-44 items-center justify-center rounded-full border border-dashed border-gray-50
                 
                 `}
-                  >
-                    <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                      Đã tải được {progressImage + '%'}
-                    </span>
-                  </div>
-                )}
-                {progressImage === 0 && (
-                  <div
-                    className='upload-image relative mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full'
-                    role='presentation'
-                  >
-                    <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
-
-                    <div className='absolute top-0 left-0 h-full w-full rounded-full hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
-                      <button
-                        className='button-edit absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[#00000042] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                        title='Thay đổi ảnh'
-                        onClick={handleUploadImage}
-                        type='button'
-                      >
-                        <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                      </button>
-                    </div>
-                  </div>
-                )}
-                <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>{errors.avatar?.message}</div>
-              </div>
-              <div className='flex flex-col gap-y-1'>
-                <label
-                  htmlFor='fullName'
-                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-                >
-                  Tên người dùng:
-                </label>
-                <Input
-                  name='fullName'
-                  id='fullName'
-                  register={register}
-                  errorMessage={errors.fullName?.message}
-                  placeholder='Đặt tên người dùng'
-                  classNameInput='rounded-lg border border-gray-400 p-3 placeholder:text-xs dark:bg-transparent text-black dark:text-white  md:placeholder:text-sm outline-none text-xs md:text-sm w-full '
-                />
-              </div>
-              <div className='flex flex-col gap-y-1'>
-                <Editor name='description' />
-                <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
-                  {errors.description?.message}
-                </div>
-              </div>
-              <div className='flex flex-col gap-y-1'>
-                <label
-                  htmlFor='thumbnail'
-                  className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
-                >
-                  Ảnh bìa:
-                </label>
-                <input type='file' className='hidden' ref={thumbnailRef} onChange={handleChangeThumbnail} />
-                {progressThumbnail === 0 && !urlThumbnail && (
-                  <div
-                    className={`flex h-32 w-full cursor-pointer items-center justify-center rounded-xl border  border-dashed text-center max-md:h-[250px] md:h-[300px] lg:h-72 ${
-                      isDragReject ? 'border-red-500' : 'border-gray-300'
-                    } `}
-                    {...getRootProps()}
-                  >
-                    <input {...getInputProps()} type='file' accept='image/png, image/gif, image/jpeg' />
-                    <div className='flex flex-col items-center gap-y-4'>
-                      <div className='animate-bounce text-center text-black dark:text-white'>
-                        <ImCloudUpload className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
-                      </div>
-
-                      {isDragReject ? (
-                        <span className='text-xs font-semibold text-red-600 md:text-base'>
-                          Tệp không hợp lệ. Vui lòng chọn một tệp ảnh
-                        </span>
-                      ) : (
-                        <span className='text-xs font-semibold text-black dark:text-white md:text-base'>
-                          Kéo và thả tệp ảnh để tải lên
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
-                {progressThumbnail > 0 && progressThumbnail <= 100 && (
-                  <div
-                    className={`flex h-32 w-full cursor-pointer items-center justify-center rounded-xl border  border-dashed text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
-                  >
-                    <div className='flex items-center justify-center gap-x-3'>
-                      <div className='animate-spin text-black dark:text-white'>
-                        <AiOutlineLoading className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
-                      </div>
+                    >
                       <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
-                        Đã tải được {progressThumbnail + '%'}
+                        Đã tải được {progressImage + '%'}
                       </span>
                     </div>
-                  </div>
-                )}
-                {urlThumbnail && progressThumbnail === 0 && (
-                  <div
-                    className={`upload-thumbnail relative flex h-32 w-full cursor-pointer items-center justify-center rounded-xl text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
-                  >
-                    <img src={urlThumbnail} alt='thumbnail' className='h-full w-full rounded-lg object-cover' />
-                    <div className='absolute top-0 left-0 h-full w-full rounded-lg hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
-                      <button
-                        className='button-edit-thumbnail absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
-                        title='Thay đổi ảnh bìa'
-                        onClick={handleUploadThumbnail}
-                        type='button'
-                      >
-                        <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>{errors.thumbnail?.message}</div>
+                  )}
+                  {progressImage === 0 && (
+                    <div
+                      className='upload-image relative mx-auto flex h-52 w-52 cursor-pointer items-center justify-center rounded-full'
+                      role='presentation'
+                    >
+                      <img src={urlImage} alt='' className='h-full w-full rounded-full object-cover ' />
 
-              <Button
-                className='mt-3 rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
-                type='submit'
-                disabled={updateProfileMutation.isLoading}
-                isLoading={updateProfileMutation.isLoading}
-              >
-                Lưu
-              </Button>
-            </>
-          )}
-        </form>
-      </FormProvider>
-    </div>
+                      <div className='absolute top-0 left-0 h-full w-full rounded-full hover:bg-[#6373814f] dark:hover:bg-[#63738134]'>
+                        <button
+                          className='button-edit absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[#00000042] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                          title='Thay đổi ảnh'
+                          onClick={handleUploadImage}
+                          type='button'
+                        >
+                          <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                    {errors.avatar?.message}
+                  </div>
+                </div>
+                <div className='flex flex-col gap-y-1'>
+                  <label
+                    htmlFor='fullName'
+                    className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                  >
+                    Tên người dùng:
+                  </label>
+                  <Input
+                    name='fullName'
+                    id='fullName'
+                    register={register}
+                    errorMessage={errors.fullName?.message}
+                    placeholder='Đặt tên người dùng'
+                    classNameInput='rounded-lg border border-gray-400 p-3 placeholder:text-xs dark:bg-transparent text-black dark:text-white  md:placeholder:text-sm outline-none text-xs md:text-sm w-full '
+                  />
+                </div>
+                <div className='flex flex-col gap-y-1'>
+                  <Editor name='description' />
+                  <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                    {errors.description?.message}
+                  </div>
+                </div>
+                <div className='flex flex-col gap-y-1'>
+                  <label
+                    htmlFor='thumbnail'
+                    className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
+                  >
+                    Ảnh bìa:
+                  </label>
+                  <input type='file' className='hidden' ref={thumbnailRef} onChange={handleChangeThumbnail} />
+                  {progressThumbnail === 0 && !urlThumbnail && (
+                    <div
+                      className={`flex h-32 w-full cursor-pointer items-center justify-center rounded-xl border  border-dashed text-center max-md:h-[250px] md:h-[300px] lg:h-72 ${
+                        isDragReject ? 'border-red-500' : 'border-gray-300'
+                      } `}
+                      {...getRootProps()}
+                    >
+                      <input {...getInputProps()} type='file' accept='image/png, image/gif, image/jpeg' />
+                      <div className='flex flex-col items-center gap-y-4'>
+                        <div className='animate-bounce text-center text-black dark:text-white'>
+                          <ImCloudUpload className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
+                        </div>
+
+                        {isDragReject ? (
+                          <span className='text-xs font-semibold text-red-600 md:text-base'>
+                            Tệp không hợp lệ. Vui lòng chọn một tệp ảnh
+                          </span>
+                        ) : (
+                          <span className='text-xs font-semibold text-black dark:text-white md:text-base'>
+                            Kéo và thả tệp ảnh để tải lên
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {progressThumbnail > 0 && progressThumbnail <= 100 && (
+                    <div
+                      className={`flex h-32 w-full cursor-pointer items-center justify-center rounded-xl border  border-dashed text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
+                    >
+                      <div className='flex items-center justify-center gap-x-3'>
+                        <div className='animate-spin text-black dark:text-white'>
+                          <AiOutlineLoading className='h-10 w-10 text-black dark:text-white md:h-16 md:w-16' />
+                        </div>
+                        <span className='text-xs text-[#a7a7a7] dark:text-white md:text-sm'>
+                          Đã tải được {progressThumbnail + '%'}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {urlThumbnail && progressThumbnail === 0 && (
+                    <div
+                      className={`upload-thumbnail relative flex h-32 w-full cursor-pointer items-center justify-center rounded-xl text-center max-md:h-[250px] md:h-[300px] lg:h-72`}
+                    >
+                      <img src={urlThumbnail} alt='thumbnail' className='h-full w-full rounded-lg object-cover' />
+                      <div className='absolute top-0 left-0 h-full w-full rounded-lg hover:bg-[#0000005e] dark:hover:bg-[#63738150]'>
+                        <button
+                          className='button-edit-thumbnail absolute top-1/2 left-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full opacity-0 shadow hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)]'
+                          title='Thay đổi ảnh bìa'
+                          onClick={handleUploadThumbnail}
+                          type='button'
+                        >
+                          <MdOutlineSystemUpdateAlt className='h-6 w-6 font-bold text-white ' />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
+                  {errors.thumbnail?.message}
+                </div>
+
+                <Button
+                  className='mt-3 rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
+                  type='submit'
+                  disabled={updateProfileMutation.isLoading}
+                  isLoading={updateProfileMutation.isLoading}
+                >
+                  Lưu
+                </Button>
+              </>
+            )}
+          </form>
+        </FormProvider>
+      </div>
+    </>
   )
 }
 

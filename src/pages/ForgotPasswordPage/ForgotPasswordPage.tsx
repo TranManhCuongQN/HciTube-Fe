@@ -11,6 +11,7 @@ import { useMutation } from 'react-query'
 import authApi from 'src/api/auth.api'
 import { isAxiosNotFoundError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.type'
+import { Helmet } from 'react-helmet-async'
 
 type FormData = forgotPasswordSchemaType
 const forgotPasswordSchema = schema.pick(['email'])
@@ -45,6 +46,10 @@ const ForgotPasswordPage = () => {
   })
   return (
     <div>
+      <Helmet>
+        <title>Trang quên mật khẩu - HciTube</title>
+        <meta name='description' content='Trang quên mật khẩu - HciTube' />
+      </Helmet>
       <div className='mx-auto flex h-screen w-64 flex-col justify-center gap-y-5 md:w-96'>
         <Link to={path.home} className='flex flex-col items-center'>
           <BsYoutube className='h-16 w-16 text-red-600 md:h-24 md:w-24' />

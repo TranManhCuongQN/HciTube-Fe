@@ -16,6 +16,7 @@ import { playList } from 'src/types/playList.type'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { omit } from 'lodash'
 import { createSearchParams } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 
 const LibraryPage = () => {
   const { profile } = useContext(AppContext)
@@ -66,6 +67,10 @@ const LibraryPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang thư viện - HciTube</title>
+        <meta name='description' content='Trang thư viện  - HciTube' />
+      </Helmet>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
         <div

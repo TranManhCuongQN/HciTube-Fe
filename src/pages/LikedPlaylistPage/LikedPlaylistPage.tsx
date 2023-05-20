@@ -7,6 +7,7 @@ import favoriteApi from 'src/api/favorite.api'
 import Skeleton from 'src/components/Skeleton'
 import ControlSection from './ControlSection'
 import { favorite } from 'src/types/favorite.type'
+import { Helmet } from 'react-helmet-async'
 
 const LikedPlaylistPage = () => {
   const { profile } = useContext(AppContext)
@@ -21,6 +22,10 @@ const LikedPlaylistPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang danh sách video yêu thích - HciTube</title>
+        <meta name='description' content='Trang danh sách video yêu thích - HciTube' />
+      </Helmet>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 

@@ -3,6 +3,7 @@ import VideoItem from './VideoItem'
 import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
+import { Helmet } from 'react-helmet-async'
 const SubscriptionsPage = () => {
   const {
     data: getVideoFollowing,
@@ -16,6 +17,10 @@ const SubscriptionsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Kênh đăng ký - HciTube</title>
+        <meta name='description' content='Trang kênh đăng ký - HciTube' />
+      </Helmet>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
         <div

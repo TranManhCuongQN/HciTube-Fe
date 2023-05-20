@@ -4,6 +4,7 @@ import VideoList from './components/VideoList'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { Helmet } from 'react-helmet-async'
 
 const categoryAPI = [
   {
@@ -50,6 +51,10 @@ const HomePage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang chủ - HciTube</title>
+        <meta name='description' content='Trang chủ - HciTube' />
+      </Helmet>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 

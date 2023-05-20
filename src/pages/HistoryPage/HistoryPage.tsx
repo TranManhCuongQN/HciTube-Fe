@@ -5,6 +5,7 @@ import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import { useContext } from 'react'
 import { AppContext } from 'src/context/app.context'
+import { Helmet } from 'react-helmet-async'
 
 const HistoryPage = () => {
   const { profile } = useContext(AppContext)
@@ -20,6 +21,10 @@ const HistoryPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang video đã xem - HciTube</title>
+        <meta name='description' content='Trang video đã xem - HciTube' />
+      </Helmet>
       <div className='container flex min-h-screen gap-x-20 overflow-y-scroll bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
 

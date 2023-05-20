@@ -2,6 +2,7 @@ import FormUpload from './components/FormUpload'
 import { useState } from 'react'
 import MainComponent from './components/MainComponent'
 import FormAddPlayList from './components/FormAddPlayList'
+import { Helmet } from 'react-helmet-async'
 
 const UploadVideoPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -25,6 +26,10 @@ const UploadVideoPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang tổng quan của kênh - HciTube</title>
+        <meta name='description' content='Trang tổng quan của kênh - HciTube' />
+      </Helmet>
       <MainComponent openModal={handleOpenModal} />
 
       {/* //* Dialog */}

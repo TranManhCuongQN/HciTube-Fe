@@ -17,6 +17,7 @@ import { NavLink } from 'react-router-dom'
 import path from 'src/constants/path'
 import Skeleton from 'src/components/Skeleton'
 import uploadApi from 'src/api/upload.api'
+import { Helmet } from 'react-helmet-async'
 
 const ManageContentPage = () => {
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
@@ -188,6 +189,10 @@ const ManageContentPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Trang nội dung của kênh - HciTube</title>
+        <meta name='description' content='Trang nội dung của kênh - HciTube' />
+      </Helmet>
       <div className='flex w-full flex-col gap-y-2 lg:mt-4 lg:gap-y-5'>
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Nội dung của kênh</span>
         <div className='overflow-auto'>

@@ -55,7 +55,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [idView, setIdView] = useState<string>('')
   const [count, setCount] = useState<number>(0)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
-  const [isLoadedThumbnail, setIsLoadedThumbnail] = useState<boolean>(false);
+  const [isLoadedThumbnail, setIsLoadedThumbnail] = useState<boolean>(false)
 
   const { id } = useParams()
   const navigate = useNavigate()
@@ -412,17 +412,17 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   }, [idView, id])
 
   useEffect(() => {
-    if(isLoaded && isLoadedThumbnail) {
+    if (isLoaded && isLoadedThumbnail) {
       playVideo()
     }
   }, [isLoaded, isLoadedThumbnail])
 
   useEffect(() => {
     return () => {
-      setIsLoaded(false);
+      setIsLoaded(false)
       setIsLoadedThumbnail(false)
     }
-  },[id])
+  }, [id])
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
@@ -447,26 +447,26 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
           ></video>
           {isLoaded && isLoadedThumbnail ? (
             <div
-            className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
-            role='presentation'
-            onClick={handlePlayAndPause}
+              className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
+              role='presentation'
+              onClick={handlePlayAndPause}
             >
-            <BiPlay
-              className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
-              id='DesktopPlayBtn'
-              onClick={playVideo}
-            />
-            <BiPause
-              className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
-              id='DesktopPauseBtn'
-              onClick={pauseVideo}
-            />
+              <BiPlay
+                className={(playing ? 'hidden' : '') + ' p-2 text-[4rem] text-white opacity-0'}
+                id='DesktopPlayBtn'
+                onClick={playVideo}
+              />
+              <BiPause
+                className={(playing ? '' : 'hidden') + ' p-2 text-[4rem] text-white opacity-0'}
+                id='DesktopPauseBtn'
+                onClick={pauseVideo}
+              />
             </div>
           ) : (
             <div
               className={`${
                 zoomOut ? 'lg:w-full' : 'mx-auto'
-              } absolute top-0 flex aspect-video h-full w-full items-center justify-center object-contain bg-black`}
+              } absolute top-0 flex aspect-video h-full w-full items-center justify-center bg-black object-contain`}
             >
               <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
             </div>
@@ -642,7 +642,11 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               </div>
 
               <div className='relative z-40' id='ProgressBar'>
-                <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} setIsLoadedThumbnail={setIsLoadedThumbnail} />
+                <Thumbnail
+                  thumbnailProps={thumbnailProps}
+                  videoSrc={urlVideo}
+                  setIsLoadedThumbnail={setIsLoadedThumbnail}
+                />
                 <div className='w-full '>
                   <input
                     ref={progressRef}

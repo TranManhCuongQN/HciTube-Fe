@@ -86,22 +86,24 @@ const Inform = () => {
             <div className='overflow-y-scroll'>
               {profile?.notification?.map((item, index) => (
                 <div
-                  className={classNames(
-                    'flex items-center py-4 pr-4 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]'
-                  )}
+                  className={classNames('flex items-center py-4 pr-4 hover:bg-[#F2F2F2] dark:hover:bg-[#3E3E3E]')}
                   key={index}
                   role='presentation'
                   onClick={() => handleClick(item.video)}
                 >
-                  <div className="w-12 h-full flex justify-center">
-                    <div className={`${item.seen == true ? 'opacity-0' : 'opacity-1'} w-[0.3rem] h-[0.3rem]  bg-blue-600 dark:bg-blue-400 rounded-full`}></div>
+                  <div className='flex h-full w-12 justify-center'>
+                    <div
+                      className={`${
+                        item.seen == true ? 'opacity-0' : 'opacity-1'
+                      } h-[0.3rem] w-[0.3rem]  rounded-full bg-blue-600 dark:bg-blue-400`}
+                    ></div>
                   </div>
                   <img
                     src={item.channel.avatar}
                     alt='avatar'
-                    className='h-12 w-12 flex-shrink-0 rounded-full object-cover mr-4'
+                    className='mr-4 h-12 w-12 flex-shrink-0 rounded-full border object-cover shadow-sm'
                   />
-                  <div className='flex flex-col items-start w-full'>
+                  <div className='flex w-full flex-col items-start'>
                     <span className='w-32 break-words text-xs font-semibold text-black dark:text-white md:text-sm'>
                       {item.video.title}
                     </span>
@@ -109,7 +111,7 @@ const Inform = () => {
                       {convertToRelativeTime(item.createdAt)}
                     </span>
                   </div>
-                  <img src={item.video.thumbnail} alt='thumbnail' className='h-14 w-24 flex-shrink-0 rounded-lg mx-4' />
+                  <img src={item.video.thumbnail} alt='thumbnail' className='mx-4 h-14 w-24 flex-shrink-0 rounded' />
                 </div>
               ))}
             </div>

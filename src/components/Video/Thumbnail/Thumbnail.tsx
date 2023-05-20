@@ -4,7 +4,7 @@ import { useRef } from 'react'
 const Thumbnail = (props: any) => {
   const thumbnailRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { thumbnailProps, videoSrc, setIsLoadedThumbnail} = props;
+  const { thumbnailProps, videoSrc, setIsLoadedThumbnail } = props
 
   // Format time
   const formatTime = (duration: number) => {
@@ -37,15 +37,15 @@ const Thumbnail = (props: any) => {
   }
 
   return (
-    <div ref={thumbnailRef} className='absolute aspect-video bottom-6 flex flex-col items-center' id='Thumbnail'>
-      <div className='h-[6rem] w-[9rem] aspect-video flex items-center rounded-sm border-[1.4px] border-solid border-white bg-black'>
+    <div ref={thumbnailRef} className='absolute bottom-6 flex aspect-video flex-col items-center' id='Thumbnail'>
+      <div className='flex aspect-video h-[6rem] w-[9rem] items-center rounded-sm border-[1.4px] border-solid border-white bg-black'>
         <video
           onCanPlay={() => {
             setIsLoadedThumbnail(true)
-          }} 
-          src={videoSrc} 
-          ref={videoRef} 
-          className='aspect-video h-full w-full object-contain rounded-sm' 
+          }}
+          src={videoSrc}
+          ref={videoRef}
+          className='aspect-video h-full w-full rounded-sm object-contain'
         />
       </div>
       <span className=' mt-3 rounded-sm bg-[rgba(0,0,0,0.2)] px-1 text-xs font-medium text-white'>

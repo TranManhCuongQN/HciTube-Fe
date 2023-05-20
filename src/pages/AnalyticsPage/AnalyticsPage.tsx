@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import React, { useRef, useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Dropdown from 'src/components/Dropdown'
@@ -31,6 +32,10 @@ const AnalyticsPage = () => {
   }
   return (
     <>
+      <Helmet>
+        <title>Trang số liệu phân tích về kênh - HciTube</title>
+        <meta name='description' content='Trang số liệu phân tích về kênh - HciTube' />
+      </Helmet>
       <div className='flex w-full flex-col gap-y-2 overflow-hidden lg:mt-4 lg:gap-y-5'>
         <span className='text-sm font-semibold text-black dark:text-white md:text-base'>Số liệu phân tích về kênh</span>
         <div className='my-5 flex flex-col items-end gap-y-3'>

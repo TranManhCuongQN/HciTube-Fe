@@ -21,6 +21,7 @@ import Skeleton from 'src/components/Skeleton'
 import { subscriberApi } from 'src/api/subscriber.api'
 import { toast } from 'react-toastify'
 import { setProfileToLocalStorage } from 'src/utils/auth'
+import { Helmet } from 'react-helmet-async'
 
 const ChannelPage = () => {
   const location = useLocation()
@@ -136,223 +137,229 @@ const ChannelPage = () => {
   }
 
   return (
-    <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
-      <AsideBar />
-      {isLoading && (
-        <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
-          <Skeleton className='h-52 w-full' />
-          <div className='flex w-full justify-between gap-y-2 px-10 pt-4 pb-1 max-sm:flex-col md:px-20 lg:px-40'>
-            <div className='flex flex-1 items-start justify-start gap-x-5 pt-2'>
-              <Skeleton className='h-32 w-32 flex-shrink-0 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20' />
-              <div className='flex flex-1 flex-row justify-between  max-sm:flex-col max-sm:items-start max-sm:gap-y-5'>
-                <div className='flex flex-col gap-y-5'>
-                  <Skeleton className='h-5 w-52 rounded-lg' />
-                  <div className='flex items-center gap-x-4'>
-                    <Skeleton className='h-5 w-20 rounded-lg' />
-                    <Skeleton className='h-5 w-20 rounded-lg' />
+    <>
+      <Helmet>
+        <title>{`${profileData?.data.data.fullName} - HciTube`}</title>
+        <meta name='description' content={`${profileData?.data.data.fullName} - HciTube`} />
+      </Helmet>
+      <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
+        <AsideBar />
+        {isLoading && (
+          <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
+            <Skeleton className='h-52 w-full' />
+            <div className='flex w-full justify-between gap-y-2 px-10 pt-4 pb-1 max-sm:flex-col md:px-20 lg:px-40'>
+              <div className='flex flex-1 items-start justify-start gap-x-5 pt-2'>
+                <Skeleton className='h-32 w-32 flex-shrink-0 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20' />
+                <div className='flex flex-1 flex-row justify-between  max-sm:flex-col max-sm:items-start max-sm:gap-y-5'>
+                  <div className='flex flex-col gap-y-5'>
+                    <Skeleton className='h-5 w-52 rounded-lg' />
+                    <div className='flex items-center gap-x-4'>
+                      <Skeleton className='h-5 w-20 rounded-lg' />
+                      <Skeleton className='h-5 w-20 rounded-lg' />
+                    </div>
+                    <Skeleton className='h-5 w-52 rounded-lg' />
                   </div>
-                  <Skeleton className='h-5 w-52 rounded-lg' />
                 </div>
               </div>
+              <Skeleton className='h-8 w-32 rounded-lg max-sm:w-full' />
             </div>
-            <Skeleton className='h-8 w-32 rounded-lg max-sm:w-full' />
           </div>
-        </div>
-      )}
-      {isSuccess && (
-        <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
-          <div className='h-52 w-full'>
-            <img
-              src={profileData?.data?.data?.thumbnail}
-              alt='thumbnail'
-              className='h-full w-full rounded object-cover'
-            />
-          </div>
-          <div className='flex w-full justify-between gap-y-2 px-10 pt-4 pb-1 max-sm:flex-col md:px-20 lg:px-40'>
-            <div className='flex flex-1 items-start justify-start gap-x-5 pt-2'>
-              <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
-                <img
-                  src={profileData?.data?.data.avatar}
-                  alt='avatar'
-                  className='h-full w-full flex-shrink-0 rounded-full object-cover'
-                />
-              </div>
+        )}
+        {isSuccess && (
+          <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
+            <div className='h-52 w-full'>
+              <img
+                src={profileData?.data?.data?.thumbnail}
+                alt='thumbnail'
+                className='h-full w-full rounded object-cover'
+              />
+            </div>
+            <div className='flex w-full justify-between gap-y-2 px-10 pt-4 pb-1 max-sm:flex-col md:px-20 lg:px-40'>
+              <div className='flex flex-1 items-start justify-start gap-x-5 pt-2'>
+                <div className='h-32 w-32 rounded-full max-lg:h-24 max-lg:w-24 max-[320px]:h-20 max-[320px]:w-20'>
+                  <img
+                    src={profileData?.data?.data.avatar}
+                    alt='avatar'
+                    className='h-full w-full flex-shrink-0 rounded-full object-cover'
+                  />
+                </div>
 
-              <div className='flex flex-1 flex-row justify-between  max-sm:flex-col max-sm:items-start max-sm:gap-y-5'>
-                <div className='flex flex-col gap-y-2'>
-                  <span className='text-base font-semibold text-black dark:text-white md:text-lg'>
-                    {profileData?.data?.data?.fullName}
-                  </span>
-                  <div className='flex items-center gap-x-4'>
-                    <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
-                      {convertNumberToDisplayString(totalSubscribers)} người đăng ký
+                <div className='flex flex-1 flex-row justify-between  max-sm:flex-col max-sm:items-start max-sm:gap-y-5'>
+                  <div className='flex flex-col gap-y-2'>
+                    <span className='text-base font-semibold text-black dark:text-white md:text-lg'>
+                      {profileData?.data?.data?.fullName}
                     </span>
-                    {/* <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
+                    <div className='flex items-center gap-x-4'>
+                      <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
+                        {convertNumberToDisplayString(totalSubscribers)} người đăng ký
+                      </span>
+                      {/* <span className='text-xs font-semibold text-[#8e8883] md:text-sm'>
                       {convertNumberToDisplayString(254)} video
                     </span> */}
+                    </div>
+                    <NavLink
+                      to={`/${id}/about`}
+                      className='flex items-center gap-x-2 text-xs font-semibold text-[#8e8883] md:text-sm'
+                      onClick={() => setChoose('about')}
+                    >
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: String(parse((profileData?.data?.data?.description as string) || ''))
+                        }}
+                        className='whitespace-normal md:max-w-[320px] lg:max-w-[400px]'
+                      ></span>
+                      <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
+                    </NavLink>
                   </div>
-                  <NavLink
-                    to={`/${id}/about`}
-                    className='flex items-center gap-x-2 text-xs font-semibold text-[#8e8883] md:text-sm'
-                    onClick={() => setChoose('about')}
-                  >
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: String(parse((profileData?.data?.data?.description as string) || ''))
-                      }}
-                      className='whitespace-normal md:max-w-[320px] lg:max-w-[400px]'
-                    ></span>
-                    <AiOutlineRight className='h-4 w-4 text-black dark:text-white' />
-                  </NavLink>
+
+                  {profileData.data.data.id === profile?._id && (
+                    <div className='flex flex-wrap items-center gap-3'>
+                      <Link
+                        to={path.profile}
+                        className='rounded-xl bg-[#f2f2f2] p-2 text-xs font-semibold text-black dark:bg-[#272727] dark:text-white md:text-sm'
+                      >
+                        Tùy chỉnh kênh
+                      </Link>
+                      <Link
+                        to={path.content}
+                        className='rounded-xl bg-[#f2f2f2] p-2 text-xs font-semibold text-black dark:bg-[#272727] dark:text-white md:text-sm'
+                      >
+                        Quản lý video
+                      </Link>
+                    </div>
+                  )}
+
+                  {profileData?.data.data.id !== profile?.id &&
+                    (isSubscribed ? (
+                      <button
+                        className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'
+                        onClick={handleUnSubscribe}
+                      >
+                        <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
+                        Đã đăng ký
+                      </button>
+                    ) : (
+                      <button
+                        className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#0f0f0f] py-2 px-4 text-xs font-semibold  text-white dark:bg-[#f1f1f1] dark:text-black max-sm:px-3 max-sm:py-1 md:text-sm'
+                        onClick={handleSubscribe}
+                      >
+                        Đăng ký
+                      </button>
+                    ))}
                 </div>
-
-                {profileData.data.data.id === profile?._id && (
-                  <div className='flex flex-wrap items-center gap-3'>
-                    <Link
-                      to={path.profile}
-                      className='rounded-xl bg-[#f2f2f2] p-2 text-xs font-semibold text-black dark:bg-[#272727] dark:text-white md:text-sm'
-                    >
-                      Tùy chỉnh kênh
-                    </Link>
-                    <Link
-                      to={path.content}
-                      className='rounded-xl bg-[#f2f2f2] p-2 text-xs font-semibold text-black dark:bg-[#272727] dark:text-white md:text-sm'
-                    >
-                      Quản lý video
-                    </Link>
-                  </div>
-                )}
-
-                {profileData?.data.data.id !== profile?.id &&
-                  (isSubscribed ? (
-                    <button
-                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#f2f2f2] py-2 px-4 text-xs font-semibold dark:bg-[#272727] dark:text-white max-sm:px-3 max-sm:py-1 md:text-sm'
-                      onClick={handleUnSubscribe}
-                    >
-                      <IoMdNotificationsOutline className='h-6 w-6 text-black dark:text-white' />
-                      Đã đăng ký
-                    </button>
-                  ) : (
-                    <button
-                      className='flex h-fit items-center gap-x-2 rounded-2xl bg-[#0f0f0f] py-2 px-4 text-xs font-semibold  text-white dark:bg-[#f1f1f1] dark:text-black max-sm:px-3 max-sm:py-1 md:text-sm'
-                      onClick={handleSubscribe}
-                    >
-                      Đăng ký
-                    </button>
-                  ))}
               </div>
             </div>
+
+            <div className='relative mt-5  flex max-w-full border-b border-b-gray-500 md:px-20 lg:px-40  '>
+              <button
+                className={`absolute bottom-2 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+                  isBeginning ? 'invisible' : 'visible'
+                } `}
+                onClick={goPrev}
+              >
+                <AiOutlineLeft className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+              </button>
+
+              <Swiper
+                pagination={false}
+                modules={[Pagination]}
+                className='max-md:mx-auto max-md:w-5/6'
+                ref={swiperRef}
+                onSlideChange={(swiper) => {
+                  handleSwiper(swiper)
+                }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1
+                  },
+                  325: {
+                    slidesPerView: 2
+                  },
+                  640: {
+                    slidesPerView: 3
+                  },
+                  765: {
+                    slidesPerView: 4
+                  }
+                }}
+              >
+                <SwiperSlide>
+                  {' '}
+                  <NavLink
+                    to={`/${id}/channel`}
+                    className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                      'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white ':
+                        choose === 'channel',
+                      'text-gray-500 ': choose !== 'channel'
+                    })}
+                    type='button'
+                    onClick={() => setChoose('channel')}
+                  >
+                    TRANG CHỦ
+                  </NavLink>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                  {' '}
+                  <NavLink
+                    to={`/${id}/video`}
+                    className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold md:text-sm`, {
+                      'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
+                        choose === 'video',
+                      'text-gray-500': choose !== 'video'
+                    })}
+                    type='button'
+                    onClick={() => setChoose('video')}
+                  >
+                    VIDEO
+                  </NavLink>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <NavLink
+                    to={`/${id}/playlist`}
+                    className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                      'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
+                        choose === 'playlist',
+                      'text-gray-500': choose !== 'playlist'
+                    })}
+                    type='button'
+                    onClick={() => setChoose('playlist')}
+                  >
+                    DANH SÁCH PHÁT
+                  </NavLink>
+                </SwiperSlide>
+                <SwiperSlide>
+                  {' '}
+                  <NavLink
+                    to={`${id}/about`}
+                    className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
+                      'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
+                        choose === 'about',
+                      'text-gray-500': choose !== 'about'
+                    })}
+                    type='button'
+                    onClick={() => setChoose('about')}
+                  >
+                    GIỚI THIỆU
+                  </NavLink>
+                </SwiperSlide>
+              </Swiper>
+
+              <button
+                className={`absolute bottom-2 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
+                  isEnd ? 'invisible' : 'visible'
+                } `}
+                onClick={goNext}
+              >
+                <AiOutlineRight className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
+              </button>
+            </div>
+
+            <Outlet />
           </div>
-
-          <div className='relative mt-5  flex max-w-full border-b border-b-gray-500 md:px-20 lg:px-40  '>
-            <button
-              className={`absolute bottom-2 left-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
-                isBeginning ? 'invisible' : 'visible'
-              } `}
-              onClick={goPrev}
-            >
-              <AiOutlineLeft className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-            </button>
-
-            <Swiper
-              pagination={false}
-              modules={[Pagination]}
-              className='max-md:mx-auto max-md:w-5/6'
-              ref={swiperRef}
-              onSlideChange={(swiper) => {
-                handleSwiper(swiper)
-              }}
-              breakpoints={{
-                0: {
-                  slidesPerView: 1
-                },
-                325: {
-                  slidesPerView: 2
-                },
-                640: {
-                  slidesPerView: 3
-                },
-                765: {
-                  slidesPerView: 4
-                }
-              }}
-            >
-              <SwiperSlide>
-                {' '}
-                <NavLink
-                  to={`/${id}/channel`}
-                  className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
-                    'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white ':
-                      choose === 'channel',
-                    'text-gray-500 ': choose !== 'channel'
-                  })}
-                  type='button'
-                  onClick={() => setChoose('channel')}
-                >
-                  TRANG CHỦ
-                </NavLink>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                {' '}
-                <NavLink
-                  to={`/${id}/video`}
-                  className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold md:text-sm`, {
-                    'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
-                      choose === 'video',
-                    'text-gray-500': choose !== 'video'
-                  })}
-                  type='button'
-                  onClick={() => setChoose('video')}
-                >
-                  VIDEO
-                </NavLink>
-              </SwiperSlide>
-              <SwiperSlide>
-                <NavLink
-                  to={`/${id}/playlist`}
-                  className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
-                    'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
-                      choose === 'playlist',
-                    'text-gray-500': choose !== 'playlist'
-                  })}
-                  type='button'
-                  onClick={() => setChoose('playlist')}
-                >
-                  DANH SÁCH PHÁT
-                </NavLink>
-              </SwiperSlide>
-              <SwiperSlide>
-                {' '}
-                <NavLink
-                  to={`${id}/about`}
-                  className={classNames(`whitespace-nowrap py-3 px-8 text-xs font-bold  md:text-sm`, {
-                    'border-b-2 border-b-black font-bold text-black dark:border-b-white dark:text-white':
-                      choose === 'about',
-                    'text-gray-500': choose !== 'about'
-                  })}
-                  type='button'
-                  onClick={() => setChoose('about')}
-                >
-                  GIỚI THIỆU
-                </NavLink>
-              </SwiperSlide>
-            </Swiper>
-
-            <button
-              className={`absolute bottom-2 right-0 z-10 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full  text-xs hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] md:hidden lg:h-10 lg:w-10 ${
-                isEnd ? 'invisible' : 'visible'
-              } `}
-              onClick={goNext}
-            >
-              <AiOutlineRight className='h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
-            </button>
-          </div>
-
-          <Outlet />
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   )
 }
 
