@@ -138,10 +138,13 @@ const ChannelPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{`${profileData?.data.data.fullName} - HciTube`}</title>
-        <meta name='description' content={`${profileData?.data.data.fullName} - HciTube`} />
-      </Helmet>
+      {profileData && (
+        <Helmet>
+          <title>{`${profileData?.data.data.fullName} - HciTube`}</title>
+          <meta name='description' content={`${profileData?.data.data.fullName} - HciTube`} />
+        </Helmet>
+      )}
+
       <div className='container flex gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
         {isLoading && (

@@ -108,10 +108,13 @@ const DetailPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{`${data?.data.data.video.title} - HciTube`}</title>
-        <meta name='description' content={`${data?.data.data.video.title} - HciTube`} />
-      </Helmet>
+      {data && (
+        <Helmet>
+          <title>{`${data?.data.data.video.title} - HciTube`}</title>
+          <meta name='description' content={`${data?.data.data.video.title} - HciTube`} />
+        </Helmet>
+      )}
+
       <AsideBar />
       {isLoading && (
         <div className='container min-h-screen px-3 pb-5 lg:mt-2 lg:flex lg:items-start lg:gap-x-5 lg:px-24 '>
