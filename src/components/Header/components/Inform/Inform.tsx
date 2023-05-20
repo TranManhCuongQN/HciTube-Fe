@@ -14,7 +14,7 @@ import classNames from 'classnames'
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
   const { profile, setProfile } = useContext(AppContext)
-  const informRef = React.useRef<HTMLDivElement>(null)
+  const informRef = React.useRef<HTMLButtonElement>(null)
   const [totalInForm, setTotalInForm] = useState<number>(0)
   useOnClickOutside(informRef, () => setIsShow(false))
 
@@ -53,7 +53,8 @@ const Inform = () => {
       <ToolTip position='bottom' content={'Thông báo'}>
         <button
           className='relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
-          onClick={() => setIsShow(true)}
+          onClick={() => setIsShow(!isShow)}
+          ref={informRef}
         >
           {isShow ? (
             <>
@@ -71,10 +72,7 @@ const Inform = () => {
           )}
         </button>
         {isShow && (
-          <div
-            className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'
-            ref={informRef}
-          >
+          <div className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'>
             <span className='p-4 text-left text-base text-black dark:text-white'>Thông báo</span>
             <div className='w-full border-b border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.2)]'></div>
             {profile?.notification?.length === 0 && (
