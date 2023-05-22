@@ -32,7 +32,7 @@ const categoryAPI = [
     name: 'Thể thao'
   },
   {
-    id: '6438f5a00ec1f545856c75e9',
+    id: '6438f5950ec1f545856c75e3',
     name: 'Giải trí'
   },
   {

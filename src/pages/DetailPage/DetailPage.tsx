@@ -33,7 +33,7 @@ const DetailPage = () => {
     isLoading: isLoadingGetAll,
     isSuccess: isSuccessGetAll
   } = useQuery({
-    queryKey: 'videoList',
+    queryKey: 'videoListAll',
     queryFn: () => videoApi.getVideoAll(),
     enabled: category === '1'
   })
