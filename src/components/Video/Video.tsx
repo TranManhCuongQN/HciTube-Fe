@@ -407,6 +407,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
         setCount(0)
         setIdView('')
       }
+      setEnded(false)
     }
   }, [idView, id])
 

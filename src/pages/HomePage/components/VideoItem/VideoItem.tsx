@@ -22,6 +22,7 @@ const VideoItem = (props: VideoItemProps) => {
 
   const handleMouseEnter = () => {
     timeout = setTimeout(() => {
+      if (isOpen) return
       setIsOpen(true)
     }, 500)
   }

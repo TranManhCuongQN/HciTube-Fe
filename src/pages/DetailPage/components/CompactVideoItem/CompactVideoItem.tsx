@@ -2,7 +2,7 @@ import { RxDividerHorizontal } from 'react-icons/rx'
 import ListFilter from '../ListFilter'
 import { Link, NavLink, useParams } from 'react-router-dom'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import Skeleton from 'src/components/Skeleton'
 import Playlist from '../Playlist'
@@ -32,7 +32,7 @@ const categoryAPI = [
     name: 'Thể thao'
   },
   {
-    id: '6438f5a00ec1f545856c75e9',
+    id: '6438f5950ec1f545856c75e3',
     name: 'Giải trí'
   },
   {

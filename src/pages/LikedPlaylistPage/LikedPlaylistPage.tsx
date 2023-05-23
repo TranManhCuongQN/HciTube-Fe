@@ -28,7 +28,9 @@ const LikedPlaylistPage = () => {
       </Helmet>
       <div className='container flex min-h-screen gap-x-20 bg-[#ffffff] dark:bg-[#0f0f0f]'>
         <AsideBar />
+
         <div className={`mt-6 mb-16 flex h-full w-full flex-col md:px-3 lg:flex-row 2xl:ml-64 `}>
+
           {isLoading && (
             <div className='flex h-full w-full flex-col justify-evenly lg:flex-row lg:items-stretch '>
               <Skeleton className='mb-4 w-full flex-shrink-0 rounded-lg max-lg:h-52 lg:w-[500px]' />
