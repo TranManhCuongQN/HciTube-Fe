@@ -151,7 +151,7 @@ const Search = () => {
             } absolute top-[110%] h-fit w-full rounded-xl bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}
             ref={inputRef}
           >
-            <div className='text-base font-bold text-white'>
+            <div className='text-base font-bold text-white max-h-60 lg:max-h-80 overflow-y-scroll'>
               {historySearch.length > 0 &&
                 historySearch
                   .sort((a, b) => b?.createdAt - a?.createdAt)

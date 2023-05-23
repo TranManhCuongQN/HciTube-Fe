@@ -115,7 +115,7 @@ const SearchPage = () => {
         <AsideBar />
         <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
           <div className='flex h-full w-full flex-col items-center justify-center md:px-3 lg:px-6 lg:py-4'>
-            <div className='relative h-full w-full max-w-[1096px] lg:grid lg:grid-cols-1'>
+            <div className='relative h-full w-full max-w-[1280px] lg:grid lg:grid-cols-1'>
               <div className=' flex flex-col lg:col-span-1'>
                 <div className='border-[rgba(0, 0, 0, 0.1)] border-b py-2 dark:border-gray-600 max-lg:ml-3'>
                   <button

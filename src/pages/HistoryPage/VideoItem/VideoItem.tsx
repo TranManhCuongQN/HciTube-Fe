@@ -53,9 +53,9 @@ const VideoItem = (props: VideoItemProps) => {
         </div>
       </div>
 
-      <div className='flex w-40 items-start gap-x-3 md:w-full'>
+      <div className='flex items-start gap-x-3 w-full'>
         <div className='flex flex-col'>
-          <span className='pr-6 text-base font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
+          <span className='pr-6 text-lg font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
 
           <Link
             to={`/${data.channel?._id}/channel`}
@@ -73,7 +73,7 @@ const VideoItem = (props: VideoItemProps) => {
           </Link>
 
           <span
-            className='hidden text-xs font-normal text-gray-500 line-clamp-2 dark:text-gray-400 lg:flex'
+            className='mt-1 hidden text-xs font-normal text-gray-500 line-clamp-2 dark:text-gray-400 lg:flex'
             dangerouslySetInnerHTML={{ __html: String(parse((data.description as string) || '')) }}
           ></span>
         </div>

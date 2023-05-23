@@ -48,10 +48,10 @@ const VideoItem = (props: VideoItemProps) => {
   return (
     <div
       onClick={handleClick}
-      className='mb-5 flex cursor-pointer flex-col gap-y-3 max-md:min-w-fit md:w-60 lg:w-[265px]'
+      className='mb-5 col-span-1 w-full flex md:flex-1 cursor-pointer flex-col gap-y-3'
       role='presentation'
     >
-      <div className='aspect-video h-fit w-40 md:w-full md:rounded-xl'>
+      <div className='aspect-video h-fit w-40 sm:w-full md:rounded-xl'>
         <div className='relative overflow-hidden rounded-xl'>
           <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
           <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
@@ -61,17 +61,17 @@ const VideoItem = (props: VideoItemProps) => {
         </div>
       </div>
 
-      <div className='flex w-40 items-start gap-x-3 md:w-full'>
-        <div className='flex flex-col text-[13px]'>
-          <span className='mb-1 pr-6 font-semibold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
+      <div className='flex w-40 items-start gap-x-3 sm:w-full'>
+        <div className='flex flex-col text-sm'>
+          <span className='mb-1 pr-6 font-bold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
           <Link
             to={`/${data.channel?._id}/channel`}
-            className='text-[11px] font-normal text-gray-500 dark:text-gray-400'
+            className='text-xs font-semibold text-gray-500 dark:text-gray-400'
           >
             {(data?.channel as User).fullName}
           </Link>
           <div className='flex flex-wrap items-center gap-x-1'>
-            <span className='text-[11px] font-normal text-gray-500 line-clamp-1 dark:text-gray-400'>
+            <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>
               {`${data?.view} lượt xem - ${convertToRelativeTime(data?.createdAt as string)}`}
             </span>
           </div>
