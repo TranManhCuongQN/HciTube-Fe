@@ -156,7 +156,7 @@ const SearchMobie = () => {
             } absolute right-0 left-0 top-[100%] h-fit bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}
             ref={inputRef}
           >
-            <div className='text-base font-bold text-white'>
+            <div className='text-base font-bold text-white max-h-40 overflow-y-scroll'>
               {historySearch.length > 0 &&
                 historySearch.slice(0, 9).map((item, index) => (
                   <div
