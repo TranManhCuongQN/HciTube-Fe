@@ -151,7 +151,7 @@ const Search = () => {
             } absolute top-[110%] h-fit w-full rounded-xl bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}
             ref={inputRef}
           >
-            <div className='text-base font-bold text-white max-h-60 lg:max-h-80 overflow-y-scroll'>
+            <div className='max-h-60 overflow-y-scroll text-base font-bold text-white lg:max-h-80'>
               {historySearch.length > 0 &&
                 historySearch
                   .sort((a, b) => b?.createdAt - a?.createdAt)
@@ -163,9 +163,9 @@ const Search = () => {
                       role='presentation'
                       onClick={() => handleSearch(item.keyword)}
                     >
-                      <div className='flex items-center'>
+                      <div className='flex items-center  '>
                         <MdHistory className='mr-4 h-5  w-5' />
-                        {item.keyword}
+                        <span className='flex-shrink-0 line-clamp-1'>{item.keyword}</span>
                       </div>
                       <IoCloseOutline
                         className='relative z-20 h-5 w-5'
@@ -182,8 +182,8 @@ const Search = () => {
                     onClick={() => handleSearchChannel(item)}
                   >
                     <div className='flex items-center'>
-                      <AiOutlineSearch className='mr-4 h-5  w-5' />
-                      {item.fullName}
+                      <AiOutlineSearch className='mr-4 h-5 w-5 flex-shrink-0' />
+                      <span className='line-clamp-1'>{item.fullName}</span>
                     </div>
                   </div>
                 ))}
@@ -196,8 +196,8 @@ const Search = () => {
                     onClick={() => handleSearchVideo(item)}
                   >
                     <div className='flex items-center'>
-                      <AiOutlineSearch className='mr-4 h-5  w-5' />
-                      {item.title}
+                      <AiOutlineSearch className='mr-4 h-5 w-5 flex-shrink-0' />
+                      <span className='line-clamp-1'>{item.title}</span>
                     </div>
                   </div>
                 ))}
