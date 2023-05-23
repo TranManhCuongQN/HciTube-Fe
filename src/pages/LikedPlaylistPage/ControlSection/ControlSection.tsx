@@ -49,11 +49,10 @@ const ControlSection = ({ data }: ControlSectionProps) => {
     })
   }
   return (
-    <div className='relative flex w-full flex-col overflow-hidden bg-transparent lg:w-fit lg:rounded-lg max-h-[40rem]'>
+    <div className='relative flex h-[600px] w-full flex-shrink-0 flex-col overflow-hidden bg-transparent lg:w-fit lg:rounded-lg'>
       <div className='z-20 flex w-full flex-col justify-center p-3 md:flex-row md:items-center lg:flex-col lg:items-start lg:p-6'>
-        
         <img
-          className='mb-4 aspect-video object-cover h-fit w-full rounded-lg md:max-w-[336px] lg:w-[312px]'
+          className='mb-4 aspect-video h-fit w-full rounded-lg object-cover md:max-w-[336px] lg:w-[312px]'
           src={data[0]?.video?.thumbnail as string}
           alt=''
         />
@@ -64,7 +63,7 @@ const ControlSection = ({ data }: ControlSectionProps) => {
         </div>
       </div>
 
-      <div className='z-20 flex gap-3 p-2 lg:p-6 mb-4'>
+      <div className='z-20 mb-4 flex gap-3 p-2 lg:p-6'>
         <button
           className='flex w-full items-center justify-center rounded-full bg-white py-1 text-base font-bold text-black hover:bg-[#E6E6E6]'
           onClick={handlePlayAll}

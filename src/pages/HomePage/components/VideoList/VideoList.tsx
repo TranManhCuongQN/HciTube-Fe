@@ -5,7 +5,6 @@ import VideoItem from '../VideoItem/VideoItem'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useEffect } from 'react'
 import { AiOutlineLoading } from 'react-icons/ai'
-import Loading from 'src/components/Loading'
 
 interface VideoListProps {
   filter?: string
