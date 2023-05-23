@@ -5,6 +5,7 @@ import VideoItem from '../VideoItem/VideoItem'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useEffect } from 'react'
 import { AiOutlineLoading } from 'react-icons/ai'
+import Loading from 'src/components/Loading'
 
 interface VideoListProps {
   filter?: string
@@ -21,7 +22,7 @@ const VideoList = ({ filter }: VideoListProps) => {
     fetchNextPage,
     hasNextPage
   } = useInfiniteQuery({
-    queryKey: ['videoList'],
+    queryKey: ['videoListHome'],
     queryFn: ({ pageParam = 1 }) =>
       videoApi.getVideo({
         page: pageParam,
@@ -94,7 +95,8 @@ const VideoList = ({ filter }: VideoListProps) => {
 
         {isSuccessVideoList &&
           filter === '1' &&
-          VideoList.pages.map((pages) => pages.data.data?.map((item, index) => <VideoItem key={index} data={item} />))}
+          VideoList.pages.map((pages) => pages.data.data.map((item, index) => <VideoItem key={index} data={item} />))}
+        {/* <Loading /> */}
 
         {isLoading &&
           filter !== '1' &&

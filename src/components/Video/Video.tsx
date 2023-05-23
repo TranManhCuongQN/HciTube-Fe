@@ -9,7 +9,7 @@ import { TbRectangle } from 'react-icons/tb'
 import { IoMdSettings } from 'react-icons/io'
 import ToolTip from './ToolTip'
 import Thumbnail from './Thumbnail'
-import { isUndefined, omit } from 'lodash'
+import { omit } from 'lodash'
 import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
 import { Video as VideoType } from 'src/types/video.type'
 import { createSearchParams, useNavigate, useParams, useLocation } from 'react-router-dom'
@@ -408,6 +408,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
         setCount(0)
         setIdView('')
       }
+      setEnded(false)
     }
   }, [idView, id])
 

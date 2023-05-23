@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import Loading from './components/Loading'
 import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layout/MainLayout'
@@ -86,7 +87,7 @@ const useRouteElement = () => {
             {
               path: path.login,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <SignInPage />
                 </Suspense>
               )
@@ -94,7 +95,7 @@ const useRouteElement = () => {
             {
               path: path.register,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <SignUpPage />
                 </Suspense>
               )
@@ -103,7 +104,7 @@ const useRouteElement = () => {
             {
               path: path.forgotPassword,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ForgotPasswordPage />
                 </Suspense>
               )
@@ -112,7 +113,7 @@ const useRouteElement = () => {
             {
               path: path.verifyResetPass,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <VerifyResetPassPage />
                 </Suspense>
               )
@@ -120,7 +121,7 @@ const useRouteElement = () => {
             {
               path: path.resetPassword,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ResetPasswordPage />
                 </Suspense>
               )
@@ -141,7 +142,7 @@ const useRouteElement = () => {
             {
               path: path.library,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <LibraryPage />
                 </Suspense>
               )
@@ -149,7 +150,7 @@ const useRouteElement = () => {
             {
               path: path.history,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <HistoryPage />
                 </Suspense>
               )
@@ -157,7 +158,7 @@ const useRouteElement = () => {
             {
               path: path.likedPlaylist,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <LikedPlaylistPage />
                 </Suspense>
               )
@@ -165,7 +166,7 @@ const useRouteElement = () => {
             {
               path: path.subscriptions,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <SubscriptionsPage />
                 </Suspense>
               )
@@ -185,7 +186,7 @@ const useRouteElement = () => {
             {
               path: path.upload,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <UploadVideoPage />
                 </Suspense>
               )
@@ -193,7 +194,7 @@ const useRouteElement = () => {
             {
               path: path.content,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ManageContentPage />
                 </Suspense>
               )
@@ -201,7 +202,7 @@ const useRouteElement = () => {
             {
               path: path.analytics,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <AnalyticsPage />
                 </Suspense>
               )
@@ -209,7 +210,7 @@ const useRouteElement = () => {
             {
               path: path.profile,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ProfilePage />
                 </Suspense>
               )
@@ -217,7 +218,7 @@ const useRouteElement = () => {
             {
               path: path.changePassword,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ChangePasswordPage />
                 </Suspense>
               )
@@ -238,7 +239,7 @@ const useRouteElement = () => {
               path: path.home,
               index: true,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <HomePage />
                 </Suspense>
               )
@@ -246,7 +247,7 @@ const useRouteElement = () => {
             {
               path: path.search,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <SearchPage />
                 </Suspense>
               )
@@ -254,7 +255,7 @@ const useRouteElement = () => {
             {
               path: path.detail,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <DetailPage />
                 </Suspense>
               )
@@ -262,7 +263,7 @@ const useRouteElement = () => {
 
             {
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <ChannelPage />
                 </Suspense>
               ),
@@ -271,7 +272,7 @@ const useRouteElement = () => {
                   path: path.channel,
                   index: true,
                   element: (
-                    <Suspense>
+                    <Suspense fallback={<Loading />}>
                       <Home />
                     </Suspense>
                   )
@@ -279,7 +280,7 @@ const useRouteElement = () => {
                 {
                   path: path.video,
                   element: (
-                    <Suspense>
+                    <Suspense fallback={<Loading />}>
                       <Video />
                     </Suspense>
                   )
@@ -287,7 +288,7 @@ const useRouteElement = () => {
                 {
                   path: path.playList,
                   element: (
-                    <Suspense>
+                    <Suspense fallback={<Loading />}>
                       <PlayList />
                     </Suspense>
                   )
@@ -295,7 +296,7 @@ const useRouteElement = () => {
                 {
                   path: path.about,
                   element: (
-                    <Suspense>
+                    <Suspense fallback={<Loading />}>
                       <About />
                     </Suspense>
                   )
@@ -305,7 +306,7 @@ const useRouteElement = () => {
             {
               path: path.notfound,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <NotFoundPage />
                 </Suspense>
               )
@@ -325,7 +326,7 @@ const useRouteElement = () => {
             {
               path: path.verify,
               element: (
-                <Suspense>
+                <Suspense fallback={<Loading />}>
                   <VerifyPage />
                 </Suspense>
               )
