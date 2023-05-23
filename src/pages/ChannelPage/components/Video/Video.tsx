@@ -6,12 +6,15 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import Skeleton from 'src/components/Skeleton'
 import path from 'src/constants/path'
 import useQueryConfig from 'src/hook/useQueryConfig'
+import { useContext } from 'react'
+import { AppContext } from 'src/context/app.context'
 
 const Video = () => {
   const location = useLocation()
   const id = location.pathname.split('/')[1]
   const queryConfig = useQueryConfig()
   const { category } = queryConfig
+  const { profile } = useContext(AppContext)
   const {
     data: dataVideo,
     isSuccess,
@@ -75,7 +78,7 @@ const Video = () => {
           </div>
         </>
       )}
-      {isSuccess && dataVideo.data.data.length === 0 && (
+      {isSuccess && profile?._id === id && dataVideo.data.data.length === 0 && (
         <div className='flex h-full w-full items-center justify-center'>
           <div className='flex h-full flex-col items-center justify-center gap-y-3 max-lg:hidden'>
             <div className='h-48 w-48'>
@@ -101,6 +104,13 @@ const Video = () => {
               Hiện tại chỉ hỗ trợ upload video trên desktop
             </span>
           </div>
+        </div>
+      )}
+      {isSuccess && dataVideo.data.data.length === 0 && (
+        <div className='flex h-full w-full items-center justify-center'>
+          <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
+            Không có video nào được đăng tải
+          </span>
         </div>
       )}
     </>

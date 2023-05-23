@@ -33,6 +33,7 @@ const VideoList = ({ filter }: VideoListProps) => {
       }
       return pages.length + 1
     },
+
     enabled: filter === '1'
   })
 
