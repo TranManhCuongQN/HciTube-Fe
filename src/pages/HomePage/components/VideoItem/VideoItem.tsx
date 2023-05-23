@@ -69,7 +69,7 @@ const VideoItem = (props: VideoItemProps) => {
           <div className='relative overflow-hidden md:rounded-xl'>
             <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-full object-cover md:rounded-xl' />
             <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
-              {formatTime(Number(data?.duration))}
+              {formatTime(Math.round(Number(data?.duration)))}
             </span>
             {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
           </div>

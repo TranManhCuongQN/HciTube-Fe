@@ -85,12 +85,12 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
           />
           {
             isLoading &&
-            <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center`}>
+            <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center z-20`}>
               <AiOutlineLoading className='absolute h-[20%] w-[20%] text-white animate-spin'/>
             </div>
           }
 
-          <div className='absolute bottom-0 left-0 right-0 flex flex-col justify-between'>
+          <div className={`absolute bottom-0 left-0 right-0 flex flex-col justify-between ${isLoading ? 'opacity-0 z-10' : 'opacity-1'}`}>
             <div className='z-20 font-semibold ml-3 text-xs text-[#DDD]'>
               <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
                 {formatTime(videoDuration)}
