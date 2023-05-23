@@ -60,10 +60,10 @@ const VideoItem = (props: VideoItemProps) => {
   return (
     <div
       onClick={handleClick}
-      className=' ml-[-8px] flex  w-full cursor-pointer gap-y-3 rounded-lg p-2 hover:bg-[rgba(0,0,0,0.05)] lg:p-3'
+      className=' flex w-full cursor-pointer gap-y-3 rounded-xl p-2 hover:bg-[#F2F2F2] dark:hover:bg-[#272727] lg:p-3'
       role='presentation'
     >
-      <span className='flex items-center pr-2 text-sm font-semibold text-[#606060] lg:p-3 '>{index + 1}</span>
+      <span className='flex items-center pr-2 text-sm font-semibold text-[#606060] lg:pr-3 '>{index + 1}</span>
       <div className='mr-2 aspect-video h-fit w-40 rounded-lg lg:w-64'>
         <div className='relative w-40 overflow-hidden rounded-xl lg:w-64'>
           <img src={data?.thumbnail} alt='thumbnail' className='aspect-video w-40 object-cover md:rounded-xl lg:w-64' />

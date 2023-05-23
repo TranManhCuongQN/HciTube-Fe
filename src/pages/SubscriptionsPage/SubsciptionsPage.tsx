@@ -62,7 +62,7 @@ const SubscriptionsPage = () => {
                   </div>
                 </div>
 
-                <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                <div className='subscription flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
                   {isSuccess &&
                     (getVideoFollowing?.data.data.today.length as number) > 0 &&
                     getVideoFollowing?.data.data.today?.map((item, index) => <VideoItem key={index} data={item} />)}
@@ -111,7 +111,7 @@ const SubscriptionsPage = () => {
                   </div>
                 </div>
 
-                <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                <div className='subscription flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
                   {isSuccess &&
                     getVideoFollowing.data.data.yesterday.length > 0 &&
                     getVideoFollowing?.data.data.yesterday?.map((item, index) => <VideoItem key={index} data={item} />)}
@@ -160,7 +160,7 @@ const SubscriptionsPage = () => {
                   </div>
                 </div>
 
-                <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                <div className='subscription flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
                   {isSuccess &&
                     getVideoFollowing.data.data.thisWeek.length > 0 &&
                     getVideoFollowing?.data.data.thisWeek?.map((item, index) => <VideoItem key={index} data={item} />)}
@@ -183,7 +183,7 @@ const SubscriptionsPage = () => {
                   </div>
                 </div>
 
-                <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                <div className='subscription flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
                   {isSuccess &&
                     getVideoFollowing.data.data.thisMonth.length > 0 &&
                     getVideoFollowing?.data.data.thisMonth?.map((item, index) => <VideoItem key={index} data={item} />)}
@@ -205,7 +205,7 @@ const SubscriptionsPage = () => {
                     <span className='text-lg font-bold'>Năm này</span>
                   </div>
                 </div>
-                <div className='subscription flex h-full w-full gap-x-5 overflow-x-auto md:max-h-[440px] md:flex-wrap md:overflow-y-hidden lg:h-full lg:max-h-[450px] lg:gap-x-3'>
+                <div className='subscription flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
                   {isSuccess &&
                     getVideoFollowing.data.data.older.length > 0 &&
                     getVideoFollowing?.data.data.older?.map((item, index) => <VideoItem key={index} data={item} />)}
