@@ -106,7 +106,7 @@ const Inform = () => {
                     className='mr-4 h-12 w-12 flex-shrink-0 rounded-full border object-cover shadow-sm'
                   />
                   <div className='flex w-full flex-col items-start'>
-                    <span className='w-32 break-words text-xs font-semibold text-black dark:text-white md:text-sm'>
+                    <span className='w-32 break-words text-xs font-semibold text-black line-clamp-2 dark:text-white md:text-sm'>
                       {item.video.title}
                     </span>
                     <span className='text-xs text-[#606060] dark:text-[#aaa] '>

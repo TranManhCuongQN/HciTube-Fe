@@ -466,207 +466,208 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             <div
               className={`${
                 zoomOut ? 'lg:w-full' : 'mx-auto'
-              } absolute top-0 flex aspect-video h-full w-full items-center justify-center bg-black object-contain z-20`}
+              } absolute top-0 z-20 flex aspect-video h-full w-full items-center justify-center bg-black object-contain`}
             >
               <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
             </div>
           )}
-          {
 
-          }
-          <div className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'} ${isLoaded && isLoadedThumbnail ? 'opacity-1' : 'opacity-0 z-10'}`}>
-                <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
-                <div className='absolute top-0 left-[1.875rem] right-[1.875rem] mx-3 flex h-full items-center justify-center lg:hidden lg:justify-between'>
-                  <BiSkipPrevious onClick={movingBackwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
-                  <div className={`${ended ? 'hidden' : ''} mx-16`}>
-                    <BiPlay
-                      className={(playing ? 'hidden' : '') + ' p-2 text-[6rem] text-white lg:hidden'}
-                      onClick={playVideo}
+          <div
+            className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'} ${
+              isLoaded && isLoadedThumbnail ? 'opacity-1' : 'z-10 opacity-0'
+            }`}
+          >
+            <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
+            <div className='absolute top-0 left-[1.875rem] right-[1.875rem] mx-3 flex h-full items-center justify-center lg:hidden lg:justify-between'>
+              <BiSkipPrevious onClick={movingBackwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
+              <div className={`${ended ? 'hidden' : ''} mx-16`}>
+                <BiPlay
+                  className={(playing ? 'hidden' : '') + ' p-2 text-[6rem] text-white lg:hidden'}
+                  onClick={playVideo}
+                />
+                <BiPause
+                  className={(playing ? '' : 'hidden') + ' p-2 text-[6rem] text-white lg:hidden'}
+                  onClick={pauseVideo}
+                />
+              </div>
+              <div className={`${ended ? 'flex' : 'hidden'} mx-16`}>
+                <MdReplay
+                  className={(playing ? '' : 'hidden') + ' p-2 text-[6rem] text-white'}
+                  onClick={() => {
+                    setEnded(false)
+                    pauseVideo()
+                    playVideo()
+                  }}
+                />
+              </div>
+              <BiSkipNext onClick={movingForwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
+            </div>
+            {/* Desktop */}
+            <div className=' absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between lg:left-[0.75rem] lg:right-[0.75rem] lg:flex-col-reverse '>
+              <div className=' z-40 flex w-full items-center justify-between lg:h-12'>
+                {/* Left */}
+                <div className='flex items-center'>
+                  {/* Previous */}
+                  <div className='tooltip-video'>
+                    <BiSkipPrevious
+                      onClick={movingBackwardVideo}
+                      className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer'
                     />
-                    <BiPause
-                      className={(playing ? '' : 'hidden') + ' p-2 text-[6rem] text-white lg:hidden'}
-                      onClick={pauseVideo}
-                    />
+                    <ToolTip text='Phát video trước' keyname='a' left='0' />
                   </div>
-                  <div className={`${ended ? 'flex' : 'hidden'} mx-16`}>
+                  {/* Play Pause */}
+                  <div className={`${ended ? '' : 'lg:flex'} hidden  lg:hover:cursor-pointer`}>
+                    <div className='tooltip-video flex items-center justify-center'>
+                      <BiPlay
+                        className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'}
+                        onClick={playVideo}
+                      />
+                      <ToolTip text='Phát' keyname='k' />
+                    </div>
+
+                    <div className='tooltip-video flex items-center justify-center'>
+                      <BiPause
+                        className={(playing ? '' : 'hidden') + ' h-12 w-12 px-1 text-white'}
+                        onClick={pauseVideo}
+                      />
+                      <ToolTip text='Tạm dừng' keyname='k' />
+                    </div>
+                  </div>
+                  {/* Replay */}
+                  <div
+                    ref={replayRef}
+                    className={`${
+                      ended ? 'lg:flex' : ''
+                    } tooltip-video  hidden cursor-pointer items-center justify-center`}
+                  >
                     <MdReplay
-                      className={(playing ? '' : 'hidden') + ' p-2 text-[6rem] text-white'}
+                      className={(playing ? '' : 'hidden') + ' h-8 w-8 px-1 text-white'}
                       onClick={() => {
                         setEnded(false)
                         pauseVideo()
                         playVideo()
                       }}
                     />
+                    <ToolTip text='Phát lại' keyname='k' />
                   </div>
-                  <BiSkipNext onClick={movingForwardVideo} className='p-2 text-[4rem] text-white lg:hidden' />
-                </div>
-                {/* Desktop */}
-                <div className=' absolute bottom-0 left-[1.875rem] right-[1.875rem] flex flex-col justify-between lg:left-[0.75rem] lg:right-[0.75rem] lg:flex-col-reverse '>
-                  <div className=' z-40 flex w-full items-center justify-between lg:h-12'>
-                    {/* Left */}
-                    <div className='flex items-center'>
-                      {/* Previous */}
-                      <div className='tooltip-video'>
-                        <BiSkipPrevious
-                          onClick={movingBackwardVideo}
-                          className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer'
-                        />
-                        <ToolTip text='Phát video trước' keyname='a' left='0' />
-                      </div>
-                      {/* Play Pause */}
-                      <div className={`${ended ? '' : 'lg:flex'} hidden  lg:hover:cursor-pointer`}>
-                        <div className='tooltip-video flex items-center justify-center'>
-                          <BiPlay
-                            className={(playing ? 'hidden' : '') + ' h-12 w-12 px-1 text-white'}
-                            onClick={playVideo}
-                          />
-                          <ToolTip text='Phát' keyname='k' />
-                        </div>
-
-                        <div className='tooltip-video flex items-center justify-center'>
-                          <BiPause
-                            className={(playing ? '' : 'hidden') + ' h-12 w-12 px-1 text-white'}
-                            onClick={pauseVideo}
-                          />
-                          <ToolTip text='Tạm dừng' keyname='k' />
-                        </div>
-                      </div>
-                      {/* Replay */}
-                      <div
-                        ref={replayRef}
-                        className={`${
-                          ended ? 'lg:flex' : ''
-                        } tooltip-video  hidden cursor-pointer items-center justify-center`}
-                      >
-                        <MdReplay
-                          className={(playing ? '' : 'hidden') + ' h-8 w-8 px-1 text-white'}
-                          onClick={() => {
-                            setEnded(false)
-                            pauseVideo()
-                            playVideo()
-                          }}
-                        />
-                        <ToolTip text='Phát lại' keyname='k' />
-                      </div>
-                      {/* Next */}
-                      <div className='tooltip-video flex items-center justify-center'>
-                        <BiSkipNext
-                          onClick={movingForwardVideo}
-                          className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer'
-                        />
-                        <ToolTip text='Phát video tiếp theo' keyname='d' />
-                      </div>
-
-                      {/* Volume */}
-                      <div className='group mr-2 flex max-w-[100px] items-center' id='Volume'>
-                        <div
-                          className='hidden h-12 w-12 px-1 lg:flex lg:items-center lg:hover:cursor-pointer '
-                          onClick={toggleMute}
-                          role='presentation'
-                        >
-                          <div className='tooltip-video flex items-center justify-center'>
-                            <HiVolumeUp className={`${muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
-                            <ToolTip text='Tắt tiếng' keyname='m' />
-                          </div>
-
-                          <div className='tooltip-video flex items-center justify-center'>
-                            <HiVolumeOff className={`${!muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
-                            <ToolTip text='Bật âm thanh' keyname='m' />
-                          </div>
-                        </div>
-
-                        <div className='volume-slider-container flex items-center'>
-                          <input
-                            type='range'
-                            min={0}
-                            max={1}
-                            step={0.1}
-                            onChange={handleChangeVolume}
-                            ref={volumeRef}
-                            className='volume-slider hover:cursor-pointer'
-                          />
-                        </div>
-                      </div>
-
-                      <div className='text-xs font-semibold lg:flex lg:h-12 lg:items-center'>
-                        <div className='text-[#DDD]'>
-                          <span>{timeElapsed}</span>
-                          <span className='opacity-70 lg:opacity-100'> / </span>
-                          <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Right */}
-                    <div className='flex items-center'>
-                      {/* Theater Mode */}
-                      {!zoomOut && (
-                        <div
-                          className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
-                          onClick={handleClickTheaterMode}
-                          role='presentation'
-                        >
-                          <div className='tooltip-video'>
-                            <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
-                            <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
-                          </div>
-                          <div className='tooltip-video'>
-                            <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
-                            <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Full-sreen */}
-                      <div
-                        className='ml-3 flex items-center hover:cursor-pointer lg:ml-0 lg:h-12'
-                        role='presentation'
-                        onClick={() => {
-                          handleClickZoom()
-                          toggleFullScreen()
-                        }}
-                      >
-                        <div className='tooltip-video'>
-                          <MdZoomInMap className={(zoomOut ? '' : 'hidden') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
-                          <ToolTip text='Thoát khỏi chế độ toàn màn hình' keyname='f' right='0' />
-                        </div>
-
-                        <div className='tooltip-video'>
-                          <MdZoomOutMap className={(zoomOut ? 'hidden' : '') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
-                          <ToolTip text='Toàn màn hình' keyname='f' right='0' />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className='relative z-40' id='ProgressBar'>
-                    <Thumbnail
-                      thumbnailProps={thumbnailProps}
-                      videoSrc={urlVideo}
-                      setIsLoadedThumbnail={setIsLoadedThumbnail}
+                  {/* Next */}
+                  <div className='tooltip-video flex items-center justify-center'>
+                    <BiSkipNext
+                      onClick={movingForwardVideo}
+                      className='hidden px-1 text-[3rem] text-white lg:flex lg:hover:cursor-pointer'
                     />
-                    <div className='w-full '>
+                    <ToolTip text='Phát video tiếp theo' keyname='d' />
+                  </div>
+
+                  {/* Volume */}
+                  <div className='group mr-2 flex max-w-[100px] items-center' id='Volume'>
+                    <div
+                      className='hidden h-12 w-12 px-1 lg:flex lg:items-center lg:hover:cursor-pointer '
+                      onClick={toggleMute}
+                      role='presentation'
+                    >
+                      <div className='tooltip-video flex items-center justify-center'>
+                        <HiVolumeUp className={`${muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
+                        <ToolTip text='Tắt tiếng' keyname='m' />
+                      </div>
+
+                      <div className='tooltip-video flex items-center justify-center'>
+                        <HiVolumeOff className={`${!muted && 'hidden'} w-12 text-[1.5rem] text-white`} />
+                        <ToolTip text='Bật âm thanh' keyname='m' />
+                      </div>
+                    </div>
+
+                    <div className='volume-slider-container flex items-center'>
                       <input
-                        ref={progressRef}
-                        onInput={() => {
-                          handleClickProgress()
-                        }}
-                        onMouseMove={(e) => {
-                          calculateProgressValueWhenMouseMove(e)
-                        }}
                         type='range'
-                        defaultValue={0}
                         min={0}
-                        max={100}
+                        max={1}
                         step={0.1}
-                        className='progress-slider my-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
+                        onChange={handleChangeVolume}
+                        ref={volumeRef}
+                        className='volume-slider hover:cursor-pointer'
                       />
                     </div>
                   </div>
 
-                  <div className='from-0% via-20% to-90% absolute bottom-0 left-[-1.875rem] right-[-1.875rem] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:left-[-0.75rem] lg:right-[-0.75rem] lg:block'></div>
+                  <div className='text-xs font-semibold lg:flex lg:h-12 lg:items-center'>
+                    <div className='text-[#DDD]'>
+                      <span>{timeElapsed}</span>
+                      <span className='opacity-70 lg:opacity-100'> / </span>
+                      <span className='opacity-70 lg:opacity-100'>{formatTime(videoDuration)}</span>
+                    </div>
+                  </div>
+                </div>
+                {/* Right */}
+                <div className='flex items-center'>
+                  {/* Theater Mode */}
+                  {!zoomOut && (
+                    <div
+                      className='hidden items-center hover:cursor-pointer lg:flex lg:h-12'
+                      onClick={handleClickTheaterMode}
+                      role='presentation'
+                    >
+                      <div className='tooltip-video'>
+                        <BiRectangle className={`${theaterMode && 'hidden'}  text-white lg:w-12 lg:text-[1.5rem] `} />
+                        <ToolTip text='Chế độ rạp chiếu phim' keyname='t' right='0' />
+                      </div>
+                      <div className='tooltip-video'>
+                        <TbRectangle className={`${!theaterMode && 'hidden'} text-white lg:w-12 lg:text-[1.5rem] `} />
+                        <ToolTip text='Chế độ xem mặc định' keyname='t' right='0' />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Full-sreen */}
+                  <div
+                    className='ml-3 flex items-center hover:cursor-pointer lg:ml-0 lg:h-12'
+                    role='presentation'
+                    onClick={() => {
+                      handleClickZoom()
+                      toggleFullScreen()
+                    }}
+                  >
+                    <div className='tooltip-video'>
+                      <MdZoomInMap className={(zoomOut ? '' : 'hidden') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
+                      <ToolTip text='Thoát khỏi chế độ toàn màn hình' keyname='f' right='0' />
+                    </div>
+
+                    <div className='tooltip-video'>
+                      <MdZoomOutMap className={(zoomOut ? 'hidden' : '') + ' text-white lg:w-12 lg:text-[1.5rem]'} />
+                      <ToolTip text='Toàn màn hình' keyname='f' right='0' />
+                    </div>
+                  </div>
                 </div>
               </div>
-          
+
+              <div className='relative z-40' id='ProgressBar'>
+                <Thumbnail
+                  thumbnailProps={thumbnailProps}
+                  videoSrc={urlVideo}
+                  setIsLoadedThumbnail={setIsLoadedThumbnail}
+                />
+                <div className='w-full '>
+                  <input
+                    ref={progressRef}
+                    onInput={() => {
+                      handleClickProgress()
+                    }}
+                    onMouseMove={(e) => {
+                      calculateProgressValueWhenMouseMove(e)
+                    }}
+                    type='range'
+                    defaultValue={0}
+                    min={0}
+                    max={100}
+                    step={0.1}
+                    className='progress-slider my-5 h-[0.1875rem] w-full cursor-pointer lg:my-0'
+                  />
+                </div>
+              </div>
+
+              <div className='from-0% via-20% to-90% absolute bottom-0 left-[-1.875rem] right-[-1.875rem] hidden h-[300%] bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-[rgba(0,0,0,0.2)] to-[rgba(0,0,0,0)] lg:left-[-0.75rem] lg:right-[-0.75rem] lg:block'></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

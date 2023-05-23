@@ -66,26 +66,28 @@ const VideoList = ({ filter }: VideoListProps) => {
   }, [fetchNextPage, hasNextPage])
 
   return (
-    <div
-      className={`${
-        isError ? 'flex h-[100vh] items-center justify-center ' : 'grid'
-      } relative min-h-[500px] h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
-    >
-      {isLoadingVideoList &&
-        filter === '1' &&
-        Array(6)
-          .fill(0)
-          .map((item, index) => (
-            <div className='mb-5 flex cursor-pointer flex-col gap-y-3' key={index}>
-              <Skeleton className='h-48 w-full rounded-lg' />
-              <div className='flex items-start gap-x-3 px-3 md:px-0'>
-                <div className='relative h-8 w-8 flex-shrink-0 '>
-                  <Skeleton className='h-full w-full rounded-full object-cover' />
-                </div>
-                <div className='flex w-full flex-col gap-y-3'>
-                  <Skeleton className='h-4 w-full rounded' />
-                  <Skeleton className='h-4 w-1/2 rounded' />
-                  <Skeleton className='h-4 w-1/2 rounded' />
+    <>
+      <div
+        className={`${
+          isError ? 'flex h-[100vh] items-center justify-center ' : 'grid'
+        } relative h-full min-h-[500px] w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
+      >
+        {isLoadingVideoList &&
+          filter === '1' &&
+          Array(6)
+            .fill(0)
+            .map((item, index) => (
+              <div className='mb-5 flex cursor-pointer flex-col gap-y-3' key={index}>
+                <Skeleton className='h-48 w-full rounded-lg' />
+                <div className='flex items-start gap-x-3 px-3 md:px-0'>
+                  <div className='relative h-8 w-8 flex-shrink-0 '>
+                    <Skeleton className='h-full w-full rounded-full object-cover' />
+                  </div>
+                  <div className='flex w-full flex-col gap-y-3'>
+                    <Skeleton className='h-4 w-full rounded' />
+                    <Skeleton className='h-4 w-1/2 rounded' />
+                    <Skeleton className='h-4 w-1/2 rounded' />
+                  </div>
                 </div>
               </div>
             ))}
@@ -120,7 +122,6 @@ const VideoList = ({ filter }: VideoListProps) => {
           getVideo.data.data.videos?.length > 0 &&
           getVideo.data.data.videos?.map((item, index) => <VideoItem key={index} data={item} />)}
 
-
         {isSuccess && filter !== '1' && getVideo.data.data.videos?.length === 0 && (
           <>
             <div className='flex items-center justify-center'>
@@ -132,7 +133,7 @@ const VideoList = ({ filter }: VideoListProps) => {
         )}
       </div>
       {isFetchingNextPage && filter === '1' && (
-        <div className='flex w-full items-center justify-center gap-x-2'>
+        <div className='flex w-full items-center justify-center'>
           <AiOutlineLoading className='h-10 w-10 animate-spin text-center text-gray-500 ' />{' '}
         </div>
       )}
