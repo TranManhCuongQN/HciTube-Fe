@@ -2,16 +2,19 @@ import { omit } from 'lodash'
 import { useContext, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import favoriteApi from 'src/api/favorite.api'
 import playListAPI from 'src/api/playlist.api'
 import videoApi from 'src/api/video.api'
 import Skeleton from 'src/components/Skeleton'
 import Video from 'src/components/Video'
+import path from 'src/constants/path'
 import { AppContext } from 'src/context/app.context'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { playList } from 'src/types/playList.type'
+import { ErrorResponse } from 'src/types/utils.type'
 import { Video as VideoType, VideoItem } from 'src/types/video.type'
+import { isAxiosNotFoundError } from 'src/utils/utils'
 import AsideBar from './components/AsideBar.tsx'
 import CompactVideoItem from './components/CompactVideoItem'
 import VideoInformationAndComment from './components/VideoInformationAndComment'
@@ -20,12 +23,18 @@ const DetailPage = () => {
   const [isTheaterMode, setIsTheaterMode] = useState<boolean>(false)
   const { profile } = useContext(AppContext)
   const { id } = useParams()
+  const navigate = useNavigate()
   const queryConfig = useQueryConfig()
   const [video, setVideo] = useState<VideoType[]>([])
   const { playList, category, favorite } = queryConfig
   const { data, isSuccess, isLoading } = useQuery({
     queryKey: ['video', id],
-    queryFn: () => videoApi.getVideoById(id as string)
+    queryFn: () => videoApi.getVideoById(id as string),
+    onError: (error) => {
+      if (isAxiosNotFoundError<ErrorResponse<null>>(error)) {
+        navigate(path.notfound)
+      }
+    }
   })
 
   const {
@@ -33,7 +42,7 @@ const DetailPage = () => {
     isLoading: isLoadingGetAll,
     isSuccess: isSuccessGetAll
   } = useQuery({
-    queryKey: 'videoList',
+    queryKey: 'videoListAll',
     queryFn: () => videoApi.getVideoAll(),
     enabled: category === '1'
   })

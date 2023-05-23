@@ -14,7 +14,7 @@ import classNames from 'classnames'
 const Inform = () => {
   const [isShow, setIsShow] = React.useState<boolean>(false)
   const { profile, setProfile } = useContext(AppContext)
-  const informRef = React.useRef<HTMLButtonElement>(null)
+  const informRef = React.useRef<HTMLDivElement>(null)
   const [totalInForm, setTotalInForm] = useState<number>(0)
   useOnClickOutside(informRef, () => setIsShow(false))
 
@@ -51,10 +51,11 @@ const Inform = () => {
   return (
     <>
       <ToolTip position='bottom' content={'Thông báo'}>
-        <button
+        <div
           className='relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-[rgba(0,0,0,0.1)] dark:hover:bg-[rgba(225,225,225,0.15)] max-md:hidden lg:h-10 lg:w-10'
           onClick={() => setIsShow(!isShow)}
           ref={informRef}
+          role='presentation'
         >
           {isShow ? (
             <>
@@ -62,17 +63,20 @@ const Inform = () => {
             </>
           ) : (
             <>
-              <IoNotificationsOutline className='lg:w- pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6' />
+              <IoNotificationsOutline className='pointer-events-none h-5 w-5 text-black dark:text-white lg:h-6 lg:w-6' />
             </>
           )}
           {totalInForm > 0 && (
-            <span className='absolute top-2 right-1 h-3 w-3 rounded-xl bg-red-600 text-[11px] font-bold text-white'>
+            <span className='absolute top-2 right-1 flex h-3 w-3 items-center justify-center rounded-xl bg-red-600  text-[11px] font-bold text-white'>
               {totalInForm}
             </span>
           )}
-        </button>
+        </div>
         {isShow && (
-          <div className='absolute top-12 right-0 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'>
+          <div
+            className='absolute top-12 right-0 z-40 flex h-[530px] w-[400px] flex-col rounded-xl bg-white shadow transition-all ease-linear dark:bg-[#282828]'
+            ref={informRef}
+          >
             <span className='p-4 text-left text-base text-black dark:text-white'>Thông báo</span>
             <div className='w-full border-b border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.2)]'></div>
             {profile?.notification?.length === 0 && (

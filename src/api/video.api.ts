@@ -14,6 +14,9 @@ const videoApi = {
   getVideoAll: () => {
     return http.get<SuccessResponse<Video[]>>(URL_GET_VIDEO)
   },
+  getVideo: (params: { limit: number; page: number }) => {
+    return http.get<SuccessResponse<Video[]>>(URL_GET_VIDEO, { params })
+  },
   getVideoById: (idVideo: string) => {
     return http.get<SuccessResponse<VideoItem>>(`${URL_GET_VIDEO}/${idVideo}`)
   },
