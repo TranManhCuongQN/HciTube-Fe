@@ -93,7 +93,7 @@ const PlayList = () => {
       {isSuccess && dataPlayList.data.data.length === 0 && (
         <div className='flex h-full w-full items-center justify-center'>
           <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
-            Không có video nào được đăng tải
+            Chưa có Playlist nào.
           </span>
         </div>
       )}

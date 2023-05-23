@@ -65,7 +65,6 @@ const LibraryPage = () => {
     })
   }
 
-
   return (
     <>
       <Helmet>
@@ -76,9 +75,7 @@ const LibraryPage = () => {
         <AsideBar />
         <div className='mb-16 flex min-h-screen w-full flex-col 2xl:pl-64'>
           <div className='flex h-full w-full flex-col items-center justify-center px-3 lg:px-6 lg:py-4'>
-            <div
-              className={`flex h-full w-full flex-col items-center max-w-[1280px]`}
-            >
+            <div className={`flex h-full w-full max-w-[1280px] flex-col items-center`}>
               {/* Watched video */}
               {isLoadingHistory && (
                 <div className='mt-6 w-full '>
@@ -122,18 +119,25 @@ const LibraryPage = () => {
                       </button>
                     )}
                   </div>
-                  <div className='flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
+                  {(getVideoHistory?.data.data.today.length as number) === 0 && (
+                    <div className='flex h-full w-full gap-3  overflow-x-auto'>
+                      <div className='flex h-full w-full items-center justify-center '>
+                        <span className='pb-10 text-lg font-bold text-black dark:text-white'>
+                          Hôm nay bạn chưa xem video nào
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  <div className='flex h-full w-full gap-3 overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
                     {isSuccessHistory &&
                       (getVideoHistory?.data.data.today.length as number) > 0 &&
                       getVideoHistory.data.data.today?.map((item, index) => {
-                        if(index < 8) {
-                          return (
-                            <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
-                          )
+                        if (index < 8) {
+                          return <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
                         }
-                      })
-                    }
+                      })}
                   </div>
+                  
                 </div>
               )}
 
@@ -181,18 +185,23 @@ const LibraryPage = () => {
                     )}
                   </div>
 
-                  <div className={`${(VideoListFavorite?.data.data.length as number) > 0 && 'sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'} flex h-full w-full overflow-x-auto  gap-3`}>
+                  <div
+                    className={`${
+                      (VideoListFavorite?.data.data.length as number) > 0 &&
+                      'sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'
+                    } flex h-full w-full gap-3  overflow-x-auto`}
+                  >
                     {isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0 ? (
                       VideoListFavorite.data.data?.map((item, index) => {
-                        if(index < 8) {
-                          return (
-                            <VideoItem key={index} data={item.video} />
-                          )
+                        if (index < 8) {
+                          return <VideoItem key={index} data={item.video} />
                         }
                       })
                     ) : (
                       <div className='flex h-full w-full items-center justify-center '>
-                        <span className='text-lg font-bold text-black dark:text-white pb-10'>Bạn chưa thích video nào</span>
+                        <span className='pb-10 text-lg font-bold text-black dark:text-white'>
+                          Bạn chưa thích video nào
+                        </span>
                       </div>
                     )}
                   </div>
@@ -222,12 +231,12 @@ const LibraryPage = () => {
                 )}
 
                 {isSuccess && dataPlayList.data.data.length > 0 ? (
-                  <div className='flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
+                  <div className='flex h-full w-full gap-3 overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
                     {dataPlayList?.data.data.map((item) => {
                       if ((item.videos as Video[]).length === 0) return null
                       return (
                         <div
-                          className='flex cursor-pointer flex-col gap-y-2 col-span-1'
+                          className='col-span-1 flex cursor-pointer flex-col gap-y-2'
                           key={item.id}
                           role='presentation'
                           onClick={() => handlePlayAll(item)}
@@ -256,7 +265,6 @@ const LibraryPage = () => {
             </div>
           </div>
         </div>
-        
       </div>
     </>
   )

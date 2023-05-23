@@ -118,7 +118,7 @@ const Home = () => {
         </div>
       )}
 
-      {isSuccessVideo && dataVideo.data.data.length === 0 && (
+      {isSuccessVideo && dataVideo.data.data.length === 0 && profile?.id !== id && (
         <div className='flex h-72 w-full items-center justify-center'>
           <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
             Không có video nào được đăng tải
