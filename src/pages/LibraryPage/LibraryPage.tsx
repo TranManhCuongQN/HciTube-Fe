@@ -181,7 +181,7 @@ const LibraryPage = () => {
                     )}
                   </div>
 
-                  <div className='flex h-full w-full overflow-x-auto sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3'>
+                  <div className={`${(VideoListFavorite?.data.data.length as number) > 0 && 'sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'} flex h-full w-full overflow-x-auto  gap-3`}>
                     {isSuccessFavorite && (VideoListFavorite?.data.data.length as number) > 0 ? (
                       VideoListFavorite.data.data?.map((item, index) => {
                         if(index < 8) {
@@ -191,8 +191,8 @@ const LibraryPage = () => {
                         }
                       })
                     ) : (
-                      <div className='flex h-20 w-full items-center justify-center   '>
-                        <span className='text-lg font-bold text-black dark:text-white'>Bạn chưa thích video nào</span>
+                      <div className='flex h-full w-full items-center justify-center '>
+                        <span className='text-lg font-bold text-black dark:text-white pb-10'>Bạn chưa thích video nào</span>
                       </div>
                     )}
                   </div>

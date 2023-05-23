@@ -35,7 +35,7 @@ const VideoList = ({ filter }: VideoListProps) => {
     <div
       className={`${
         isError ? 'flex h-[100vh] items-center justify-center ' : 'grid'
-      } h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
+      } relative min-h-[500px] h-full w-full grid-cols-1 flex-wrap overflow-y-auto md:mt-4 md:grid-cols-2 md:gap-5 md:px-3 lg:mt-0 lg:grid-cols-3 lg:px-16 lg:pt-6`}
     >
       {isLoadingVideoList &&
         filter === '1' &&
@@ -87,10 +87,11 @@ const VideoList = ({ filter }: VideoListProps) => {
         getVideo.data.data.videos?.map((item, index) => <VideoItem key={index} data={item} />)}
 
       {isSuccess && filter !== '1' && getVideo.data.data.videos?.length === 0 && (
-        <div className='flex items-center justify-center'>
-          <span className='text-base font-semibold text-black dark:text-white md:text-lg'>Không tìm thấy video</span>
+        <div className='absolute right-0 left-0 h-full flex justify-center items-center'>
+          <span className='text-base md:text-xl font-semibold text-black dark:text-white'>Không tìm thấy video</span>
         </div>
       )}
+      
     </div>
   )
 }

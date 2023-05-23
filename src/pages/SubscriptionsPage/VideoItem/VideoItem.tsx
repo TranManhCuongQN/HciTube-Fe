@@ -56,7 +56,7 @@ const VideoItem = (props: VideoItemProps) => {
           <span className='mb-1 pr-6 font-bold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
           <Link
             to={`/${data.channel?._id}/channel`}
-            className='text-[11px] font-semibold text-gray-500 dark:text-gray-400'
+            className='text-xs font-semibold text-gray-500 dark:text-gray-400'
           >
             {(data?.channel as User).fullName}
           </Link>
