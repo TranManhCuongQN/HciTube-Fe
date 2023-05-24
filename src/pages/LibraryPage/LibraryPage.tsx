@@ -133,7 +133,7 @@ const LibraryPage = () => {
                       (getVideoHistory?.data.data.today.length as number) > 0 &&
                       getVideoHistory.data.data.today?.map((item, index) => {
                         if (index < 8) {
-                          return <VideoItem key={index} data={item.video} watchTime={item.watchedTime} />
+                          return <VideoItem key={index} data={item.video} createdAt={item.createdAt} watchTime={item.watchedTime} />
                         }
                       })}
                   </div>

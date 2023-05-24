@@ -129,11 +129,10 @@ const SwiperCustom = ({ dataVideo }: { dataVideo: playList }) => {
                     >
                       <div className='relative h-[130px] w-full flex-shrink-0 rounded-lg max-sm:h-28 max-[320px]:h-20'>
                         <img src={item?.thumbnail} alt='avatar' className='h-full w-full rounded-lg object-cover' />
-                        <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
-                          <span className='text-xs font-semibold text-white'>
-                            {convertDuration(Number(item?.duration as string))}
-                          </span>
-                        </div>
+        
+                        <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+                          {convertDuration(Number(item?.duration as string))}
+                        </span>
                       </div>
                       <div className='pr-3 md:pr-6'>
                         <span className='mb-1 text-sm font-bold text-black line-clamp-2 dark:text-white'>
