@@ -9,6 +9,7 @@ import { convertToRelativeTime } from 'src/utils/utils'
 interface VideoItemProps {
   data: Video
   watchTime?: number
+  createdAt?: string
 }
 const VideoItem = (props: VideoItemProps) => {
   const progressRef = useRef<HTMLDivElement>(null)
@@ -17,6 +18,8 @@ const VideoItem = (props: VideoItemProps) => {
   const navigate = useNavigate()
 
   const { data, watchTime } = props
+  let {createdAt} = props
+  if(!createdAt) createdAt = data.createdAt
 
   useEffect(() => {
     const valPercent = ((watchTime as number) / Number(data.duration)) * 100
@@ -45,6 +48,8 @@ const VideoItem = (props: VideoItemProps) => {
     }
   }
 
+  console.log(data)
+
   return (
     <div
       onClick={handleClick}
@@ -72,8 +77,9 @@ const VideoItem = (props: VideoItemProps) => {
           </Link>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>
-              {`${data?.view} lượt xem - ${convertToRelativeTime(data?.createdAt as string)}`}
+              {data?.view} lượt xem -&nbsp;
             </span>
+            <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>{convertToRelativeTime(createdAt as string)}</span>
           </div>
         </div>
       </div>

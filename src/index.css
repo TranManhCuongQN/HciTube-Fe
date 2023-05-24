@@ -14,12 +14,7 @@ html {
 body {
   /* font-family: 'Roboto', sans-serif; */
   font-family: 'Nunito', sans-serif;
-}
-
-@media screen and (min-width: 1536px) {
-  body {
-    overflow-y: auto !important;
-  }
+  overflow-y: auto !important;
 }
 
 .container {
