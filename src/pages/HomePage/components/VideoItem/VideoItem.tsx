@@ -7,7 +7,7 @@ import VideoPlayer from 'src/pages/HomePage/components/Video'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
 import { convertToRelativeTime } from 'src/utils/utils'
-import { debounce  } from 'lodash';
+import { debounce } from 'lodash'
 
 interface VideoItemProps {
   data: Video
@@ -28,7 +28,7 @@ const VideoItem = (props: VideoItemProps) => {
   }, [isOpen, data.watchTime, data.duration])
 
   const handleMouseLeave = () => {
-    handleMouseEnter.cancel();
+    handleMouseEnter.cancel()
     setIsOpen(false)
   }
 
@@ -71,7 +71,7 @@ const VideoItem = (props: VideoItemProps) => {
             </span>
             {data?.watchTime != 0 && <div ref={progressRef} className='absolute bottom-0 h-1 w-full'></div>}
           </div>
-        )}  
+        )}
       </div>
 
       <div className='flex items-start gap-x-3 px-3 md:px-0'>

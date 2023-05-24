@@ -5,6 +5,7 @@ import { useQuery } from 'react-query'
 import videoApi from 'src/api/video.api'
 import Dropdown from 'src/components/Dropdown'
 import { formatHours } from 'src/utils/utils'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 import Chart from './Components'
 const AnalyticsPage = () => {
@@ -13,7 +14,7 @@ const AnalyticsPage = () => {
   const [isOpenDropDown, setIsOpenDropDown] = useState<boolean>(false)
   const [date, setDate] = useState<string>('7days')
 
-  const { data } = useQuery({
+  const { data, isLoading, isSuccess } = useQuery({
     queryKey: ['analytics', { date, option }],
     queryFn: () => videoApi.getAnalysisVideo({ date, option })
   })
@@ -96,7 +97,8 @@ const AnalyticsPage = () => {
             >
               <span className='text-xs text-black dark:text-white md:text-sm'>Số lượt xem</span>
               <span className='text-sm font-semibold text-black dark:text-white md:text-lg '>
-                {option === 'view' && data?.data.data.reduce((sum, item) => sum + item.count, 0)}
+                {option === 'view' && isLoading && <AiOutlineLoading className='h-7 w-7 animate-spin text-gray-500' />}
+                {option === 'view' && isSuccess && data?.data.data.reduce((sum, item) => sum + item.count, 0)}
               </span>
             </button>
 
@@ -110,7 +112,10 @@ const AnalyticsPage = () => {
             >
               <span className='text-xs text-black dark:text-white md:text-sm'>Thời gian xem (giờ)</span>
               <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
-                {option === 'time' && formatHours(data?.data.data.reduce((sum, item) => sum + item.count, 0) as number)}
+                {option === 'time' && isLoading && <AiOutlineLoading className='h-7 w-7 animate-spin text-gray-500' />}
+                {option === 'time' &&
+                  isSuccess &&
+                  formatHours(data?.data.data.reduce((sum, item) => sum + item.count, 0) as number)}
               </span>
             </button>
             <button
@@ -123,7 +128,10 @@ const AnalyticsPage = () => {
             >
               <span className='text-xs text-black dark:text-white md:text-sm'>Số lượt người đăng ký</span>
               <span className='text-sm font-semibold text-black dark:text-white md:text-lg'>
-                {option === 'subscriber' && data?.data.data.reduce((sum, item) => sum + item.count, 0)}
+                {option === 'subscriber' && isLoading && (
+                  <AiOutlineLoading className='h-7 w-7 animate-spin text-gray-500' />
+                )}
+                {option === 'subscriber' && isSuccess && data?.data.data.reduce((sum, item) => sum + item.count, 0)}
               </span>
             </button>
           </div>{' '}
