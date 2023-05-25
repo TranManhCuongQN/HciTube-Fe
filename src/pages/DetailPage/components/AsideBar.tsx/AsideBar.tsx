@@ -95,17 +95,17 @@ const AsideBar = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-[100]  h-full drop-shadow-md  ${
-          showSideBar ? 'w-full overflow-y-auto overflow-x-hidden ' : 'w-0 overflow-hidden'
-        } overflow-x-hidden transition-all duration-200 ease-linear 2xl:hidden`}
-        role='presentation'
+        className={`fixed top-0 left-0 z-[100] overflow-y-hidden h-full drop-shadow-md  ${
+          showSideBar ? 'w-full overflow-x-hidden ' : 'w-0 overflow-hidden'
+        } transition-all duration-200 ease-linear`}
+        role='presentation' id="SideBar"
       >
         <div
-          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff] py-2 transition-all dark:bg-[#0f0f0f] lg:px-5 ${
+          className={`flex h-full mt-14 w-44 min-[375px]:w-52 md:w-64  md:mt-16 flex-shrink-0 flex-col bg-[#ffffff] py-2 z-[100] transition-all dark:bg-[#0f0f0f] lg:px-5 ${
             showSideBar
-              ? 'mt-14 w-44 overflow-y-auto overflow-x-hidden min-[375px]:w-52 md:mt-16 md:w-64'
-              : ' w-0 overflow-hidden pl-0 pr-0'
-          } relative z-50 duration-200 ease-in-out`}
+              ? ' translate-x-0  overflow-x-hidden '
+              : 'translate-x-[-16rem] overflow-hidden pl-0 pr-0' 
+          } relative  duration-300 ease-in-out`}
         >
           <button
             onClick={() => navigate('/')}
