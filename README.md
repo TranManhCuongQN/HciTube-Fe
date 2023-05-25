@@ -1,10 +1,5 @@
 # Project Name: HciTube - A Video Sharing Platform
 
-### Demo account
-- email: HelloWorld123@gmail.com
-- password: Helloworld@123
-- => Please don't break this account. Thank you
-
 
 ### Overview:
 
