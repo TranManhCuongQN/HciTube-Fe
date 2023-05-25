@@ -81,6 +81,18 @@ const CompactVideoItem = ({
     playListRef.current.style.height = `${document.querySelector('#Video')?.clientHeight}px`
   }
 
+    // Format time
+    const formatTime = (duration: number) => {
+      if (duration) {
+        const result = new Date(duration * 1000).toISOString()?.slice(11, 19)
+        const hour = result.slice(0, 2)
+        const minute = result.slice(3, 5)
+        const second = result.slice(6, 8)
+        return hour !== '00' ? `${hour}:${minute}:${second}` : `${minute}:${second}`
+      }
+      return '00:00'
+    }
+
   return (
     <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
       {favorite && isLoadingGetFavorite && (
@@ -143,7 +155,7 @@ const CompactVideoItem = ({
       )}
 
       <ListFilter dataCategories={categoryAPI} filter={filter} setFilter={setFilter} />
-      <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] max-md:mx-[-12px] lg:w-[370px] xl:w-[410px]'>
+      <div className='mt-2 flex flex-shrink-0 flex-col gap-y-4 bg-white dark:bg-[#0f0f0f] lg:w-[370px] xl:w-[410px]'>
         {isLoadingGetAllVideo && (
           <>
             {' '}
@@ -185,38 +197,44 @@ const CompactVideoItem = ({
             .map((item) => (
               <Link
                 to={`/detail/${item._id}?category=${category || '1'}`}
-                className='flex flex-col gap-x-2 lg:flex-row lg:items-center'
+                className='flex flex-col gap-x-2 lg:flex-row lg:items-start'
                 key={item._id}
               >
-                <img
-                  src={item?.thumbnail}
-                  alt='thumbnail'
-                  className='aspect-video h-full w-full flex-shrink-0 object-cover lg:w-40 lg:rounded-lg'
-                />
+                <div className="relative aspect-video h-full flex-shrink-0 lg:w-40 lg:rounded-lg">
+                  <img
+                    src={item?.thumbnail}
+                    alt='thumbnail'
+                    className='aspect-video h-full w-full object-cover lg:rounded-lg'
+                  />
+                  <span className='absolute right-2 bottom-2 lg:right-1 lg:bottom-1 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs md:text-lg lg:text-xs font-bold text-slate-200'>
+                    {formatTime(Math.round(Number(item?.duration)))}
+                  </span>
+                </div>
+
 
                 <div className='m-3 flex text-black dark:text-white lg:hidden '>
                   <img
                     src={item?.channel?.avatar}
                     alt=''
-                    className='mt-2 aspect-square h-10 w-10 rounded-full object-cover'
+                    className='mt-2 aspect-square h-10 w-10 md:h-16 md:w-16 lg:h-10 lg:w-10 rounded-full object-cover'
                   />
 
                   <div className='ml-3 mt-2 flex flex-col flex-wrap text-black dark:text-white lg:hidden '>
-                    <span className=' mb-1 text-sm font-semibold line-clamp-2'>{item?.title}</span>
-                    <div className='flex items-center gap-x-1'>
-                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                    <span className=' mb-1 text-sm font-semibold md:text-lg lg:text-sm line-clamp-2'>{item?.title}</span>
+                    <div className='flex items-center gap-x-1 text-xs font-medium md:text-sm lg:text-xs text-[#666d74] dark:text-gray-400 '>
+                      <span className=''>
                         {`${item?.channel?.fullName} `}
                       </span>
                       <RxDividerHorizontal className='h-3 w-3 text-[#666d74] dark:text-gray-400' />
-                      <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
+                      <span className=''>
                         {convertNumberToDisplayString(item?.view as number)} lượt xem
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className='hidden h-16 flex-col flex-wrap justify-evenly text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
-                  <span className=' text-sm font-semibold line-clamp-2 '>{item?.title}</span>
+                <div className='hidden h-16 flex-col flex-wrap justify-start text-black dark:text-white  max-sm:px-3 md:h-20 lg:flex'>
+                  <span className='mb-1 text-sm font-semibold line-clamp-2 '>{item?.title}</span>
                   <span className='text-xs font-medium text-[#666d74] dark:text-gray-400  '>
                     {item?.channel?.fullName}
                   </span>
