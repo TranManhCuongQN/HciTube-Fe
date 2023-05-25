@@ -5,6 +5,7 @@ import VideoPlayer from '../Video'
 import { Video } from 'src/types/video.type'
 import { convertNumberToDisplayString, convertToRelativeTime } from 'src/utils/utils'
 import parse from 'html-react-parser'
+import {debounce} from 'lodash'
 
 interface VideoItemProps {
   data: Video
@@ -13,18 +14,15 @@ const VideoItem = ({ data }: VideoItemProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const progressRef = useRef<HTMLDivElement>(null)
 
-  let timeout: NodeJS.Timeout
-
-  const handleMouseEnter = () => {
-    timeout = setTimeout(() => {
-      setIsOpen(true)
-    }, 1000)
-  }
 
   const handleMouseLeave = () => {
+    handleMouseEnter.cancel();
     setIsOpen(false)
-    clearTimeout(timeout)
   }
+
+  const handleMouseEnter = debounce(() => {
+    setIsOpen(true)
+  }, 1000)
 
   // Format time
   const formatTime = (duration: number) => {

@@ -51,11 +51,10 @@ const Video = () => {
                 >
                   <div className='relative w-full flex-shrink-0 rounded-lg'>
                     <img src={item?.thumbnail} alt='avatar' className='aspect-video w-full rounded-lg object-cover' />
-                    <div className='absolute bottom-1 right-1 z-40 rounded bg-black p-1 shadow'>
-                      <span className='text-xs font-semibold text-white'>
-                        {convertDuration(Number(item?.duration as string))}
-                      </span>
-                    </div>
+
+                    <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
+                      {convertDuration(Number(item?.duration as string))}
+                       </span>
                   </div>
 
                   <div className='pr-3 md:pr-6'>

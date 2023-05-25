@@ -7,6 +7,7 @@ import VideoPlayer from 'src/pages/HomePage/components/Video'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
 import { convertToRelativeTime } from 'src/utils/utils'
+import { debounce } from 'lodash'
 
 interface VideoItemProps {
   data: Video
@@ -18,14 +19,6 @@ const VideoItem = (props: VideoItemProps) => {
   const { category } = queryConfig
 
   const { data } = props
-  let timeout: NodeJS.Timeout
-
-  const handleMouseEnter = () => {
-    timeout = setTimeout(() => {
-      if (isOpen) return
-      setIsOpen(true)
-    }, 500)
-  }
 
   useEffect(() => {
     const valPercent = ((data?.watchTime as number) / Number(data.duration)) * 100
@@ -35,9 +28,13 @@ const VideoItem = (props: VideoItemProps) => {
   }, [isOpen, data.watchTime, data.duration])
 
   const handleMouseLeave = () => {
+    handleMouseEnter.cancel()
     setIsOpen(false)
-    clearTimeout(timeout)
   }
+
+  const handleMouseEnter = debounce(() => {
+    setIsOpen(true)
+  }, 1000)
 
   // Format time
   const formatTime = (duration: number) => {
