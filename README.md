@@ -3,7 +3,7 @@
 ### Demo account
 - email: HelloWorld123@gmail.com
 - password: Helloworld@123
-- => Please don't hack this account. Thank you
+- => Please don't break this account. Thank you
 
 
 ### Overview:
