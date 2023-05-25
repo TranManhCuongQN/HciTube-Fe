@@ -94,17 +94,17 @@ const AsideBar = () => {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 z-[100]  h-full drop-shadow-md  ${
-          showSideBar ? 'w-full overflow-y-auto overflow-x-hidden ' : 'w-0 overflow-hidden'
-        } overflow-x-hidden transition-all duration-200 ease-linear 2xl:hidden`}
+        className={`fixed top-0 left-0 z-[100] overflow-y-hidden h-full drop-shadow-md  ${
+          showSideBar ? 'w-full overflow-x-hidden ' : 'w-0 overflow-hidden'
+        } transition-all duration-200 ease-linear 2xl:hidden`}
         role='presentation' id="SideBar"
       >
         <div
-          className={`flex h-full flex-shrink-0 flex-col bg-[#ffffff] py-2 z-[100] transition-all dark:bg-[#0f0f0f] lg:px-5 ${
+          className={`flex h-full mt-14 w-44 min-[375px]:w-52 md:w-64  md:mt-16 flex-shrink-0 flex-col bg-[#ffffff] py-2 z-[100] transition-all dark:bg-[#0f0f0f] lg:px-5 ${
             showSideBar
-              ? 'mt-14 w-44 overflow-y-auto overflow-x-hidden min-[375px]:w-52 md:mt-16 md:w-64'
-              : ' w-0 overflow-hidden pl-0 pr-0'
-          } relative  duration-200 ease-in-out`}
+              ? ' translate-x-0  overflow-x-hidden '
+              : 'translate-x-[-16rem] overflow-hidden pl-0 pr-0' 
+          } relative  duration-300 ease-in-out`}
         >
           <button
             onClick={() => navigate('/')}
@@ -228,7 +228,7 @@ const AsideBar = () => {
       </div>
 
       {showSideBar && (
-        <div className='absolute top-0 bottom-0 right-0 left-0 z-20 bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)]'></div>
+        <div className='absolute top-0 bottom-0 right-0 left-0 z-20 bg-[rgba(255,255,255,0.3)] dark:bg-[rgba(0,0,0,0.4)]' id="SideBarBackground"></div>
       )}
 
       {showSideBar && (
@@ -239,7 +239,7 @@ const AsideBar = () => {
         ></div>
       )}
 
-      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 overflow-y-auto py-4 px-6 transition-all duration-1000 ease-linear max-2xl:hidden'>
+      <div className='fixed top-14 left-[calc(100vw-1536px)/2] bottom-0 w-60 flex-shrink-0 py-4 px-6 transition-all duration-1000 ease-linear max-2xl:hidden'>
         <button
           onClick={() => navigate('/')}
           className={classNames(

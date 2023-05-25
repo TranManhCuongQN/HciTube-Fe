@@ -16,6 +16,7 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
+
 @media screen and (min-width: 1536px) {
   body {
     overflow-y: auto !important;
@@ -55,6 +56,12 @@ body {
 
 .sidebar-overlay {
   width: calc(100% - 176px);
+}
+
+@media screen and (min-width: 1536px) {
+  #SideBarBackground {
+    display:none !important;
+  }
 }
 
 @media screen and (min-width: 375px) and (max-width: 767px) {
