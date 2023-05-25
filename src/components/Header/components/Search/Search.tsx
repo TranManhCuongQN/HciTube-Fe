@@ -16,6 +16,7 @@ import useDebounce from 'src/hook/useDebounce'
 import { AppContext } from 'src/context/app.context'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 const Search = () => {
   const [focusingOnInput, setFocusingOnInput] = useState<boolean>(false)
@@ -31,7 +32,11 @@ const Search = () => {
   useOnClickOutside(inputRef, () => setFocusingOnInput(false))
 
   const search = useDebounce(keyword, 800)
-  const { data: getVideo } = useQuery({
+  const {
+    data: getVideo,
+    isSuccess,
+    isLoading
+  } = useQuery({
     queryKey: ['getVideo', search],
     queryFn: () =>
       videoApi.searchVideo(
@@ -173,7 +178,13 @@ const Search = () => {
                       />
                     </div>
                   ))}
-              {(getVideo?.data.data.users.length as number) > 0 &&
+              {isLoading && (
+                <div className='flex h-full w-full items-center justify-center'>
+                  <AiOutlineLoading className='h-8 w-8 animate-spin text-gray-500 transition-all' />
+                </div>
+              )}
+              {isSuccess &&
+                (getVideo?.data.data.users.length as number) > 0 &&
                 getVideo?.data.data.users.map((item) => (
                   <div
                     role='presentation'
@@ -187,7 +198,8 @@ const Search = () => {
                     </div>
                   </div>
                 ))}
-              {(getVideo?.data.data.videos.length as number) > 0 &&
+              {isSuccess &&
+                (getVideo?.data.data.videos.length as number) > 0 &&
                 getVideo?.data.data.videos.map((item) => (
                   <div
                     key={item._id}

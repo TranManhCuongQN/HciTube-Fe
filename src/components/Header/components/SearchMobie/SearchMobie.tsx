@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react'
 import { IoArrowBackOutline, IoCloseOutline } from 'react-icons/io5'
 import { AiOutlineSearch } from 'react-icons/ai'
-import {TfiClose} from 'react-icons/tfi'
+import { TfiClose } from 'react-icons/tfi'
 import { AppContext } from 'src/context/app.context'
 import ToolTip from 'src/components/ToolTip'
 import { useQuery } from 'react-query'
@@ -15,6 +15,7 @@ import path from 'src/constants/path'
 import { User } from 'src/types/user.type'
 import { Video } from 'src/types/video.type'
 import { MdHistory } from 'react-icons/md'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 const SearchMobie = () => {
   const [focusingOnInput, setFocusingOnInput] = useState<boolean>(false)
@@ -28,7 +29,11 @@ const SearchMobie = () => {
   useOnClickOutside(inputRef, () => setFocusingOnInput(false))
   const search = useDebounce(keyword, 800)
 
-  const { data: getVideo } = useQuery({
+  const {
+    data: getVideo,
+    isSuccess,
+    isLoading
+  } = useQuery({
     queryKey: ['getVideo', search],
     queryFn: () =>
       videoApi.searchVideo(
@@ -44,6 +49,7 @@ const SearchMobie = () => {
   })
 
   const handleClickSearch = () => {
+    if (keyword === '') return
     setHistorySearch((prev) => [...prev, { id: Date.now(), keyword: keyword }])
     localStorage.setItem('historySearch', JSON.stringify(historySearch))
     navigate({
@@ -117,28 +123,27 @@ const SearchMobie = () => {
           </ToolTip>
 
           {/* //* Input search */}
-          <div className=' flex h-8 w-full items-center relative'>
+          <div className=' relative flex h-8 w-full items-center'>
             <input
-                onClick={() => setFocusingOnInput(true)}
-                type='text'
-                className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
-                placeholder='Tìm kiếm'
-                value={keyword}
-                onKeyUp={(e) => {
-                    e.stopPropagation()
-                    if(!!keyword && e.key === "Enter") {
-                      handleClickSearch();
-                    }
-                  }
+              onClick={() => setFocusingOnInput(true)}
+              type='text'
+              className='h-full w-full rounded-l-full border border-[#d8d8d8] px-6 text-lg text-black outline-none placeholder:text-base dark:border-[#1e1e1e] dark:bg-[#2a2a2a] dark:text-white'
+              placeholder='Tìm kiếm'
+              value={keyword}
+              onKeyUp={(e) => {
+                e.stopPropagation()
+                if (!!keyword && e.key === 'Enter') {
+                  handleClickSearch()
                 }
-                onChange={(e) => setKeyword(e.target.value)}
-              />
-            {focusingOnInput &&
-              <TfiClose className="absolute right-14 w-8 h-8 text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D] p-2 rounded-full"/>
-            }
+              }}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            {focusingOnInput && (
+              <TfiClose className='absolute right-14 h-8 w-8 rounded-full p-2 text-black hover:bg-[#E6E6E6] dark:text-white dark:hover:bg-[#3D3D3D]' />
+            )}
             <ToolTip position='bottom' content='Tìm kiếm'>
               <button
-                className='ml-[1px] flex h-8 cursor-pointer items-center justify-center rounded-r-full bg-[#f8f8f8] px-4  py-1 dark:bg-[#222222] border-y border-r border-[#d8d8d8] dark:border-[#1e1e1e]'
+                className='ml-[1px] flex h-8 cursor-pointer items-center justify-center rounded-r-full border-y border-r  border-[#d8d8d8] bg-[#f8f8f8] px-4 py-1 dark:border-[#1e1e1e] dark:bg-[#222222]'
                 onClick={handleClickSearch}
               >
                 <AiOutlineSearch className='h-8 w-8 text-black dark:text-white' />
@@ -156,7 +161,7 @@ const SearchMobie = () => {
             } absolute right-0 left-0 top-[100%] h-fit bg-[#f8f8f8] py-4 drop-shadow-md dark:bg-[#222222]`}
             ref={inputRef}
           >
-            <div className='text-base font-bold text-white max-h-40 overflow-y-scroll'>
+            <div className='max-h-40 overflow-y-scroll text-base font-bold text-white'>
               {historySearch.length > 0 &&
                 historySearch.slice(0, 9).map((item, index) => (
                   <div
@@ -166,8 +171,8 @@ const SearchMobie = () => {
                     onClick={() => handleSearch(item.keyword)}
                   >
                     <div className='flex items-center'>
-                      <MdHistory className='mr-4 h-5  w-5' />
-                      {item.keyword}
+                      <MdHistory className='mr-4 h-5 w-5 flex-shrink-0' />
+                      <span className=' line-clamp-1'>{item.keyword}</span>
                     </div>
 
                     <IoCloseOutline
@@ -176,7 +181,13 @@ const SearchMobie = () => {
                     />
                   </div>
                 ))}
-              {(getVideo?.data.data.users.length as number) > 0 &&
+              {isLoading && (
+                <div className='flex h-full w-full items-center justify-center'>
+                  <AiOutlineLoading className='h-7 w-7 animate-spin text-gray-500 transition-all' />
+                </div>
+              )}
+              {isSuccess &&
+                (getVideo?.data.data.users.length as number) > 0 &&
                 getVideo?.data.data.users.map((item) => (
                   <div
                     role='presentation'
@@ -185,12 +196,13 @@ const SearchMobie = () => {
                     onClick={() => handleSearchChannel(item)}
                   >
                     <div className='flex items-center'>
-                      <AiOutlineSearch className='mr-4 h-5  w-5' />
-                      {item.fullName}
+                      <AiOutlineSearch className='mr-4 h-5 w-5 flex-shrink-0 ' />
+                      <span className='line-clamp-1'>{item.fullName}</span>
                     </div>
                   </div>
                 ))}
-              {(getVideo?.data.data.videos.length as number) > 0 &&
+              {isSuccess &&
+                (getVideo?.data.data.videos.length as number) > 0 &&
                 getVideo?.data.data.videos.map((item) => (
                   <div
                     key={item._id}
@@ -199,8 +211,8 @@ const SearchMobie = () => {
                     onClick={() => handleSearchVideo(item)}
                   >
                     <div className='flex items-center'>
-                      <AiOutlineSearch className='mr-4 h-5  w-5' />
-                      {item.title}
+                      <AiOutlineSearch className='mr-4 h-5 w-5 flex-shrink-0' />
+                      <span className=' line-clamp-1'>{item.title}</span>
                     </div>
                   </div>
                 ))}
