@@ -51,73 +51,73 @@ HciTube is an innovative video sharing platform designed to provide users with a
 
 ##### Signup page
 
-![signup page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsign%20up.png?alt=media&token=1ebbee9b-c077-4951-be81-f2e4ba167027)
+![signup page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/7a4a37ed33f95cd484a1409c678b0ad4/manage?context=manage)
 
 ##### Signin page
 
-![signin page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsign%20in.png?alt=media&token=87318075-abd0-4139-a0b7-b9d48b495f5f)
+![signin page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/10bbffa45b01d4297a151a062ce82fbf/manage?context=manage)
 
 ##### Home page
 
-![home page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fhome%20page.png?alt=media&token=8eb907f9-8917-4610-8913-f04a38d4ddfa)
+![home page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/31c1c60151e48ce60f6d65ad9554989a/manage?context=manage)
 
 ##### Watch page
 
-![watch page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fdetail%20page.png?alt=media&token=5f811377-ff18-4c6b-a543-ebcf0f6668bd)
-![watch page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fdetail%201%20page.png?alt=media&token=fe9d8f96-db4c-4ebe-930e-3fc6959fd0dd)
+![watch page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/33b815995f41db11fcef7985c1c97550/manage?context=manage)
+![watch page1](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/e6c622cf6ce2b3b75eef5ab0796ecd81/manage?context=manage)
 
 ##### Channel page
 
-![channel page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%201.png?alt=media&token=45e313a1-156a-4b74-bdd6-60925f690d72)
-![channel page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20video%202.png?alt=media&token=aeea8fff-5e46-498d-9cdb-87bc27663b8a)
-![channel page3](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20playlist.png?alt=media&token=0619386a-811d-4a0d-8c8d-f1703e1e48de)
-![channel page4](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20about.png?alt=media&token=4983d26c-6e48-43c8-b6e9-5948c836b99b)
+![channel page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/abf70b2f5d1324314f500176c9112293/manage?context=manage)
+![channel page2](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/617e54a88dc565cd76ffdb8d57287dc0/manage?context=manage)
+![channel page3](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/7014a50907afc0ac93ba63f89c4e0bde/manage?context=manage)
+![channel page4](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/3f5a435f2a3274be15201c82a2be3558/manage?context=manage)
 
 ##### Profile page
 
-![profile page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fprofile.png?alt=media&token=c28905a6-fb6f-4ccf-952e-a553f0ef225c)
+![profile page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/9450e4351498f580ca95858f5ebf4255/manage?context=manage)
 
 ##### Upload page
 
-![upload page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fupload%20page.png?alt=media&token=a8d45201-c449-4208-846f-9955565d021c)
-![upload page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fupload%20page%202.png?alt=media&token=866d4a07-7e7f-45dc-b9ba-a2f610bcc02b)
+![upload page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/39762c9897b32be993fbb9f8b945fc81/manage?context=manage)
+![upload page1](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/75b9f1ba5568dd855519ea43edc3ee30/manage?context=manage)
 
 ##### Manage video page
 
-![manage video page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fcontent.png?alt=media&token=f46dec02-b552-4f5b-86f5-5628c46672d9)
+![manage video page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/a76715e37b52ce699ee90b1a05c42fc3/manage?context=manage)
 
 ##### Analytics page
 
-![Analytics page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fview.png?alt=media&token=f819006c-9d56-4b46-9cd2-4af9b917881e)
-![Analytics page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fhour.png?alt=media&token=b62e0816-94a6-4056-bbb2-e8fa7d6c63ab)
-![Analytics page3](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsubscriber.png?alt=media&token=bdd98b08-6353-4d33-ad14-a53d043045d2)
+![Analytics page1](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/fa8edae16a5c281ac65ae24787b5615c/manage?context=manage)
+![Analytics page2](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/5da006e7390a8d7cab6909ac8e0879ba/manage?context=manage)
+![Analytics page3](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/dd7401f0589a869a577ee485adf0aeca/manage?context=manage)
 
 ##### Subscriptions page
 
-![Subscriptions page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsubscriber%20page.png?alt=media&token=c6a6e8f6-a749-4911-80b8-e7fac26e6065)
+![Subscriptions page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/ab8792b608f37f2735074070a18e1212/manage?context=manage)
 
 ##### Library page
 
-![Library page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Flibrary.png?alt=media&token=0e066523-1819-4ffc-8633-9a1d5eac416e)
+![Library page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/a22f06d608a36b2a3f74abf478c5ef04/manage?context=manage)
 
 ##### Favorite page
 
-![Favorite page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvideo%20y%C3%AAu%20th%C3%ADch.png?alt=media&token=09e5508c-58c7-441b-a3a7-f1bff3bb5287)
+![Favorite page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/44c58db3abf41de23c9b4cb83ecb02ba/manage?context=manage)
 
 ##### Search page
 
-![Search page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsearch.png?alt=media&token=e358e4ee-6359-418c-86d2-bab830d7cea2)
-![Search page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvoice%20search.png?alt=media&token=6020d319-ce6b-4ba2-9368-b939c63da91f)
-![Search page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvoice%20search%201.png?alt=media&token=45ae28b9-b77e-4817-b6c0-c79f37c4189b)
-![filter](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Ffilter.png?alt=media&token=c9aa757d-7f63-455c-a3f8-65b47999c1a8)
+![Search page](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/185d3225625f7c89d9bad08525112326/manage?context=manage)
+![Search page1](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/94a308ae0c1c4ce0dd34806724ebb247/manage?context=manage)
+![Search page2](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/20561058cc6a9067917821d0bd9634cf/manage?context=manage)
+![filter](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/445b5a81edcb04aa7cc06abe904aeb05/manage?context=manage)
 
 ##### Watch video from playlist
 
-![Watch video playList](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fplay%20favaroite.png?alt=media&token=c1e5910a-e651-426f-83b0-26c39c9c9c1a)
+![Watch video playList](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/6214de7c531a9fd790d36fe359b67f2b/manage?context=manage)
 
 ##### Watch video from favorite list
 
-![Watch video favorite list](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fplay%20playlist.png?alt=media&token=8d6e1a42-e3a0-4690-ab17-03c5181478fc)
+![Watch video favorite list](https://console.cloudinary.com/console/c-7bd30abe77b3f364da5a5db1e7d816/media_library/folders/c42b14dd3b895f4f3dfe7dad7f91ebcd6b/asset/e32c05ab3f175dacd6ae366615f26a32/manage?context=manage)
 
 ### Live demo
 
