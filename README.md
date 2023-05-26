@@ -65,6 +65,7 @@ HciTube is an innovative video sharing platform designed to provide users with a
 
 ![watch page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072781/%E1%BA%A3nh%20youtube/detail_page_pnvvfm.png)
 ![watch page1](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072783/%E1%BA%A3nh%20youtube/detail_1_page_tcjrrt.png)
+![watch page2](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685073977/%E1%BA%A3nh%20youtube/detail_page_2_dz6yje.png)
 
 ##### Channel page
 
