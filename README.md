@@ -1,5 +1,6 @@
 # Project Name: HciTube - A Video Sharing Platform
 
+
 ### Overview:
 
 HciTube is an innovative video sharing platform designed to provide users with a seamless and engaging experience in sharing and discovering videos. It aims to revolutionize the way people interact with video content, fostering a vibrant community of creators and viewers alike.
@@ -50,73 +51,74 @@ HciTube is an innovative video sharing platform designed to provide users with a
 
 ##### Signup page
 
-![signup page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsign%20up.png?alt=media&token=1ebbee9b-c077-4951-be81-f2e4ba167027)
+![signup page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072775/%E1%BA%A3nh%20youtube/sign_up_yy6bfz.png)
 
 ##### Signin page
 
-![signin page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsign%20in.png?alt=media&token=87318075-abd0-4139-a0b7-b9d48b495f5f)
+![signin page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072771/%E1%BA%A3nh%20youtube/sign_in_zxfj8s.png)
 
 ##### Home page
 
-![home page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fhome%20page.png?alt=media&token=8eb907f9-8917-4610-8913-f04a38d4ddfa)
+![home page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072779/%E1%BA%A3nh%20youtube/home_page_pvn5bs.png)
 
 ##### Watch page
 
-![watch page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fdetail%20page.png?alt=media&token=5f811377-ff18-4c6b-a543-ebcf0f6668bd)
-![watch page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fdetail%201%20page.png?alt=media&token=fe9d8f96-db4c-4ebe-930e-3fc6959fd0dd)
+![watch page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072781/%E1%BA%A3nh%20youtube/detail_page_pnvvfm.png)
+![watch page1](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072783/%E1%BA%A3nh%20youtube/detail_1_page_tcjrrt.png)
+![watch page2](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685073977/%E1%BA%A3nh%20youtube/detail_page_2_dz6yje.png)
 
 ##### Channel page
 
-![channel page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%201.png?alt=media&token=45e313a1-156a-4b74-bdd6-60925f690d72)
-![channel page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20video%202.png?alt=media&token=aeea8fff-5e46-498d-9cdb-87bc27663b8a)
-![channel page3](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20playlist.png?alt=media&token=0619386a-811d-4a0d-8c8d-f1703e1e48de)
-![channel page4](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fchannel%20page%20about.png?alt=media&token=4983d26c-6e48-43c8-b6e9-5948c836b99b)
+![channel page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072788/%E1%BA%A3nh%20youtube/channel_page_1_lmm0h8.png)
+![channel page2](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072793/%E1%BA%A3nh%20youtube/channel_page_video_2_akqa91.png)
+![channel page3](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072795/%E1%BA%A3nh%20youtube/channel_page_playlist_vhb2fz.png)
+![channel page4](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072798/%E1%BA%A3nh%20youtube/channel_page_about_pwb9dj.png)
 
 ##### Profile page
 
-![profile page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fprofile.png?alt=media&token=c28905a6-fb6f-4ccf-952e-a553f0ef225c)
+![profile page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072800/%E1%BA%A3nh%20youtube/profile_rmruh8.png)
 
 ##### Upload page
 
-![upload page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fupload%20page.png?alt=media&token=a8d45201-c449-4208-846f-9955565d021c)
-![upload page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fupload%20page%202.png?alt=media&token=866d4a07-7e7f-45dc-b9ba-a2f610bcc02b)
+![upload page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072836/%E1%BA%A3nh%20youtube/upload_page_jmewft.png)
+![upload page1](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072839/%E1%BA%A3nh%20youtube/upload_page_2_bozqca.png)
 
 ##### Manage video page
 
-![manage video page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fcontent.png?alt=media&token=f46dec02-b552-4f5b-86f5-5628c46672d9)
+![manage video page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072803/%E1%BA%A3nh%20youtube/content_qawpmi.png)
 
 ##### Analytics page
 
-![Analytics page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fview.png?alt=media&token=f819006c-9d56-4b46-9cd2-4af9b917881e)
-![Analytics page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fhour.png?alt=media&token=b62e0816-94a6-4056-bbb2-e8fa7d6c63ab)
-![Analytics page3](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsubscriber.png?alt=media&token=bdd98b08-6353-4d33-ad14-a53d043045d2)
+![Analytics page1](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072806/%E1%BA%A3nh%20youtube/view_a5xo1s.png)
+![Analytics page2](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072808/%E1%BA%A3nh%20youtube/hour_o7shio.png)
+![Analytics page3](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072810/%E1%BA%A3nh%20youtube/subscriber_jla1ob.png)
 
 ##### Subscriptions page
 
-![Subscriptions page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsubscriber%20page.png?alt=media&token=c6a6e8f6-a749-4911-80b8-e7fac26e6065)
+![Subscriptions page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072816/%E1%BA%A3nh%20youtube/subscriber_page_vehekv.png)
 
 ##### Library page
 
-![Library page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Flibrary.png?alt=media&token=0e066523-1819-4ffc-8633-9a1d5eac416e)
+![Library page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072818/%E1%BA%A3nh%20youtube/library_jar8ot.png)
 
 ##### Favorite page
 
-![Favorite page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvideo%20y%C3%AAu%20th%C3%ADch.png?alt=media&token=09e5508c-58c7-441b-a3a7-f1bff3bb5287)
+![Favorite page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072819/%E1%BA%A3nh%20youtube/video_y%C3%AAu_th%C3%ADch_yyau2p.png)
 
 ##### Search page
 
-![Search page](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fsearch.png?alt=media&token=e358e4ee-6359-418c-86d2-bab830d7cea2)
-![Search page1](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvoice%20search.png?alt=media&token=6020d319-ce6b-4ba2-9368-b939c63da91f)
-![Search page2](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fvoice%20search%201.png?alt=media&token=45ae28b9-b77e-4817-b6c0-c79f37c4189b)
-![filter](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Ffilter.png?alt=media&token=c9aa757d-7f63-455c-a3f8-65b47999c1a8)
+![Search page](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072826/%E1%BA%A3nh%20youtube/search_lggmap.png)
+![Search page1](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072830/%E1%BA%A3nh%20youtube/voice_search_ujkkos.png)
+![Search page2](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072833/%E1%BA%A3nh%20youtube/voice_search_1_zal8qc.png)
+![filter](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072828/%E1%BA%A3nh%20youtube/filter_v30ira.png)
 
 ##### Watch video from playlist
 
-![Watch video playList](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fplay%20favaroite.png?alt=media&token=c1e5910a-e651-426f-83b0-26c39c9c9c1a)
+![Watch video playList](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072824/%E1%BA%A3nh%20youtube/play_playlist_g5nmjq.png)
 
 ##### Watch video from favorite list
 
-![Watch video favorite list](https://firebasestorage.googleapis.com/v0/b/sign-in-a2a59.appspot.com/o/%E1%BA%A3nh%2Fplay%20playlist.png?alt=media&token=8d6e1a42-e3a0-4690-ab17-03c5181478fc)
+![Watch video favorite list](https://res.cloudinary.com/dnmazjnlr/image/upload/v1685072821/%E1%BA%A3nh%20youtube/play_favaroite_bc5i8g.png)
 
 ### Live demo
 
