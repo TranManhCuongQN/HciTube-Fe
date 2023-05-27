@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'http://localhost:3000/'
+  baseUrl: 'https://hcitube-3dgw.onrender.com/'
 }
 
 export default config
