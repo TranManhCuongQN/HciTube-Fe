@@ -122,6 +122,6 @@ HciTube is an innovative video sharing platform designed to provide users with a
 
 ### Live demo
 
-[https://hcitube-ds58.onrender.com/](https://hcitube-ds58.onrender.com/)
+[https://hci-tube-gejcl8jsg-tranmanhcuongqn.vercel.app/](https://hci-tube-gejcl8jsg-tranmanhcuongqn.vercel.app/)
 
 # I would appreciate your feedback to improve the project further. Thank you for taking the time to review.
