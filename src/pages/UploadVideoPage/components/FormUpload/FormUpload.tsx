@@ -88,7 +88,8 @@ const FormUpload = (props: FormUploadProps) => {
 
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
-    queryFn: () => playListAPI.getPlayListById(profile?.id as string)
+    queryFn: () => playListAPI.getPlayListById(profile?.id as string),
+    enabled: Boolean(profile?.id)
   })
 
   const { data: dataCategories } = useQuery({
@@ -431,8 +432,16 @@ const FormUpload = (props: FormUploadProps) => {
                           className='absolute top-0 left-0 z-40 flex h-72 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f] max-lg:h-60 max-md:h-48'
                           ref={childRef}
                         >
-                          <div className='relative w-full pb-6'>
+                          <div className='relative h-full w-full pb-6'>
+                            {dataPlayList && dataPlayList.data.data.length === 0 && (
+                              <div className='flex h-[260px] flex-col items-center justify-center max-lg:h-60 max-md:h-48'>
+                                <span className='text-center text-xs font-semibold text-black dark:text-white'>
+                                  Bạn chưa có playlist nào
+                                </span>
+                              </div>
+                            )}
                             {dataPlayList &&
+                              dataPlayList.data.data.length > 0 &&
                               dataPlayList.data.data.map((item) => (
                                 <div
                                   className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'

@@ -16,7 +16,6 @@ body {
   font-family: 'Nunito', sans-serif;
 }
 
-
 @media screen and (min-width: 1536px) {
   body {
     overflow-y: auto !important;
@@ -24,7 +23,7 @@ body {
 }
 
 .container {
-  max-width: 100%!important;
+  max-width: 100% !important;
 }
 
 .swiper-pagination-bullets {
@@ -60,7 +59,7 @@ body {
 
 @media screen and (min-width: 1536px) {
   #SideBarBackground {
-    display:none !important;
+    display: none !important;
   }
 }
 
@@ -116,44 +115,70 @@ th {
   padding: 8px;
 }
 
-/* editor */
-
-.quill {
-  position: relative;
-}
-
-.ql-container {
-  height: 205px;
-}
-
-.ql-light .ql-editor {
-  background-color: white;
-  color: #000;
-  height: 200px;
-  word-break: break-all;
-}
-
-.ql-light .ql-toolbar {
-  background-color: white;
-  color: #000;
-}
-
-.ql-dark .ql-editor {
-  background-color: #1e1e1e;
-  color: #f1f1f1;
-  height: 200px;
-  word-break: break-all;
-}
-
-.ql-dark .ql-toolbar {
-  background-color: #1e1e1e;
-  color: #f1f1f1;
-}
-
-.ql-editor img {
+/* editor dark */
+.ql-dark .ql-container {
+  border: 1px solid #333;
+  background-color: #222;
+  color: #fff;
+  border-radius: 4px;
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  word-break: break-all;
+  height: 200px;
+}
+
+/* Custom styles for the toolbar */
+.ql-dark #toolbar {
+  display: flex;
+  background-color: #333;
+  border: 1px solid #222;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.ql-dark #toolbar button {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.ql-dark #toolbar button:hover {
+  color: #ccc;
+}
+/* editor light */
+.ql-light .ql-container {
+  border: 1px solid #ddd;
+  background-color: #fff;
+  border-radius: 4px;
+  width: 100%;
+  word-break: break-all;
+  height: 200px;
+}
+
+.ql-editor {
+  min-height: 150px;
+}
+
+/* Custom styles for the toolbar */
+.ql-light #toolbar {
+  display: flex;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.ql-light #toolbar button {
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.ql-light #toolbar button:hover {
+  color: #000;
 }
 
 .skeleton-light {
@@ -344,17 +369,16 @@ th {
 
 @layer components {
   .filter--active {
-    @apply text-black dark:text-white
+    @apply text-black dark:text-white;
   }
 }
-
 
 .filter__check {
   opacity: 0;
 }
 
 .filter--active .filter__check {
-  opacity: 1!important;
+  opacity: 1 !important;
 }
 
 .video-animation {
@@ -371,7 +395,6 @@ th {
   animation-timing-function: ease-in;
 }
 
-
 @keyframes fadeOutVideo {
   from {
     opacity: 0;
@@ -380,4 +403,3 @@ th {
     opacity: 1;
   }
 }
-

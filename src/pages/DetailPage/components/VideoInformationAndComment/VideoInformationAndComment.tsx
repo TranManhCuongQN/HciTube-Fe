@@ -234,6 +234,13 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
       }
     })
   })
+
+  useEffect(() => {
+    if (showModalAddPlayList === false) {
+      reset()
+    }
+  }, [showModalAddPlayList, reset])
+
   const handleLikeVideo = () => {
     if (isVerify !== '2') {
       toast.dismiss()
@@ -699,7 +706,7 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                 className='my-5 flex flex-col overflow-y-scroll max-sm:h-72 max-[320px]:h-64 lg:h-[320px]'
                 onSubmit={onSubmit}
               >
-                <div className='flex flex-col gap-y-1'>
+                <div className='mx-5 flex flex-col gap-y-1'>
                   <label
                     htmlFor='title'
                     className='cursor-pointer text-xs font-semibold text-black dark:text-white md:text-sm'
@@ -711,30 +718,33 @@ const VideoInformationAndComment = ({ data }: VideoInformationAndCommentProps) =
                     id='title'
                     placeholder='Tiêu đề'
                     register={register}
+                    onKeyUp={(event) => event.stopPropagation()}
                     errorMessage={errors.title?.message}
                     classNameTextArea='text-xs text-black dark:text-white p-2 border w-full rounded md:h-20 placeholder:text-xs outline-none md:text-sm md:placeholder:text-sm dark:bg-[#212121]
                     dark:border-[#595959]'
                   />
                 </div>
-                <div className='flex flex-col gap-y-1'>
+                <div className='mx-5 flex w-[550px] flex-col gap-y-1'>
                   <Editor name='description' />
                   <span className='my-1 min-h-[1.25rem] text-xs font-semibold text-red-600'>
                     {errors.description?.message}
                   </span>
                 </div>
-                <div className='flex w-full items-start justify-end gap-x-2'>
+                <div className='mt-3 flex w-full items-start justify-end gap-x-3 px-5'>
                   <Button
-                    className='rounded-lg border border-blue-600 py-2 px-4 text-xs font-semibold text-blue-600 hover:bg-blue-600 hover:text-white md:text-sm  lg:text-base'
-                    type='submit'
-                  >
-                    Tạo
-                  </Button>
-                  <Button
-                    className='rounded-lg p-2 text-xs font-semibold text-blue-600 md:text-sm  lg:text-base'
+                    className='rounded-lg py-2 px-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 md:text-sm  '
                     type='button'
                     onClick={() => setShowModalAddPlayList(false)}
                   >
                     Hủy
+                  </Button>
+                  <Button
+                    className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
+                    disabled={createPlaylistMutation.isLoading}
+                    isLoading={createPlaylistMutation.isLoading}
+                    type='submit'
+                  >
+                    Tạo
                   </Button>
                 </div>
               </form>

@@ -56,10 +56,10 @@ const Editor = ({ name }: { name: string }) => {
               className={theme === 'Dark' ? 'ql-dark ' : 'ql-light '}
               value={field.value}
               onChange={field.onChange}
+              onKeyUp={(event) => event.stopPropagation()}
               id={name}
               formats={formats}
               modules={modules}
-              theme='snow'
             />
           )
         }}

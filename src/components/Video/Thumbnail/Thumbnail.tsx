@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import { useRef } from 'react'
-
+import { useRef, useState } from 'react'
+import { AiOutlineLoading } from 'react-icons/ai'
 const Thumbnail = (props: any) => {
   const thumbnailRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { thumbnailProps, videoSrc, setIsLoadedThumbnail } = props
+  const { thumbnailProps, videoSrc, isLoadedVideo } = props
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false)
 
   // Format time
   const formatTime = (duration: number) => {
@@ -38,15 +39,31 @@ const Thumbnail = (props: any) => {
 
   return (
     <div ref={thumbnailRef} className='absolute bottom-6 flex aspect-video flex-col items-center' id='Thumbnail'>
-      <div className='flex aspect-video h-[6rem] w-[9rem] items-center rounded-sm border-[1.4px] border-solid border-white bg-black'>
+      <div className='relative flex aspect-video h-[6rem] w-[9rem] items-center rounded-sm border-[1.4px] border-solid border-white bg-black'>
         <video
-          onCanPlay={() => {
-            setIsLoadedThumbnail(true)
-          }}
           src={videoSrc}
           ref={videoRef}
           className='aspect-video h-full w-full rounded-sm object-contain'
+          onCanPlay={() => setThumbnailLoaded(true)}
         />
+        {!thumbnailLoaded && (
+          <div
+            className={`
+             absolute
+            top-0 z-20 mx-auto flex aspect-video h-full w-full items-center justify-center bg-black object-contain`}
+          >
+            <AiOutlineLoading className='absolute h-6 w-6 animate-spin text-white' />
+          </div>
+        )}
+        {isLoadedVideo && (
+          <div
+            className={`
+             absolute
+            top-0 z-20 mx-auto flex aspect-video h-full w-full items-center justify-center bg-transparent object-contain`}
+          >
+            <AiOutlineLoading className='absolute h-6 w-6 animate-spin text-white' />
+          </div>
+        )}
       </div>
       <span className=' mt-3 rounded-sm bg-[rgba(0,0,0,0.2)] px-1 text-xs font-medium text-white'>
         {formatTime(Math.floor(thumbnailCurrentTime))}

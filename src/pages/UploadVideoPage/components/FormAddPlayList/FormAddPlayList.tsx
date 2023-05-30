@@ -91,16 +91,16 @@ const FormAddPlayList = ({ showModal, closeModal }: FormAddPlayListProps) => {
                     {errors.description?.message}
                   </span>
                 </div>
-                <div className='flex w-full items-start justify-end gap-x-2'>
+                <div className='flex w-full items-start justify-end gap-x-3'>
                   <Button
-                    className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
+                    className='rounded-lg py-2 px-3 text-xs font-semibold text-blue-600 hover:bg-blue-50 md:text-sm'
                     type='button'
                     onClick={closeModal}
                   >
                     Hủy
                   </Button>
                   <Button
-                    className='rounded-lg p-2 text-xs font-semibold text-blue-600  md:text-sm'
+                    className='rounded-lg bg-blue-700 py-2 px-3 text-xs font-semibold text-white shadow-2xl shadow-sky-300 md:text-sm'
                     type='submit'
                     disabled={createPlaylistMutation.isLoading}
                     isLoading={createPlaylistMutation.isLoading}

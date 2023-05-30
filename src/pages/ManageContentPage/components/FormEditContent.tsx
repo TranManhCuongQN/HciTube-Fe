@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable prettier/prettier */
 import { yupResolver } from '@hookform/resolvers/yup'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import DialogCustom from 'src/components/DialogCustome'
 import { uploadVideoSchema, uploadVideoSchemaType } from 'src/utils/rules'
@@ -22,6 +22,7 @@ import categoryAPI from 'src/api/category.api'
 import { getPublicId } from 'src/utils/utils'
 import videoApi from 'src/api/video.api'
 import { toast } from 'react-toastify'
+import { AppContext } from 'src/context/app.context'
 
 interface FormEditContentProps {
   isOpenModal: boolean
@@ -35,9 +36,11 @@ type FormData = uploadVideoSchemaType
 const uploadVideo = uploadVideoSchema
 const FormEditContent = (props: FormEditContentProps) => {
   const { isOpenModal, handleCloseModal, data, handleOpenModalPlayList } = props
+  const { profile } = useContext(AppContext)
   const { data: dataPlayList } = useQuery({
     queryKey: 'playList',
-    queryFn: () => playListAPI.getPlayList()
+    queryFn: () => playListAPI.getPlayListById(profile?.id as string),
+    enabled: Boolean(profile?.id)
   })
 
   const { data: dataCategories } = useQuery({
@@ -317,38 +320,49 @@ const FormEditContent = (props: FormEditContentProps) => {
                     handleOpen={handleOpenDropDown}
                     renderData={
                       <div
-                        className='absolute top-0 left-0 z-40 flex h-40 w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff] shadow dark:bg-[#1f1f1f]'
+                        className='absolute top-0 left-0 z-40 flex h-72 w-full w-full flex-col items-start overflow-hidden overflow-y-auto rounded-lg bg-[#ffffff]  shadow dark:bg-[#1f1f1f] max-lg:h-60 max-md:h-48'
                         ref={childRef}
                       >
-                        {dataPlayList?.data.data.map((item) => (
-                          <div
-                            className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
-                            key={item._id}
-                          >
-                            <input
-                              type='checkbox'
-                              className='h-4 w-4 accent-black dark:accent-white'
-                              id={item._id}
-                              value={item._id}
-                              checked={playListSelected?.includes(item._id)}
-                              onChange={handleChangeSelected}
-                            />
-                            <label
-                              className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
-                              htmlFor={item._id}
-                            >
-                              {item.title}
-                            </label>
-                          </div>
-                        ))}
+                        <div className='relative h-full w-full pb-6'>
+                          {dataPlayList && dataPlayList.data.data.length === 0 && (
+                            <div className='flex h-[260px] w-full flex-col items-center justify-center max-lg:h-60 max-md:h-48'>
+                              <span className='text-center text-xs font-semibold text-black dark:text-white'>
+                                Bạn chưa có playlist nào
+                              </span>
+                            </div>
+                          )}
+                          {dataPlayList &&
+                            dataPlayList.data.data.length > 0 &&
+                            dataPlayList?.data.data.map((item) => (
+                              <div
+                                className='my-1 flex w-full items-center gap-x-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-800'
+                                key={item._id}
+                              >
+                                <input
+                                  type='checkbox'
+                                  className='h-4 w-4 accent-black dark:accent-white'
+                                  id={item._id}
+                                  value={item._id}
+                                  checked={playListSelected?.includes(item._id)}
+                                  onChange={handleChangeSelected}
+                                />
+                                <label
+                                  className='cursor-pointer text-xs text-gray-900 dark:text-gray-300'
+                                  htmlFor={item._id}
+                                >
+                                  {item.title}
+                                </label>
+                              </div>
+                            ))}
 
-                        <div className='relative bottom-0 left-0 my-1 flex w-full items-center justify-between px-2'>
-                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
-                            TẠO MỚI
-                          </button>
-                          <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseDropDown}>
-                            XONG
-                          </button>
+                          <div className='absolute bottom-1 left-1 my-1 flex w-full items-center justify-between px-2'>
+                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleOpenModalPlayList}>
+                              TẠO MỚI
+                            </button>
+                            <button className='text-xs text-[#1569d6]' type='button' onClick={handleCloseDropDown}>
+                              XONG
+                            </button>
+                          </div>
                         </div>
                       </div>
                     }

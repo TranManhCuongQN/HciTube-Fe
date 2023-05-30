@@ -474,7 +474,7 @@ const CommentItem = ({ dataComment }: { dataComment: Comment }) => {
       >
         <div className='flex w-full flex-col  p-2'>
           <span className='text-lg font-semibold text-black dark:text-white max-md:text-sm'>
-            Bạn có muốn xóa video này không ?
+            Bạn có muốn xóa bình luận này không ?
           </span>
           <div className='mt-8 flex items-center justify-end gap-x-5'>
             <button

@@ -8,13 +8,14 @@ import { AiOutlineLoading } from 'react-icons/ai'
 import { TbRectangle } from 'react-icons/tb'
 import ToolTip from './ToolTip'
 import Thumbnail from './Thumbnail'
-import { isUndefined, omit } from 'lodash'
+import { omit } from 'lodash'
 import ForwardVideo from 'src/pages/DetailPage/components/ForwardVideo'
 import { Video as VideoType } from 'src/types/video.type'
 import { createSearchParams, useNavigate, useParams, useLocation } from 'react-router-dom'
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useMutation } from 'react-query'
 import videoApi from 'src/api/video.api'
+import { is } from 'date-fns/locale'
 
 declare global {
   interface HTMLInputElement {
@@ -49,12 +50,12 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   const [muted, setMuted] = useState<boolean>(false)
   const [theaterMode, setTheaterMode] = useState<boolean>(false)
   const [thumbnailProps, setThumbnailProps] = useState<ThumbnailProps>({})
+  const [isLoadedVideo, setIsLoadedVideo] = useState<boolean>(false)
 
   const [ended, setEnded] = useState<boolean>(false)
   const [idView, setIdView] = useState<string>('')
   const [count, setCount] = useState<number>(0)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
-  const [isLoadedThumbnail, setIsLoadedThumbnail] = useState<boolean>(false)
 
   const { id } = useParams()
   const navigate = useNavigate()
@@ -408,21 +409,16 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
         setIdView('')
       }
       setEnded(false)
+      setIsLoaded(false)
     }
   }, [idView, id])
 
   useEffect(() => {
-    if (isLoaded && isLoadedThumbnail) {
+    if (isLoaded === false) {
       playVideo()
+      setIsLoaded(true)
     }
-  }, [isLoaded, isLoadedThumbnail])
-
-  useEffect(() => {
-    return () => {
-      setIsLoaded(false)
-      setIsLoadedThumbnail(false)
-    }
-  }, [id])
+  }, [isLoaded])
 
   return (
     <div ref={videoContainerRef} className={`${theaterMode && 'lg:h-[75vh]'} mb-2 aspect-video w-full`}>
@@ -436,6 +432,10 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             ref={videoRef}
             onCanPlay={() => {
               setIsLoaded(true)
+              setIsLoadedVideo(false)
+            }}
+            onWaiting={() => {
+              setIsLoadedVideo(true)
             }}
             onTimeUpdate={updateTimeElapsed}
             preload='auto'
@@ -445,7 +445,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full w-full object-contain`}
             id='Video'
           ></video>
-          {isLoaded && isLoadedThumbnail ? (
+          {isLoaded ? (
             <div
               className='absolute top-0 right-0 left-0 z-20 hidden h-full items-center justify-center lg:flex'
               role='presentation'
@@ -471,10 +471,19 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
             </div>
           )}
+          {isLoadedVideo && (
+            <div
+              className={`${
+                zoomOut ? 'lg:w-full' : 'mx-auto'
+              } absolute top-0 z-20 flex aspect-video h-full w-full items-center justify-center bg-transparent object-contain`}
+            >
+              <AiOutlineLoading className='absolute h-[10%] w-[10%] animate-spin text-white' />
+            </div>
+          )}
 
           <div
             className={`lg:group-hover:block ${hidden ? 'hidden' : 'block'} ${
-              isLoaded && isLoadedThumbnail ? 'opacity-1' : 'z-10 opacity-0'
+              isLoaded ? 'opacity-1' : 'z-10 opacity-0'
             }`}
           >
             <div className=' absolute top-0 h-full w-full bg-black opacity-50 lg:hidden'></div>
@@ -641,11 +650,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
               </div>
 
               <div className='relative z-40' id='ProgressBar'>
-                <Thumbnail
-                  thumbnailProps={thumbnailProps}
-                  videoSrc={urlVideo}
-                  setIsLoadedThumbnail={setIsLoadedThumbnail}
-                />
+                <Thumbnail thumbnailProps={thumbnailProps} videoSrc={urlVideo} isLoadedVideo={isLoadedVideo} />
                 <div className='w-full '>
                   <input
                     ref={progressRef}
