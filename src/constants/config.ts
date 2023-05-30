@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'https://hcitube-api.onrender.com',
+  baseUrl: 'https://hci-tube-q9ssca6dz-tranmanhcuongqn.vercel.app',
   ClOUD_NAME: 'dj5es0etq',
   PRESENT_NAME: 'fsribkzz',
   FOLDER_NAME_VIDEO: 'youtube-clone/video',
