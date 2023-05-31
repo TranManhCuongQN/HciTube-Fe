@@ -397,7 +397,6 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
 
   useEffect(() => {
     const videoElement = videoRef.current
-    videoRef.current?.pause()
     return () => {
       if (idView) {
         setWatchVideoTimeMutation.mutate({
@@ -407,6 +406,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
         setCount(0)
         setIdView('')
       }
+      videoRef.current?.pause()
       setEnded(false)
       setIsLoaded(false)
     }
