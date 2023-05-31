@@ -83,7 +83,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
     }
   })
 
-  const videoDuration = Math.round(videoRef.current?.duration || 0)
+  const videoDuration = videoRef.current?.duration || 0
   const slider = (ref: React.RefObject<HTMLInputElement>, leftColor: string, rightColor: string) => {
     const valPercent = (Number(ref.current?.value) / Number(ref.current?.max)) * 100
     if (ref.current) {
