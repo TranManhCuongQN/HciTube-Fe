@@ -82,7 +82,6 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
             className={`aspect-video h-full w-full`}
             id='Video'
             playsInline
-            autoPlay
           />
           {isLoading && (
             <div
