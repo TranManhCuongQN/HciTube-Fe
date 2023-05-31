@@ -45,6 +45,7 @@ const Thumbnail = (props: any) => {
           ref={videoRef}
           className='aspect-video h-full w-full rounded-sm object-contain'
           onCanPlay={() => setThumbnailLoaded(true)}
+          playsInline
         />
         {!thumbnailLoaded && (
           <div

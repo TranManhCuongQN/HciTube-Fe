@@ -442,6 +442,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             onEnded={() => {
               setEnded(true)
             }}
+            playsInline
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full w-full object-contain`}
             id='Video'
           ></video>

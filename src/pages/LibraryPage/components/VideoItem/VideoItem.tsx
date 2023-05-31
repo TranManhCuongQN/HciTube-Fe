@@ -18,8 +18,8 @@ const VideoItem = (props: VideoItemProps) => {
   const navigate = useNavigate()
 
   const { data, watchTime } = props
-  let {createdAt} = props
-  if(!createdAt) createdAt = data.createdAt
+  let { createdAt } = props
+  if (!createdAt) createdAt = data.createdAt
 
   useEffect(() => {
     const valPercent = ((watchTime as number) / Number(data.duration)) * 100
@@ -48,12 +48,10 @@ const VideoItem = (props: VideoItemProps) => {
     }
   }
 
-  console.log(data)
-
   return (
     <div
       onClick={handleClick}
-      className='mb-5 col-span-1 w-full flex md:flex-1 cursor-pointer flex-col gap-y-3'
+      className='col-span-1 mb-5 flex w-full cursor-pointer flex-col gap-y-3 md:flex-1'
       role='presentation'
     >
       <div className='aspect-video h-fit w-40 sm:w-full md:rounded-xl'>
@@ -69,17 +67,16 @@ const VideoItem = (props: VideoItemProps) => {
       <div className='flex w-40 items-start gap-x-3 sm:w-full'>
         <div className='flex flex-col text-sm'>
           <span className='mb-1 pr-6 font-bold text-black line-clamp-2 dark:text-white '>{data?.title}</span>
-          <Link
-            to={`/${data.channel?._id}/channel`}
-            className='text-xs font-semibold text-gray-500 dark:text-gray-400'
-          >
+          <Link to={`/${data.channel?._id}/channel`} className='text-xs font-semibold text-gray-500 dark:text-gray-400'>
             {(data?.channel as User).fullName}
           </Link>
           <div className='flex flex-wrap items-center gap-x-1'>
             <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>
               {data?.view} lượt xem -&nbsp;
             </span>
-            <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>{convertToRelativeTime(createdAt as string)}</span>
+            <span className='text-xs font-semibold text-gray-500 line-clamp-1 dark:text-gray-400'>
+              {convertToRelativeTime(createdAt as string)}
+            </span>
           </div>
         </div>
       </div>

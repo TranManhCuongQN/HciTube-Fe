@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useState, useRef } from 'react'
-import {AiOutlineLoading} from 'react-icons/ai'
+import { AiOutlineLoading } from 'react-icons/ai'
 
 interface VideoProps {
   lastPlayedTime: number
@@ -12,7 +12,6 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   const progressRef = useRef<HTMLInputElement>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-
   const [timeElapsed, setTimeElapsed] = useState<string>('00:00')
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   }, [lastPlayedTime])
 
   useEffect(() => {
-    playVideo();
+    playVideo()
   }, [isLoading])
 
   const playVideo = () => {
@@ -72,8 +71,8 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
   }
 
   return (
-    <div className={`max-w-full aspect-video w-full`}>
-      <div className={`h-full bg-black aspect-video w-full`}>
+    <div className={`aspect-video w-full max-w-full`}>
+      <div className={`aspect-video h-full w-full bg-black`}>
         <div className={`group relative h-full`} role='presentation'>
           <video
             src={urlVideo}
@@ -82,16 +81,22 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
             onTimeUpdate={updateTimeElapsed}
             className={`aspect-video h-full w-full`}
             id='Video'
+            playsInline
           />
-          {
-            isLoading &&
-            <div className={`absolute top-0 aspect-video h-full w-full object-contain flex items-center justify-center z-20`}>
-              <AiOutlineLoading className='absolute h-[20%] w-[20%] text-white animate-spin'/>
+          {isLoading && (
+            <div
+              className={`absolute top-0 z-20 flex aspect-video h-full w-full items-center justify-center object-contain`}
+            >
+              <AiOutlineLoading className='absolute h-[20%] w-[20%] animate-spin text-white' />
             </div>
-          }
+          )}
 
-          <div className={`absolute bottom-0 left-0 right-0 flex flex-col justify-between ${isLoading ? 'opacity-0 z-10' : 'opacity-1'}`}>
-            <div className='z-20 font-semibold ml-3 text-xs text-[#DDD]'>
+          <div
+            className={`absolute bottom-0 left-0 right-0 flex flex-col justify-between ${
+              isLoading ? 'z-10 opacity-0' : 'opacity-1'
+            }`}
+          >
+            <div className='z-20 ml-3 text-xs font-semibold text-[#DDD]'>
               <span className='absolute right-2 bottom-2 rounded-sm bg-[rgba(0,0,0,0.8)] px-1 text-xs font-bold text-slate-200'>
                 {formatTime(videoDuration)}
               </span>
@@ -101,7 +106,7 @@ const Video = ({ lastPlayedTime, urlVideo }: VideoProps) => {
               <input
                 ref={progressRef}
                 onInput={handleClickProgress}
-                onClick={event => event.preventDefault()}
+                onClick={(event) => event.preventDefault()}
                 type='range'
                 min={0}
                 max={100}
