@@ -133,7 +133,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   // Progress bar
   useEffect(() => {
     const time = videoRef.current?.currentTime || 0
-    const durationPercent = (Math.round(time) / videoDuration) * 100
+    const durationPercent = ((time) / videoDuration) * 100
     if (progressRef.current) {
       progressRef.current.value = String(durationPercent)
     }
