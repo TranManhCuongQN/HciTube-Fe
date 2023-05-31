@@ -113,7 +113,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
   // Update time elapsed
   const updateTimeElapsed = () => {
     const time = videoRef.current?.currentTime || 0
-    setTimeElapsed(formatTime(Math.round(time)))
+    setTimeElapsed(formatTime(time))
   }
 
   useEffect(() => {
