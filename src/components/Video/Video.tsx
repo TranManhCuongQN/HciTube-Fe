@@ -15,7 +15,6 @@ import { createSearchParams, useNavigate, useParams, useLocation } from 'react-r
 import useQueryConfig from 'src/hook/useQueryConfig'
 import { useMutation } from 'react-query'
 import videoApi from 'src/api/video.api'
-import { is } from 'date-fns/locale'
 
 declare global {
   interface HTMLInputElement {
@@ -445,6 +444,7 @@ const Video = ({ lastPlayedTime, handleTheaterMode, urlVideo, playList: playList
             playsInline
             className={`${zoomOut ? 'lg:w-full' : 'mx-auto'} aspect-video h-full w-full object-contain`}
             id='Video'
+            autoPlay
           ></video>
           {isLoaded ? (
             <div
